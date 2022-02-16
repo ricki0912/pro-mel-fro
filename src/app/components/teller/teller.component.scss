@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+  }
+ 
+
+  .container-option{
+    visibility: hidden;
+
+  }
+
+
+
+.row-option:hover .container-option{
+    visibility: visible;
+
+}
+
+.row-option:hover{
+    visibility: visible;
+    background-color: rgba($color: #CFCFCF, $alpha: 0.2);
+
+}

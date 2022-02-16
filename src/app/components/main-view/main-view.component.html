@@ -1,0 +1,150 @@
+<mat-sidenav-container class="sidenav-container mat-elevation-z8" >
+  <mat-sidenav #drawer class="sidenav color-primary" style="width: 240px;" [fixedInViewport]="false"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false">
+
+
+
+    <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
+
+    <h4 class="name">John Smith</h4>
+    <p class="designation">Software Engineer</p>
+
+    <mat-divider></mat-divider>
+
+    <button routerLink="/" mat-button class="menu-button">
+      <mat-icon>home</mat-icon>
+      <span>Principal</span>
+    </button>
+    <button routerLink="/client" mat-button class="menu-button">
+      <mat-icon>people</mat-icon>
+      <span>Clientes </span>
+    </button>
+   
+
+    <button mat-button class="menu-button" (click)="toggleMenu()">
+      <mat-icon>tablet</mat-icon>
+      <span>Linea de Espera</span>
+      <mat-icon *ngIf="!showMenu">chevron_right</mat-icon>
+      <mat-icon *ngIf="showMenu">expand_more</mat-icon>
+    </button>
+
+    <mat-nav-list class="sidenav-submenu" *ngIf="showMenu">
+      <a mat-list-item routerLink="/"  > Atención</a>
+      <a mat-list-item routerLink="/"> Tickets</a>
+      <a mat-list-item routerLink="/teller"> Ventanillas</a>  
+      <a mat-list-item routerLink="/category"> Categorias</a>
+    </mat-nav-list>
+
+    <button routerLink="/" mat-button class="menu-button">
+      <mat-icon>person</mat-icon>
+      <span>Contabilidad</span>
+    </button>
+
+    <button routerLink="/" mat-button class="menu-button">
+      <mat-icon>person</mat-icon>
+      <span>Contadores</span>
+    </button>
+
+    <button mat-button class="menu-button">
+      <mat-icon>info</mat-icon>
+      <span>About</span>
+    </button>
+
+    <button mat-button class="menu-button">
+      <mat-icon>info</mat-icon>
+      <span>Perfil</span>
+    </button>
+
+    <button mat-button class="menu-button">
+      <mat-icon>info</mat-icon>
+      <span>Usuarios</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button">
+      <mat-icon>help</mat-icon>
+      <span>Help</span>
+    </button>
+
+
+  
+
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" >
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>MELENDRES AUDITORES </span>
+
+
+      <div class="example-spacer" style="background-color: violet; ;">
+      </div>
+
+      <form style="max-width: 400px; width: 100%">
+
+        <button matPrefix mat-icon-button aria-label="Buscar" (click)="value=''">
+          <mat-icon>search</mat-icon>
+        </button>
+        <mat-form-field class="example-full-width" appearance="fill" floatLabel="always" style="">
+
+          <input matInput aria-label="State" placeholder="Buscar" [matAutocomplete]="auto" [formControl]="stateCtrl"
+            [(ngModel)]="value" class="example-right-align">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
+              <img class="example-option-img" aria-hidden [src]="state.flag" height="25">
+              <span>{{state.name}}</span> |
+              <small>Population: {{state.population}}</small>
+            </mat-option>
+          </mat-autocomplete>
+          <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+
+      </form>
+      <div style="
+      padding-left: 10px;">
+        <img mat-button [matMenuTriggerFor]="menu" class=" mat-elevation-z8"
+          src="https://source.unsplash.com/c_GmwfHBDzk/200x200" style=" width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        
+        " />
+        <mat-menu #menu="matMenu">
+
+          <div style="width: 220px;" align="center">
+            <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
+            <p>
+              <b> <a mat-flat-button href="#">Ricardo Jesus Solis Almerco </a>
+              </b>
+              <br>
+              Ingeniero 
+            </p>
+            <a mat-stroked-button href="#">Ver Perfil</a>
+            <!-- <h4 class="name">John Smith</h4>
+            <p class="designation">Software Engineer</p> 
+            <button mat-menu-item>Item 2<br>dasdf asdfsdf </button>-->
+
+            <mat-divider></mat-divider>
+
+            <button mat-stroked-button color="warn" style="text-align: center;"><b>Salir</b></button>
+
+          </div>
+
+        </mat-menu>
+      </div>
+    </mat-toolbar>
+    <mat-progress-bar style="position: absolute" mode="indeterminate" color="accent"></mat-progress-bar>
+
+    <!-- Add Content Here -->
+    <router-outlet>
+
+    </router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

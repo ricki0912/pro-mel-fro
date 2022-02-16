@@ -1,0 +1,28 @@
+/*"./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",*/
+@import "../node_modules/@angular/material/_theming.scss";
+@include mat-core();
+$my-primary: mat-palette($mat-red,800,);
+$my-accent: mat-palette($mat-blue-grey, 800);
+
+$my-theme: mat-light-theme($my-primary, $my-accent);
+
+@include angular-material-theme($my-theme);
+
+
+.color-primary {
+    //color: mat-color($my-primary);
+    background-color: mat-color($my-primary,600);
+    color: white;
+
+  }
+  
+.color-accent {
+    color: mat-color($my-accent);
+}
+
+.alternative{
+    $my-primary: mat-palette($mat-teal,800);
+    $my-accent: mat-palette($mat-light-green, 800);
+    $my-theme: mat-light-theme($my-primary, $my-accent);
+    @include angular-material-theme($my-theme);
+}
