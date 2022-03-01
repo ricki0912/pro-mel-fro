@@ -1,0 +1,85 @@
+<mat-toolbar color="primary" class="tollbar">
+  <mat-toolbar-row>
+    <button mat-icon-button mat-dialog-close class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>Añadir una categoria o sub categoria</span>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<div class="dialog-body">
+  <p>Agrega un <b>categoria o sub categoria </b> que te permita gestionar mejor las colas. </p>
+  <!--<h2 mat-dialog-title>Install Angular</h2>-->
+
+  <mat-dialog-content class="mat-typography">
+
+    <form class="example-form" [formGroup]="categoryForm">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Código</mat-label>
+        <input matInput formControlName="catCode">
+        <mat-progress-spinner *ngIf="categoryForm.controls['catCode'].pending" matSuffix [mode]="'indeterminate'"
+          [diameter]="20">
+        </mat-progress-spinner>
+        <mat-error>
+          {{
+          (categoryForm.controls['catCode'].hasError('required'))?
+          'El nombre es requerido':
+          (categoryForm.controls['catCode'].hasError('existValue'))?
+          'Ya existe un registro con este código':''
+          }}
+
+
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput type="text" formControlName="catName">
+        <mat-error *ngIf="categoryForm.controls['catName'].hasError('required')">
+          El nombre es requerido
+        </mat-error>
+
+
+      </mat-form-field>
+      <!--
+        input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid':  && f.email.errors }" />
+          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+      <div *ngIf="f.email.errors.required">Email is required</div>
+      <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+    </div> -->
+
+
+
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Descripcion</mat-label>
+        <input matInput formControlName="catDescription">
+      </mat-form-field>
+
+
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Categoria</mat-label>
+        <input readonly matInput placeholder="/" formControlName="catNameLong">
+
+        <button mat-button (click)="openDialogFindCategory()" matSuffix>
+          <mat-icon>mode_edit</mat-icon>
+        </button>
+
+      </mat-form-field>
+
+
+    </form>
+
+    <p style="color: red" *ngIf="categoryForm.errors?.['sameValue']">First name and last name should not be the same.
+    </p>
+
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button [mat-dialog-close]="true" type="submit" (click)="add(categoryForm.value)"
+      [disabled]="!categoryForm.valid" cdkFocusInitial>Guardar</button>
+  </mat-dialog-actions>
+</div>

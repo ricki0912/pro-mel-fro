@@ -1,34 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CategoryComponent } from './components/category/category.component';
-import { ClientComponent } from './components/client/client.component';
-import { MainViewComponent } from './components/main-view/main-view.component';
-import { TellerComponent } from './components/teller/teller.component';
 
 const routes: Routes = [
-
   {
-    path:'',
-    component: MainViewComponent,
-    children: [
-      {
-        path: 'category',
-        component: CategoryComponent
-      },
-      {
-        path: 'teller', 
-        component: TellerComponent
-      },
-
-      {
-        path: 'client',
-        component: ClientComponent
-      }
-
-
+    path: 'tv',
+    loadChildren: ()=>import('./module-tv/tv.module').then(m=>m.TVModule)
+  },
+  {
+    path: 'auth',
+    loadChildren: ()=>import('./auth/auth.module').then(m=>m.AuthModule),
+  },
+  {
+    path:'si',
+    loadChildren:()=>import('./module-si/main-view.module').then(m=>m.MainViewModule)
+  },
+  {
+    path:'ticket-dispensing',
+    loadChildren:()=>import('./module-ticket-dispensing/ticket-dispensing.module').then(m=>m.TicketDispensingModule)
+  },
   
-    ]
-  }
 ];
 
 @NgModule({

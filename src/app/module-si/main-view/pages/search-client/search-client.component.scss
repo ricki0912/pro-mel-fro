@@ -1,0 +1,36 @@
+.example-full-width {
+    width:  calc(100% - 40px);
+  }
+
+  .example-option-img {
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  
+  [dir='rtl'] .example-option-img {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+
+  .example-right-align {
+    text-align: left;
+  }
+  
+  input.example-right-align::-webkit-outer-spin-button,
+  input.example-right-align::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+  input.example-right-align {
+    -moz-appearance: textfield;
+  }
+  
+  ::ng-deep .mat-form-field {
+    font-size: 16px; // example
+  }
+  
+  .example-spacer {
+    flex: 1 1 auto;
+    
+  }
+  

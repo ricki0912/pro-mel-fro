@@ -5,14 +5,22 @@
 @import '~bootstrap/scss/bootstrap-grid';
 
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body { height: 100%; 
+}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
 
 .dialog .mat-dialog-container{
     padding: 0px 0px 0px 0px;
   }
   
-  .dialog .mat-dialog-container .dialog-body{
+.dialog .mat-dialog-container .dialog-body{
     padding: 24px;
-  }
+}
     
+.blue-snackbar {
+    background: #2196F3;
+}
+
+.red-snackbar {
+    background: #F44336;
+}
