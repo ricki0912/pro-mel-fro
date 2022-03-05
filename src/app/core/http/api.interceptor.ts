@@ -39,8 +39,10 @@ export class ApiInterceptor implements HttpInterceptor {
     console.log("Prqando acceso ")
 
     // Return an observable with a user-facing error message.
-    return throwError(
-      'Something bad happened; please try again later.');
+    //return throwError(
+      //'Something bad happened; please try again later.');
+
+      return throwError(error);
   }
 
 }

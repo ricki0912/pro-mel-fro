@@ -12,8 +12,10 @@ import { AuthRoutingModule } from './auth-routing.module';
 
 
 
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
-  
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +28,10 @@ import { AuthRoutingModule } from './auth-routing.module';
     MatFormFieldModule,    
     MatInputModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    FormsModule, 
+    ReactiveFormsModule 
   ], exports: [
     
     LoginComponent, 

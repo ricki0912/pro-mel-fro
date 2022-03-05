@@ -1,14 +1,11 @@
-export type Roles='ADMINISTRADOR' | 'USUARIO'
+import { ParentInterface } from "../global/parents/parent.interface";
+import { Person } from "./person";
 
-export interface User{
-  userName: string;
-  userPassword: string;
+export interface User extends ParentInterface {
+    id?:number
+    name: string,
+    email: string,
+    password: string,
+    person: Person
+
 }
-
-export interface UserResponse{
-  userResMessage:string;
-  userResToken: string;
-  userResId: number;
-  userResRole: Roles
-}
-

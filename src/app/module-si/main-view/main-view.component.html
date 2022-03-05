@@ -8,7 +8,7 @@
 
     <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
 
-    <h4 class="name">John Smith</h4>
+    <h4 class="name">{{currentUser.user.name}}</h4>
     <p class="designation">Software Engineer</p>
 
     <mat-divider></mat-divider>
@@ -57,7 +57,7 @@
       <span>Perfil</span>
     </button>
 
-    <button mat-button class="menu-button">
+    <button routerLink="/users"  mat-button class="menu-button">
       <mat-icon>info</mat-icon>
       <span>Usuarios</span>
     </button>
@@ -102,7 +102,7 @@
           <div style="width: 220px;" align="center">
             <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
             <p>
-              <b> <a mat-flat-button href="#">Ricardo Jesus Solis Almerco </a>
+              <b> <a mat-flat-button href="#">{{currentUser.user.name}}</a>
               </b>
               <br>
               Ingeniero 
@@ -114,7 +114,7 @@
 
             <mat-divider></mat-divider>
 
-            <button mat-stroked-button color="warn" style="text-align: center;"><b>Salir</b></button>
+            <button mat-stroked-button color="warn" style="text-align: center;" (click)="signOut()"><b>Salir</b></button>
 
           </div>
 

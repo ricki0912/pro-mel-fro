@@ -24,6 +24,12 @@ const routes: Routes=[
         loadChildren: ()=>import('./client/client.module').then(m=>m.ClientModule)
       },
       {
+        path: 'users',
+        //component: ClientComponent
+        loadChildren: ()=>import('./user/user.module').then(m=>m.UserModule)
+      },
+
+      {
         path: 'prueba', 
         loadChildren:()=>import('./prueba/prueba.module').then(m=>m.PruebaModule)
       }

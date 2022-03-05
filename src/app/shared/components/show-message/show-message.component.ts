@@ -17,7 +17,8 @@ export class ShowMessageComponent implements OnInit {
     panelClass: 'style-success',
     duration: 10000,
     horizontalPosition: 'left',
-    verticalPosition: 'bottom'
+    verticalPosition: 'bottom',
+    
   };
 
   constructor(private _snackBar: MatSnackBar, private showMessageService: ShowMessageService) { }
@@ -25,6 +26,9 @@ export class ShowMessageComponent implements OnInit {
   ngOnInit(): void {
     this.showMessageService.change.subscribe((o)=>{
       this.showMessageInterface=o;
+
+      //chagne color
+      this.configSuccess.panelClass=(this.showMessageInterface.status=='success')?'blue-snackbar':'red-snackbar';
 
       //console.log("Nro llamadas"+th)
       console.log('***DENTRO DE MATSNACKNAT*****')

@@ -15,6 +15,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiInterceptor } from './core/http/api.interceptor';
 import { ShowMessageComponent } from './shared/components/show-message/show-message.component';
 import { MatSnackBarComponent } from './shared/components/show-message/components/mat-snack-bar/mat-snack-bar.component';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -32,8 +33,8 @@ import { MatSnackBarComponent } from './shared/components/show-message/component
     BrowserAnimationsModule,
         MatSliderModule,
         MainViewModule,
-        MatProgressBarModule
-
+        MatProgressBarModule,
+        MatButtonModule
   ],
   providers: [MatSnackBar,
     {

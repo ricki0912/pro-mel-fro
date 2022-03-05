@@ -1,0 +1,96 @@
+<mat-toolbar color="primary" class="tollbar">
+  <mat-toolbar-row>
+    <button mat-icon-button mat-dialog-close class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>Añadir Usuario de Sistema</span>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<div class="dialog-body">
+  <p>Mediante este formulario podras agregar un <b>Usuario de Sistema</b>. Para que te ayude mejor, asegurate de darle
+    el privilegio adecuado. </p>
+  <!--<h2 mat-dialog-title>Install Angular</h2>-->
+  <mat-dialog-content class="mat-typography">
+
+    <form class="example-form" [formGroup]="userForm">
+
+      <mat-grid-list [cols]="cols" rowHeight="6rem" appearance="fillx">
+        <div formGroupName="person">
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Tipo de Identificación</mat-label>
+              <mat-select formControlName="perKindDoc">
+
+                <mat-option value="1">DNI</mat-option>
+                <mat-option value="2">Carnet de Extranjeria</mat-option>
+
+              </mat-select>
+            </mat-form-field>
+
+          </mat-grid-tile>
+          <mat-grid-tile>
+
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>DNI</mat-label>
+              <input matInput formControlName="perNumberDoc">
+            </mat-form-field>
+
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Nombres y Apellidos</mat-label>
+              <input matInput formControlName="perName">
+            </mat-form-field>
+          </mat-grid-tile>
+
+
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Número de teléfono</mat-label>
+              <input matInput formControlName="perTel">
+            </mat-form-field>
+          </mat-grid-tile>
+        </div>
+
+        <mat-grid-tile>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Correo Electronico</mat-label>
+            <input matInput formControlName="email">
+            <mat-progress-spinner *ngIf="userForm.controls['email'].pending" matSuffix [mode]="'indeterminate'"
+          [diameter]="20">
+        </mat-progress-spinner>
+        <mat-error>
+          {{
+          (userForm.controls['email'].hasError('required'))?
+          'El correo electrónico es requerido':
+          (userForm.controls['email'].hasError('existEmail'))?
+          'El correo electrónico ya esta en uso.':'Ingrese un correo electrónico válido'
+          }}
+
+
+        </mat-error>
+
+
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Constraseña </mat-label>
+            <input matInput formControlName="password">
+          </mat-form-field>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button cdkFocusInitial (click)="addUserWithPerson()">Guardar</button>
+  </mat-dialog-actions>
+</div>

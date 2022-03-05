@@ -1,10 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+
 import { map, shareReplay, startWith } from 'rxjs/operators';
 import {MatSidenavModule, MatSidenav} from '@angular/material/sidenav';
 import { LoadingService } from 'src/app/shared/components/loading/loading.service';
-
+import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
 
 @Component({
   selector: 'app-main-view',
@@ -15,8 +17,9 @@ import { LoadingService } from 'src/app/shared/components/loading/loading.servic
 
 export class MainViewComponent implements OnInit {
   showMenu = false;
-
   value = 'Clear me';
+  currentUser: any;
+
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -24,20 +27,23 @@ export class MainViewComponent implements OnInit {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, private loadingService: LoadingService) {
+  constructor(
+      private breakpointObserver: BreakpointObserver, 
+      private loadingService: LoadingService,
+      private tokenService: TokenStorageService,
+      private router:Router
+    ) {
     console.log(this.isHandset$)
-
-  
   }
-
   ngOnInit(): void {
       this.loadingService.hide()
+      this.currentUser = this.tokenService.getUser();
   }
 
 
   toggle(nav: MatSidenav) {
     const isSmallScreen = this.breakpointObserver.isMatched(
-      "(max-width: 599px)"
+      "(max-width: 620px)"
     );
     if (isSmallScreen) {
       nav.toggle();
@@ -54,6 +60,13 @@ export class MainViewComponent implements OnInit {
    //this.loadingService.show();
 
  }
+ signOut(){
+  this.tokenService.signOut();
+  this.router.navigate(['auth/login'])
+  .then(() => {
+    window.location.reload();
+  });
+ }
 
 
 
@@ -69,3 +82,5 @@ export class MainViewComponent implements OnInit {
 
   
 }
+
+
