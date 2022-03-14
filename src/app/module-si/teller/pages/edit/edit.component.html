@@ -1,0 +1,59 @@
+<mat-toolbar color="primary" class="tollbar">
+  <mat-toolbar-row>
+    <button mat-icon-button mat-dialog-close class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>{{title}}</span>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<div class="dialog-body">
+  <p>Agrega un <b>categoria o sub categoria </b> que te permita gestionar mejor las colas. </p>
+  <!--<h2 mat-dialog-title>Install Angular</h2>-->
+
+  <mat-dialog-content class="mat-typography">
+
+    <form class="example-form" [formGroup]="tellerForm">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Código</mat-label>
+        <input matInput formControlName="tellCode">
+        <mat-progress-spinner *ngIf="tellerForm.controls['tellCode'].pending" matSuffix [mode]="'indeterminate'"
+          [diameter]="20">
+        </mat-progress-spinner>
+        <mat-error>
+          {{
+          (tellerForm.controls['tellCode'].hasError('required'))?
+          'El código es requerido':
+          (tellerForm.controls['tellCode'].hasError('existTellCode'))?
+          'Ya existe un registro con este código':''
+          }}
+
+
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput type="text" formControlName="tellName">
+        <mat-error *ngIf="tellerForm.controls['tellName'].hasError('required')">
+          El nombre es requerido
+        </mat-error>
+
+      </mat-form-field>
+
+    </form>
+
+    <p style="color: red" *ngIf="tellerForm.errors?.['sameValue']">First name and last name should not be the same.
+    </p>
+
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button [mat-dialog-close]="true" type="submit" (click)="addUpd()"
+      [disabled]="!tellerForm.valid" cdkFocusInitial>Guardar</button>
+  </mat-dialog-actions>
+</div>

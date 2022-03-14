@@ -1,9 +1,9 @@
 export interface ParentInterface{
 
 }
-export interface ParentInterfaceParams<T>{
-    status: number;
-    message:string;
+export interface InterfaceParamsResponse<T extends ParentInterface> extends ParentInterface{
+    res: boolean;
+    msg:string;
     data: T[] | T | null;
 }
 

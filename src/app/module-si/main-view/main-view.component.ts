@@ -7,6 +7,7 @@ import { map, shareReplay, startWith } from 'rxjs/operators';
 import {MatSidenavModule, MatSidenav} from '@angular/material/sidenav';
 import { LoadingService } from 'src/app/shared/components/loading/loading.service';
 import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-main-view',
@@ -37,7 +38,11 @@ export class MainViewComponent implements OnInit {
   }
   ngOnInit(): void {
       this.loadingService.hide()
+      if(!this.tokenService.getUser()){
+        this.signOut();
+      }
       this.currentUser = this.tokenService.getUser();
+
   }
 
 

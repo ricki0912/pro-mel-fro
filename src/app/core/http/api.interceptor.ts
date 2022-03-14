@@ -29,6 +29,7 @@ export class ApiInterceptor implements HttpInterceptor {
       // A client-side or network error occurred. Handle it accordingly.
       this.showMessageService.success({message:'Ocurrió un error'})
       console.error('An error occurred:', error.error);
+      error.error.message='Ocurrió un error. Verifique su conexión.'
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.

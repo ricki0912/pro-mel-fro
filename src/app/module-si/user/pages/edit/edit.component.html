@@ -4,7 +4,7 @@
       <mat-icon>close</mat-icon>
     </button>
     <span class="example-spacer"></span>
-    <span>Añadir Usuario de Sistema</span>
+    <span>{{title}}</span>
 
   </mat-toolbar-row>
 </mat-toolbar>
@@ -29,6 +29,9 @@
                 <mat-option value="2">Carnet de Extranjeria</mat-option>
 
               </mat-select>
+              <mat-error>
+                EL tipo de identidad es requerido.
+               </mat-error>
             </mat-form-field>
 
           </mat-grid-tile>
@@ -37,6 +40,9 @@
             <mat-form-field class="example-full-width" appearance="outline">
               <mat-label>DNI</mat-label>
               <input matInput formControlName="perNumberDoc">
+              <mat-error>
+                EL número de identidad es requerido.
+               </mat-error>
             </mat-form-field>
 
           </mat-grid-tile>
@@ -44,6 +50,9 @@
             <mat-form-field class="example-full-width" appearance="outline">
               <mat-label>Nombres y Apellidos</mat-label>
               <input matInput formControlName="perName">
+              <mat-error>
+                Los nombres y apellidos son requeridos.
+              </mat-error>
             </mat-form-field>
           </mat-grid-tile>
 
@@ -52,6 +61,9 @@
             <mat-form-field class="example-full-width" appearance="outline">
               <mat-label>Número de teléfono</mat-label>
               <input matInput formControlName="perTel">
+              <mat-error>
+               El número de telefono es requerido.
+              </mat-error>
             </mat-form-field>
           </mat-grid-tile>
         </div>
@@ -61,27 +73,25 @@
             <mat-label>Correo Electronico</mat-label>
             <input matInput formControlName="email">
             <mat-progress-spinner *ngIf="userForm.controls['email'].pending" matSuffix [mode]="'indeterminate'"
-          [diameter]="20">
-        </mat-progress-spinner>
-        <mat-error>
-          {{
-          (userForm.controls['email'].hasError('required'))?
-          'El correo electrónico es requerido':
-          (userForm.controls['email'].hasError('existEmail'))?
-          'El correo electrónico ya esta en uso.':'Ingrese un correo electrónico válido'
-          }}
-
-
-        </mat-error>
-
-
+              [diameter]="20">
+            </mat-progress-spinner>
+            <mat-error>
+              {{
+              (userForm.controls['email'].hasError('required'))?
+              'El correo electrónico es requerido':
+              (userForm.controls['email'].hasError('existEmail'))?
+              'El correo electrónico ya esta en uso.':'Ingrese un correo electrónico válido'
+              }}
+            </mat-error>
           </mat-form-field>
         </mat-grid-tile>
-
         <mat-grid-tile>
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Constraseña </mat-label>
             <input matInput formControlName="password">
+            <mat-error>
+              La contraseña es requerida.
+             </mat-error>
           </mat-form-field>
         </mat-grid-tile>
 
@@ -91,6 +101,9 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button cdkFocusInitial (click)="addUserWithPerson()">Guardar</button>
+    <button mat-button cdkFocusInitial type="submit" [disabled]="!userForm.valid"
+      (click)="addUpdUserWithPerson()">Guardar</button>
   </mat-dialog-actions>
 </div>
+
+<!--<button mat-button cdkFocusInitial [mat-dialog-close]="true" type="submit" [disabled]="!userForm.valid"-->

@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 //import {Observable} from "rxjs/Observable";
 
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable, Subscription } from 'rxjs';
 import { Category, FlatTreeControlCategory } from 'src/app/interfaces/category';
 import { CategoryService } from '../../../../services/category.service'
@@ -15,6 +15,8 @@ import { FindCategoryComponent } from '../find-category/find-category.component'
 import { catchError, delay, map } from 'rxjs/operators';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
+import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 
 @Component({
   selector: 'app-edit',
@@ -22,69 +24,111 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit, OnDestroy {
-
-  category: Category = {
+  title = "Añadir una categoria o sub categoria"
+  categoryBeforeUpd: Category = {
     catName: '',
   };
 
   flatTreeControlCategory?: FlatTreeControlCategory;
 
+
   categoryForm: FormGroup = this.fb.group({
+    catName: ['', Validators.required],
     catCode: ['', {
       validators: [Validators.required],
-      asyncValidators: this.validateBusiness.bind(this),
+      asyncValidators: this.validateCode.bind(this),
       updateOn: 'blur',
     }],
-    catName: ['', Validators.required],
     catNameLong: [],
     catDescription: [],
   })
+
 
   constructor(
     public mediaObserver: MediaObserver,
     private categoryService: CategoryService,
     public dialogFindCategory: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: { row: FlatTreeControlCategory, type: Number },
+    @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: FlatTreeControlCategory, rowParent: FlatTreeControlCategory, type: Number },
     private fb: FormBuilder,
-    public snackBar: MatSnackBar) {
+    private showMessage: ShowMessageService,
+    private dialogRef: MatDialogRef<EditComponent>,
 
-    console.log(data.row)
-    //this.grid.cols=1
+  ) { }
+  ngOnInit(): void {
+    this.renderScreen()
+    //this.selectCategory(this.paramsDialog.row)
+    this.setTypeDialog()
+  }
+
+  ngOnDestroy(): void {
+    this.mediaSub.unsubscribe();
+  }
+
+  renderScreen = (): void => {
+    this.mediaSub = this.mediaObserver.media$.subscribe((result: MediaChange) => {
+      let mqAlias: string = String(result.mqAlias);
+      this.cols = this.gridByBreakpoint[mqAlias];
+    })
+  }
+
+  setTypeDialog() {
+    if (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) {
+      this.find(this.paramsDialog.row.catId, this.loadCategoryToUPdate)
+    }
+
+    if (TYPES_ACTIONS_DIALOG.ADD == this.paramsDialog.type) {
+    }
+
+    if (this.paramsDialog.rowParent) {
+      this.showCategoryParent(this.paramsDialog.rowParent)
+    }
+
+
+  }
+  loadCategoryToUPdate=(c: Category) =>{
+    console.log("***LOADCATEGORYU*****", c)
+    /**Asignamos la c a anterios */
+    this.categoryBeforeUpd = c;
+    
+    /*show el titulo */
+    this.title = this.categoryBeforeUpd.catName + '-' + this.categoryBeforeUpd.catCode || ''
+    /* Renderizar categoria */
+    this.categoryForm.controls['catName'].setValue(this.categoryBeforeUpd.catName)
+    this.categoryForm.controls['catCode'].setValue(this.categoryBeforeUpd.catCode)
+    this.categoryForm.controls['catDescription'].setValue(this.categoryBeforeUpd.catDescription)
+    this.categoryForm.controls['catNameLong'].setValue(this.categoryBeforeUpd.catNameLong)
 
   }
 
-  openSnackBar(message: string, action: string, className: string) {
-    this.snackBar.open(message, action, {
-      duration: 2000,
-      panelClass: [className]
-    });
-  }
 
-  selectCategory = (row: FlatTreeControlCategory) => {
-    this.flatTreeControlCategory = row;
-    this.category.catNameLong = this.flatTreeControlCategory.catNameLong;
-    this.category.catIdParent = this.flatTreeControlCategory.catId;
-    //this.categoryForm.patchValue({catNameLong: this.flatTreeControlCategory.catNameLong})
+  showCategoryParent = (r: FlatTreeControlCategory) => {
+    this.flatTreeControlCategory = r;
+    this.categoryBeforeUpd.catIdParent = this.flatTreeControlCategory.catId
+    this.categoryBeforeUpd.catNameLong = this.flatTreeControlCategory.catNameLong;
     this.categoryForm.controls['catNameLong'].setValue(this.flatTreeControlCategory.catNameLong)
-
   }
 
 
-  validateBusiness(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
-
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // console.log(control)
-        if (control.value !== 'HOLA') {
-          resolve(null);
-        }
-        else {
-          resolve({ existValue: 'ERROR...' });
-        }
-      },
-        1000);
-    });
+  validateCode(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
+    return this.categoryService.searchByCode(control.value).
+      pipe(
+        map((category: Category) => {
+          if (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) {
+            if (!category) {
+              return null;
+            }
+            if (this.categoryBeforeUpd?.catCode != category.catCode) {
+              return { existCatCode: 'Este código ya esta en uso.' };
+            }
+            /**si el usuario devuelto es igual al actual retorna null */
+            return null
+          }
+          return (!category) ? null : { existCatCode: 'Este código ya esta en uso.' }
+        })
+      )
   }
+
+
 
 
   hasErrorFormCategory = (cf: string, nameError: string) => this.categoryForm.controls[cf].hasError(nameError);
@@ -103,76 +147,69 @@ export class EditComponent implements OnInit, OnDestroy {
   openDialogFindCategory = () => {
 
     const dialogRefFindCategory = this.dialogFindCategory.open(FindCategoryComponent, {
-      /*maxWidth: '100vw',
-       maxHeight: '100vh',
-       height: '100%',
-       width: '100%',*/
       panelClass: 'dialog',
       data: {
         row: this.flatTreeControlCategory,
         type: 1
       }
     });
-    dialogRefFindCategory.afterClosed().subscribe(result => {
-      this.selectCategory(result.row)
-
-      console.log(`Dialog result: ${result}`, result)
+    dialogRefFindCategory.afterClosed().subscribe((result: FlatTreeControlCategory) => {
+     if(result){
+        this.showCategoryParent(result)
+     }
     });
   }
 
   mediaSub!: Subscription;
 
 
-  ngOnInit(): void {
-    this.renderScreen()
-    this.selectCategory(this.data.row)
-  }
-
-  ngOnDestroy(): void {
-    this.mediaSub.unsubscribe();
-  }
 
   save(): void {
 
   }
 
-  renderScreen = (): void => {
-
-    this.mediaSub = this.mediaObserver.media$.subscribe((result: MediaChange) => {
-      let mqAlias: string = String(result.mqAlias);
-      this.cols = this.gridByBreakpoint[mqAlias];
-
-    })
-  }
-
-
-  add(categoryObject: Category) {
-    //console.log(this.categoryForm)
-    //console.log(categoryObject)
-
-    //console.log(categoryObject);
-
-    /*console.log(Object.getPrototypeOf(indicator)); // true    */
-    this.categoryService.add(categoryObject).subscribe(
-      (r: any) => { console.log(r) },
-      (e: any) => {
-        console.log(e)
-      }
-    );
-
-    /*
-    add(categoryObject).subscribe({
-      complete:()=>{},
-      next: (r:Category[])=>{
-        
-        this.dataSource.data=CategoryHelpers.convertTableToTree(r)
-        console.log(this.dataSource.data);
+  /*se obtiene la categoria y mostarar en formulario */
+  find(id: number | Number, lcbu: (c: Category)=>void) {
+    this.categoryService.find(id as number).subscribe({
+      next: (data: Category) => {
+        console.log(data)
+        lcbu(data)
       },
-      error: ()=>{}
-   });*/
-
+      error: error => {
+        this.showMessage.error({ message: error.error.message });
+      }
+    });
   }
 
+  onReturn = (category: Category): void => this.dialogRef.close(category);
+  /*Prepara para guaarda y actualizar */
+  addUpd() {
+    if (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) {
+      this.upd();
+    } else {
+      this.add();
+    }
+
+  }
+  add() {
+    const categoryObject: Category = this.categoryForm.value;
+    console.log("***ACTUALIZAR****+",categoryObject)
+    if(this.flatTreeControlCategory){
+      categoryObject.catIdParent=this.flatTreeControlCategory.catId  
+    }
+    
+    this.onReturn(categoryObject);
+  }
+  upd() {
+    const categoryObject: Category = this.categoryForm.value;
+    categoryObject.catId = this.categoryBeforeUpd.catId;
+    /*aqui agregamos el de la categoria paddre */
+    categoryObject.catIdParent=(this.flatTreeControlCategory)
+      ?this.flatTreeControlCategory.catId  
+      :this.categoryBeforeUpd.catIdParent
+    this.onReturn(categoryObject);
+  }
+  /** */
 
 }
 

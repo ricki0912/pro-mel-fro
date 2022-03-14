@@ -16,7 +16,8 @@ import { ApiInterceptor } from './core/http/api.interceptor';
 import { ShowMessageComponent } from './shared/components/show-message/show-message.component';
 import { MatSnackBarComponent } from './shared/components/show-message/components/mat-snack-bar/mat-snack-bar.component';
 import { MatButtonModule } from '@angular/material/button';
-
+import {MatIconModule } from '@angular/material/icon';
+import { DialogConfirmationComponent } from './shared/components/dialog-confirmation/dialog-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
     LoadingComponent,
     ShowMessageComponent,
     MatSnackBarComponent,
+    DialogConfirmationComponent,
 
    
   ],
@@ -34,7 +36,8 @@ import { MatButtonModule } from '@angular/material/button';
         MatSliderModule,
         MainViewModule,
         MatProgressBarModule,
-        MatButtonModule
+        MatButtonModule,
+        MatIconModule,
   ],
   providers: [MatSnackBar,
     {

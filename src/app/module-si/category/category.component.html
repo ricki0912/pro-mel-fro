@@ -59,13 +59,13 @@
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item>
-                <mat-icon>dialpad</mat-icon>
+              <button  (click)="openDialogUpd(data)" mat-menu-item>
+                <mat-icon>edit</mat-icon>
                 <span>Editar</span>
               </button>
           
-              <button mat-menu-item>
-                <mat-icon>notifications_off</mat-icon>
+              <button mat-menu-item (click)="beforeDelete(data.catId)">
+                <mat-icon>delete</mat-icon>
                 <span>Eliminar</span>
               </button>
             </mat-menu>
@@ -78,6 +78,10 @@
 
       <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row-option"></tr>
     </table>
+    <mat-card *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center">
+      <mat-progress-spinner color="primary" mode="indeterminate">
+      </mat-progress-spinner>
+    </mat-card>
 
   </mat-card-content>
 

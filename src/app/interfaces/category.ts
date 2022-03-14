@@ -5,25 +5,26 @@ export interface Category extends ParentInterface{
   catCode?: string;
   catName: string;
   catNameLong?:string;
-  catDescription?:string;
+  catDescription?: string;
   catAuth?:string;
   catIdParent?:Number;
 }
   export interface CategoryTree extends Category{
-  idParents?:any[],
-  children?:CategoryTree[]
+  idParents?: number[];
+  children?: CategoryTree[];
 }
 
 export interface FlatTreeControlCategory {
   expandable: boolean;
   /**atributos añadidos */
   catId :Number;
-  catName: string, 
-  catCode:string,
-  catNameLong:string,
-  idParents:any[],
-  //
+  catName: string;
+  catCode: string;
+  catNameLong:string;
+  idParents:any[];
+
   /*fin de atributos */
-  selected:boolean
+  selected:boolean;
   level: number;
+
 }

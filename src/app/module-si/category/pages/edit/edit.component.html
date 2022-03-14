@@ -4,7 +4,7 @@
       <mat-icon>close</mat-icon>
     </button>
     <span class="example-spacer"></span>
-    <span>Añadir una categoria o sub categoria</span>
+    <span>{{title}}</span>
 
   </mat-toolbar-row>
 </mat-toolbar>
@@ -26,8 +26,8 @@
         <mat-error>
           {{
           (categoryForm.controls['catCode'].hasError('required'))?
-          'El nombre es requerido':
-          (categoryForm.controls['catCode'].hasError('existValue'))?
+          'El código es requerido':
+          (categoryForm.controls['catCode'].hasError('existCatCode'))?
           'Ya existe un registro con este código':''
           }}
 
@@ -79,7 +79,7 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button [mat-dialog-close]="true" type="submit" (click)="add(categoryForm.value)"
+    <button mat-button [mat-dialog-close]="true" type="submit" (click)="addUpd()"
       [disabled]="!categoryForm.valid" cdkFocusInitial>Guardar</button>
   </mat-dialog-actions>
 </div>

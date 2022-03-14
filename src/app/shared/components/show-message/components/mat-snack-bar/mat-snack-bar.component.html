@@ -1,5 +1,19 @@
-<span class=>
-    {{data.message}}
-  </span>
-  <button mat-raised-button
-       (click)="snackBarRef.dismiss()">Cerrar</button>
+<table style="width: 100%;">
+  <td>
+    <span>
+      {{data.message}}
+    </span>
+  </td>
+  <td *ngIf="existAction"  style="vertical-align: middle; align-items: flex-end;">
+    <button mat-button (click)="onAction()">
+      {{titleButtonRetry}} 
+    </button>
+  </td>
+  <td style="vertical-align: middle; align-items: flex-end;">
+    <div align="end">
+      <button mat-icon-button aria-label="Cerrar" (click)="snackBarRef.dismiss()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </td>
+</table>

@@ -1,8 +1,8 @@
 import { ParentInterface } from "../parents/parent.interface";
 
 export enum TYPES_ACTIONS_DIALOG {
-    ADD= '1',
-    UPD='2'
+    ADD=1,
+    UPD=2
 }
 
 export interface ActionDialogInterface{

@@ -1,49 +1,71 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TellerComponent } from './teller.component';
-
-
-import {DragDropModule} from '@angular/cdk/drag-drop';
-import {ScrollingModule} from '@angular/cdk/scrolling';
-import {CdkTableModule} from '@angular/cdk/table';
-import {CdkTreeModule} from '@angular/cdk/tree';
-import {A11yModule} from '@angular/cdk/a11y';
-
-
 import { MatMenuModule} from '@angular/material/menu';
-
-
-import {FlatTreeControl} from '@angular/cdk/tree';
 import { MatIconModule } from '@angular/material/icon';
-
-
-
-
 import { MatButtonModule } from '@angular/material/button';
 
 import { MatTableModule } from '@angular/material/table';
 import { TellerRoutingModule } from './teller-routing.module';
 
+import {MatGridListModule} from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatDividerModule} from '@angular/material/divider';
+
+import {MatPaginatorModule} from '@angular/material/paginator';
+
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
+
+import {MatDialogModule} from '@angular/material/dialog';
+
+
+import {MatToolbarModule} from '@angular/material/toolbar';
+
+import {MatInputModule} from '@angular/material/input';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+import {MatListModule} from '@angular/material/list';
+import { EditComponent } from './pages/edit/edit.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+
 @NgModule({
   declarations: [
-    TellerComponent
+    TellerComponent,
+    EditComponent
   ],
   imports: [
     TellerRoutingModule,
+   
+    MatMenuModule,
+
+
     CommonModule,
-
-
-    CdkTreeModule,
-    A11yModule,
-    CdkTableModule,
-    ScrollingModule,
-    DragDropModule,
-
-    MatTableModule,
-    MatIconModule,
+    MatGridListModule,
+    MatCardModule,
+    MatProgressBarModule,
     MatButtonModule,
-    MatMenuModule
+    MatDividerModule,
     
+    MatTableModule,
+    MatPaginatorModule,
+    MatCheckboxModule,
+
+    MatDialogModule,
+    MatToolbarModule,
+    MatIconModule,
+
+    MatInputModule,
+    FlexLayoutModule,
+    MatMenuModule,
+
+    MatListModule,
+    MatProgressSpinnerModule,
+    FormsModule, 
+    ReactiveFormsModule
   ],
   exports: [
     TellerComponent,

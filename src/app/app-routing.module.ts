@@ -18,6 +18,12 @@ const routes: Routes = [
     path:'ticket-dispensing',
     loadChildren:()=>import('./module-ticket-dispensing/ticket-dispensing.module').then(m=>m.TicketDispensingModule)
   },
+  {
+    path:'',
+    redirectTo: 'si',
+    pathMatch: 'full'
+
+  },
   
 ];
 

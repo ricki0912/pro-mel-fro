@@ -10,6 +10,9 @@ import { CategoryHelpers } from './category.helpers';
 import { EditComponent } from './pages/edit/edit.component';
 import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
 import { ActionDialogInterface, TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
+import { NULL_EXPR } from '@angular/compiler/src/output/output_ast';
+import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
+import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
 
 
 @Component({
@@ -18,11 +21,13 @@ import { ActionDialogInterface, TYPES_ACTIONS_DIALOG } from 'src/app/global/inte
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInterface {
+  isLoading = true;
 
   constructor(
     public dialogEditUser: MatDialog,
     private categoryService: CategoryService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService, 
+    private showMessage: ShowMessageService
   ) {
     this.loadingService.show();
     this.dataSource.data = [];
@@ -63,61 +68,26 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
 
   hasChild = (_: number, node?: FlatTreeControlCategory) => node?.expandable;
 
-  createCRUD(object: any): boolean {
-    return true;
-  }
-
-  readCRUD(): boolean {
-    console.log("hoLA ESTAS ")
-    this.categoryService.all().subscribe({
-      complete: () => { },
-      next: (r: Category[]) => {
-
-        this.dataSource.data = CategoryHelpers.convertTableToTree(r)
-        console.log(this.dataSource.data);
-      },
-      error: () => { }
-    });
-
-    return true
-  }
-
-  updateCRUD(id: string | number | null, object: any): boolean {
-    return true;
-  }
-  deleteCRUD(ids: string | number | number[] | string[] | null): boolean {
-    return true;
-  }
+  /**ABRIMOS LOS DIALOGOS */
 
   openDialogAdd(): boolean {
-
-    console.log()
     const dialogRef = this.dialogEditUser.open(EditComponent, {
-      /*maxWidth: '100vw',
-       maxHeight: '100vh',
-       height: '100%',
-       width: '100%',*/
       panelClass: 'dialog',
-      data: []
+      data: {
+        row: null,
+        rowParent: null,
+        type: TYPES_ACTIONS_DIALOG.ADD
+      }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`)
+    dialogRef.afterClosed().subscribe((result:Category) => {
+      if(result){
+        this.createCRUD(result)
+      }
     });
     return true
   }
 
-  openDialogUpd(): boolean {
-
-
-    return true;
-  }
-
-  openDialogdAddAndUpd(): boolean {
-    return true;
-  }
-
-  openDialogAddToOne = (data: FlatTreeControlCategory) => {
-    data.catName = "HOla"
+  openDialogUpd(data: FlatTreeControlCategory): boolean {
     let copiedPerson = Object.assign({}, data);
     //data.
     const dialogRef = this.dialogEditUser.open(EditComponent, {
@@ -128,13 +98,122 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
       panelClass: 'dialog',
       data: {
         row: data,
+        rowParent: null,
         type: TYPES_ACTIONS_DIALOG.UPD
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`)
+      if(result){
+        this.updateCRUD(result);
+      }
+    });
+    return true;
+  }
+
+  openDialogdAddAndUpd(): boolean {
+    return true;
+  }
+
+ 
+
+  openDialogAddToOne = (data: FlatTreeControlCategory) => {
+    let copiedPerson = Object.assign({}, data);
+    //data.
+    const dialogRef = this.dialogEditUser.open(EditComponent, {
+      /*maxWidth: '100vw',
+       maxHeight: '100vh',
+       height: '100%',
+       width: '100%',*/
+      panelClass: 'dialog',
+      data: {
+        row: null,
+        rowParent: data,
+        type: TYPES_ACTIONS_DIALOG.ADD
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.createCRUD(result)
+      }
     });
   }
+
+
+/*SERVICIOS DE BASE DE DATOS */
+  createCRUD(object: Category): boolean {
+    this.categoryService.add(object).subscribe({
+      next: data=>{
+        this.readCRUD()
+        this.showMessage.success({message: data.msg})
+      },
+      error: error=>{
+        this.showMessage.error({message: error.error.message, action:()=>this.createCRUD(object)})
+      }
+    })
+
+    return true;
+  }
+
+  updateCRUD(object: Category ): boolean {
+    this.categoryService.upd(object).subscribe({
+      next: data=>{
+        this.showMessage.success({message: data.msg})
+        this.readCRUD()
+      },
+      error: error=>{
+        this.showMessage.error({message: error.error.message, action:()=>this.updateCRUD(object)})
+      }
+    })
+
+    return true;
+  }
+
+  readCRUD(): boolean {
+    this.isLoading=true;
+    this.categoryService.all().subscribe({
+      complete: () => { },
+      next: (r: Category[]) => {
+        this.isLoading=false;
+        this.dataSource.data = CategoryHelpers.convertTableToTree(r)
+      },
+      error: () => { 
+      
+      }
+    });
+
+    return true
+  }
+  beforeDelete(id:number){
+    this.wantDelete(()=>this.deleteCRUD(id))
+  }
+  wantDelete(d:()=>void){
+    this.dialogEditUser
+      .open(DialogConfirmationComponent, {
+        data: `Esta seguro que desea eliminar.`,
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
+          d();
+        } else {
+          
+        }
+      });
+  }
+  deleteCRUD(id: number): boolean {
+    this.categoryService.del(id).subscribe({
+      next: data=>{
+        this.showMessage.success({message: data.msg});
+        this.readCRUD();
+      }, 
+      error: error=>{
+        this.showMessage.error({message: error.error.message})
+      }
+    })
+    return true;
+  }
+
 }
 

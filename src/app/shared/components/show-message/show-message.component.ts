@@ -42,6 +42,8 @@ export class ShowMessageComponent implements OnInit {
       ...this.configSuccess
     });
   }
+
+
   
 
    public error=()=>{
@@ -61,7 +63,8 @@ export class ShowMessageComponent implements OnInit {
 export interface ShowMessageInterface{
   message: string,
   status?: 'success'|'error',
-  acction?():any
+  titleButtonRetry?:string,
+  action?:()=>void,
 }
 
 
