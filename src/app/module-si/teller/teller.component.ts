@@ -30,7 +30,7 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
   constructor(
     public dialogEditUser: MatDialog,
     private tellerService: TellerService,
-    private loadingService: LoadingService, 
+    private loadingService: LoadingService,
     private showMessage: ShowMessageService
     ) {
 
@@ -115,8 +115,8 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
         this.isLoading=false;
         this.tellers=r
       },
-      error: () => { 
-      
+      error: () => {
+
       }
     });
 
@@ -135,7 +135,7 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
         if (confirmado) {
           d();
         } else {
-          
+
         }
       });
   }
@@ -144,7 +144,7 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
       next: data=>{
         this.showMessage.success({message: data.msg});
         this.readCRUD();
-      }, 
+      },
       error: error=>{
         this.showMessage.error({message: error.error.message})
       }
