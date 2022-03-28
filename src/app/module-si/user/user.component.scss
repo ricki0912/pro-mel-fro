@@ -1,7 +1,5 @@
 .example-card {
-    margin: 10px;
-   
-
+  margin: 10px;
 }
 
 .span-title {
@@ -16,8 +14,6 @@
     white-space: nowrap;
   }
 
- 
-
   table {
     width: 100%;
   }
@@ -28,11 +24,11 @@
     border-top: 1px solid transparent;
     cursor: pointer;
   }
-  
+
   .mat-row:hover .mat-cell {
     border-color: currentColor;
   }
-  
+
   .demo-row-is-clicked {
     font-weight: bold;
   }
@@ -41,7 +37,7 @@
   .example-card {
     max-width: 100%;
   }
-  
+
   .div-title {
     width: 100%;
     text-align: left;
@@ -52,7 +48,7 @@
     font-size: 15px;
     opacity: .85;
     white-space: nowrap;
-    
+
     display: flex;
     justify-content: left;
   }

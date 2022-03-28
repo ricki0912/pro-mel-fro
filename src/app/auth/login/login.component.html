@@ -45,3 +45,44 @@
     </button>
   </form>
 </mat-card>
+<mat-form-field appearance="fill">
+  <mat-label>Usuario</mat-label>
+  <input
+    matInput
+    formControlName="email"
+    placeholder="Ej: usuario@melendres-auditores.com"
+    value=""
+  />
+  <mat-icon mat-icon-button matSuffix class="mat-icon-rtl-mirror"
+    >person</mat-icon
+  >
+  <mat-error> El email es requerido </mat-error>
+</mat-form-field>
+<mat-form-field appearance="fill">
+  <mat-label>Constraseña</mat-label>
+  <input
+    matInput
+    formControlName="password"
+    [type]="hide ? 'password' : 'text'"
+  />
+
+  <button
+    mat-icon-button
+    matSuffix
+    (click)="hide = !hide"
+    [attr.aria-label]="'Hide password'"
+    [attr.aria-pressed]="hide"
+  >
+    <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+  </button>
+  <mat-error> La contraseña es requerido. </mat-error>
+</mat-form-field>
+<button
+  mat-raised-button
+  color="primary"
+  (click)="onSubmit(loginForm.value)"
+  type="submit"
+  [disabled]="!loginForm.valid || submitted"
+>
+  Ingresar
+</button>

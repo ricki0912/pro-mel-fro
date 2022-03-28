@@ -37,13 +37,13 @@ export class UserService extends ParentService implements CrudApiInterface{
    }
 
    add(object: User): Observable<InterfaceParamsResponse<ParentInterface>> | Observable<ParentInterface> | null {
-   return null;  
+   return null;
    }
 
    all():Observable<User[]> | null {
     return this.https.get<User[]>(this.API_ALL);
    }
-   
+
    del(id: string | string[] | number | number[]): Observable<InterfaceParamsResponse<ParentInterface>> | null {
      return null;
    }

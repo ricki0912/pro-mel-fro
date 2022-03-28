@@ -13,7 +13,7 @@ import { ThisReceiver } from '@angular/compiler';
   selector: 'app-main-view',
   templateUrl: './main-view.component.html',
   styleUrls: ['./main-view.component.scss']
-  
+
 })
 
 export class MainViewComponent implements OnInit {
@@ -29,13 +29,14 @@ export class MainViewComponent implements OnInit {
     );
 
   constructor(
-      private breakpointObserver: BreakpointObserver, 
+      private breakpointObserver: BreakpointObserver,
       private loadingService: LoadingService,
       private tokenService: TokenStorageService,
       private router:Router
     ) {
     console.log(this.isHandset$)
   }
+
   ngOnInit(): void {
       this.loadingService.hide()
       if(!this.tokenService.getUser()){
@@ -44,7 +45,6 @@ export class MainViewComponent implements OnInit {
       this.currentUser = this.tokenService.getUser();
 
   }
-
 
   toggle(nav: MatSidenav) {
     const isSmallScreen = this.breakpointObserver.isMatched(
@@ -58,34 +58,21 @@ export class MainViewComponent implements OnInit {
 
   toggleMenu() {
     this.showMenu = !this.showMenu;
- }
+  }
 
- doChanges(){
-   this.toggleMenu()
-   //this.loadingService.show();
+  doChanges(){
+    this.toggleMenu()
+    //this.loadingService.show();
 
- }
- signOut(){
-  this.tokenService.signOut();
-  this.router.navigate(['auth/login'])
-  .then(() => {
-    window.location.reload();
-  });
- }
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
+  signOut(){
+    this.tokenService.signOut();
+    this.router.navigate(['auth/login'])
+    .then(() => {
+      window.location.reload();
+    });
+  }
 }
 
 

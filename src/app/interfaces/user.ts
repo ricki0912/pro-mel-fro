@@ -9,4 +9,3 @@ export interface User extends ParentInterface {
     password: string,
     person: Person
 }
-

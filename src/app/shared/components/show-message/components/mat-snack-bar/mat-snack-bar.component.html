@@ -1,17 +1,21 @@
-<table style="width: 100%;">
+<table style="width: 100%">
   <td>
     <span>
-      {{data.message}}
+      {{ data.message }}
     </span>
   </td>
-  <td *ngIf="existAction"  style="vertical-align: middle; align-items: flex-end;">
+  <td *ngIf="existAction" style="vertical-align: middle; align-items: flex-end">
     <button mat-button (click)="onAction()">
-      {{titleButtonRetry}} 
+      {{ titleButtonRetry }}
     </button>
   </td>
-  <td style="vertical-align: middle; align-items: flex-end;">
+  <td style="vertical-align: middle; align-items: flex-end">
     <div align="end">
-      <button mat-icon-button aria-label="Cerrar" (click)="snackBarRef.dismiss()">
+      <button
+        mat-icon-button
+        aria-label="Cerrar"
+        (click)="snackBarRef.dismiss()"
+      >
         <mat-icon>close</mat-icon>
       </button>
     </div>

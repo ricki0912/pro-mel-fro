@@ -27,7 +27,7 @@ import { DialogConfirmationComponent } from './shared/components/dialog-confirma
     MatSnackBarComponent,
     DialogConfirmationComponent,
 
-   
+
   ],
   imports: [
     BrowserModule,
@@ -41,8 +41,8 @@ import { DialogConfirmationComponent } from './shared/components/dialog-confirma
   ],
   providers: [MatSnackBar,
     {
-      provide: HTTP_INTERCEPTORS, 
-      useClass: ApiInterceptor, 
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
       multi: true
     }
 ],

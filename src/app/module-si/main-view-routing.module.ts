@@ -13,7 +13,7 @@ const routes: Routes=[
         loadChildren: ()=>import('./category/category.module').then(m=>m.CategoryModule)
       },
       {
-        path: 'tellers', 
+        path: 'tellers',
         //component: TellerComponent
         loadChildren:()=>import('./teller/teller.module').then(m=>m.TellerModule)
       },
@@ -35,11 +35,11 @@ const routes: Routes=[
       },
 
       {
-        path: 'tickets', 
+        path: 'tickets',
         loadChildren:()=>import('./ticket/ticket.module').then(m=>m.TicketModule)
       },
       {
-        path: 'prueba', 
+        path: 'prueba',
         loadChildren:()=>import('./prueba/prueba.module').then(m=>m.PruebaModule)
       }
       /*{
