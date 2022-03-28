@@ -22,36 +22,78 @@
 
   <mat-dialog-content class="mat-typography">
     <form class="example-form" [formGroup]="categoryForm">
-      <mat-form-field class="example-full-width" appearance="outline">
-        <mat-label>Código</mat-label>
-        <input matInput formControlName="catCode" />
-        <mat-progress-spinner
-          *ngIf="categoryForm.controls['catCode'].pending"
-          matSuffix
-          [mode]="'indeterminate'"
-          [diameter]="20"
-        >
-        </mat-progress-spinner>
-        <mat-error>
-          {{
-            categoryForm.controls["catCode"].hasError("required")
-              ? "El código es requerido"
-              : categoryForm.controls["catCode"].hasError("existCatCode")
-              ? "Ya existe un registro con este código"
-              : ""
-          }}
-        </mat-error>
-      </mat-form-field>
+      <mat-grid-list [cols]="cols" rowHeight="5.5rem" appearance="fillx">
+        <mat-grid-tile>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Código</mat-label>
+            <input matInput formControlName="catCode">
+            <mat-progress-spinner *ngIf="categoryForm.controls['catCode'].pending" matSuffix [mode]="'indeterminate'"
+              [diameter]="20">
+            </mat-progress-spinner>
+            <mat-error>
+              {{
+              (categoryForm.controls['catCode'].hasError('required'))?
+              'El código es requerido':
+              (categoryForm.controls['catCode'].hasError('existCatCode'))?
+              'Ya existe un registro con este código':''
+              }}
+    
+    
+            </mat-error>
+          </mat-form-field>
+        
+        </mat-grid-tile>
+        <mat-grid-tile>
 
-      <mat-form-field class="example-full-width" appearance="outline">
-        <mat-label>Nombre</mat-label>
-        <input matInput type="text" formControlName="catName" />
-        <mat-error
-          *ngIf="categoryForm.controls['catName'].hasError('required')"
-        >
-          El nombre es requerido
-        </mat-error>
-      </mat-form-field>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" formControlName="catName">
+            <mat-error *ngIf="categoryForm.controls['catName'].hasError('required')">
+              El nombre es requerido
+            </mat-error>
+    
+    
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Enlazar a Cartera de Clientes</mat-label>
+            <mat-select formControlName="catLinkBus">
+              <mat-option  value="1">
+                Si
+              </mat-option>
+              <mat-option  value="2">
+                No
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Autenticación</mat-label>
+            <mat-select formControlName="catAuth">
+              <mat-option  value="1">
+                Ninguno
+              </mat-option>
+              <mat-option  value="2">
+                DNI
+              </mat-option>
+              <mat-option  value="3">
+                RUC
+              </mat-option>
+              <mat-option  value="4">
+                Cualquiera
+              </mat-option>
+              
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+          
+        
+      </mat-grid-list>
+
+     
+
       <!--
         input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid':  && f.email.errors }" />
           <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
@@ -59,19 +101,16 @@
       <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
     </div> -->
 
-      <mat-form-field class="example-full-width" appearance="outline">
-        <mat-label>Descripcion</mat-label>
-        <input matInput formControlName="catDescription" />
-      </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>Descripcion</mat-label>
+      <input matInput formControlName="catDescription">
+    </mat-form-field>
+
+
 
       <mat-form-field class="example-full-width" appearance="outline">
-        <mat-label>Categoria</mat-label>
-        <input
-          readonly
-          matInput
-          placeholder="/"
-          formControlName="catNameLong"
-        />
+        <mat-label>Categoria Padre</mat-label>
+        <input readonly matInput placeholder="/" formControlName="catNameLongParent">
 
         <button mat-button (click)="openDialogFindCategory()" matSuffix>
           <mat-icon>mode_edit</mat-icon>

@@ -21,8 +21,9 @@ import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-co
 })
 export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInterface, CrudInterface {
   isLoading=true;
-
   tellers: Teller[]=[];
+
+
 
   ngAfterViewInit() {
   }
@@ -58,7 +59,7 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
   }
 
   openDialogUpd(data: Teller): boolean {
-    const dialogRef = this.dialogEditUser.open(EditComponent, {
+    /*const dialogRef = this.dialogEditUser.open(EditComponent, {
       panelClass: 'dialog',
       data: {
         row: data,
@@ -70,7 +71,7 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
       if(result){
         this.updateCRUD(result);
       }
-    });
+    });*/
     return false;
   }
   openDialogdAddAndUpd(object: any): boolean {
@@ -82,7 +83,9 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
   createCRUD(object: Teller): boolean {
     this.tellerService.add(object).subscribe({
       next: data=>{
-        this.readCRUD()
+        //this.readCRUD()
+        const tellers=data.data as Teller[]
+        this.tellers.unshift(...tellers)
         this.showMessage.success({message: data.msg})
       },
       error: error=>{
@@ -94,7 +97,7 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
   }
 
   updateCRUD(object: Teller ): boolean {
-    this.tellerService.upd(object).subscribe({
+  /*  this.tellerService.upd(object).subscribe({
       next: data=>{
         this.showMessage.success({message: data.msg})
         this.readCRUD()
@@ -103,25 +106,25 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
         this.showMessage.error({message: error.error.message, action:()=>this.updateCRUD(object)})
       }
     })
-
+*/
     return true;
   }
 
   readCRUD(): boolean {
     this.isLoading=true;
     this.tellerService.all().subscribe({
-      complete: () => { },
-      next: (r: Teller[]) => {
-        this.isLoading=false;
-        this.tellers=r
-      },
-      error: () => {
-
+      next: d=>{
+        this.tellers=d
+        this.isLoading=false
+        //this.showMessage.success({message:"Cargado exitosamente"})
+      }, 
+      error: e=>{
+        this.showMessage.error({message: e.error.message})
       }
-    });
-
+    })
     return true
   }
+  
   beforeDelete(id:number){
     this.wantDelete(()=>this.deleteCRUD(id))
   }
@@ -139,6 +142,7 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
         }
       });
   }
+
   deleteCRUD(id: number): boolean {
     this.tellerService.del(id).subscribe({
       next: data=>{
@@ -153,3 +157,5 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
   }
 
 }
+
+

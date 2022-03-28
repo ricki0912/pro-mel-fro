@@ -40,20 +40,15 @@ import {MatSelectModule} from '@angular/material/select';
 //import {MatGridListModule} from '@angular/material/grid-list';
 
 import { EditComponent } from './pages/edit/edit.component';
-
-
-
-
-
-
-
+import { FindUserComponent } from './pages/find-user/find-user.component';
 
 
 
 @NgModule({
   declarations: [
     UserComponent,
-    EditComponent
+    EditComponent,
+    FindUserComponent
   ],
   imports: [
     CommonModule,

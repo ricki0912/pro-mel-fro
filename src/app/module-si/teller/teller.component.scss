@@ -21,11 +21,7 @@
 
 }
 */
-.card-teller:hover{
-  visibility: visible;
-  background-color: rgba($color: #CFCFCF, $alpha: 0.2);
-  cursor: pointer;
-}
+
 .span-title {
   width: 100%;
   text-align: left;
@@ -42,20 +38,8 @@
   margin: 10px;
 }
 
-.without-box-shadow{
-  -webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-}
 
-.size-card-user{
-  max-width: 600px; 
-}
 
-.header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-  background-size: cover;
-}
 
 .div-title {
   width: 100%;
@@ -71,3 +55,4 @@
   display: flex;
   justify-content: left;
 }
+

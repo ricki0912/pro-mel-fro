@@ -1,0 +1,46 @@
+<div class="container" style="margin-top: calc(1em + 1vh)">
+
+  <div style="" class="d-flex justify-content-center">
+
+    <table style="max-width: 400px;width: 100%;">
+      <tr>
+        <th colspan="3">
+          <div style="background-color: aquamarine;">
+
+            <!--<mat-form-field class="example-form-field" appearance="outline">
+                        <mat-label>Clearable input</mat-label>
+                        <input matInput type="text" [(ngModel)]="value">
+                        <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                      </mat-form-field>-->
+
+            <div class="input-group input-group-lg">
+              <input type="text" class="form-control" [(ngModel)]="value" placeholder="DNI O RUC" aria-label="Recipient's username"
+                aria-describedby="basic-addon2">
+              <div class="input-group-append input-group-lg">
+                <button class="btn " color="primary" mat-raised-button>E</button>
+                <button class="btn btn-success" (click)="sendValue()" mat-raised-button>Siguiente</button>
+
+              </div>
+            </div>
+
+
+          </div>
+        </th>
+
+      </tr>
+      <tr>
+        <td colspan="3">
+        </td>
+      </tr>
+      <tr *ngFor="let keyrow of keys; let i=index ">
+        <td *ngFor="let key of keyrow; let j=index">
+          <button (click)="key.onClick(key.value)" mat-raised-button [color]="key.color" style="width: 100%; height: 1.2em; font-size: 4em;">{{key.value}}</button>
+        </td>
+      </tr>
+
+    </table>
+
+  </div>
+</div>

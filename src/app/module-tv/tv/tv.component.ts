@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {LoadingService} from 'src/app/shared/components/loading/loading.service'
 
 @Component({
   selector: 'app-tv',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TVComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private serviceLoading:LoadingService 
+  ) { }
 
   ngOnInit(): void {
+    this.serviceLoading.hide()
   }
 
 }
+

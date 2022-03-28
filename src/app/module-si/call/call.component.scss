@@ -1,0 +1,48 @@
+.div-title {
+  width: 100%;
+  text-align: left;
+  margin: 10px;
+
+  color: #000;
+  font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+  font-size: 15px;
+  opacity: .85;
+  white-space: nowrap;
+  
+  display: flex;
+  justify-content: left;
+}
+
+.example-card {
+  margin: 10px;
+}
+
+.control-now{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: #000;
+  font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  opacity: .85;
+  white-space: nowrap;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.control-now span{
+  margin-left: 10px;
+}
+.control-now mat-icon{
+  opacity: .85;
+}
+.control-now span b{
+  opacity: .85;
+
+  font-size: 23px;
+}
+
+/*Tabla*/
+table {
+  width: 100%;
+}

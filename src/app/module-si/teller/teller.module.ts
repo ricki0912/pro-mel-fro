@@ -31,18 +31,23 @@ import { EditComponent } from './pages/edit/edit.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { CardTellerComponent } from './pages/card-teller/card-teller.component';
+import {MatChipsModule} from '@angular/material/chips';
+
 
 @NgModule({
   declarations: [
     TellerComponent,
-    EditComponent
+    EditComponent,
+    CardTellerComponent
   ],
   imports: [
     TellerRoutingModule,
    
     MatMenuModule,
 
-
+    MatChipsModule,
+    
     CommonModule,
     MatGridListModule,
     MatCardModule,

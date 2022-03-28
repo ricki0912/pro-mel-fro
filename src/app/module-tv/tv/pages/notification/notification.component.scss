@@ -1,0 +1,56 @@
+.bluebox, .stuff {
+    background-color: red; 
+    color:white; 
+    align-items: center; 
+    vertical-align: middle;
+     position: fixed; 
+     z-index: 100; 
+     width: 100%; 
+     font-size: 5vh;
+     margin: 0%;
+     padding: 0%;
+    }
+    .marquee {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .marquee span {
+      display: inline-block;
+      width: 100%;
+      font-weight: bold;
+      animation-name: dimension;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      //animation-duration: 10s;
+  
+    }
+    .marquee span span {
+      position: relative;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      animation-name: traslation;
+      //animation-duration: 10s;
+  
+     
+  
+    }
+  
+    @keyframes traslation {
+      0%{
+        left: 100%;
+      }
+      100%{
+        left: calc(0% - 15px - 100%);
+      }
+    }
+    
+    @keyframes dimension {
+      0%{
+        width: 100%;
+  
+      }
+      100%{
+        width: auto;
+      }
+    }
+    

@@ -1,0 +1,70 @@
+<mat-card class="border-card without-box-shadow size-card-user card-teller">
+    <mat-card-header  >
+        <div mat-card-avatar class="header-image"></div>
+        <mat-card-title align="left">{{teller.tellCode}} - {{teller.tellName}} </mat-card-title>
+        <mat-card-subtitle align="left"><b [ngClass]="{'teller-activo':teller.tellState==TTS.ACTIVO, 'teller-en-espera':teller.tellState==TTS.EN_ESPERA}" >{{getStateName(teller.tellState ||-1)}}</b> | {{user?.person?.perName}} - {{user?.person?.perNumberDoc}}</mat-card-subtitle>
+
+        <mat-card-actions align="end" style="flex: 1 1 auto; padding: 0px; vertical-align: top;">
+            <p style="padding: 0%; margin: 0px; padding-right: 10px; "> <!--Último ingreso <br>2 dias--></p>
+
+            <button mat-icon-button (click)="isDisplay=!isDisplay">
+                <mat-icon>{{isDisplay?'expand_less':'expand_more'}}</mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="openDialogSetUser()">
+                    <mat-icon>person</mat-icon>
+                    <span>Establecer usuario</span>
+                </button>
+                <button mat-menu-item (click)="beforeUpdState()" *ngIf="teller.tellState==TTS.ACTIVO">
+                    <mat-icon>pause</mat-icon>
+                    <span>Poner en espera </span>
+                </button>
+                <button mat-menu-item (click)="beforeUpdState()" *ngIf="teller.tellState==TTS.EN_ESPERA">
+                    <mat-icon>play_arrow</mat-icon>
+                    <span>Poner en activo </span>
+                </button>
+                <button mat-menu-item (click)="openDialogUpd(teller)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar</span>
+                </button>
+                <!--<button mat-menu-item (click)="openDialogUpd(teller)">
+                      <mat-icon>edit</mat-icon>
+                      <span>Editar</span>
+                    </button>-->
+            </mat-menu>
+
+            <!--<button mat-icon-button  (click)="teller.tellState = !teller.tellState" [attr.aria-label]="'Cambiar disponibilidad'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </mat-menu> </button>-->
+        </mat-card-actions>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+
+    <mat-card-content *ngIf="isDisplay">
+        <table style="width: 100%;">
+            <tr>
+                <th colspan="2">
+                    <b style="opacity: 0.85;">Categorias asignadas para atención</b>
+                </th>
+                <th>
+                    <button align="end" mat-icon-button aria-label="Example icon-button with a menu" (click)="openDialogSetCategory()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </th>
+            </tr>
+            <tr *ngFor="let category of categories; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{category.catNameLong}}</td>
+                <td>
+                    <button (click)="detachCategory(teller.tellId || -1, category.catId || -1)" mat-icon-button aria-label="Example icon-button with a menu">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </mat-card-content>
+</mat-card>

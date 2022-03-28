@@ -6,7 +6,7 @@ import { Category, CategoryTree, FlatTreeControlCategory } from 'src/app/interfa
 import { ParentInterface } from 'src/app/global/parents/parent.interface';
 import { CategoryService } from 'src/app/services/category.service';
 import { LoadingService } from '../../shared/components/loading/loading.service';
-import { CategoryHelpers } from './category.helpers';
+import { CategoryHelpers } from '../../global/helpers/category.helpers';
 import { EditComponent } from './pages/edit/edit.component';
 import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
 import { ActionDialogInterface, TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';

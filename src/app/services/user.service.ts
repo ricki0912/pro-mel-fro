@@ -14,6 +14,7 @@ export class UserService extends ParentService implements CrudApiInterface{
   private API_UPD_USER_WITH_PERSON=`${this.HOST_API}/api/v1/users/upd-user-with-person`
   private API_EXIST_EMAIL=`${this.HOST_API}/api/v1/users/exist-email`
   private API_ALL=`${this.HOST_API}/api/v1/users`
+  private API_FIND=`${this.HOST_API}/api/v1/users`
 
   constructor(private https:HttpClient) {
     super()
@@ -47,8 +48,8 @@ export class UserService extends ParentService implements CrudApiInterface{
      return null;
    }
 
-   find(id: string | number): Observable<ParentInterface> | null {
-     return null; 
+   find(id: number): Observable<InterfaceParamsResponse<User>> {
+     return this.https.get<InterfaceParamsResponse<User>>(`${this.API_FIND}/${id}`)
    }
    upd(id: string | number, object: ParentInterface): Observable<InterfaceParamsResponse<ParentInterface>> | Observable<ParentInterface> | null {
      return null;

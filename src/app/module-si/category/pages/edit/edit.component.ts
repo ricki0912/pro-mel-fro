@@ -39,7 +39,9 @@ export class EditComponent implements OnInit, OnDestroy {
       asyncValidators: this.validateCode.bind(this),
       updateOn: 'blur',
     }],
-    catNameLong: [],
+    catLinkBus:['2'/*no*/ , Validators.required],
+    catAuth:['1'/*ninguno*/ , Validators.required],
+    catNameLongParent: [],
     catDescription: [],
   })
 
@@ -96,7 +98,10 @@ export class EditComponent implements OnInit, OnDestroy {
     this.categoryForm.controls['catName'].setValue(this.categoryBeforeUpd.catName)
     this.categoryForm.controls['catCode'].setValue(this.categoryBeforeUpd.catCode)
     this.categoryForm.controls['catDescription'].setValue(this.categoryBeforeUpd.catDescription)
-    this.categoryForm.controls['catNameLong'].setValue(this.categoryBeforeUpd.catNameLong)
+    this.categoryForm.controls['catLinkBus'].setValue(this.categoryBeforeUpd.catLinkBus?.toString())
+    this.categoryForm.controls['catAuth'].setValue(this.categoryBeforeUpd.catAuth?.toString())
+    
+    this.categoryForm.controls['catNameLongParent'].setValue(this.categoryBeforeUpd.catNameLong?.slice(0,-this.categoryBeforeUpd.catName.length) )
 
   }
 
@@ -105,8 +110,9 @@ export class EditComponent implements OnInit, OnDestroy {
     this.flatTreeControlCategory = r;
     this.categoryBeforeUpd.catIdParent = this.flatTreeControlCategory.catId
     this.categoryBeforeUpd.catNameLong = this.flatTreeControlCategory.catNameLong;
-    this.categoryForm.controls['catNameLong'].setValue(this.flatTreeControlCategory.catNameLong)
+    this.categoryForm.controls['catNameLongParent'].setValue(this.flatTreeControlCategory.catNameLong)
   }
+
 
 
   validateCode(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
@@ -134,14 +140,14 @@ export class EditComponent implements OnInit, OnDestroy {
   hasErrorFormCategory = (cf: string, nameError: string) => this.categoryForm.controls[cf].hasError(nameError);
 
 
-  cols: number = 1;
+  cols: number = 2;
 
   gridByBreakpoint: GridResponsive = {
     xl: 2,
     lg: 2,
     md: 2,
     sm: 2,
-    xs: 1
+    xs: 1 
   }
 
   openDialogFindCategory = () => {

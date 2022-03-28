@@ -1,6 +1,7 @@
 import { ParentInterface } from "../global/parents/parent.interface";
 import { Person } from "./person";
 
+
 export interface User extends ParentInterface {
     id?:number
     name: string,
@@ -8,3 +9,4 @@ export interface User extends ParentInterface {
     password: string,
     person: Person
 }
+

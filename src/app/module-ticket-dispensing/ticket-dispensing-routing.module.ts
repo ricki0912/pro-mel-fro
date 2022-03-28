@@ -6,9 +6,7 @@ const routes: Routes = [
     path:'',
     component: TicketDispensingComponent,
     children:[
-      {path:'asdf', component: TicketDispensingComponent},
-
-      {}
+      {path:'asdf', component: TicketDispensingComponent}
     ]
   }
 ];

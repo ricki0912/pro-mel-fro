@@ -1,0 +1,33 @@
+table {
+    width: 100%;
+  }
+
+  .card-teller:hover{
+    visibility: visible;
+    background-color: rgba($color: #CFCFCF, $alpha: 0.2);
+    cursor: pointer;
+  }
+
+  .without-box-shadow{
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+  
+  .header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }
+
+
+.size-card-user{
+  max-width: 600px; 
+}
+
+.teller-activo{
+  color: green;
+}
+
+.teller-en-espera{
+  color: red;
+}

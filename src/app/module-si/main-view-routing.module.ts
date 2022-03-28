@@ -30,6 +30,15 @@ const routes: Routes=[
       },
 
       {
+        path: 'calls',
+        loadChildren: ()=>import('./call/call.module').then(m=>m.CallModule)
+      },
+
+      {
+        path: 'tickets', 
+        loadChildren:()=>import('./ticket/ticket.module').then(m=>m.TicketModule)
+      },
+      {
         path: 'prueba', 
         loadChildren:()=>import('./prueba/prueba.module').then(m=>m.PruebaModule)
       }
@@ -37,6 +46,8 @@ const routes: Routes=[
         path: 'prueba',
         component: PruebaComponent
       }*/
+
+
     ]
   },
 ]

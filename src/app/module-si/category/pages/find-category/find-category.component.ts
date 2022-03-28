@@ -6,7 +6,7 @@ import { CategoryService } from '../../../../services/category.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { CategoryHelpers } from '../../category.helpers';
+import { CategoryHelpers } from '../../../../global/helpers/category.helpers';
 
 
 @Component({

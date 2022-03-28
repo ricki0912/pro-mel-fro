@@ -1,0 +1,18 @@
+<div class="internalMatGrid">
+    <div class="h_iframe" style="background-color: red; " >
+        <youtube-player #player style="background-color: blue; " class="h_iframe" 
+        [videoId]="videos[0]" 
+        suggestedQuality="highres" 
+        (ready)="savePlayer($event, player)"
+        (stateChange)="onStateChange($event)"
+        [width]="width"
+        [height]="height"
+        >
+      </youtube-player>
+        <!--<iframe [src]="getVideoIframe('https://www.youtube.com/watch?v=n1a7o44WxNo')" frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe> -->
+
+        <!--<iframe  src="//www.youtube.com/embed/9KunP3sZyI0" frameborder="0" allowfullscreen></iframe> -->
+    </div>
+</div>

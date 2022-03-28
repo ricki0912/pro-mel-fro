@@ -36,13 +36,15 @@ export class EditComponent implements OnInit, OnDestroy {
   mediaSub!: Subscription;
 
 
-  title = "Añadir una vantanilla"
+  title = "Añadir una vantanilla julio"
+  
   tellerBeforeUpd: Teller = {
     tellName: '',
   };
 
   tellerForm: FormGroup = this.fb.group({
     tellName: ['', Validators.required],
+    
     tellCode: ['', {
       validators: [Validators.required],
       asyncValidators: this.validateCode.bind(this),
@@ -123,7 +125,6 @@ export class EditComponent implements OnInit, OnDestroy {
     } else {
       this.add();
     }
-
   }
   add() {
     const tellerObject: Teller = this.tellerForm.value; 
