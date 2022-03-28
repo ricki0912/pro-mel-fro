@@ -25,22 +25,21 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatStepperModule} from '@angular/material/stepper';
 import { ClientComponent } from './client.component';
 import { ClientRoutingModule } from './client-routing.module';
+import { EditClientComponent } from './pages/edit-client/edit-client.component';
+
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
-    ClientComponent
+    ClientComponent,
+    EditClientComponent
   ],
   imports: [
     ClientRoutingModule,
-    
+
 
     MatGridListModule,
     MatDividerModule,
-
-
-
-  
-
 
     CommonModule,
     MatGridListModule,
@@ -48,7 +47,7 @@ import { ClientRoutingModule } from './client-routing.module';
     MatProgressBarModule,
     MatButtonModule,
     MatDividerModule,
-    
+
     MatTableModule,
     MatPaginatorModule,
     MatCheckboxModule,
@@ -63,16 +62,17 @@ import { ClientRoutingModule } from './client-routing.module';
     MatExpansionModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule,  
+    MatSelectModule,
     MatRadioModule,
     FormsModule, ReactiveFormsModule,
-    MatStepperModule
+    MatStepperModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     ClientComponent,
-  
+
   ]
 })
-export class ClientModule { 
+export class ClientModule {
 
 }

@@ -1,87 +1,108 @@
-
-
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import { Component, OnInit } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
-import {MatDialog} from '@angular/material/dialog';
+import {MatTableDataSource} from '@angular/material/table';
 
+import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
+import { BussinesService } from 'src/app/services/bussines.service';
+import { Bussines } from 'src/app/interfaces/bussines';
 
-//dialogo
-//import { EditComponent } from './edit/edit.component';
+import { MatDialog } from '@angular/material/dialog';
+import { EditClientComponent } from './pages/edit-client/edit-client.component';
+import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
+
 
 @Component({
   selector: 'app-client',
   templateUrl: './client.component.html',
   styleUrls: ['./client.component.scss']
 })
-export class ClientComponent implements OnInit, AfterViewInit  {
 
-  displayedColumns: string[] = ['select','position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+export class ClientComponent implements OnInit, CrudInterface{
+  isLoading = true;
 
-  selection = new SelectionModel<PeriodicElement>(true, []);
-  
-  
-  clickedRows = new Set<PeriodicElement>();
+  constructor(
+    private bussinesService: BussinesService,
+    public dialogEditClient: MatDialog
+  ) { }
 
-  
-  
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
-
-  constructor(public dialogEditUser: MatDialog) { 
-    
-  }
-
-  openDialogEdit(){
-    /*const dialogRef=this.dialogEditUser.open(EditComponent, {
-     maxWidth: '100vw',
-      maxHeight: '100vh',
-      height: '100%',
-      width: '100%',
-      panelClass: 'dialog', 
-      data:[]
-    });
-    dialogRef.afterClosed().subscribe(result=>{
-      console.log(`Dialog result: ${result}`)
-    });*/
-  }
   ngOnInit(): void {
+    this.readCRUD();
   }
 
-    /** Whether the number of selected elements matches the total number of rows. */
-    isAllSelected() {
-      const numSelected = this.selection.selected.length;
-      const numRows = this.dataSource.data.length;
-      return numSelected === numRows;
-    }
-  
-    /** Selects all rows if they are not all selected; otherwise clear selection. */
-    masterToggle() {
-      if (this.isAllSelected()) {
-        this.selection.clear();
-        return;
-      }
-  
-      this.selection.select(...this.dataSource.data);
-    }
-  
-    /** The label for the checkbox on the passed row */
-    checkboxLabel(row?: PeriodicElement): string {
-      if (!row) {
-        return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-      }
-      return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
+  dataSource = new MatTableDataSource<Bussines>();
+  selection = new SelectionModel<Bussines>(true, []);
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
     }
 
+    this.selection.select(...this.dataSource.data);
+  }
 
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: Bussines): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.bussId}`;
+  }
+
+  //CRUD
+  createCRUD(object: any): boolean {
+    throw new Error('Method not implemented.');
+  }
+  readCRUD(): boolean {
+    this.isLoading = true;
+    this.bussinesService.all()?.subscribe({
+      next: data => {
+      console.log(data);
+      this.dataSource.data = data.data as Bussines[];
+      this.isLoading = false
+      },
+      error: error => {
+        this.isLoading = false
+      }
+    })
+    return false;
+  }
+
+  updateCRUD(object: any, id: string | number | null): boolean {
+    throw new Error('Method not implemented.');
+  }
+  deleteCRUD(ids: string | number | string[] | number[] | null): boolean {
+    throw new Error('Method not implemented.');
+  }
+
+  //FUNCIONES
+  openAddClient() : boolean {
+    const dialogRef = this.dialogEditClient.open(EditClientComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: {},
+        type: TYPES_ACTIONS_DIALOG.ADD
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        //this.addUserWithPerson(result);
+      }
+    });
+    return true
+  }
 }
 
-export interface PeriodicElement {
+/*export interface PeriodicElement {
   name: string;
   position: number;
   weight: number;
@@ -99,14 +120,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
   {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na'},
-  {position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg'},
-  {position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al'},
-  {position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si'},
-  {position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P'},
-  {position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S'},
-  {position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl'},
-  {position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar'},
-  {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
-  {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
-];
+];*/
+
+

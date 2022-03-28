@@ -76,7 +76,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
   /****METODO PARA VERIFICAR, AGREGAR O ACTUALIZAAR*** */
   setTypeDialog() {
-    
+
     /**verificamos que sera actualizar, de sera asi, mostramos los datos del usuario en cada campo */
     if (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) {
       this.userBeforeUpd = this.paramsDialog.row;
@@ -172,7 +172,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
   /* addUserWithPerson(): boolean {
      const user: User = this.userForm.value;
- 
+
      this.userSevice.addUserWithPerson(user).subscribe({
        next: data => {
          console.log(data)
@@ -185,18 +185,18 @@ export class EditComponent implements OnInit, OnDestroy {
      });
      return true
    }
- 
+
    updUserWithPerson(): boolean {
      const user: User = this.userForm.value;
-     
+
      user.id = this.userBeforeUpd?.id
      user.person.perId = this.userBeforeUpd?.person.perId;
- 
+
      this.userSevice.updUserWithPerson(user).subscribe({
        next: data => {
          console.log(data)
          this.showMessage.success({ message: data.msg});
- 
+
          this.onReturn(data.data as User[])
        },
        error: error => {

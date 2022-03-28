@@ -1,0 +1,175 @@
+<mat-toolbar color="primary" class="tollbar">
+  <mat-toolbar-row>
+    <button
+      mat-icon-button
+      mat-dialog-close
+      class="example-icon"
+      aria-label="Example icon-button with menu icon"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>{{ title }}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="dialog-body">
+  <mat-dialog-content class="mat-typography">
+    <form class="example-form" [formGroup]="businessForm">
+      <h3>Datos generales del Negocio</h3>
+      <mat-divider></mat-divider>
+      <mat-grid-list [cols]="cols" rowHeight="6rem" appearance="fillx">
+        <div formGroupName="business">
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Tipo de negocio</mat-label>
+              <mat-select formControlName="bussKind">
+                <mat-option value="1">Persona Juridica</mat-option>
+                <mat-option value="2">Persona Natural</mat-option>
+              </mat-select>
+              <mat-error> EL tipo de negocio es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Nombres y/o Razón Social</mat-label>
+              <input matInput formControlName="bussName" />
+              <mat-error>
+                Los Nombres y/o Razón Social son requeridos.
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>RUC</mat-label>
+              <input matInput formControlName="bussRUC" />
+              <mat-progress-spinner
+                *ngIf="businessForm.get('business.bussRUC')?.pending"
+                matSuffix
+                [mode]="'indeterminate'"
+                [diameter]="20"
+              >
+              </mat-progress-spinner>
+              <mat-error>
+                {{
+                  businessForm.get("business.bussRUC")?.hasError("required")
+                    ? "El numero de RUC es requerido"
+                    : businessForm.get("business.bussRUC")?.hasError("existRuc")
+                    ? "El numero de RUC ya existe."
+                    : "Ingrese el numero de RUC correcto"
+                }}
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Dirección del Negocio</mat-label>
+              <input matInput formControlName="bussAddress" />
+              <mat-error> La Dirección es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Tipo de Archivador</mat-label>
+              <mat-select formControlName="bussFileKind">
+                <mat-option value="1">Archivador</mat-option>
+                <mat-option value="2">Folder</mat-option>
+              </mat-select>
+              <mat-error> EL tipo de Archivador es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Numero de Archivador</mat-label>
+              <input matInput formControlName="bussFileNumber" />
+              <mat-error> EL número de Archivador es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Fecha de Inicio de Actividades</mat-label>
+              <input
+                matInput
+                formControlName="bussDateStartedAct"
+                [matDatepicker]="picker"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error>
+                La fecha de Inicio de Actividades es requerido.
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Fecha de Ingreso al Estudio</mat-label>
+              <input
+                matInput
+                formControlName="bussDateMembership"
+                [matDatepicker]="picker1"
+                [formControl]="date"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker1"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </mat-grid-tile>
+        </div>
+      </mat-grid-list>
+      <h3>Datos del Representante Legal</h3>
+      <mat-divider></mat-divider>
+      <mat-grid-list [cols]="cols" rowHeight="6rem" appearance="fillx">
+        <div formGroupName="person">
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Tipo de Identificación</mat-label>
+              <mat-select formControlName="perKindDoc">
+                <mat-option value="1">DNI</mat-option>
+                <mat-option value="2">Carnet de Extranjeria</mat-option>
+              </mat-select>
+              <mat-error> EL tipo de identidad es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>DNI</mat-label>
+              <input matInput formControlName="perNumberDoc" />
+              <mat-error> EL número de identidad es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Nombres y Apellidos</mat-label>
+              <input matInput formControlName="perName" />
+              <mat-error> Los nombres y apellidos son requeridos. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Número de teléfono</mat-label>
+              <input matInput formControlName="perTel" />
+              <mat-error> El número de telefono es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        </div>
+      </mat-grid-list>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button
+      mat-button
+      cdkFocusInitial
+      type="submit"
+      [disabled]="!businessForm.valid"
+      (click)="mostradata(businessForm.value)"
+    >
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</div>

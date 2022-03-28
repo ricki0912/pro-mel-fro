@@ -7,5 +7,4 @@ export interface User extends ParentInterface {
     email: string,
     password: string,
     person: Person
-
 }
