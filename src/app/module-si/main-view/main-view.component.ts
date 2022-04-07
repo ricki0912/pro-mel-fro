@@ -42,7 +42,7 @@ export class MainViewComponent implements OnInit {
         this.signOut();
       }
       this.currentUser = this.tokenService.getUser();
-
+      console.log(this.currentUser)
   }
 
 

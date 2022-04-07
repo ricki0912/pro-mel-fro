@@ -1,0 +1,103 @@
+
+.target{
+    width: calc(100% - 0.9vh);
+    box-sizing: border-box;
+    margin: 0.9vh;
+}
+
+
+
+.called-target{
+    animation: change-color 1s 10;
+    animation-timing-function: linear;
+
+    /*
+    box-shadow:
+    inset 0 -3em 3em rgba(255, 0, 0, 0.1),
+          1px 1px  1px 2px rgb(255, 118, 118),
+          0.3em 0.3em 0.3em 0.3em rgba(255, 0, 0, 0.2);
+*/
+}
+
+@keyframes change-color{
+    0%{
+        //border: 0.8vh solid white;
+  
+
+    }
+    50%{
+        //border: 0.8vh solid white;
+  
+
+    }
+
+    51%{
+       // background-color: black;
+       border: 0.9vh solid #f00;
+  
+    }
+    100%{
+        // background-color: black;
+        border: 0.9vh solid #f00;
+   
+     }
+}
+
+.called-target .ticket{
+    animation: animation-target-ticket 1s 10;
+    animation-timing-function: linear;
+    /*
+    box-shadow:
+    inset 0 -3em 3em rgba(255, 0, 0, 0.1),
+          1px 1px  1px 2px rgb(255, 118, 118),
+          0.3em 0.3em 0.3em 0.3em rgba(255, 0, 0, 0.2);
+*/
+}
+
+@keyframes animation-target-ticket{
+    0%{
+        color: white;
+    }
+
+    50%{
+        color: white;
+
+    }
+   
+    51%{
+        font-size: 9.4vh; 
+
+        color: red;
+
+    }
+    100%{
+        color: red;
+        font-size: 9.4vh; 
+
+
+    }
+   
+   
+}
+
+.called-target .teller{
+    animation: animation-target-teller 1s 10;
+    animation-timing-function: linear;
+    /*
+    box-shadow:
+    inset 0 -3em 3em rgba(255, 0, 0, 0.1),
+          1px 1px  1px 2px rgb(255, 118, 118),
+          0.3em 0.3em 0.3em 0.3em rgba(255, 0, 0, 0.2);
+*/
+}
+
+@keyframes animation-target-teller{
+    0%{
+        font-size: 3.0vh;
+        color: white;
+    }
+}
+
+
+
+

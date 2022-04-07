@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TicketRoutingModule } from './ticket-routing.module';
-import { TicketComponent } from './ticket.component';
+import { TicketComponent  } from './ticket.component';
 
 import {MatIconModule } from '@angular/material/icon';
 import {MatGridListModule} from '@angular/material/grid-list';
@@ -17,9 +17,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import {MatSelectModule} from '@angular/material/select';
 
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
+import { ChronometerModule } from 'src/app/shared/components/chronometer/chronometer.module';
+
 @NgModule({
   declarations: [
-    TicketComponent
+    TicketComponent, 
   ],
   imports: [
     CommonModule,
@@ -33,7 +38,10 @@ import {MatSelectModule} from '@angular/material/select';
     MatCheckboxModule,
     MatTableModule, 
     MatSelectModule,
-    TicketRoutingModule
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    TicketRoutingModule,
+    ChronometerModule
   ]
 })
 export class TicketModule { }

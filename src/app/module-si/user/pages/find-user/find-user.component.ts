@@ -61,7 +61,7 @@ export class FindUserComponent implements OnInit, OnDestroy {
   mediaSub!: Subscription;
 
 
-  title = "Añadir una vantanilla julio"
+  title = "Establecer un usuario para esta ventanilla"
   
   constructor(
     public mediaObserver: MediaObserver,

@@ -1,12 +1,12 @@
 <mat-grid-list cols="1" rowHeight="30px" style="margin-top:10px ;">
     <mat-grid-tile colspan="1" rowspan="1">
         <div class="div-title">
-            <span>Usuarios</span>
+            <span>Linea de Espera</span>
             <span>
                 <mat-icon>
                     keyboard_arrow_right</mat-icon>
             </span>
-            <span>Gestion de Usuarios</span>
+            <span>Tickets </span>
         </div>
     </mat-grid-tile>
 </mat-grid-list>
@@ -29,20 +29,20 @@
 
 
                 <mat-card-title-group>
-                    <mat-card-subtitle> <b>En espera</b> </mat-card-subtitle>
+                    <mat-card-subtitle> <b>Tickets en espera</b> </mat-card-subtitle>
                     <mat-card-actions>
-                        <button mat-button>
+                        <button mat-button (click)="selectSearch()">
                             <mat-icon>autorenew</mat-icon>Actualizar
                         </button>
-                        <button mat-button>
+                        <!--<button mat-button>
                             <mat-icon>pause</mat-icon>Espera
-                        </button>
-                        <button mat-button>
+                        </button>--->
+                        <button mat-button (click)="openDialogChageTeller()" [disabled]="selection.selected.length==0">
                             <mat-icon>swap_horiz</mat-icon>Transferir
                         </button>
 
 
-
+<!--
                         <div style="z-index:5; 
               position : fixed;
               display : flex; 
@@ -85,7 +85,7 @@
 
 
 
-                        </div>
+                        </div>-->
 
 
                     </mat-card-actions>
@@ -105,16 +105,41 @@
                             </mat-select>
                         </mat-form-field> -->
 
-                          <mat-form-field appearance="fill">
-                            <mat-label>fasdfasdf</mat-label>
-                            <mat-select 
-                                >
-                                <mat-option >
-                                    fasdfasdf
+                          <mat-form-field appearance="legacy">
+                            <mat-label>Ventanilla</mat-label>
+                            <mat-select [(value)]="selectedTeller" (selectionChange)="selectSearch()"  >
+                                <mat-option value="0" selected>
+                                    Todos
+                                </mat-option>
+                                <mat-option [value]="teller.tellId"  *ngFor="let teller of tellers">
+                                    {{teller.tellCode}} - {{teller.tellName}} ({{teller.callPending}})
                                 </mat-option>
                             </mat-select>
                         </mat-form-field> 
 
+                        <mat-form-field appearance="legacy">
+                            <mat-label>Categoria</mat-label>
+                            <mat-select [(value)]="selectedCategory" (selectionChange)="selectSearch()"  >
+                                <mat-option value="0" selected>
+                                    Todos
+                                </mat-option>
+                                <mat-option [value]="category.catId" *ngFor="let category of categories">
+                                    {{category.catNameLong}}
+                                </mat-option>
+                            </mat-select>
+
+                        </mat-form-field> 
+                        <mat-card
+                        *ngIf="isLoading"
+                        style="
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                        "
+                      >
+                        <mat-progress-spinner color="primary" mode="indeterminate">
+                        </mat-progress-spinner>
+                      </mat-card>
                         <table mat-table [dataSource]="dataSource">
 
                             <!-- Checkbox Column -->
@@ -137,25 +162,31 @@
                             <!-- Position Column -->
                             <ng-container matColumnDef="position">
                                 <th mat-header-cell *matHeaderCellDef> No. </th>
-                                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                                <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>
                             </ng-container>
 
-                            <!-- Name Column -->
-                            <ng-container matColumnDef="name">
-                                <th mat-header-cell *matHeaderCellDef> Categoria </th>
-                                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                            <ng-container matColumnDef="ticket">
+                                <th mat-header-cell *matHeaderCellDef> Numero Ticket </th>
+                                <td mat-cell *matCellDef="let element"> {{joinCodeTicket(element)}} </td>
                             </ng-container>
 
                             <!-- Weight Column -->
-                            <ng-container matColumnDef="weight">
-                                <th mat-header-cell *matHeaderCellDef> Numero Ticket </th>
-                                <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+                            <ng-container matColumnDef="teller">
+                                <th mat-header-cell *matHeaderCellDef> Ventanilla </th>
+                                <td mat-cell *matCellDef="let element"> {{ filterTeller(element.tellId).tellName}} </td>
+                            </ng-container>
+                            
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="category">
+                                <th mat-header-cell *matHeaderCellDef> Categoria </th>
+                                <td mat-cell *matCellDef="let element"> {{filterCategory(element.catId).catNameLong}} </td>
                             </ng-container>
 
+                           
                             <!-- Symbol Column -->
-                            <ng-container matColumnDef="symbol">
+                            <ng-container matColumnDef="time">
                                 <th mat-header-cell *matHeaderCellDef> Tiempo Espera </th>
-                                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                                <td mat-cell *matCellDef="let element"> <app-chronometer [elapsedSeconds]="element.elapsedSeconds"></app-chronometer> </td>
                             </ng-container>
 
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -164,12 +195,13 @@
                             </tr>
                         </table>
 
+                       
+
                     </div>
                 </mat-card-content>
 
 
             </mat-card>
-
         </div>
     </mat-grid-tile>
 </mat-grid-list>

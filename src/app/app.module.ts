@@ -19,6 +19,10 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatIconModule } from '@angular/material/icon';
 import { DialogConfirmationComponent } from './shared/components/dialog-confirmation/dialog-confirmation.component';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,8 +30,8 @@ import { DialogConfirmationComponent } from './shared/components/dialog-confirma
     ShowMessageComponent,
     MatSnackBarComponent,
     DialogConfirmationComponent,
-
-   
+    
+    
   ],
   imports: [
     BrowserModule,
@@ -38,6 +42,8 @@ import { DialogConfirmationComponent } from './shared/components/dialog-confirma
         MatProgressBarModule,
         MatButtonModule,
         MatIconModule,
+        
+        SocketIoModule.forRoot(config)
   ],
   providers: [MatSnackBar,
     {

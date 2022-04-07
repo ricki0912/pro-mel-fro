@@ -15,3 +15,25 @@ export interface Teller extends ParentInterface{
   hqId?:number;
   userId?:number;
 }
+
+
+export interface TTellerJoinPerson {
+  tellId?: number;
+  tellCode?: string;
+  tellName?: string;
+  tellMaxInWait?: number;
+  tellState?: number;
+  hqId?: number;
+  userId?: number;
+  updated_at?: string;
+  created_at?: string;
+  perId?: number;
+  perKindDoc?: string;
+  perNumberDoc?: string;
+  perName?: string;
+  perAddress?: string;
+  perTel?: string;
+  perEmail?: string;
+
+  callPending?:number;
+}

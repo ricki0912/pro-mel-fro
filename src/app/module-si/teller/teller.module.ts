@@ -33,13 +33,15 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CardTellerComponent } from './pages/card-teller/card-teller.component';
 import {MatChipsModule} from '@angular/material/chips';
+import { FindTellerComponent } from './pages/find-teller/find-teller.component';
 
 
 @NgModule({
   declarations: [
     TellerComponent,
     EditComponent,
-    CardTellerComponent
+    CardTellerComponent,
+    FindTellerComponent
   ],
   imports: [
     TellerRoutingModule,

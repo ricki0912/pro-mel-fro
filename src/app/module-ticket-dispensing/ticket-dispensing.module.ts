@@ -17,6 +17,8 @@ import { BodyComponent } from './ticket-dispensing/pages/body/body.component';
 import { ListCategoryComponent } from './ticket-dispensing/pages/list-category/list-category.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { LoadingComponent } from './ticket-dispensing/pages/loading/loading.component';
+import { AlertComponent } from './ticket-dispensing/pages/alert/alert.component';
+import { DatePipe } from '@angular/common'
 
 
 @NgModule({
@@ -27,6 +29,7 @@ import { LoadingComponent } from './ticket-dispensing/pages/loading/loading.comp
     BodyComponent,
     ListCategoryComponent,
     LoadingComponent,
+    AlertComponent,
   
   ],
   imports: [
@@ -40,6 +43,8 @@ import { LoadingComponent } from './ticket-dispensing/pages/loading/loading.comp
     FormsModule,
     MatProgressSpinnerModule
 
-  ]
+  ],
+  providers: [DatePipe]
+
 })
 export class TicketDispensingModule { }

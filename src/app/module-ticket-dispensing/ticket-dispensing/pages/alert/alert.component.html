@@ -1,0 +1,43 @@
+<div style="width: 100vw; height: 40vh; display: table-cell; 
+text-align: center;
+vertical-align: middle;" *ngIf="isDisplay">
+  <i style="font-size: calc(2em + 6vw);" [class]="(alert.state==AL.SUCCESS)?'bi bi-check-circle-fill text-success':'bi bi-x-circle-fill text-danger'"></i><br>
+  <span class="fs-2">{{alert.message}}</span>
+
+  <div class="container">
+    <div class="row" *ngIf="alert.state==AL.ERROR">
+
+      <div class=" d-grid gap-2  col-md-6 col-sm-12 col-12 my-2  col-md">
+        <button class="btn btn-danger" type="button" style="width: 100%;" (click)="onComeBack()">
+          <div style=" width: 100%;" class="d-flex justify-content-between align-items-center">
+            <span class="fs-1"> Regresar a inicio</span>
+            <i style="font-size: calc(1em + 1vw);" class="bi bi-arrow-right-circle-fill"></i>
+          </div>
+        </button>
+      </div>
+
+
+      <div class=" d-grid gap-2  col-md-6 col-sm-12 col-12 my-2  col-md">
+        <button class="btn btn-success" type="button" style="width: 100%;" (click)="onTryAgain()">
+          <div style=" width: 100%;" class="d-flex justify-content-between align-items-center">
+            <span class="fs-1"> Reintentar de nuevo</span>
+            <i style="font-size: calc(1em + 1vw);" class="bi bi-arrow-right-circle-fill "></i>
+          </div>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="row justify-content-center" *ngIf="alert.state==AL.SUCCESS">
+      <div class=" d-grid gap-2  col-md-6 col-sm-12 col-12 my-2  col-md">
+        <button class="btn btn-success" type="button" style="width: 100%;" (click)="onSuccess()">
+          <div style=" width: 100%;" class="d-flex justify-content-between align-items-center">
+            <span class="fs-1"> Regresar a inicio</span>
+            <i style="font-size: calc(1em + 1vw);" class="bi bi-arrow-right-circle-fill"></i>
+          </div>
+        </button>
+      </div>
+  
+    </div>
+  </div>
+</div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HeadService } from './head.service';
 
 @Component({
   selector: 'app-head',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeadComponent implements OnInit {
 
-  constructor() { }
+  public message:string=''
+  constructor(private headService:HeadService) {
+    
+   }
 
   ngOnInit(): void {
+    this.headService.onMessage.subscribe(d =>{
+      this.message=d
+      })
+  
   }
+  
+
 
 }

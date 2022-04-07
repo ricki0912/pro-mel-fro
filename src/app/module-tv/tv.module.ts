@@ -12,14 +12,24 @@ import { TimeComponent } from './tv/pages/time/time.component';
 
 import { YouTubePlayerModule } from "@angular/youtube-player";
 
+import { FormsModule }   from '@angular/forms';
+import { TargetCallComponent } from './tv/pages/target-call/target-call.component';
 
 
 @NgModule({
-  declarations: [TVComponent, NotificationComponent, VideoComponent, CalledComponent, TimeComponent],
+  declarations: [
+    TVComponent,
+    NotificationComponent, 
+    VideoComponent, 
+    CalledComponent, 
+    TimeComponent, 
+    TargetCallComponent
+  ],
   imports: [
     CommonModule,
     TVRoutingModule,
     MatGridListModule,
+    FormsModule,
     /*VIDEO */
     YouTubePlayerModule
   ]

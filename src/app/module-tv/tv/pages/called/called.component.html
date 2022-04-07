@@ -2,95 +2,17 @@
 
   <mat-grid-list cols="5" rowHeight="20vh">
 
-    <mat-grid-tile colspan="1" rowspan="1" class="called last-called">
-      <table>
+    <mat-grid-tile colspan="1" rowspan="1" class="called "  *ngFor="let element of tAppointmentTemps">
+      <app-target-call  style="width: 100%" [tAppointmentTemp]="element" ></app-target-call> 
+      <!--<table>
         <tr style="text-align: center; vertical-align: middle; ">
           <span style="font-size: 9vh; font-weight: bold;">C001</span>
         </tr>
         <tr style="text-align: center; vertical-align: middle; ;">
           <span style="font-size: 3.9vh;">Ventanilla - V012</span>
         </tr>
-      </table>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="1" rowspan="1" class="called last-called">
-      <table>
-        <tr style="text-align: center; vertical-align: middle; ">
-          <span style="font-size: 9vh; font-weight: bold;">C001</span>
-        </tr>
-        <tr style="text-align: center; vertical-align: middle; ;">
-          <span style="font-size: 3.9vh;">Ventanilla - V012</span>
-        </tr>
-      </table>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="1" rowspan="1" class="called last-called">
-      <table>
-        <tr style="text-align: center; vertical-align: middle; ">
-          <span style="font-size: 9vh; font-weight: bold;">C001</span>
-        </tr>
-        <tr style="text-align: center; vertical-align: middle; ;">
-          <span style="font-size: 3.9vh;">Ventanilla - V012</span>
-        </tr>
-      </table>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="1" rowspan="1" class="called ">
-      <table>
-        <tr style="text-align: center; vertical-align: middle; ">
-          <span style="font-size: 9vh; font-weight: bold;">C001</span>
-        </tr>
-        <tr style="text-align: center; vertical-align: middle; ;">
-          <span style="font-size: 3.9vh;">Ventanilla - V012</span>
-        </tr>
-      </table>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="1" rowspan="1" class="called ">
-      <table>
-        <tr style="text-align: center; vertical-align: middle; ">
-          <span style="font-size: 9vh; font-weight: bold;">C001</span>
-        </tr>
-        <tr style="text-align: center; vertical-align: middle; ;">
-          <span style="font-size: 3.9vh;">Ventanilla - V012</span>
-        </tr>
-      </table>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="1" rowspan="1" class="called ">
-      <table>
-        <tr style="text-align: center; vertical-align: middle; ">
-          <span style="font-size: 9vh; font-weight: bold;">C001</span>
-        </tr>
-        <tr style="text-align: center; vertical-align: middle; ;">
-          <span style="font-size: 3.9vh;">Ventanilla - V012</span>
-        </tr>
-      </table>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="1" rowspan="1" class="called ">
-      <table>
-        <tr style="text-align: center; vertical-align: middle; ">
-          <span style="font-size: 9vh; font-weight: bold;">C001</span>
-        </tr>
-        <tr style="text-align: center; vertical-align: middle; ;">
-          <span style="font-size: 3.9vh;">Ventanilla - V012</span>
-        </tr>
-      </table>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="1" rowspan="1" class="called ">
-      <table>
-        <tr style="text-align: center; vertical-align: middle; ">
-          <span style="font-size: 9vh; font-weight: bold;">C001</span>
-        </tr>
-        <tr style="text-align: center; vertical-align: middle; ;">
-          <span style="font-size: 3.9vh;">Ventanilla - V012</span>
-        </tr>
-      </table>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="1" rowspan="1" class="called ">
-      <table>
-        <tr style="text-align: center; vertical-align: middle; ">
-          <span style="font-size: 9vh; font-weight: bold;">C001</span>
-        </tr>
-        <tr style="text-align: center; vertical-align: middle; ;">
-          <span style="font-size: 3.9vh;">Ventanilla - V012</span>
-        </tr>
-      </table>
+
+      </table>-->
     </mat-grid-tile>
   </mat-grid-list>
 </div>

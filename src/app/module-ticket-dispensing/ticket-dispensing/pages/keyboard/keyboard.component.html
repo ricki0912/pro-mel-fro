@@ -16,11 +16,11 @@
                       </mat-form-field>-->
 
             <div class="input-group input-group-lg">
-              <input type="text" class="form-control" [(ngModel)]="value" placeholder="DNI O RUC" aria-label="Recipient's username"
+              <input type="text" class="form-control" (keydown)="beforeSearch()" [(ngModel)]="value" placeholder="DNI O RUC" aria-label="Recipient's username"
                 aria-describedby="basic-addon2">
               <div class="input-group-append input-group-lg">
-                <button class="btn " color="primary" mat-raised-button>E</button>
-                <button class="btn btn-success" (click)="sendValue()" mat-raised-button>Siguiente</button>
+                <button class="btn btn-danger"  mat-raised-button (click)="clearAll()"><i class="bi bi-trash" ></i></button>
+                <button [disabled]="!state" class="btn btn-success" (click)="sendValue()" mat-raised-button>Siguiente   <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" *ngIf="loading"></span> <i class="bi bi-arrow-right-circle-fill" *ngIf="!loading"></i></button>
 
               </div>
             </div>
@@ -32,6 +32,7 @@
       </tr>
       <tr>
         <td colspan="3">
+         <!-- <span>{{message}}</span>-->
         </td>
       </tr>
       <tr *ngFor="let keyrow of keys; let i=index ">

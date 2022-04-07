@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import { Observable , throwError} from 'rxjs';
-import {Teller} from '../interfaces/teller';
+import {Teller, TTellerJoinPerson} from '../interfaces/teller';
 
 
 import { catchError, retry } from 'rxjs/operators';
@@ -76,6 +76,13 @@ export class TellerService extends ParentService {
     return this.https.delete<InterfaceParamsResponse<Category>>(`${this.API_TELLER}/${id}/detach-category/${catId}`);
   }
 
+  /*join */
+  public getJoinPerson():Observable<InterfaceParamsResponse<TTellerJoinPerson>>{
+    return this.https.get<InterfaceParamsResponse<TTellerJoinPerson>>(`${this.API_TELLER}/get-join-person`);
+  }
 
+  public getJoinPersonByUser(id:number):Observable<InterfaceParamsResponse<TTellerJoinPerson>>{
+    return this.https.get<InterfaceParamsResponse<TTellerJoinPerson>>(`${this.API_TELLER}/get-join-person`);
+  }
 
 }

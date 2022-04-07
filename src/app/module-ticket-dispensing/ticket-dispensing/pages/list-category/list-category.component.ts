@@ -23,6 +23,7 @@ export class ListCategoryComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  
   public sendIdCategory(id:number){
     this.onSendIdCategory.emit(id)
   }

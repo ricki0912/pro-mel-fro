@@ -1,18 +1,29 @@
-<app-head> Selecciona un servicio</app-head>
+<app-head> 
+</app-head>
 
-<app-list-category (onSendIdCategory)="next(CT.CATEGORY, $event)" [categoriesTreeSelected]="categoriesTreeSelected"
-  *ngIf="componentSelected==CT.CATEGORY"></app-list-category>
+<app-list-category (onSendIdCategory)="onClickCategory($event)" 
+  [categoriesTreeSelected]="getCategoriesTreeSelected()"
+  *ngIf="componentSelected==CT.CATEGORY">
+</app-list-category>
 
 
-<app-keyboard (onSendValue)="onSendValue($event)" *ngIf="componentSelected==CT.KEYBOARD">
+<app-keyboard 
+  (onReturnValue)="onAuth($event)" 
+  [categoryTree]="categoryTree" 
+  *ngIf="componentSelected==CT.KEYBOARD">
 </app-keyboard>
 
-<app-loading *ngIf="componentSelected==CT.LOADING">Enviando información espere por favor.jhghjkg</app-loading>
+<app-loading 
+  *ngIf="componentSelected==CT.LOADING">
+  {{loadingMessage}}
+</app-loading>
 
 
-<div class="footer fixed-bottom d-flex justify-content-around mb-3">
+<div class="footer fixed-bottom d-flex justify-content-around mb-3" *ngIf="componentSelected==CT.CATEGORY || componentSelected==CT.KEYBOARD ">
   <div>
-    <button mat-icon-button (click)="back()">
+    <button mat-icon-button 
+    (click)="back()"
+    *ngIf="history.length>1">
       <mat-icon class="size-icon-options">
         arrow_back_ios
       </mat-icon>
@@ -20,12 +31,17 @@
   </div>
   <div>
     <button mat-icon-button 
-    (click)="back()"><mat-icon class="size-icon-options">home</mat-icon></button>
+    (click)="home()"
+    *ngIf="history.length>1"><mat-icon class="size-icon-options">home</mat-icon></button>
   </div>
   <div>
     <button mat-icon-button 
-      (click)="home()">
+      (click)="home()"
+      *ngIf="false">
        <mat-icon class="size-icon-options">arrow_forward_ios</mat-icon>
     </button>
   </div>
 </div>
+
+<app-alert >
+</app-alert>

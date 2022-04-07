@@ -1,6 +1,19 @@
+import { Component, Input, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { CategoryService } from 'src/app/services/category.service';
+import { Teller, TTellerJoinPerson } from 'src/app/interfaces/teller';
+import { TellerService } from 'src/app/services/teller.service';
+import { Category } from 'src/app/interfaces/category';
+import { FindTellerComponent } from '../teller/pages/find-teller/find-teller.component';
+import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
+import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { AppointmentTempService } from 'src/app/services/appointment-temp.service';
+import { AppointmentTemp, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
+import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
+import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
+
 
 @Component({
   selector: 'app-call',
@@ -8,16 +21,36 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./call.component.scss']
 })
 export class CallComponent implements OnInit {
+  user:any={}
+  
+  isLoading: boolean = false
+  /*Combo box */
+  //categories: Category[] = [];
+  tellers: TTellerJoinPerson[] = []
+  selectedCategory: number = 0
+  selectedTeller: number = 0
 
-  constructor() { }
+
+  displayedColumns: string[] = ['select', 'position', 'ticket', 'code_category', 'category', 'time'];
+  dataSource = new MatTableDataSource<TAppointmentTemp>();
+  selection = new SelectionModel<TAppointmentTemp>(true, []);
+  
+  constructor(
+    private categoryService: CategoryService,
+    private tellerService: TellerService,
+    private appointmentTempService: AppointmentTempService,
+    private dialog: MatDialog, 
+    private showMessage:ShowMessageService,
+    private tokenService: TokenStorageService,
+
+  ) { }
 
   ngOnInit(): void {
+    //this.readCategory();
+    this.readTeller();
+    //this.readAppointmentTempCRUD(0,0);
   }
 
-
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -37,31 +70,100 @@ export class CallComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: TAppointmentTemp): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.apptmId}`;
   }
+
+  //
+  joinCodeTicket(element: AppointmentTemp) {
+    return element.catCode + String(element.apptmNro).padStart(2, '0')
+  }
+
+  //dialog
+  openDialogChageTeller() {
+    const dialogRef = this.dialog.open(FindTellerComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: null,
+        type: TYPES_ACTIONS_DIALOG.ADD
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: Teller) => {
+      if (result) {
+        const apptmIds:number[]= this.selection.selected.reduce(( p:number[], c:TAppointmentTemp)=>[...p, c.apptmId || -1], [])
+        this.updateTeller(apptmIds, result.tellId || -1)
+      }
+    });
+  } 
+  //select search
+  selectSearch(){
+    this.readAppointmentTempCRUD(this.selectedTeller, this.selectedCategory)
+  }
+
+  filterTeller(tellId:number):TTellerJoinPerson{
+    return this.tellers.filter(t=>t.tellId==tellId)[0]
+  }
+
+  /*filterCategory(catId:number):Category{
+    return this.categories.filter(c=>c.catId==catId)[0]
+  }*/
+
+  
+  //read
+  /*private readCategory() {
+    this.categoryService.all().subscribe({
+      next: d => this.categories = d
+    })
+  }*/
+
+  private readTeller() {
+    this.tellerService.getJoinPerson().subscribe({
+      next: d => {
+        this.tellers = d.data  as TTellerJoinPerson[]
+        this.selectedTeller=this.tellers.filter(t=>t.userId==this.tokenService.getUser().user.id)[0].tellId || 0
+        if(this.selectedTeller!=0)
+          this.selectSearch()
+      }
+    })
+  }
+
+  private updateTellerCRUD() {
+
+  }
+
+
+
+  readAppointmentTempCRUD(tellId:number, catId:number): boolean {
+    this.isLoading = true;
+    this.appointmentTempService.getAllBy(tellId, catId).subscribe({
+      next: (r) => {
+        this.isLoading = false;
+        this.dataSource.data = r.data as TAppointmentTemp[]
+        this.selection.clear() 
+
+      },
+      error: () => {
+        
+      }
+    });
+
+    return true
+  }
+
+  private updateTeller(apptmIds:number[], tellId:number){
+    this.appointmentTempService.updateTeller(apptmIds, tellId).subscribe({
+      next:d=>{
+        this.showMessage.success({message:d.msg})
+
+      }, 
+      error:e=>{
+        this.showMessage.error({message:e.error.message,  action: ()=>this.updateTeller(apptmIds, tellId)})
+      }
+    })
+  }
+
+
 }
-
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];

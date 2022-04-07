@@ -1,0 +1,126 @@
+<mat-card class="example-card mat-elevation-z8">
+
+
+
+  <mat-card-title-group>
+    <mat-card-subtitle> <b>Atención actual</b> </mat-card-subtitle>
+    <mat-card-actions>
+      <button mat-button [disabled]="!tAppointmentTemp" (click)="openDialogChageTeller()">
+        <mat-icon>swap_horiz</mat-icon>Transferir
+      </button>
+      <!--
+            <div style="z-index:5; 
+          position : fixed;
+          display : flex; 
+          align-self : flex-end; 
+          align-items: center;
+          
+          bottom : 3px;
+          right: 3px;
+          
+          
+          ">
+
+              <mat-list style="">
+                <mat-list-item style="margin: 5px 0px 5px 0px; display: flex;
+      justify-content: center;">
+                  <button mat-mini-fab [matMenuTriggerFor]="menup" color="primary" aria-label="Opciones">
+                    <mat-icon>tune</mat-icon>
+                  </button>
+
+                  <mat-menu #menup="matMenu">
+                    <button mat-menu-item>
+                      <mat-icon>delete</mat-icon>
+                      Eliminar
+                    </button>
+                    <button mat-menu-item>
+                      <mat-icon>edit</mat-icon>
+                      <span>Editar</span>
+                    </button>
+                  </mat-menu>
+
+                </mat-list-item>
+                <mat-list-item style="margin: 5px 0px 5px 0px;; display: flex;
+      justify-content: center;">
+                  <button mat-fab color="accent" aria-label="Añadir">
+                    <mat-icon>person_add</mat-icon>
+                  </button>
+                </mat-list-item>
+              </mat-list>
+
+
+
+            </div> -->
+
+
+    </mat-card-actions>
+  </mat-card-title-group>
+  <mat-divider></mat-divider>
+
+
+  <mat-card-content>
+
+
+
+    <div class="">
+      <table style="width: 100%;">
+        <tr>
+          <td>
+            <div class="control-now">Tiempo de servicio: </div>
+          </td>
+          <td>
+            <div class="control-now">
+              <mat-icon>access_time</mat-icon><span><b>
+                  <app-chronometer *ngIf="tAppointmentTemp!=null" [elapsedSeconds]="tAppointmentTemp.elapsedSecondsStartAttention"></app-chronometer>
+                  {{(tAppointmentTemp==null)?'- - - -':''}}
+                </b></span>
+            </div>
+          </td>
+        </tr>
+        <mat-divider></mat-divider>
+
+        <tr>
+          <td>
+            <div class="control-now">
+              <mat-icon>note</mat-icon><span><b>{{(tAppointmentTemp!=null)?joinCodeTicket(tAppointmentTemp):'- - -
+                  -'}}</b></span>
+            </div>
+          </td>
+          <td>
+            <div class="control-now">
+              <mat-icon>device_hub</mat-icon><span><b>{{(tAppointmentTemp!=null)?tAppointmentTemp.catCode:'- - -
+                  -'}}</b></span>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="tAppointmentTemp==null">
+          <td colspan="2">
+            <button  mat-button style="background-color: green; color:white; width: 100%;" (click)="callNext()">Llamar
+              siguiente</button>
+          </td>
+        </tr>
+        <tr *ngIf="tAppointmentTemp!=null">
+          <td>
+            <button mat-button style="background-color: #007bff; color:white; width: 100%;" (click)="beforeCallAgain()">Re Llamar</button>
+          </td>
+          <td>
+            <button mat-button style="background-color: #17a2b8; color:white; width: 100%;" (click)="undoCall(tAppointmentTemp.apptmId || -1)"> Regresar</button>
+          </td>
+        </tr>
+        <tr *ngIf="tAppointmentTemp!=null">
+          <td colspan="2">
+            <button mat-button style="background-color: #dc3545;; color:white; width: 100%;" (click)="openDialogAddComment()">Finalizar</button>
+          </td>
+
+        </tr>
+
+      </table>
+
+
+    </div>
+  </mat-card-content>
+
+  <mat-card-footer>
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

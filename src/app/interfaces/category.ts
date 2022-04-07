@@ -4,6 +4,10 @@ export enum CATEGORY_TYPES_AUTH{
   NEITHER= 1, DNI=2, RUC=3, ANYONE=4
 }
 
+export enum CATEGORY_LINK_BUS{
+  YES=1, NO=2
+}
+
 export interface Category extends ParentInterface{
   catId?: number;
   catCode?: string;

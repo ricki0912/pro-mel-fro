@@ -1,12 +1,12 @@
 <mat-grid-list cols="1" rowHeight="30px" style="margin-top:10px ;">
   <mat-grid-tile colspan="1" rowspan="1">
     <div class="div-title">
-      <span>Atención</span>
+      <span>Linea de Espera</span>
       <span>
         <mat-icon>
           keyboard_arrow_right</mat-icon>
       </span>
-      <span>Ventanilla 01</span>
+      <span>{{filterTeller(selectedTeller).tellName || ''}}</span>
     </div>
   </mat-grid-tile>
 </mat-grid-list>
@@ -15,11 +15,12 @@
 <mat-grid-list cols="12" rowHeight="100%" appearance="fillx">
   <mat-grid-tile colspan="7" rowspan="1">
 
+
     <div style=" display: flex;
-      flex-direction: column;
-      height: 100%;
-      width: 100%;
-      justify-content: space-between;">
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    justify-content: space-between;">
 
 
       <mat-card class="example-card mat-elevation-z8">
@@ -27,61 +28,63 @@
 
 
         <mat-card-title-group>
-          <mat-card-subtitle> <b>En espera</b> </mat-card-subtitle>
+          <mat-card-subtitle> <b>Tickets en espera</b> </mat-card-subtitle>
           <mat-card-actions>
-            <button mat-button>
+            <button mat-button (click)="selectSearch()">
               <mat-icon>autorenew</mat-icon>Actualizar
             </button>
             <button mat-button>
               <mat-icon>pause</mat-icon>Espera
             </button>
-            <button mat-button>
+            <button mat-button (click)="openDialogChageTeller()" [disabled]="selection.selected.length==0">
               <mat-icon>swap_horiz</mat-icon>Transferir
             </button>
 
 
+            <!--
+                    <div style="z-index:5; 
+          position : fixed;
+          display : flex; 
+          align-self : flex-end; 
+          align-items: center;
+          
+          bottom : 3px;
+          right: 3px;
+          
+          
+          ">
 
-            <div style="z-index:5; 
-            position : fixed;
-            display : flex; 
-            align-self : flex-end; 
-            align-items: center;
-            
-            bottom : 3px;
-            right: 3px;
-            
-            
-            ">
+                        <mat-list style="">
+                            <mat-list-item
+                                style="margin: 5px 0px 5px 0px; display: flex;    justify-content: center;">
+                                <button mat-mini-fab [matMenuTriggerFor]="menup" color="primary"
+                                    aria-label="Opciones">
+                                    <mat-icon>tune</mat-icon>
+                                </button>
 
-              <mat-list style="">
-                <mat-list-item style="margin: 5px 0px 5px 0px; display: flex;    justify-content: center;">
-                  <button mat-mini-fab [matMenuTriggerFor]="menup" color="primary" aria-label="Opciones">
-                    <mat-icon>tune</mat-icon>
-                  </button>
+                                <mat-menu #menup="matMenu">
+                                    <button mat-menu-item>
+                                        <mat-icon>delete</mat-icon>
+                                        Eliminar
+                                    </button>
+                                    <button mat-menu-item>
+                                        <mat-icon>edit</mat-icon>
+                                        <span>Editar</span>
+                                    </button>
+                                </mat-menu>
 
-                  <mat-menu #menup="matMenu">
-                    <button mat-menu-item>
-                      <mat-icon>delete</mat-icon>
-                      Eliminar
-                    </button>
-                    <button mat-menu-item>
-                      <mat-icon>edit</mat-icon>
-                      <span>Editar</span>
-                    </button>
-                  </mat-menu>
-
-                </mat-list-item>
-                <mat-list-item style="margin: 5px 0px 5px 0px;; display: flex;
-        justify-content: center;">
-                  <button mat-fab color="accent" aria-label="Añadir">
-                    <mat-icon>person_add</mat-icon>
-                  </button>
-                </mat-list-item>
-              </mat-list>
+                            </mat-list-item>
+                            <mat-list-item style="margin: 5px 0px 5px 0px;; display: flex;
+      justify-content: center;">
+                                <button mat-fab color="accent" aria-label="Añadir">
+                                    <mat-icon>person_add</mat-icon>
+                                </button>
+                            </mat-list-item>
+                        </mat-list>
 
 
 
-            </div>
+                    </div>-->
 
 
           </mat-card-actions>
@@ -91,7 +94,18 @@
 
         <mat-card-content>
           <div class="">
-            <table mat-table [dataSource]="dataSource" >
+            <!--<mat-form-field appearance="fill">
+                        <mat-label>{{ empfilter.name }}</mat-label>
+                        <mat-select [(value)]="empfilter.defaultValue"
+                            (selectionChange)="applyEmpFilter($event, empfilter)">
+                            <mat-option *ngFor="let op of empfilter.options" [value]="op">
+                                {{ op }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+
+       
+            <table mat-table [dataSource]="dataSource">
 
               <!-- Checkbox Column -->
               <ng-container matColumnDef="select">
@@ -111,38 +125,46 @@
               <!-- Position Column -->
               <ng-container matColumnDef="position">
                 <th mat-header-cell *matHeaderCellDef> No. </th>
-                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>
               </ng-container>
 
-              <!-- Name Column -->
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef> Categoria </th>
-                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              <ng-container matColumnDef="ticket">
+                <th mat-header-cell *matHeaderCellDef> Numero Ticket </th>
+                <td mat-cell *matCellDef="let element"> {{joinCodeTicket(element)}} </td>
               </ng-container>
 
               <!-- Weight Column -->
-              <ng-container matColumnDef="weight">
-                <th mat-header-cell *matHeaderCellDef> Numero Ticket </th>
-                <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+              <ng-container matColumnDef="code_category">
+                <th mat-header-cell *matHeaderCellDef> Ventanilla </th>
+                <td mat-cell *matCellDef="let element"> {{ element.teller.tellCode}} </td>
               </ng-container>
 
+              <!-- Name Column -->
+              <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef> Categoria </th>
+                <td mat-cell *matCellDef="let element"> {{element.category.catNameLong}} </td>
+              </ng-container>
+
+
               <!-- Symbol Column -->
-              <ng-container matColumnDef="symbol">
+              <ng-container matColumnDef="time">
                 <th mat-header-cell *matHeaderCellDef> Tiempo Espera </th>
-                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                <td mat-cell *matCellDef="let element">
+                  <app-chronometer [elapsedSeconds]="element.elapsedSeconds"></app-chronometer>
+                </td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
               </tr>
             </table>
-
           </div>
         </mat-card-content>
-
+        <mat-card-footer>
+          <mat-progress-bar mode="indeterminate" *ngIf="isLoading" ></mat-progress-bar>
+        </mat-card-footer>
 
       </mat-card>
-
     </div>
   </mat-grid-tile>
   <mat-grid-tile colspan="5" rowspan="1">
@@ -152,105 +174,9 @@
     width: 100%;
     justify-content: space-between;">
 
-
-      <mat-card class="example-card mat-elevation-z8">
-
-
-
-        <mat-card-title-group>
-          <mat-card-subtitle> <b>Atención actual</b> </mat-card-subtitle>
-          <mat-card-actions>
-            <button mat-button>Transferir</button>
-            <button mat-button>Llamar siguiente</button>
-
-
-
-            <div style="z-index:5; 
-          position : fixed;
-          display : flex; 
-          align-self : flex-end; 
-          align-items: center;
-          
-          bottom : 3px;
-          right: 3px;
-          
-          
-          ">
-
-              <mat-list style="">
-                <mat-list-item style="margin: 5px 0px 5px 0px; display: flex;
-      justify-content: center;">
-                  <button mat-mini-fab [matMenuTriggerFor]="menup" color="primary" aria-label="Opciones">
-                    <mat-icon>tune</mat-icon>
-                  </button>
-
-                  <mat-menu #menup="matMenu">
-                    <button mat-menu-item>
-                      <mat-icon>delete</mat-icon>
-                      Eliminar
-                    </button>
-                    <button mat-menu-item>
-                      <mat-icon>edit</mat-icon>
-                      <span>Editar</span>
-                    </button>
-                  </mat-menu>
-
-                </mat-list-item>
-                <mat-list-item style="margin: 5px 0px 5px 0px;; display: flex;
-      justify-content: center;">
-                  <button mat-fab color="accent" aria-label="Añadir">
-                    <mat-icon>person_add</mat-icon>
-                  </button>
-                </mat-list-item>
-              </mat-list>
-
-
-
-            </div>
-
-
-          </mat-card-actions>
-        </mat-card-title-group>
-        <mat-divider></mat-divider>
-
-
-        <mat-card-content>
-
-
-
-          <div class="">
-            <table style="width: 100%;">
-              <tr>
-                <td>
-                  <div class="control-now">Tiempo de servicio: </div>
-                </td>
-                <td>
-                  <div class="control-now">
-                    <mat-icon>access_time</mat-icon><span><b>01:12:25</b></span>
-                  </div>
-                </td>
-              </tr>
-              <mat-divider></mat-divider>
-
-              <tr>
-                <td>
-                  <div class="control-now">
-                    <mat-icon>note</mat-icon><span><b>C00012</b></span>
-                  </div>
-                </td>
-                <td>
-                  <div class="control-now">
-                    <mat-icon>device_hub</mat-icon><span><b>C00012</b></span>
-                  </div>
-                </td>
-              </tr>
-
-            </table>
-
-
-          </div>
-        </mat-card-content>
-      </mat-card>
+    <app-current-attention (onReturnValue)="selectSearch()" [selectedTApptm]="selection.selected" [selectedTeller]="selectedTeller">
+      
+    </app-current-attention>
     </div>
   </mat-grid-tile>
 </mat-grid-list>
