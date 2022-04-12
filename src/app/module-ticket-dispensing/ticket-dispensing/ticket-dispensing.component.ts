@@ -12,6 +12,8 @@ import { LoadingService } from 'src/app/shared/components/loading/loading.servic
 import { DatePipe } from '@angular/common'
 import { HeadService } from './pages/head/head.service';
 import { AlertService } from './pages/alert/alert.service';
+import { SocketInterface, SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
+import { WaitingLineService } from 'src/app/socket/waiting-line.service';
 
 
 declare var electron: any;
@@ -55,7 +57,8 @@ export class TicketDispensingComponent implements OnInit {
     private loadingService: LoadingService,
     public datepipe: DatePipe,
     private headService:HeadService,
-    private alertService:AlertService
+    private alertService:AlertService,
+    private waitingLineService:WaitingLineService
   ) { }
 
   ngOnInit(): void {
@@ -102,6 +105,7 @@ export class TicketDispensingComponent implements OnInit {
   public onClickCategory(catId: number) {
     const cts = this.getCategoriesTreeSelected()
     const c = cts.filter(row => row.catId == catId);
+    this.categoryTree = c[0]
     if (c[0].children && c[0].children.length > 0) {
       this.history.push({ type: COMPONENT_TYPES.CATEGORY, history: c[0].children })
       //this.categoriesTreeSelected = c[0].children        
@@ -119,7 +123,6 @@ export class TicketDispensingComponent implements OnInit {
 
       }
     }
-    this.categoryTree = c[0]
   }
 
 
@@ -211,6 +214,7 @@ export class TicketDispensingComponent implements OnInit {
       
 
         this.printTicket(data[0])
+        this.setSocketWaitingLine(data[0].tellId || -1, {action: SOCKET_ACTION.WAITING_LINE_ADD_APPOINTMENT, data: data[0]})
       },
       error: e => {
         this.alertService.error({
@@ -228,6 +232,7 @@ export class TicketDispensingComponent implements OnInit {
 
 
   private printTicket(d:AppointmentTemp) {
+    console.log("Listo para imprimir",d)
     this.componentSelected=COMPONENT_TYPES.ALERT;
     this.alertService.success({
       message:"Gracias por su preferencia. No olvide recoger su ticket y esperar su turno.",
@@ -257,6 +262,10 @@ export class TicketDispensingComponent implements OnInit {
     return element.catCode + String(element.apptmNro).padStart(2, '0')
   }
 
+  private setSocketWaitingLine(tellId:number, s:SocketInterface<AppointmentTemp>){
+    this.waitingLineService.setSocketLineWaiting(tellId, s)
+
+}
 }
 
 export enum COMPONENT_TYPES {

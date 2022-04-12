@@ -120,7 +120,8 @@ export class KeyboardComponent implements OnInit {
     
   }
 
-  searchByRUC(d:Bussines) {
+  searchByRUC=(d:Bussines) =>{
+    console.log("DENTRO DE BUSSINES",d)
     if (d) {
       this.appointmentTemp={
         apptKindClient:APPOINTMENT_KIND_CLIENT.BUSINESS,
@@ -133,7 +134,10 @@ export class KeyboardComponent implements OnInit {
       this.state=true;
     }
     else {
-      this.appointmentTemp={}
+      this.appointmentTemp={
+        apptKindClient:APPOINTMENT_KIND_CLIENT.BUSINESS,
+        apptmNumberDocClient:this.value
+      }
       this.loadMessage()
       //this.message = ''
       this.state=true;

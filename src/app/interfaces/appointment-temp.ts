@@ -35,7 +35,7 @@ export interface AppointmentTemp extends ParentInterface {
     catNameLOng?:string
 
     /*atencion en ventanilla*/
-    apptmState?: number, /*En espera, Atendido, Cancelado*/
+    apptmState?: number, /*En espera=1, En atención=2, Atendido=3, 4=no atendido 5=cancelado*/
     apptmNroCalls?:number,
     apptmDateStartAttention?:string,
     apptmDateFinishAttention?:string
@@ -55,3 +55,8 @@ export enum APPOINTMENT_KIND_CLIENT {
     PERSON=2
 }
 
+
+export interface ApptmState{
+    apptmStateId:number,
+    apptmStateName:string
+}

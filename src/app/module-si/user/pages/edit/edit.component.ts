@@ -13,6 +13,7 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit, OnDestroy {
+  TAD=TYPES_ACTIONS_DIALOG
   /*Para renderizar filas */
   cols: number = 1;
   gridByBreakpoint: GridResponsive = {

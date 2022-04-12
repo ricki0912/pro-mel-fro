@@ -6,7 +6,7 @@
         <mat-icon>
           keyboard_arrow_right</mat-icon>
       </span>
-      <span>{{filterTeller(selectedTeller).tellName || ''}}</span>
+      <span>{{currentUser.user.tellers[0]?.tellName || ''}}</span>
     </div>
   </mat-grid-tile>
 </mat-grid-list>

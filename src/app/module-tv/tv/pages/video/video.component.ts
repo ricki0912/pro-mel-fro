@@ -16,7 +16,7 @@ export class VideoComponent implements OnInit {
   public ytEvent:any;
   
   /*Esto actualizar de acuerdo a base de datos*/
-  public videos:string[]=["IKmPci5VXz0", "wcLNteez3c4", "euCqAq6BRa4","jofNR_WkoCE"]
+  public videos:string[]=["rAQl-TTI4bQ", "euCqAq6BRa4", "k4n4nVpRacU","UigG1_rWtI4"]
 
   constructor(
     private _sanitizer:DomSanitizer

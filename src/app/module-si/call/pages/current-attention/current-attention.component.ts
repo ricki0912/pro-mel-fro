@@ -2,6 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
+import { SocketInterface, SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
 import { AppointmentTemp, APPOINTMENT_STATE, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
 import { Teller } from 'src/app/interfaces/teller';
 import { FindTellerComponent } from 'src/app/module-si/teller/pages/find-teller/find-teller.component';
@@ -105,7 +106,8 @@ export class CurrentAttentionComponent implements OnInit {
           this.tAppointmentTemp=t[0]
           
           this.returnValue()
-          this.setTVAddTargetCall(this.tAppointmentTemp)
+          this.setSocketTV({action:SOCKET_ACTION.TV_ADD_TARGET_CALL, data: this.tAppointmentTemp})
+          //this.setTVAddTargetCall(this.tAppointmentTemp)
         }
         
       },
@@ -132,16 +134,15 @@ export class CurrentAttentionComponent implements OnInit {
   beforeCallAgain(){
     if(this.tAppointmentTemp)
     this.tAppointmentTemp.apptmNroCalls=(this.tAppointmentTemp?.apptmNroCalls || 0)+1
-    
     const a=this.tAppointmentTemp
     if(a){
       this.callAgain(a.apptmId || -1)
-      this.setTVRefreshTargetCall(a);
+      //this.setTVRefreshTargetCall(a);
+      this.setSocketTV({action:SOCKET_ACTION.TV_REFRESH_TARGET_CALL, data: a})
     }
   }
 
   public callAgain(apptmId:number){
-
     this.appointmentTempService.callAgain(apptmId).subscribe({
       next: d=>{
         console.log(d)
@@ -155,6 +156,10 @@ export class CurrentAttentionComponent implements OnInit {
         this.tAppointmentTemp=null
         console.log(d)
         this.returnValue()
+        this.setSocketTV({
+          action:SOCKET_ACTION.TV_REMOVE_TARGET_CALL, 
+          data: {apptmId:apptmId}
+        })
       }
     })
   }
@@ -180,12 +185,19 @@ export class CurrentAttentionComponent implements OnInit {
     })
   }
 
-  private setTVRefreshTargetCall(appointmentTemp:AppointmentTemp){
+/*  private setTVRefreshTargetCall(appointmentTemp:AppointmentTemp){
     this.waitingLineService.setTVRefreshTargetCall(appointmentTemp);
+  }*/
+
+
+  private setSocketTV(s:SocketInterface<AppointmentTemp>){
+      this.waitingLineService.setSocketTV(s)
+
   }
-  private setTVAddTargetCall(appointmentTemp:AppointmentTemp){
+
+  /*private setTVAddTargetCall(appointmentTemp:AppointmentTemp){
     this.waitingLineService.setTVAddTargetCall(appointmentTemp);
-  }
+  }*/
   
 
 

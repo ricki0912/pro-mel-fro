@@ -13,8 +13,12 @@ import { Bussines } from '../interfaces/bussines';
 export class BussinesService extends ParentService implements CrudApiInterface{
   private API_ALL = `${this.HOST_API}/api/v1/bussines`
   private API_EXIST_RUC = `${this.HOST_API}/api/v1/business/exist-ruc`
+<<<<<<< HEAD
   private API_EXIST_FILE_NUMBER = `${this.HOST_API}/api/v1/business/exist-fileNumber`
   private API_ADD_BUSINESS_WHIT_PERSON = `${this.HOST_API}/api/v1/business/add-business-with-person`
+=======
+  private API_BUSSINES=`${this.HOST_API}/api/v1/business`
+>>>>>>> Ricardo
 
   constructor(private https:HttpClient) {
     super()
@@ -40,6 +44,7 @@ export class BussinesService extends ParentService implements CrudApiInterface{
     return this.https.post<Bussines>(`${this.API_EXIST_RUC}`,{bussRUC} )
   }
 
+<<<<<<< HEAD
   existFileNumber(bussFileNumber:string):Observable<Bussines>{
     return this.https.post<Bussines>(`${this.API_EXIST_FILE_NUMBER}`,{bussFileNumber} )
   }
@@ -47,4 +52,12 @@ export class BussinesService extends ParentService implements CrudApiInterface{
   addBusinessWithPerson(object: Bussines):Observable<InterfaceParamsResponse<Bussines>>{
     return this.https.post<InterfaceParamsResponse<Bussines>>(`${this.API_ADD_BUSINESS_WHIT_PERSON}`, object);
   }
+=======
+  /*Parte de codigo añadido por Ricardo */
+  search(like:string):Observable<InterfaceParamsResponse<Bussines>>{
+    return this.https.get<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/search?like=${like}`)
+  }
+  
+  /* */
+>>>>>>> Ricardo
 }

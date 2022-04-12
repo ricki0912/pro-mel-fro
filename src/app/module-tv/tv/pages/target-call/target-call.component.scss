@@ -1,8 +1,9 @@
 
 .target{
-    width: calc(100% - 0.9vh);
+    width: calc(100% - 0.2vh);
+    height: calc(100% - 1vh);;
     box-sizing: border-box;
-    margin: 0.9vh;
+    margin: 0.1vh;
 }
 
 
@@ -57,23 +58,25 @@
 @keyframes animation-target-ticket{
     0%{
         color: white;
+        font-size: 9.4vh; 
+
     }
 
     50%{
         color: white;
+        font-size: 9.4vh; 
 
     }
    
     51%{
-        font-size: 9.4vh; 
 
         color: red;
+        font-size: 8.8vh; 
 
     }
     100%{
         color: red;
-        font-size: 9.4vh; 
-
+        font-size: 8.8vh; 
 
     }
    
