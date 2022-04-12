@@ -144,7 +144,6 @@ export class UserComponent implements OnInit, CrudInterface, ActionDialogInterfa
 
   del() {
     let ids = this.selection.selected.reduce((a: number[], b: User) => (b.id == null) ? a : [...a, b.id], [])
-    console.log(ids)
     this.userService.del(ids)?.subscribe
   }
 
@@ -158,6 +157,7 @@ export class UserComponent implements OnInit, CrudInterface, ActionDialogInterfa
     this.userService.all()?.subscribe({
       next: data => {
         console.log(data);
+
         this.dataSource.data = data;
         this.isLoading = false
 
@@ -193,6 +193,8 @@ export class UserComponent implements OnInit, CrudInterface, ActionDialogInterfa
         this.showMessage.success({ message: data.msg });
         /*obtenemos el ultimo usuario devuelvto por el backend y que viene en data */
         const users = data.data as User[]
+        console.log(users);
+
         /*El nuevo usuario lo añadimos a la primera fila de la tabla */
         this.dataSource.data.unshift(...users)
         /**actualizamops paginator */

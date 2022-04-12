@@ -1,0 +1,43 @@
+<mat-toolbar color="primary" class="tollbar">
+  <mat-toolbar-row>
+    <button
+      mat-icon-button
+      mat-dialog-close
+      class="example-icon"
+      aria-label="Example icon-button with menu icon"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>{{ title }}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="dialog-body">
+  <mat-dialog-content class="mat-typography">
+    <form class="example-form" [formGroup]="videosForm">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Nombres</mat-label>
+        <input matInput formControlName="vidName" />
+        <mat-error> Los Nombres son requeridos. </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Link</mat-label>
+        <input matInput formControlName="vidLink" />
+        <mat-error> El link es requerido. </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button
+      mat-button
+      cdkFocusInitial
+      type="submit"
+      [disabled]="!videosForm.valid"
+      (click)="addVideos()"
+    >
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</div>

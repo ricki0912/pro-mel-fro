@@ -36,7 +36,6 @@ export class MainViewComponent implements OnInit {
     ) {
     console.log(this.isHandset$)
   }
-
   ngOnInit(): void {
       this.loadingService.hide()
       if(!this.tokenService.getUser()){

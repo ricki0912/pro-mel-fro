@@ -7,6 +7,8 @@ import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.in
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Bussines } from 'src/app/interfaces/bussines';
 import { BussinesService } from 'src/app/services/bussines.service';
+import { Person } from 'src/app/interfaces/person';
+import { PersonService } from 'src/app/services/person.service';
 
 @Component({
   selector: 'app-edit-client',
@@ -22,6 +24,7 @@ export class EditClientComponent implements OnInit, OnDestroy {
     public mediaObserver: MediaObserver, /*esta a la escucha cuando se renderiza */
     private fb: FormBuilder, /*es apra los formularios */
     private businessSevice: BussinesService, /*creamos un servicio para conectarse a la db */
+    private personService: PersonService,
     //private showMessage: ShowMessageService, /*este servicio es para invocar los mensaje de alerta */
     @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: Bussines, type: number }, /**campturamos el usuario que se recibe com parametro cuando abrimos el modal */
     private dialogRef: MatDialogRef<EditClientComponent>,
@@ -60,7 +63,7 @@ export class EditClientComponent implements OnInit, OnDestroy {
   mediaSub!: Subscription;
   /**Para renderizar filas */
 
-  /*Formulario para añadir usuario con persona */
+  /*Formulario para añadir negocio con persona */
   businessForm: FormGroup = this.fb.group({
     business : this.fb.group({
       bussKind : ['',Validators.required],
@@ -72,14 +75,22 @@ export class EditClientComponent implements OnInit, OnDestroy {
       }],
       bussAddress :[''],
       bussFileKind : ['',Validators.required],
-      bussFileNumber : ['',Validators.required],
+      bussFileNumber : ['', {
+        validators: [Validators.required],
+        asyncValidators: this.validateFileNumber.bind(this),
+        updateOn: 'blur',
+      }],
       bussDateStartedAct :[''],
       bussDateMembership :['']
     }),
     person: this.fb.group({
 
       perKindDoc: ['', Validators.required],
-      perNumberDoc: ['', Validators.required],
+      perNumberDoc : ['', {
+        validators: [Validators.required],
+        asyncValidators: this.validateDNI.bind(this),
+        updateOn: 'blur',
+      }],
       perName: ['', Validators.required],
       perTel :['']
     })
@@ -111,10 +122,10 @@ export class EditClientComponent implements OnInit, OnDestroy {
     }
   }
 
-/**A TRAVES DE ESTE METODO SE DEVUELVE EL USUARIO A LA VENTA ANTERIOR */
+/**A TRAVES DE ESTE METODO SE DEVUELVE EL NEGOCIO A LA VENTANA ANTERIOR */
   onReturn = (business: Bussines): void => this.dialogRef.close(business);
 
-  /**SE CONECTA BACKEND Y SE VERIFICA SI EXISTE O NO EL EMAIL */
+  /**SE CONECTA BACKEND Y SE VERIFICA SI EXISTE EL RUC */
   validateRuc(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
     return this.businessSevice.existRuc(control.value)
     .pipe(
@@ -138,47 +149,55 @@ export class EditClientComponent implements OnInit, OnDestroy {
     )
   }
 
-  /*AQUI SOLO VALIDMOS EL PASSWORD, Y ESTA ACTUALIZANDO EL PASSWORD YA NO ES REQUERIDO, ESTE VALIDATE ES PERSONALIZADO*/
-  /*validateAdd(control: AbstractControl) {
-    return new Promise((resolve, reject) => {
-      if (this.paramsDialog.type == TYPES_ACTIONS_DIALOG.UPD) {
-        resolve(null)
-      } else {
-        if (control.value == '') {
-          resolve({ passwordRequired: 'El password es requerido.' })
-        } else {
-          resolve(null)
+  /**SE CONECTA BACKEND Y SE VERIFICA SI EXISTE EL NUMERO DE ARCHIVADOR */
+  validateFileNumber(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
+    return this.businessSevice.existFileNumber(control.value)
+    .pipe(
+      map((business: Bussines) => {
+        if (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) {
+          /*el usuario devuelto por backend sera de null o vacio */
+          if (!business) {
+            return null;
+          }
+          /*en caso de ser update, verifica que el usuario devuelto sea diferente del actual */
+          if (this.businessBeforeUpd?.bussFileNumber != business.bussFileNumber) {
+            return { existFileNumber: 'El Numero de Archivador ya esta en uso.' };
+          }
+          /**si el usuario devuelto es igual al actual retorna null */
+          return null
         }
-      }
-    });
-  }*/
-
-/*AQUI VALIDA QUE TODO ESTA OK ANTES DE RETORNAR EL USUARIO A LA VENTA ANTERIOR */
-  addBusinessWithPerson(): boolean {
-    return (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) ?
-      this.updUserWithPerson() :
-      this.addUserWithPerson();
+        return (!business) ? null : { existFileNumber: 'El Numero de Archivador ya existe.' }
+      })
+    )
   }
 
-  addUserWithPerson(): boolean {
+  validateDNI(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
+    return this.personService.existDni(control.value)
+    .pipe(
+      map((person: Person) => {
+        if (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) {
+          /*el usuario devuelto por backend sera de null o vacio */
+          if (!person) {
+            return null;
+          }
+          /*en caso de ser update, verifica que el usuario devuelto sea diferente del actual */
+          if (this.businessBeforeUpd?.person.perNumberDoc != person.perNumberDoc) {
+            return { existDni: 'El Numero de DNI ya esta en uso.' };
+          }
+          /**si el usuario devuelto es igual al actual retorna null */
+          return null
+        }
+        return (!person) ? null : { existDni: 'El Numero de DNI ya existe.' }
+      })
+    )
+  }
+
+  /*AQUI VALIDA QUE TODO ESTA OK ANTES DE RETORNAR EL USUARIO A LA VENTA ANTERIOR */
+  addBusinessWithPerson(): boolean {
     const business: Bussines = this.businessForm.value;
     this.onReturn(business);
+    console.log(this.businessForm.value);
     return true
-  }
-
-  updUserWithPerson(): boolean {
-    const business: Bussines = this.businessForm.value;
-
-
-    business.bussId = this.businessBeforeUpd?.bussId
-    business.person.perId = this.businessBeforeUpd?.person.perId;
-    this.onReturn(business)
-
-    return true
-  }
-
-  public mostradata (data:any): void {
-    console.log(data, "devuelto por solis");
   }
 }
 

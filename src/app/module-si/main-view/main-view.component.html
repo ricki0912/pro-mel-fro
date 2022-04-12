@@ -1,14 +1,19 @@
+<mat-sidenav-container class="sidenav-container mat-elevation-z8">
+  <mat-sidenav
+    #drawer
+    class="sidenav color-primary"
+    style="width: 240px"
+    [fixedInViewport]="false"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <img
+      class="avatar mat-elevation-z8"
+      src="https://source.unsplash.com/c_GmwfHBDzk/200x200"
+    />
 
-<mat-sidenav-container class="sidenav-container mat-elevation-z8"  >
-  <mat-sidenav #drawer class="sidenav color-primary" style="width: 240px;" [fixedInViewport]="false"
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="(isHandset$ | async) === false">
-
-
-
-    <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
-
-    <h4 class="name">{{currentUser.user.name}}</h4>
+    <h4 class="name">{{ currentUser.user.name }}</h4>
     <p class="designation">Software Engineer</p>
 
     <mat-divider></mat-divider>
@@ -17,11 +22,15 @@
       <mat-icon>home</mat-icon>
       <span>Principal</span>
     </button>
-    <button routerLink="/clients" mat-button class="menu-button"  (click)="doChanges()">
+    <button
+      routerLink="/clients"
+      mat-button
+      class="menu-button"
+      (click)="doChanges()"
+    >
       <mat-icon>people</mat-icon>
       <span>Clientes </span>
     </button>
-   
 
     <button mat-button class="menu-button" (click)="toggleMenu()">
       <mat-icon>tablet</mat-icon>
@@ -31,10 +40,16 @@
     </button>
 
     <mat-nav-list class="sidenav-submenu" *ngIf="showMenu">
-      <a mat-list-item routerLink="/calls"  > Atención</a>
+      <a mat-list-item routerLink="/calls"> Atención</a>
       <a mat-list-item routerLink="/tickets"> Tickets</a>
-      <a mat-list-item routerLink="/tellers" (click)="doChanges()" > Ventanillas</a>  
-      <a mat-list-item routerLink="/categories" (click)="doChanges()"> Categorias </a>
+      <a mat-list-item routerLink="/tellers" (click)="doChanges()">
+        Ventanillas</a
+      >
+      <a mat-list-item routerLink="/categories" (click)="doChanges()">
+        Categorias
+      </a>
+      <a mat-list-item routerLink="/videos" (click)="doChanges()"> Videos </a>
+      <a mat-list-item routerLink="/cards" (click)="doChanges()"> Tarjetas </a>
     </mat-nav-list>
 
     <button routerLink="/" (click)="doChanges()" mat-button class="menu-button">
@@ -57,7 +72,7 @@
       <span>Perfil</span>
     </button>
 
-    <button routerLink="/users"  mat-button class="menu-button">
+    <button routerLink="/users" mat-button class="menu-button">
       <mat-icon>info</mat-icon>
       <span>Usuarios</span>
     </button>
@@ -68,62 +83,64 @@
       <mat-icon>help</mat-icon>
       <span>Help</span>
     </button>
-
-
-  
-
-
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary" >
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+      >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>MELENDRES AUDITORES </span>
 
+      <div class="example-spacer" style="background-color: violet"></div>
 
-      <div class="example-spacer" style="background-color: violet; ;">
-      </div>
-
-     
       <app-search-client></app-search-client>
 
-      <div style="
-      padding-left: 10px;">
-        <img mat-button [matMenuTriggerFor]="menu" class=" mat-elevation-z8"
-          src="https://source.unsplash.com/c_GmwfHBDzk/200x200" style=" width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        cursor: pointer;
-        
-        " />
+      <div style="padding-left: 10px">
+        <img
+          mat-button
+          [matMenuTriggerFor]="menu"
+          class="mat-elevation-z8"
+          src="https://source.unsplash.com/c_GmwfHBDzk/200x200"
+          style="width: 40px; height: 40px; border-radius: 50%; cursor: pointer"
+        />
         <mat-menu #menu="matMenu">
-
-          <div style="width: 220px;" align="center">
-            <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
+          <div style="width: 220px" align="center">
+            <img
+              class="avatar mat-elevation-z8"
+              src="https://source.unsplash.com/c_GmwfHBDzk/200x200"
+            />
             <p>
-              <b> <a mat-flat-button href="#">{{currentUser.user.name}}</a>
+              <b>
+                <a mat-flat-button href="#">{{ currentUser.user.name }}</a>
               </b>
-              <br>
-              Ingeniero 
+              <br />
+              Ingeniero
             </p>
             <a mat-stroked-button href="#">Ver Perfil</a>
             <!-- <h4 class="name">John Smith</h4>
-            <p class="designation">Software Engineer</p> 
+            <p class="designation">Software Engineer</p>
             <button mat-menu-item>Item 2<br>dasdf asdfsdf </button>-->
 
             <mat-divider></mat-divider>
 
-            <button mat-stroked-button color="warn" style="text-align: center;" (click)="signOut()"><b>Salir</b></button>
-
+            <button
+              mat-stroked-button
+              color="warn"
+              style="text-align: center"
+              (click)="signOut()"
+            >
+              <b>Salir</b>
+            </button>
           </div>
-
         </mat-menu>
       </div>
     </mat-toolbar>
     <!-- Add Content Here -->
-    <router-outlet>
-
-    </router-outlet>
+    <router-outlet> </router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
