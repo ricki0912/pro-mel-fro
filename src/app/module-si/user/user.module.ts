@@ -41,6 +41,7 @@ import {MatSelectModule} from '@angular/material/select';
 
 import { EditComponent } from './pages/edit/edit.component';
 import { FindUserComponent } from './pages/find-user/find-user.component';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
 
 
@@ -48,7 +49,8 @@ import { FindUserComponent } from './pages/find-user/find-user.component';
   declarations: [
     UserComponent,
     EditComponent,
-    FindUserComponent
+    FindUserComponent,
+    ChangePasswordComponent
   ],
   imports: [
     CommonModule,

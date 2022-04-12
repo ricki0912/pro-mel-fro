@@ -13,6 +13,7 @@ import { Bussines } from '../interfaces/bussines';
 export class BussinesService extends ParentService implements CrudApiInterface{
   private API_ALL = `${this.HOST_API}/api/v1/bussines`
   private API_EXIST_RUC = `${this.HOST_API}/api/v1/business/exist-ruc`
+  private API_BUSSINES=`${this.HOST_API}/api/v1/business`
 
   constructor(private https:HttpClient) {
     super()
@@ -37,4 +38,11 @@ export class BussinesService extends ParentService implements CrudApiInterface{
   existRuc(bussRUC:string):Observable<Bussines>{
     return this.https.post<Bussines>(`${this.API_EXIST_RUC}`,{bussRUC} )
   }
+
+  /*Parte de codigo añadido por Ricardo */
+  search(like:string):Observable<InterfaceParamsResponse<Bussines>>{
+    return this.https.get<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/search?like=${like}`)
+  }
+  
+  /* */
 }

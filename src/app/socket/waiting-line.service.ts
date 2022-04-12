@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
+import { SocketInterface } from '../global/parents/socket.interface';
 import { AppointmentTemp } from '../interfaces/appointment-temp';
+
 
 @Injectable({
   providedIn: 'root'
@@ -29,8 +31,6 @@ export class WaitingLineService {
   public getTVAddTargetCall():Observable<AppointmentTemp>{
     return this.socket.fromEvent<AppointmentTemp>('tv:get:add-target-call')
   }
-  
-
 
 
   public setTVRefreshTargetCall(appointmentTemp:AppointmentTemp):void{
@@ -41,4 +41,20 @@ export class WaitingLineService {
     return this.socket.fromEvent<AppointmentTemp>('tv:get:refresh-target-call')
   }
 
+  /*optimizado */
+  public setSocketTV(s:SocketInterface<AppointmentTemp>):void{
+    this.socket.emit('tv:set', s);
+  }
+
+  public getSocketTV():Observable<SocketInterface<AppointmentTemp>>{
+    return this.socket.fromEvent<SocketInterface<AppointmentTemp>>('tv:get')
+  }
+
+  public setSocketLineWaiting(tellId:number, s:SocketInterface<AppointmentTemp>):void{
+    this.socket.emit('waiting-line:set', {tellId:tellId, data:s});
+  }
+
+  public getSocketWaitingLine(tellId:number):Observable<SocketInterface<AppointmentTemp>>{
+    return this.socket.fromEvent<SocketInterface<AppointmentTemp>>('waiting-line:get:'+tellId)
+  }
 }

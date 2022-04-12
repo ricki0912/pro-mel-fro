@@ -22,8 +22,8 @@ export class AppointmentTempService extends ParentService {
     return this.https.post<InterfaceParamsResponse<AppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}`, object);
   }
 
-  public getAllBy(tellId:number, catId:number): Observable<InterfaceParamsResponse<TAppointmentTemp>>  {
-    return this.https.get<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/get-all-by?tellId=${tellId}&catId=${catId}`);
+  public getAllBy(tellId:number, catId:number, apptmState:number): Observable<InterfaceParamsResponse<TAppointmentTemp>>  {
+    return this.https.get<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/get-all-by?tellId=${tellId}&catId=${catId}&apptmState=${apptmState}`);
   }
 
   public updateTeller(apptmIds:number[], tellId:number):Observable<InterfaceParamsResponse<TAppointmentTemp>>{
@@ -60,8 +60,9 @@ export class AppointmentTempService extends ParentService {
     return this.https.get<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/get-attention-no-pending?limit=${limit}`)
   }
 
-
-
-  
-  
+  public getNroTotal(apptmState:number, tellId:number): Observable<InterfaceParamsResponse<TAppointmentTemp>>{
+    return this.https.get<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/get-nro-total?apptmState=${apptmState}&tellId=${tellId}`)
+  }
 }
+  
+  

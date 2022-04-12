@@ -14,6 +14,7 @@ import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
 import { User } from 'src/app/interfaces/user';
 import { ActionDialogInterface, TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
 
 @Component({
@@ -137,6 +138,31 @@ export class UserComponent implements OnInit, CrudInterface, ActionDialogInterfa
   openDialogdAddAndUpd(object: any): boolean {
     return false;
   }
+  openDialogChangePassword(): boolean {
+    let ids = this.selection.selected.reduce((a: number[], b: User) => (b.id == null) ? a : [...a, b.id], [])
+    //let userSelected: User = this.selection.selected.filter(o => o.id == ids[0])[0];
+
+    const dialogRef = this.dialogEditUser.open(ChangePasswordComponent, {
+      /*maxWidth: '100vw',
+       maxHeight: '100vh',
+       height: '100%',
+       width: '100%',*/ 
+
+
+      panelClass: 'dialog',
+      data: {
+        row: {},
+        type: TYPES_ACTIONS_DIALOG.ADD
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("result fasdf",ids[0], "-",result)
+        this.changePassword(ids[0],result.password)
+      }
+    });
+    return true
+  }
 
 
 
@@ -182,6 +208,19 @@ export class UserComponent implements OnInit, CrudInterface, ActionDialogInterfa
 
   delete(id: number[]) {
 
+  }
+
+  changePassword(id:number,newPassword:string ){
+    this.userService.changePassword(id,newPassword).subscribe({
+      next:d=>{
+        this.showMessage.success({message:d.msg})
+        this.selection.clear() /*actualiza la seleccion  */
+        this.paginator._changePageSize(this.paginator.pageSize)/*y actualizamos el paginator */
+    
+      }, error: e=>{
+        this.showMessage.error({message:e.error.message})
+      }
+    })
   }
 
   /*Crud services */

@@ -10,9 +10,11 @@ import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-co
 import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { AppointmentTempService } from 'src/app/services/appointment-temp.service';
-import { AppointmentTemp, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
+import { AppointmentTemp, APPOINTMENT_STATE, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
+import { WaitingLineService } from 'src/app/socket/waiting-line.service';
+import { SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
 
 
 @Component({
@@ -28,13 +30,15 @@ export class CallComponent implements OnInit {
   //categories: Category[] = [];
   tellers: TTellerJoinPerson[] = []
   selectedCategory: number = 0
-  selectedTeller: number = 0
+  selectedTeller: number 
 
 
   displayedColumns: string[] = ['select', 'position', 'ticket', 'code_category', 'category', 'time'];
   dataSource = new MatTableDataSource<TAppointmentTemp>();
   selection = new SelectionModel<TAppointmentTemp>(true, []);
   
+  currentUser: any;
+
   constructor(
     private categoryService: CategoryService,
     private tellerService: TellerService,
@@ -42,12 +46,18 @@ export class CallComponent implements OnInit {
     private dialog: MatDialog, 
     private showMessage:ShowMessageService,
     private tokenService: TokenStorageService,
+    private waitingLineService:WaitingLineService,
 
-  ) { }
+
+  ) {
+    this.currentUser = this.tokenService.getUser();
+
+    this.selectedTeller=this.currentUser.user.tellers[0].tellId || -1
+   }
 
   ngOnInit(): void {
     //this.readCategory();
-    this.readTeller();
+    this.getSocketWaitingLine()
     //this.readAppointmentTempCRUD(0,0);
   }
 
@@ -100,12 +110,12 @@ export class CallComponent implements OnInit {
   } 
   //select search
   selectSearch(){
-    this.readAppointmentTempCRUD(this.selectedTeller, this.selectedCategory)
+    this.readAppointmentTempCRUD(this.selectedTeller, this.selectedCategory, APPOINTMENT_STATE.PENDING)
   }
-
+/*
   filterTeller(tellId:number):TTellerJoinPerson{
     return this.tellers.filter(t=>t.tellId==tellId)[0]
-  }
+  }*/
 
   /*filterCategory(catId:number):Category{
     return this.categories.filter(c=>c.catId==catId)[0]
@@ -118,7 +128,7 @@ export class CallComponent implements OnInit {
       next: d => this.categories = d
     })
   }*/
-
+/*
   private readTeller() {
     this.tellerService.getJoinPerson().subscribe({
       next: d => {
@@ -128,7 +138,7 @@ export class CallComponent implements OnInit {
           this.selectSearch()
       }
     })
-  }
+  }*/
 
   private updateTellerCRUD() {
 
@@ -136,9 +146,9 @@ export class CallComponent implements OnInit {
 
 
 
-  readAppointmentTempCRUD(tellId:number, catId:number): boolean {
+  readAppointmentTempCRUD(tellId:number, catId:number,apptmState:number): boolean {
     this.isLoading = true;
-    this.appointmentTempService.getAllBy(tellId, catId).subscribe({
+    this.appointmentTempService.getAllBy(tellId, catId,apptmState).subscribe({
       next: (r) => {
         this.isLoading = false;
         this.dataSource.data = r.data as TAppointmentTemp[]
@@ -161,6 +171,26 @@ export class CallComponent implements OnInit {
       }, 
       error:e=>{
         this.showMessage.error({message:e.error.message,  action: ()=>this.updateTeller(apptmIds, tellId)})
+      }
+    })
+  }
+
+
+  getSocketWaitingLine(){
+    this.waitingLineService.getSocketWaitingLine(this.selectedTeller).subscribe({
+      next:d=>{
+        console.log("casi lo logro", d)
+        const action=d.action;
+        switch (action) {
+          case SOCKET_ACTION.WAITING_LINE_ADD_APPOINTMENT:
+            const data=d.data as AppointmentTemp
+            if(this.selectedTeller==data.tellId)
+              this.selectSearch()
+            break;
+        
+          default:
+            break;
+        }
       }
     })
   }

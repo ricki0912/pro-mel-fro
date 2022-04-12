@@ -73,19 +73,6 @@ export class MainViewComponent implements OnInit {
   });
  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
 }
 
 

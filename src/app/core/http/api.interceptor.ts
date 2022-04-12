@@ -19,6 +19,7 @@ export class ApiInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const req = request.clone()
     //request.
+    console.log("API INTERCEPTOR",next);
     return next.handle(request).pipe(
       catchError((e)=>this.handleError(e))
     );

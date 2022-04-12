@@ -40,6 +40,7 @@
       (click)="onSubmit(loginForm.value)"
       type="submit"
       [disabled]="!loginForm.valid || submitted"
+      (keyup.enter)="onSubmit(loginForm.value)"
     >
       Ingresar
     </button>

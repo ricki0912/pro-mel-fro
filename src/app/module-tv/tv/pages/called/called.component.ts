@@ -1,5 +1,7 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
+import { SocketInterface, SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
+import { AppointmentTemp, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
 import { AppointmentTempService } from 'src/app/services/appointment-temp.service';
 import { WaitingLineService } from 'src/app/socket/waiting-line.service';
 
@@ -10,7 +12,9 @@ import { WaitingLineService } from 'src/app/socket/waiting-line.service';
 })
 export class CalledComponent implements OnInit {
   tAppointmentTemps:TAppointmentTemp[]=[]
-  
+  soundAlertC=new Audio('assets/sounds/sound02l.mp3')
+  limit = 0;
+
   constructor(
     private appointmentTempService: AppointmentTempService,
     private waitingLineService: WaitingLineService
@@ -18,9 +22,13 @@ export class CalledComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.getAttentionNoPending(10);
-    this.getTVRefreshTargetCall()
-    this.getTVAddTargetCall()
+    this.getSocketTV();
+    this.soundAlertC.muted = true; 
+
+    //this.getTVRefreshTargetCall()
+    //this.getTVAddTargetCall()
   }
 
 
@@ -29,12 +37,93 @@ export class CalledComponent implements OnInit {
       next:d=>{
         this.tAppointmentTemps=d.data as TAppointmentTemp[]
         console.log(d)
+        this.soundAlertC.muted = false; 
+
       }
     
     })
   }
 
   /*llamar socket refresh */
+  
+  public getSocketTV(){
+      this.waitingLineService.getSocketTV().subscribe({
+        next:d=>{
+          const action=d.action
+          switch(action){
+            case SOCKET_ACTION.TV_ADD_TARGET_CALL:
+              this.addTargetCall(d.data as AppointmentTemp)
+              break;
+            case SOCKET_ACTION.TV_REFRESH_TARGET_CALL:
+              this.refreshTargetCall(d.data as AppointmentTemp)
+              break;
+            case SOCKET_ACTION.TV_REMOVE_TARGET_CALL:
+              this.removeTargetCall(d.data as AppointmentTemp)
+              break;
+            default:
+              break;
+
+          }
+
+        }
+      })
+  }
+
+
+  public refreshTargetCall(s:AppointmentTemp){
+ 
+    const index = this.tAppointmentTemps.map(function(e) { return e.apptmId; }).indexOf(s.apptmId);
+    this.tAppointmentTemps[index]=s as TAppointmentTemp
+
+    console.log(index, this.tAppointmentTemps[index].apptmNroCalls)
+    this.soundAlertC.play()
+    //this.playNotification()
+    
+  }
+
+  public addTargetCall(s:AppointmentTemp){
+    console.log("ADD APPTM", s)
+    this.soundAlertC.play()
+    if(this.tAppointmentTemps[10]){
+      this.tAppointmentTemps.pop();
+    }
+    this.tAppointmentTemps.unshift(s as TAppointmentTemp)
+  }
+
+  public removeTargetCall(s:AppointmentTemp){
+    const index=this.tAppointmentTemps.map((e)=>e.apptmId).indexOf(s.apptmId);
+    console.log("remove targer call", index)
+    this.tAppointmentTemps.splice(index,1)
+  }
+  
+  private playNotification(){
+    if(this.limit>0){
+      this.limit=5;
+      return;
+  }
+    
+    console.log(this.limit)
+    const delay = 1;
+    let i = 1;
+    
+
+    console.log('START!');
+
+    const limitedInterval = setInterval(() => {
+      this.soundAlertC.play()
+
+      console.log(`message ${i}, appeared after ${delay * i++} seconds`);
+      
+      if (this.limit) {
+        this.limit-=1;
+        clearInterval(limitedInterval);
+
+        console.log('interval cleared!');
+      }
+    }, delay * 1000);
+  }
+  
+/*
   public getTVRefreshTargetCall(){
     this.waitingLineService.getTVRefreshTargetCall().subscribe({
       next:d=>{
@@ -58,7 +147,7 @@ export class CalledComponent implements OnInit {
       }
     })
   }
-
+*/
    
   
 

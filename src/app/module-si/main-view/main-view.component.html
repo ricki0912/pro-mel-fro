@@ -8,9 +8,9 @@
 
     <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
 
-    <h4 class="name">{{currentUser.user.name}}</h4>
-    <p class="designation">Software Engineer</p>
-
+    <h4 class="name">{{currentUser.user.person.perName}}</h4>
+    <p class="designation">{{currentUser.user.tellers[0]?.tellName || ''}}</p>
+    
     <mat-divider></mat-divider>
 
     <button routerLink="/" mat-button class="menu-button">
@@ -37,6 +37,7 @@
       <a mat-list-item routerLink="/categories" (click)="doChanges()"> Categorias </a>
     </mat-nav-list>
 
+    <!--
     <button routerLink="/" (click)="doChanges()" mat-button class="menu-button">
       <mat-icon>person</mat-icon>
       <span>Contabilidad</span>
@@ -50,24 +51,25 @@
     <button mat-button class="menu-button">
       <mat-icon>info</mat-icon>
       <span>About</span>
-    </button>
+    </button>-->
 
-    <button mat-button class="menu-button">
-      <mat-icon>info</mat-icon>
-      <span>Perfil</span>
-    </button>
+   
 
     <button routerLink="/users"  mat-button class="menu-button">
       <mat-icon>info</mat-icon>
       <span>Usuarios</span>
     </button>
+    <button mat-button class="menu-button">
+      <mat-icon>info</mat-icon>
+      <span>Perfil</span>
+    </button>
 
     <mat-divider></mat-divider>
 
-    <button mat-button class="menu-button">
+    <!--<button mat-button class="menu-button">
       <mat-icon>help</mat-icon>
       <span>Help</span>
-    </button>
+    </button>-->
 
 
   
@@ -83,11 +85,18 @@
 
 
       <div class="example-spacer" style="background-color: violet; ;">
+      
       </div>
 
      
       <app-search-client></app-search-client>
-
+      <!--<button matBadge="8" mat-icon-button matBadgeColor="warn" >
+        <mat-icon>tablet</mat-icon>
+      </button>-->
+      <app-floating-waiting-line></app-floating-waiting-line>
+      <!--matBadgePosition="before"-->
+      <!--notifications-->
+      <!--notifications_active-->
       <div style="
       padding-left: 10px;">
         <img mat-button [matMenuTriggerFor]="menu" class=" mat-elevation-z8"
@@ -102,10 +111,11 @@
           <div style="width: 220px;" align="center">
             <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
             <p>
-              <b> <a mat-flat-button href="#">{{currentUser.user.name}}</a>
+              <b> <a mat-flat-button href="#">{{currentUser.user.person.perName}}</a>
               </b>
               <br>
-              Ingeniero 
+              {{currentUser.user.email}}
+            
             </p>
             <a mat-stroked-button href="#">Ver Perfil</a>
             <!-- <h4 class="name">John Smith</h4>
@@ -126,4 +136,4 @@
 
     </router-outlet>
   </mat-sidenav-content>
-</mat-sidenav-container>
+</mat-sidenav-container>    

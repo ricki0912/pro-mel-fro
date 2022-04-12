@@ -21,7 +21,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { MatMenuModule } from '@angular/material/menu';
 
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
@@ -31,13 +31,18 @@ import { MainViewRoutingModule } from './main-view-routing.module';
 
 import { MainViewComponent } from './main-view/main-view.component';
 import { SearchClientComponent } from './main-view/pages/search-client/search-client.component';
-
+import { MatBadgeModule } from '@angular/material/badge';
+import { FloatingWaitingLineComponent } from './main-view/pages/floating-waiting-line/floating-waiting-line.component';
+import {OverlayModule} from '@angular/cdk/overlay';
+import { ChronometerModule } from '../shared/components/chronometer/chronometer.module';
+import { AuthModuleSIInterceptor } from '../core/http/auth-module-si.interceptor';
 
 
 @NgModule({
   declarations: [
     MainViewComponent,
     SearchClientComponent,
+    FloatingWaitingLineComponent,
   ],
   imports: [
     MainViewRoutingModule,
@@ -60,11 +65,21 @@ import { SearchClientComponent } from './main-view/pages/search-client/search-cl
     MatMenuModule,
     HttpClientModule,
     MatProgressBarModule,
+    MatBadgeModule,
+    OverlayModule,
+    ChronometerModule
 
   ],
   exports: [
     MainViewComponent,
 
-  ]
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS, 
+      useClass: AuthModuleSIInterceptor, 
+      multi: true
+    }
+],
 })
 export class MainViewModule { }

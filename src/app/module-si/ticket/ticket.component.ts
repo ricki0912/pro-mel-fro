@@ -10,7 +10,7 @@ import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-co
 import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { AppointmentTempService } from 'src/app/services/appointment-temp.service';
-import { AppointmentTemp, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
+import { AppointmentTemp, APPOINTMENT_STATE, ApptmState, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 
 @Component({
@@ -24,8 +24,15 @@ export class TicketComponent implements OnInit {
   /*Combo box */
   categories: Category[] = [];
   tellers: TTellerJoinPerson[] = []
+
+  apptmStates:ApptmState[]=[
+    {apptmStateId:APPOINTMENT_STATE.PENDING, apptmStateName:"Pendiente"},
+    {apptmStateId:APPOINTMENT_STATE.CURRENT_ATTENTION, apptmStateName:"En atención"},
+  ]
+
   selectedCategory: number = 0
   selectedTeller: number = 0
+  selectedApptmState:number=APPOINTMENT_STATE.PENDING
 
 
   displayedColumns: string[] = ['select', 'position', 'ticket', 'teller', 'category', 'time'];
@@ -44,7 +51,7 @@ export class TicketComponent implements OnInit {
   ngOnInit(): void {
     this.readCategory();
     this.readTeller();
-    this.readAppointmentTempCRUD(0,0);
+    this.readAppointmentTempCRUD(this.selectedTeller,this.selectedCategory,this.selectedApptmState );
   }
 
 
@@ -96,16 +103,16 @@ export class TicketComponent implements OnInit {
   }
   //select search
   selectSearch(){
-    this.readAppointmentTempCRUD(this.selectedTeller, this.selectedCategory)
+    this.readAppointmentTempCRUD(this.selectedTeller, this.selectedCategory, this.selectedApptmState)
   }
 
-  filterTeller(tellId:number):TTellerJoinPerson{
+ /* filterTeller(tellId:number):TTellerJoinPerson{
     return this.tellers.filter(t=>t.tellId==tellId)[0]
   }
 
   filterCategory(catId:number):Category{
     return this.categories.filter(c=>c.catId==catId)[0]
-  }
+  }*/
 
   
   //read
@@ -127,10 +134,11 @@ export class TicketComponent implements OnInit {
 
 
 
-  readAppointmentTempCRUD(tellId:number, catId:number): boolean {
+  readAppointmentTempCRUD(tellId:number, catId:number, apptmState:number): boolean {
     this.isLoading = true;
-    this.appointmentTempService.getAllBy(tellId, catId).subscribe({
+    this.appointmentTempService.getAllBy(tellId, catId, apptmState).subscribe({
       next: (r) => {
+        console.log("Data dentro de ticket",r)
         this.isLoading = false;
         this.dataSource.data = r.data as TAppointmentTemp[]
         this.selection.clear() 

@@ -79,7 +79,7 @@
             </mat-error>
           </mat-form-field>
         </mat-grid-tile>
-        <mat-grid-tile>
+        <mat-grid-tile *ngIf="TAD.ADD == this.paramsDialog.type">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Constraseña </mat-label>
             <input matInput formControlName="password" />

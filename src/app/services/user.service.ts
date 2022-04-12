@@ -16,6 +16,7 @@ export class UserService extends ParentService implements CrudApiInterface{
   private API_ALL=`${this.HOST_API}/api/v1/users`
   private API_FIND=`${this.HOST_API}/api/v1/users`
 
+  private API_USER=`${this.HOST_API}/api/v1/users`
   constructor(private https:HttpClient) {
     super()
    }
@@ -53,5 +54,8 @@ export class UserService extends ParentService implements CrudApiInterface{
    }
    upd(id: string | number, object: ParentInterface): Observable<InterfaceParamsResponse<ParentInterface>> | Observable<ParentInterface> | null {
      return null;
+   }
+   changePassword(id:number, newPassword:string){
+    return this.https.put<InterfaceParamsResponse<User>>(`${this.API_USER}/${id}/change-password`, {newPassword})
    }
 }
