@@ -1,21 +1,45 @@
- <form style="max-width: 400px; width: 100%">
-
-        <button matPrefix mat-icon-button aria-label="Buscar" (click)="value=''">
-          <mat-icon>search</mat-icon>
-        </button>
-        <mat-form-field class="example-full-width" appearance="fill" floatLabel="always" style="">
-
-          <input matInput aria-label="State" placeholder="Busca un cliente" [matAutocomplete]="auto" [formControl]="stateCtrl"
-            [(ngModel)]="value" class="example-right-align">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
-              <img class="example-option-img" aria-hidden [src]="state.flag" height="25">
-              <span>{{state.name}}</span> |
-              <small>Population: {{state.population}}</small>
-            </mat-option>
-          </mat-autocomplete>
-          <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-      </form>
+<form style="max-width: 400px; width: 100%">
+  <button matPrefix mat-icon-button aria-label="Buscar" (click)="value = ''">
+    <mat-icon>search</mat-icon>
+  </button>
+  <mat-form-field
+    class="example-full-width"
+    appearance="fill"
+    floatLabel="always"
+    style=""
+  >
+    <input
+      matInput
+      aria-label="State"
+      placeholder="Busca un cliente"
+      [matAutocomplete]="auto"
+      [formControl]="stateCtrl"
+      [(ngModel)]="value"
+      class="example-right-align"
+    />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let state of filteredStates | async"
+        [value]="state.name"
+      >
+        <img
+          class="example-option-img"
+          aria-hidden
+          [src]="state.flag"
+          height="25"
+        />
+        <span>{{ state.name }}</span> |
+        <small>Population: {{ state.population }}</small>
+      </mat-option>
+    </mat-autocomplete>
+    <button
+      *ngIf="value"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="value = ''"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</form>

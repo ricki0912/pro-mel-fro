@@ -1,30 +1,28 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {SelectionModel} from '@angular/cdk/collections';
-import {MatTableDataSource} from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 
+import { VideosService } from 'src/app/services/videos.service';
+import { Videos } from 'src/app/interfaces/videos';
 import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
-import { BussinesService } from 'src/app/services/bussines.service';
-import { Bussines } from 'src/app/interfaces/bussines';
 
-import { MatDialog } from '@angular/material/dialog';
-import { EditClientComponent } from './pages/edit-client/edit-client.component';
-import { ActionDialogInterface, TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { MatPaginator } from '@angular/material/paginator';
-
+import { MatDialog } from '@angular/material/dialog';
+import { EditVideoComponent } from './pages/edit-video/edit-video.component';
+import { ActionDialogInterface, TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 
 @Component({
-  selector: 'app-client',
-  templateUrl: './client.component.html',
-  styleUrls: ['./client.component.scss']
+  selector: 'app-videos',
+  templateUrl: './videos.component.html',
+  styleUrls: ['./videos.component.scss']
 })
-
-export class ClientComponent implements OnInit, CrudInterface, ActionDialogInterface{
+export class VideosComponent implements OnInit, CrudInterface, ActionDialogInterface {
   isLoading = true;
 
   constructor(
-    private bussinesService: BussinesService,
-    public dialogEditClient: MatDialog,
+    private videosService: VideosService,
+    public dialogEditVideo: MatDialog,
     private showMessage: ShowMessageService
   ) { }
 
@@ -32,11 +30,11 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     this.readCRUD();
   }
 
-  displayedColumns: string[] = ['select','nombres', 'ruc', 'numArchivador', 'representate', 'dni'];
-  dataSource = new MatTableDataSource<Bussines>();
-  selection = new SelectionModel<Bussines>(true, []);
+  displayedColumns: string[] = ['select','nombres', 'link'];
+  dataSource = new MatTableDataSource<Videos>();
+  selection = new SelectionModel<Videos>(true, []);
 
-  clickedRows = new Set<Bussines>();
+  clickedRows = new Set<Videos>();
 
   //para el paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -62,11 +60,11 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: Bussines): string {
+  checkboxLabel(row?: Videos): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.bussId}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.vidId}`;
   }
 
   //CRUD
@@ -76,7 +74,7 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
 
   readCRUD(): boolean {
     this.isLoading = true;
-    this.bussinesService.all()?.subscribe({
+    this.videosService.all()?.subscribe({
       next: data => {
         console.log(data);
         this.dataSource.data = data;
@@ -97,7 +95,7 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   }
 
   openDialogAdd(): boolean {
-    const dialogRef = this.dialogEditClient.open(EditClientComponent, {
+    const dialogRef = this.dialogEditVideo.open(EditVideoComponent, {
       panelClass: 'dialog',
       data: {
         row: {},
@@ -106,7 +104,7 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.addBusinessWithPerson(result);
+        this.addVideos(result);
       }
     });
     return true
@@ -119,49 +117,25 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   }
 
   //FUNCIONES
-  addBusinessWithPerson(business: Bussines): boolean {
-    this.bussinesService.addBusinessWithPerson(business).subscribe({
+  addVideos(videos: Videos): boolean {
+    this.videosService.addVideos(videos).subscribe({
       next: data => {
         /**mostramos un mensaje de exito */
         this.showMessage.success({ message: data.msg });
         /*obtenemos el ultimo business devuelto por el backend y que viene en data */
-        const business = data.data as Bussines[]
-        console.log("ya probe business");
-
-        console.log(business);
+        const videos = data.data as Videos[]
+        console.log(videos);
 
         /*El nuevo usuario lo añadimos a la primera fila de la tabla */
-        this.dataSource.data.unshift(...business)
+        this.dataSource.data.unshift(...videos)
         /**actualizamops paginator */
         this.paginator._changePageSize(this.paginator.pageSize)
       },
       error: error => {
         /**Mostramos un mensaje de error y pasamos una funcion para reintenar nuevamente añdir el usuario  */
-        this.showMessage.error({ message: error.error.message, action: () => this.addBusinessWithPerson(business) })
+        this.showMessage.error({ message: error.error.message, action: () => this.addVideos(videos) })
       }
     });
     return true
   }
 }
-
-/*export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];*/
-
-

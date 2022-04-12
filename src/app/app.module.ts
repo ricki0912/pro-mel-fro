@@ -30,8 +30,6 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     ShowMessageComponent,
     MatSnackBarComponent,
     DialogConfirmationComponent,
-    
-    
   ],
   imports: [
     BrowserModule,
@@ -47,8 +45,8 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
   ],
   providers: [MatSnackBar,
     {
-      provide: HTTP_INTERCEPTORS, 
-      useClass: ApiInterceptor, 
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
       multi: true
     }
 ],

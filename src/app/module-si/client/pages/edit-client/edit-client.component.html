@@ -82,7 +82,26 @@
             <mat-form-field class="example-full-width" appearance="outline">
               <mat-label>Numero de Archivador</mat-label>
               <input matInput formControlName="bussFileNumber" />
-              <mat-error> EL número de Archivador es requerido. </mat-error>
+              <mat-progress-spinner
+                *ngIf="businessForm.get('business.bussFileNumber')?.pending"
+                matSuffix
+                [mode]="'indeterminate'"
+                [diameter]="20"
+              >
+              </mat-progress-spinner>
+              <mat-error>
+                {{
+                  businessForm
+                    .get("business.bussFileNumber")
+                    ?.hasError("required")
+                    ? "El numero de Archivador es requerido"
+                    : businessForm
+                        .get("business.bussFileNumber")
+                        ?.hasError("existFileNumber")
+                    ? "El numero de Archivador ya existe."
+                    : "Ingrese el numero de Archivador correcto"
+                }}
+              </mat-error>
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile>
@@ -106,12 +125,7 @@
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="outline">
               <mat-label>Fecha de Ingreso al Estudio</mat-label>
-              <input
-                matInput
-                formControlName="bussDateMembership"
-                [matDatepicker]="picker1"
-                [formControl]="date"
-              />
+              <input matInput [matDatepicker]="picker1" [formControl]="date" />
               <mat-datepicker-toggle
                 matSuffix
                 [for]="picker1"
@@ -139,7 +153,24 @@
             <mat-form-field class="example-full-width" appearance="outline">
               <mat-label>DNI</mat-label>
               <input matInput formControlName="perNumberDoc" />
-              <mat-error> EL número de identidad es requerido. </mat-error>
+              <mat-progress-spinner
+                *ngIf="businessForm.get('person.perNumberDoc')?.pending"
+                matSuffix
+                [mode]="'indeterminate'"
+                [diameter]="20"
+              >
+              </mat-progress-spinner>
+              <mat-error>
+                {{
+                  businessForm.get("person.perNumberDoc")?.hasError("required")
+                    ? "El numero de DNI es requerido"
+                    : businessForm
+                        .get("person.perNumberDoc")
+                        ?.hasError("existDni")
+                    ? "El numero de DNI ya existe."
+                    : "Ingrese el numero de DNI correcto"
+                }}
+              </mat-error>
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile>
@@ -167,7 +198,7 @@
       cdkFocusInitial
       type="submit"
       [disabled]="!businessForm.valid"
-      (click)="mostradata(businessForm.value)"
+      (click)="addBusinessWithPerson()"
     >
       Guardar
     </button>

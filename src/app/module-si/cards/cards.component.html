@@ -1,0 +1,39 @@
+<div class="windows">
+  <mat-grid-list cols="1" rowHeight="30px">
+    <mat-grid-tile colspan="1" rowspan="1">
+      <span class="span-title">Tarjetas</span>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-divider></mat-divider>
+  <mat-card class="example-card mat-elevation-z8">
+    <mat-card-title-group>
+      <mat-card-title>Lista de tarjetas</mat-card-title>
+      <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button (click)="openDialogAdd()">Agregar</button>
+      </mat-card-actions>
+    </mat-card-title-group>
+    <mat-divider></mat-divider>
+    <mat-card-content style="margin-top: 16px">
+      <div fxLayout="row" fxLayoutGap="20px">
+        <app-card [card]="card" *ngFor="let card of cards"></app-card>
+      </div>
+    </mat-card-content>
+    <mat-card-footer>
+      <mat-paginator
+        [length]="100"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page"
+      >
+      </mat-paginator>
+    </mat-card-footer>
+  </mat-card>
+</div>
+
+<mat-card fxLayout="row wrap" fxLayoutGap="30px">
+  <mat-card class="child-1">1. Children</mat-card>
+  <mat-card class="child-2">2. Children</mat-card>
+  <mat-card class="child-3">3. Children</mat-card>
+</mat-card>

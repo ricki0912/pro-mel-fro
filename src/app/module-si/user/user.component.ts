@@ -33,7 +33,7 @@ export class UserComponent implements OnInit, CrudInterface, ActionDialogInterfa
     private showMessage: ShowMessageService,
   ) { }
 
-  
+
 
   ngOnInit(): void {
     this.readCRUD()
@@ -94,7 +94,7 @@ export class UserComponent implements OnInit, CrudInterface, ActionDialogInterfa
       /*maxWidth: '100vw',
        maxHeight: '100vh',
        height: '100%',
-       width: '100%',*/ 
+       width: '100%',*/
 
 
       panelClass: 'dialog',
@@ -126,7 +126,7 @@ export class UserComponent implements OnInit, CrudInterface, ActionDialogInterfa
     });
 
     dialogRef.afterClosed().subscribe((result) => { /*UNA VEZ QUE SE CIERRA EL MODAL SE EJECUTA ESTE METODO */
-    /*VERIFICAMOS QUE HAYA DEVUELTO UN USUARIO Y LUEGO EJECUTAMOS EL UPDATE */  
+    /*VERIFICAMOS QUE HAYA DEVUELTO UN USUARIO Y LUEGO EJECUTAMOS EL UPDATE */
     if (result) {
         this.updUserWithPerson(result)
       }
@@ -141,10 +141,9 @@ export class UserComponent implements OnInit, CrudInterface, ActionDialogInterfa
 
 
   /*************** CRUD CON BASE DE DATOS************ */
-  
+
   del() {
     let ids = this.selection.selected.reduce((a: number[], b: User) => (b.id == null) ? a : [...a, b.id], [])
-    console.log(ids)
     this.userService.del(ids)?.subscribe
   }
 
@@ -158,6 +157,7 @@ export class UserComponent implements OnInit, CrudInterface, ActionDialogInterfa
     this.userService.all()?.subscribe({
       next: data => {
         console.log(data);
+
         this.dataSource.data = data;
         this.isLoading = false
 
@@ -193,6 +193,8 @@ export class UserComponent implements OnInit, CrudInterface, ActionDialogInterfa
         this.showMessage.success({ message: data.msg });
         /*obtenemos el ultimo usuario devuelvto por el backend y que viene en data */
         const users = data.data as User[]
+        console.log(users);
+
         /*El nuevo usuario lo añadimos a la primera fila de la tabla */
         this.dataSource.data.unshift(...users)
         /**actualizamops paginator */

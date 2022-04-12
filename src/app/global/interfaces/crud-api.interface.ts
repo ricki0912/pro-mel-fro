@@ -7,5 +7,4 @@ export interface CrudApiInterface{
       del(id:number|string):Observable<InterfaceParamsResponse<ParentInterface>> |null
       all():Observable<InterfaceParamsResponse<ParentInterface>>| Observable<ParentInterface[]> | null
       find(id:number|string):Observable<ParentInterface> |null
-
 }

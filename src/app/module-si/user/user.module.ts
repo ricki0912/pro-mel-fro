@@ -58,7 +58,7 @@ import { FindUserComponent } from './pages/find-user/find-user.component';
     MatListModule,
     MatGridListModule,
     MatCardModule,
-    MatDividerModule, 
+    MatDividerModule,
     MatProgressBarModule,
     MatButtonModule,
     MatTableModule,

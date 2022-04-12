@@ -13,7 +13,7 @@ const routes: Routes=[
         loadChildren: ()=>import('./category/category.module').then(m=>m.CategoryModule)
       },
       {
-        path: 'tellers', 
+        path: 'tellers',
         //component: TellerComponent
         loadChildren:()=>import('./teller/teller.module').then(m=>m.TellerModule)
       },
@@ -35,11 +35,19 @@ const routes: Routes=[
       },
 
       {
-        path: 'tickets', 
+        path: 'tickets',
         loadChildren:()=>import('./ticket/ticket.module').then(m=>m.TicketModule)
       },
       {
-        path: 'prueba', 
+        path: 'videos',
+        loadChildren:()=>import('./videos/videos.module').then(m=>m.VideosModule)
+      },
+      {
+        path: 'cards',
+        loadChildren:()=>import('./cards/cards.module').then(m=>m.CardsModule)
+      },
+      {
+        path: 'prueba',
         loadChildren:()=>import('./prueba/prueba.module').then(m=>m.PruebaModule)
       }
       /*{

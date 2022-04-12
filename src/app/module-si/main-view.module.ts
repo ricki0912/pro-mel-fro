@@ -34,10 +34,11 @@ import { SearchClientComponent } from './main-view/pages/search-client/search-cl
 
 
 
+
 @NgModule({
   declarations: [
     MainViewComponent,
-    SearchClientComponent,
+    SearchClientComponent
   ],
   imports: [
     MainViewRoutingModule,
