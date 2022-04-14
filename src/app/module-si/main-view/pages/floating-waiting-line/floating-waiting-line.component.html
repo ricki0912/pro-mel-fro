@@ -1,7 +1,7 @@
 <!-- This button triggers the overlay and is it's origin -->
 
-<button  [matBadge]="nroCallPending" [matBadgeHidden]="nroCallPending==0" mat-icon-button matBadgeColor="warn" (click)="isOpen = !isOpen" type="button" cdkOverlayOrigin
-  #trigger="cdkOverlayOrigin">
+<button [matBadge]="nroCallPending" [matBadgeHidden]="nroCallPending==0" mat-icon-button matBadgeColor="warn"
+  (click)="beforeCall()" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
   <mat-icon>tablet</mat-icon>
 </button>
 
@@ -11,18 +11,36 @@
   <div class="example-list">
     <div class="control-now">
 
-        <mat-icon>note</mat-icon><span><b>4562</b></span> 
+      <mat-icon>note</mat-icon><span><b>{{(tAppointmentTemp!=null)?joinCodeTicket(tAppointmentTemp):'- - -
+          -'}}</b></span>
 
 
-      <mat-icon>device_hub</mat-icon><span><b>12</b></span>
+      <mat-icon>device_hub</mat-icon><span><b>{{(tAppointmentTemp!=null)?tAppointmentTemp.catCode:'- - - -'}}</b></span>
+      
+      
       <mat-icon>access_time</mat-icon><span><b>
-          <app-chronometer [elapsedSeconds]="0"></app-chronometer>
-
+          <app-chronometer *ngIf="tAppointmentTemp!=null"
+            [elapsedSeconds]="tAppointmentTemp.elapsedSecondsStartAttention"></app-chronometer>
+          {{(tAppointmentTemp==null)?'- - - -':''}}
         </b></span>
 
 
-      <button mat-button style="background-color: green; color:white;">Llamar
-      </button>
+      <button mat-button 
+        *ngIf="tAppointmentTemp==null && isLoading==false"
+        style="background-color: green; color:white; width: 100%;"
+        (click)="startCallByTeller(selectedTeller)">Llamar
+        siguiente</button>
+
+        <button mat-button
+        *ngIf="tAppointmentTemp!=null"
+         style="background-color: #007bff; color:white; width: 100%;"
+          (click)="beforeCallAgain()">Re Llamar</button>
+        <button mat-button 
+        *ngIf="tAppointmentTemp!=null"
+        style="background-color: #dc3545;; color:white; width: 100%;"
+        (click)="openDialogAddComment()">Finalizar</button>
+
+
 
     </div>
 

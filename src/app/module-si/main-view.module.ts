@@ -10,6 +10,9 @@ import { MatListModule } from '@angular/material/list';
 import { LayoutModule } from '@angular/cdk/layout';
 import { RouterModule } from '@angular/router';
 
+import {MatDialogModule} from '@angular/material/dialog';
+
+
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -27,6 +30,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { MainViewRoutingModule } from './main-view-routing.module';
 
+
 /**Cli */
 
 import { MainViewComponent } from './main-view/main-view.component';
@@ -42,12 +46,8 @@ import { AuthModuleSIInterceptor } from '../core/http/auth-module-si.interceptor
 @NgModule({
   declarations: [
     MainViewComponent,
-<<<<<<< HEAD
-    SearchClientComponent
-=======
     SearchClientComponent,
     FloatingWaitingLineComponent,
->>>>>>> Ricardo
   ],
   imports: [
     MainViewRoutingModule,
@@ -72,7 +72,8 @@ import { AuthModuleSIInterceptor } from '../core/http/auth-module-si.interceptor
     MatProgressBarModule,
     MatBadgeModule,
     OverlayModule,
-    ChronometerModule
+    ChronometerModule,
+    MatDialogModule,
 
   ],
   exports: [

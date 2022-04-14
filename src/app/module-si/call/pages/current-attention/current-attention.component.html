@@ -93,7 +93,7 @@
             </div>
           </td>
         </tr>
-        <tr *ngIf="tAppointmentTemp==null">
+        <tr *ngIf="tAppointmentTemp==null && isLoading==false">
           <td colspan="2">
             <button  mat-button style="background-color: green; color:white; width: 100%;" (click)="callNext()">Llamar
               siguiente</button>

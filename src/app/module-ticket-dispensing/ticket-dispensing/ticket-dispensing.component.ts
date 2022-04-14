@@ -241,7 +241,9 @@ export class TicketDispensingComponent implements OnInit {
     const t={
       dateTicket:this.dateFormat(d), 
       numberTicket:this.joinCodeTicket(d), 
-      categoryTicket:d.teller?.tellCode/*ventanilla*/
+      tellerTicket:d.teller?.tellCode,/*ventanilla*/
+      phraseTicket:'Frase Frase',
+      codeQrTicket:'melendres.com'
     } 
     try {
       electron.ipcRenderer.send('print-ticket', t)

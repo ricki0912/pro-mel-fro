@@ -59,6 +59,7 @@ export class CallComponent implements OnInit {
     //this.readCategory();
     this.getSocketWaitingLine()
     //this.readAppointmentTempCRUD(0,0);
+    this.selectSearch()
   }
 
 

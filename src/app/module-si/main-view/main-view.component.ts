@@ -57,7 +57,6 @@ export class MainViewComponent implements OnInit {
 
   toggleMenu() {
     this.showMenu = !this.showMenu;
-<<<<<<< HEAD
   }
 
   doChanges(){
@@ -73,23 +72,6 @@ export class MainViewComponent implements OnInit {
       window.location.reload();
     });
   }
-=======
- }
-
- doChanges(){
-   this.toggleMenu()
-   //this.loadingService.show();
-
- }
- signOut(){
-  this.tokenService.signOut();
-  this.router.navigate(['auth/login'])
-  .then(() => {
-    window.location.reload();
-  });
- }
-
->>>>>>> Ricardo
 }
 
 

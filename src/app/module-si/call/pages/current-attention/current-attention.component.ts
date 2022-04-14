@@ -19,7 +19,7 @@ import { CommentCallComponent } from '../comment-call/comment-call.component';
 })
 export class CurrentAttentionComponent implements OnInit {
   isLoading:boolean=false
-  tAppointmentTemp:TAppointmentTemp | null=null
+  tAppointmentTemp:TAppointmentTemp | null=null//{elapsedSeconds:0, elapsedSecondsStartAttention:0, catCode:'',apptmNro:0}
   @Input() selectedTApptm: TAppointmentTemp[]=[]
   @Input() selectedTeller: number=-1
 
@@ -41,8 +41,6 @@ export class CurrentAttentionComponent implements OnInit {
 
  joinCodeTicket(element: TAppointmentTemp) {
     return element.catCode + String(element.apptmNro).padStart(2, '0')
-  
-  
   }
 
 
@@ -123,10 +121,13 @@ export class CurrentAttentionComponent implements OnInit {
       next:d=>{
         this.isLoading=false
         const t=d.data as TAppointmentTemp[];
-        if(t.length>0)
-        this.tAppointmentTemp=t[0]
-        console.log(this.tAppointmentTemp)
-        
+        if(t.length>0){
+          this.tAppointmentTemp=t[0]
+          console.log(this.tAppointmentTemp)
+        }else{
+            this.tAppointmentTemp=null
+          
+        }
       }
     })
   }

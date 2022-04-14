@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
-import { APPOINTMENT_STATE } from 'src/app/interfaces/appointment-temp';
+import { AppointmentTemp, APPOINTMENT_STATE, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
 import { AppointmentTempService } from 'src/app/services/appointment-temp.service';
 import { FloatingWaitingLineService } from './floating-waiting-line.service';
 import { WaitingLineService } from 'src/app/socket/waiting-line.service';
 import { SocketInterface, SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
+import { CommentCallComponent } from 'src/app/module-si/call/pages/comment-call/comment-call.component';
+import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-floating-waiting-line',
@@ -13,83 +16,193 @@ import { SocketInterface, SOCKET_ACTION } from 'src/app/global/parents/socket.in
   styleUrls: ['./floating-waiting-line.component.scss']
 })
 export class FloatingWaitingLineComponent implements OnInit {
+  isLoading=false;
   isOpen = false;
-  title :string= 'Melendres Auditores'
-  nroCallPending:number=0
-
-  soundAlert=new Audio('assets/sounds/sound03s.mp3')
-
+  title: string = 'Melendres Auditores'
+  nroCallPending: number = 0
+  soundAlert = new Audio('assets/sounds/sound03s.mp3')
   currentUser: any;
+  tAppointmentTemp:TAppointmentTemp|null =null
 
-  selectedTeller?:number
+
+  selectedTeller: number=-1
   constructor(
-    private fwlService:FloatingWaitingLineService,
+    private fwlService: FloatingWaitingLineService,
     private appointmentTempService: AppointmentTempService,
-    private titleService:Title,
+    private titleService: Title,
     private tokenService: TokenStorageService,
-    private waitingLineService:WaitingLineService
+    private waitingLineService: WaitingLineService, 
+    private dialog:MatDialog
 
   ) {
     this.currentUser = this.tokenService.getUser();
-    if(this.currentUser)
-    this.selectedTeller= this.currentUser.user.tellers[0]?.tellId || -1
-   }
+    if (this.currentUser){
+      this.selectedTeller = this.currentUser.user.tellers[0]?.tellId || -1  
+    }
+    }
 
   ngOnInit(): void {
-    //this.titleService.setTitle('+ this.title)
-   this.fwlService.onNotification.subscribe(d=>{
-   }) 
-   
-   this.getNroPending(APPOINTMENT_STATE.PENDING, this.selectedTeller || -1);
 
-   this.getSocketWaitingLine(this.selectedTeller || -1)
-   this.soundAlert.muted = true; 
+   
+    //this.titleService.setTitle('+ this.title)
+    this.fwlService.onNotification.subscribe(d => {
+    })
+
+    this.getNroPending(APPOINTMENT_STATE.PENDING, this.selectedTeller || -1);
+
+    this.getSocketWaitingLine(this.selectedTeller || -1)
+    this.soundAlert.muted = true;
 
   }
 
-  private getNroPending(apptmState:number, tellId:number){
-    this.appointmentTempService.getNroTotal(apptmState, tellId).subscribe({
+  joinCodeTicket(element: TAppointmentTemp) {
+    return element.catCode + String(element.apptmNro).padStart(2, '0')
+  
+  
+  }
+
+  beforeCall(){
+    this.isOpen = !this.isOpen
+    if(this.currentUser && this.isOpen){
+      this.tAppointmentTemp=null
+      this.getAttentionPendingByTeller(this.selectedTeller)
+    }
+  }
+
+  openDialogAddComment(): boolean {
+    const dialogRef = this.dialog.open(CommentCallComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: null,
+        type: TYPES_ACTIONS_DIALOG.ADD
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result:AppointmentTemp) => {
+      if(result){
+        result.apptmState=APPOINTMENT_STATE.ATTENDED;
+        this.finalizeCall(this.tAppointmentTemp?.apptmId || -1, result)
+      }
+    });
+    return false;
+  }
+
+
+  private getAttentionPendingByTeller(tellId:number){
+    this.isLoading=true;
+    this.appointmentTempService.getAttentionPendingByTeller(tellId).subscribe({
+      next:d=>{
+        this.isLoading=false
+        const t=d.data as TAppointmentTemp[];
+        if(t.length>0)
+        this.tAppointmentTemp=t[0]
+        console.log(this.tAppointmentTemp)
+        
+      }
+    })
+  }
+
+  public startCallByTeller(tellId:number, apptmId?:number){
+    this.isLoading=true;
+
+    this.appointmentTempService.startCallByTeller(tellId,apptmId).subscribe({
+      next:d=>{
+        console.log(d)
+        this.isLoading=false
+        const t=d.data as TAppointmentTemp[];
+        if(t.length>0){
+          this.tAppointmentTemp=t[0]
+          
+          this.setSocketTV({action:SOCKET_ACTION.TV_ADD_TARGET_CALL, data: this.tAppointmentTemp})
+          //this.setTVAddTargetCall(this.tAppointmentTemp)
+        }
+        
+      },
+       error:er=>{
+
+      }
+    });
+  }
+
+  public finalizeCall(apptmId:number, appointmentTemp:AppointmentTemp){
+    this.appointmentTempService.finalizeCall(apptmId, appointmentTemp ).subscribe({
       next: d=>{
-        const data=d.data as any[];
-        this.nroCallPending=data[0].nroTotal
+        this.tAppointmentTemp=null
+        console.log(d)
+      }
+    })
+  }
+
+  //consulta a base de datos
+
+  private getNroPending(apptmState: number, tellId: number) {
+    console.log("id teller", tellId)
+    this.appointmentTempService.getNroTotal(apptmState, tellId).subscribe({
+      next: d => {
+        const data = d.data as any[];
+        this.nroCallPending = data[0].nroTotal
         this.setTitlePage(this.nroCallPending)
-          this.soundAlert.muted = false; 
+        this.soundAlert.muted = false;
 
       }
     })
     //this.appointmentTempService.getNroTotal(APPOINTMENT_STATE.PENDING);
   }
 
-  private setTitlePage(nroCallPending:number){
-    if(nroCallPending==0){
-      this.titleService.setTitle(this.title)
-    }else {
-      this.titleService.setTitle('('+nroCallPending+') '+ this.title)
+
+  beforeCallAgain(){
+    if(this.tAppointmentTemp)
+    this.tAppointmentTemp.apptmNroCalls=(this.tAppointmentTemp?.apptmNroCalls || 0)+1
+    const a=this.tAppointmentTemp
+    if(a){
+      this.callAgain(a.apptmId || -1)
+      //this.setTVRefreshTargetCall(a);
+      this.setSocketTV({action:SOCKET_ACTION.TV_REFRESH_TARGET_CALL, data: a})
     }
   }
-  getSocketWaitingLine (tellId:number){
+
+  public callAgain(apptmId:number){
+    this.appointmentTempService.callAgain(apptmId).subscribe({
+      next: d=>{
+        console.log(d)
+      }
+    })
+  }
+
+  private setTitlePage(nroCallPending: number) {
+    if (nroCallPending == 0) {
+      this.titleService.setTitle(this.title)
+    } else {
+      this.titleService.setTitle('(' + nroCallPending + ') ' + this.title)
+    }
+  }
+  getSocketWaitingLine(tellId: number) {
     console.log("BEFORE -SOCKET -WAITING ", tellId)
 
-  this.waitingLineService.getSocketWaitingLine(tellId).subscribe({
-    next:d=>{
-      console.log("SOCKET -WAITING ", d)
-      const action=d.action;
-      switch (action) {
-        case SOCKET_ACTION.WAITING_LINE_ADD_APPOINTMENT:
+    this.waitingLineService.getSocketWaitingLine(tellId).subscribe({
+      next: d => {
+        console.log("SOCKET -WAITING ", d)
+        const action = d.action;
+        switch (action) {
+          case SOCKET_ACTION.WAITING_LINE_ADD_APPOINTMENT:
             this.showNotification()
-          break;
-      
-        default:
-          break;
+            break;
+
+          default:
+            break;
+        }
       }
-    }
-  })
-}
+    })
+  }
 
-private showNotification(){
-            this.nroCallPending+=1
-            this.setTitlePage(this.nroCallPending)
-            this.soundAlert.play()
-}
+  private showNotification() {
+    this.nroCallPending += 1
+    this.setTitlePage(this.nroCallPending)
+    this.soundAlert.play()
+  }
 
+  private setSocketTV(s:SocketInterface<AppointmentTemp>){
+    this.waitingLineService.setSocketTV(s)
+
+}
 }
