@@ -58,4 +58,11 @@ export class UserService extends ParentService implements CrudApiInterface{
    changePassword(id:number, newPassword:string){
     return this.https.put<InterfaceParamsResponse<User>>(`${this.API_USER}/${id}/change-password`, {newPassword})
    }
+
+
+  changePasswordFromProfile(passwordOld:string, passwordNew:string, passwordNewRepet:string){
+    return this.https.put<InterfaceParamsResponse<User>>(`${this.API_USER}/change-password`, {passwordOld, passwordNew, passwordNewRepet})
+  }
+
+
 }

@@ -50,6 +50,11 @@
                       <mat-icon>delete</mat-icon>
                       Eliminar
                     </button>
+                    <button mat-menu-item (click)="openDialogSetRoles()">
+                      <mat-icon>view_list</mat-icon>
+                      Roles
+                    </button>
+
                     <button mat-menu-item (click)="openDialogUpd()" [disabled]="selection.selected.length != 1">
                       <mat-icon>edit</mat-icon>
                       <span>Editar</span>

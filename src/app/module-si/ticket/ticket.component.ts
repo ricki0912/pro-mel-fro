@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AppointmentTempService } from 'src/app/services/appointment-temp.service';
 import { AppointmentTemp, APPOINTMENT_STATE, ApptmState, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
+import { MainViewService } from '../main-view/main-view.service';
 
 @Component({
   selector: 'app-ticket',
@@ -19,7 +20,7 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
   styleUrls: ['./ticket.component.scss']
 })
 export class TicketComponent implements OnInit {
-
+  private hqId:number=0
   isLoading: boolean = false
   /*Combo box */
   categories: Category[] = [];
@@ -44,16 +45,21 @@ export class TicketComponent implements OnInit {
     private tellerService: TellerService,
     private appointmentTempService: AppointmentTempService,
     private dialog: MatDialog, 
-    private showMessage:ShowMessageService
-
+    private showMessage:ShowMessageService,
+    private mainViewService:MainViewService
   ) { }
 
   ngOnInit(): void {
-    this.readCategory();
-    this.readTeller();
-    this.readAppointmentTempCRUD(this.selectedTeller,this.selectedCategory,this.selectedApptmState );
+    this.listenRoute(o=>this.readCategory(o))
+    this.listenRoute(o=>this.readTeller(o))
+    this.listenRoute(o=>this.readAppointmentTempCRUD(o, this.selectedTeller,this.selectedCategory,this.selectedApptmState ))
   }
-
+  private listenRoute(c:(o:any)=>void){
+    this.mainViewService.getParams().subscribe(params=>{
+      this.hqId = parseInt(params['hqId'] || 0)
+      c(this.hqId)
+    })
+  }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -91,7 +97,8 @@ export class TicketComponent implements OnInit {
       panelClass: 'dialog',
       data: {
         row: null,
-        type: TYPES_ACTIONS_DIALOG.ADD
+        type: TYPES_ACTIONS_DIALOG.ADD,
+        hqId: this.hqId
       }
     });
     dialogRef.afterClosed().subscribe((result: Teller) => {
@@ -103,7 +110,7 @@ export class TicketComponent implements OnInit {
   }
   //select search
   selectSearch(){
-    this.readAppointmentTempCRUD(this.selectedTeller, this.selectedCategory, this.selectedApptmState)
+    this.readAppointmentTempCRUD(this.hqId,this.selectedTeller, this.selectedCategory, this.selectedApptmState)
   }
 
  /* filterTeller(tellId:number):TTellerJoinPerson{
@@ -116,14 +123,14 @@ export class TicketComponent implements OnInit {
 
   
   //read
-  private readCategory() {
-    this.categoryService.all().subscribe({
+  private readCategory(hqId:number) {
+    this.categoryService.allByHQ(hqId).subscribe({
       next: d => this.categories = d
     })
   }
 
-  private readTeller() {
-    this.tellerService.getJoinPerson().subscribe({
+  private readTeller(hqId:number) {
+    this.tellerService.getJoinPersonByHQ(hqId).subscribe({
       next: d => this.tellers = d.data  as TTellerJoinPerson[]
     })
   }
@@ -134,9 +141,9 @@ export class TicketComponent implements OnInit {
 
 
 
-  readAppointmentTempCRUD(tellId:number, catId:number, apptmState:number): boolean {
+  readAppointmentTempCRUD(hqId:number, tellId:number, catId:number, apptmState:number): boolean {
     this.isLoading = true;
-    this.appointmentTempService.getAllBy(tellId, catId, apptmState).subscribe({
+    this.appointmentTempService.getAllBy(hqId,tellId, catId, apptmState).subscribe({
       next: (r) => {
         console.log("Data dentro de ticket",r)
         this.isLoading = false;

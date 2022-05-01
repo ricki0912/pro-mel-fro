@@ -8,18 +8,22 @@ import {MatSidenavModule, MatSidenav} from '@angular/material/sidenav';
 import { LoadingService } from 'src/app/shared/components/loading/loading.service';
 import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
 import { ThisReceiver } from '@angular/compiler';
+import { User } from 'src/app/interfaces/user';
+import {PMS} from 'src/app/core/permission/pms.enum'
+import { MainViewService } from './main-view.service';
 
 @Component({
   selector: 'app-main-view',
   templateUrl: './main-view.component.html',
-  styleUrls: ['./main-view.component.scss']
+  styleUrls: ['./main-view.component.scss'],
+  providers:[MainViewService]
 
 })
 
 export class MainViewComponent implements OnInit {
   showMenu = false;
   value = 'Clear me';
-  currentUser: any;
+  currentUser!: User;
 
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -34,14 +38,20 @@ export class MainViewComponent implements OnInit {
       private tokenService: TokenStorageService,
       private router:Router
     ) {
-    console.log(this.isHandset$)
-  }
-  ngOnInit(): void {
-      this.loadingService.hide()
+
       if(!this.tokenService.getUser()){
         this.signOut();
       }
-      this.currentUser = this.tokenService.getUser();
+      const u=this.tokenService.getUser()
+      if(u){
+        this.currentUser = u as User
+      } else{
+        this.signOut();
+      }
+  }
+  ngOnInit(): void {
+      this.loadingService.hide()
+    
       console.log(this.currentUser)
   }
 
@@ -68,10 +78,70 @@ export class MainViewComponent implements OnInit {
   signOut(){
     this.tokenService.signOut();
     this.router.navigate(['auth/login'])
-    .then(() => {
+    /*.then(() => {
       window.location.reload();
-    });
+    });*/
   }
+  mainMenu:Menu[]=[
+    {isDisplay:false, name:'Principal',routerLink:'./', icon:'home', permission:PMS.SI_SEE,
+      subMenu:[
+
+      ] 
+    },
+    {isDisplay:false, name:'Clientes',routerLink:'./clients', icon:'business', permission:PMS.SI_CLIENTS_SEE,
+      subMenu: [
+
+      ] 
+    },
+    {isDisplay:false, name:'Linea de Espera',routerLink:'./', icon:'tablet', permission:PMS.SI_SEE,
+      subMenu:[
+        {name:'Atencion', routerLink:'./calls', permission: PMS.SI_CALLS_SEE}, 
+        {name: 'Tickets', routerLink: './tickets', permission: PMS.SI_TICKETS_SEE}, 
+        {name: 'Ventanillas', routerLink:'./tellers', permission: PMS.SI_TELLERS_SEE},
+        {name: 'Categorias', routerLink:'./categories', permission:PMS.SI_CATEGORIES_SEE},
+        {name: 'Videos', routerLink:'./videos', permission: PMS.SI_VIDEOS_SEE},
+        {name: 'Tarjetas', routerLink:'./cards', permission:PMS.SI_CARDS_SEE}
+
+      ] 
+    },
+    {isDisplay:false, name:'Reportes',routerLink:'./', icon:'pie_chart', permission:PMS.SI_REPORT_WAITING_LINE,
+      subMenu: [
+        {name:'Linea de espera', routerLink:'./reports/waiting-line', permission: PMS.SI_REPORT_WAITING_LINE}, 
+        
+      ] 
+    },
+    {isDisplay:false, name:'Usuarios',routerLink:'./', icon:'people', permission:PMS.SI_USERS_SEE,
+      subMenu:[
+        {name: 'Usuarios', routerLink: './users' , permission: PMS.SI_USERS_SEE}, 
+        {name: 'Permisos', routerLink: './permissions', permission: PMS.SI_PERMISSIONS_SEE}
+      ] 
+    },
+    {isDisplay:false, name:'Sedes',routerLink:'./headquarters', icon:'place', permission:PMS.SI_USERS_SEE,
+    subMenu:[
+      
+    ] 
+  },
+  {isDisplay:false, name:'Mi perfil',routerLink:'./profile', icon:'person', permission:PMS.SI_USERS_SEE,
+  subMenu:[
+    
+  ] 
+}
+    
+  ]
 }
 
 
+interface Menu {
+  isDisplay: boolean, 
+  name:string,
+  routerLink:string
+  icon:string
+  subMenu:SubMenu[], 
+  permission: PMS
+}
+
+interface SubMenu{
+  name:string,
+  routerLink:string, 
+  permission:PMS
+}

@@ -5,6 +5,7 @@ import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.in
 import { SocketInterface, SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
 import { AppointmentTemp, APPOINTMENT_STATE, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
 import { Teller } from 'src/app/interfaces/teller';
+import { FloatingWaitingLineService} from 'src/app/module-si/main-view/pages/floating-waiting-line/floating-waiting-line.service';
 import { FindTellerComponent } from 'src/app/module-si/teller/pages/find-teller/find-teller.component';
 import { AppointmentTempService } from 'src/app/services/appointment-temp.service';
 import { ShowMessageComponent } from 'src/app/shared/components/show-message/show-message.component';
@@ -31,12 +32,15 @@ export class CurrentAttentionComponent implements OnInit {
     private appointmentTempService:AppointmentTempService, 
     private dialog:MatDialog, 
     private showMessage:ShowMessageService,
-    private waitingLineService: WaitingLineService
+    private waitingLineService: WaitingLineService,
+    private fwlService:FloatingWaitingLineService
 
   ) { }
 
   ngOnInit(): void {
     this.getAttentionPendingByTeller(this.selectedTeller)
+    this.fwlService.hide()
+
   }
 
  joinCodeTicket(element: TAppointmentTemp) {
@@ -102,9 +106,9 @@ export class CurrentAttentionComponent implements OnInit {
         const t=d.data as TAppointmentTemp[];
         if(t.length>0){
           this.tAppointmentTemp=t[0]
-          
+          this.fwlService.diminish()
           this.returnValue()
-          this.setSocketTV({action:SOCKET_ACTION.TV_ADD_TARGET_CALL, data: this.tAppointmentTemp})
+          this.setSocketTV(this.tAppointmentTemp.hqId||-1, {action:SOCKET_ACTION.TV_ADD_TARGET_CALL, data: this.tAppointmentTemp})
           //this.setTVAddTargetCall(this.tAppointmentTemp)
         }
         
@@ -125,8 +129,7 @@ export class CurrentAttentionComponent implements OnInit {
           this.tAppointmentTemp=t[0]
           console.log(this.tAppointmentTemp)
         }else{
-            this.tAppointmentTemp=null
-          
+            this.tAppointmentTemp=null 
         }
       }
     })
@@ -139,7 +142,7 @@ export class CurrentAttentionComponent implements OnInit {
     if(a){
       this.callAgain(a.apptmId || -1)
       //this.setTVRefreshTargetCall(a);
-      this.setSocketTV({action:SOCKET_ACTION.TV_REFRESH_TARGET_CALL, data: a})
+      this.setSocketTV(a.hqId||-1,{action:SOCKET_ACTION.TV_REFRESH_TARGET_CALL, data: a})
     }
   }
 
@@ -154,13 +157,19 @@ export class CurrentAttentionComponent implements OnInit {
   public undoCall(apptmId:number){
     this.appointmentTempService.undoCall(apptmId).subscribe({
       next: d=>{
-        this.tAppointmentTemp=null
         console.log(d)
         this.returnValue()
-        this.setSocketTV({
+        const hqId=this.tAppointmentTemp?.hqId || -1
+
+        this.tAppointmentTemp=null
+
+        this.setSocketTV(
+          hqId,
+          {
           action:SOCKET_ACTION.TV_REMOVE_TARGET_CALL, 
           data: {apptmId:apptmId}
         })
+
       }
     })
   }
@@ -191,8 +200,8 @@ export class CurrentAttentionComponent implements OnInit {
   }*/
 
 
-  private setSocketTV(s:SocketInterface<AppointmentTemp>){
-      this.waitingLineService.setSocketTV(s)
+  private setSocketTV(hqId:number,s:SocketInterface<AppointmentTemp>){
+      this.waitingLineService.setSocketTV(hqId,s)
 
   }
 

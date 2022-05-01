@@ -20,9 +20,11 @@ import {MatIconModule } from '@angular/material/icon';
 import { DialogConfirmationComponent } from './shared/components/dialog-confirmation/dialog-confirmation.component';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { ModuleSiGuard } from './core/guards/module-si.guard';
+import { CoreModule } from './core/core.module';
 
-//const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
-const config: SocketIoConfig = { url: 'http://192.168.1.96:3000', options: {} };
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+//const config: SocketIoConfig = { url: 'http://192.168.1.96:3000', options: {} };
 
 @NgModule({
   declarations: [
@@ -41,7 +43,7 @@ const config: SocketIoConfig = { url: 'http://192.168.1.96:3000', options: {} };
         MatProgressBarModule,
         MatButtonModule,
         MatIconModule,
-        
+        CoreModule,
         SocketIoModule.forRoot(config)
   ],
   providers: [MatSnackBar,
@@ -49,7 +51,7 @@ const config: SocketIoConfig = { url: 'http://192.168.1.96:3000', options: {} };
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
       multi: true
-    }
+    }, ModuleSiGuard
 ],
   bootstrap: [AppComponent]
 })

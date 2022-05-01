@@ -6,6 +6,7 @@ import { Category, FlatTreeControlCategory } from 'src/app/interfaces/category';
 import { Teller, TELLER_TYPES_STATE } from 'src/app/interfaces/teller';
 import { User } from 'src/app/interfaces/user';
 import { FindCategoryComponent } from 'src/app/module-si/category/pages/find-category/find-category.component';
+import { MainViewService } from 'src/app/module-si/main-view/main-view.service';
 import { FindUserComponent } from 'src/app/module-si/user/pages/find-user/find-user.component';
 import { TellerService } from 'src/app/services/teller.service';
 import { UserService } from 'src/app/services/user.service';
@@ -18,6 +19,9 @@ import { EditComponent } from '../edit/edit.component';
 })
 
 export class CardTellerComponent implements OnInit,ActionDialogInterface, CrudInterface  {
+  
+  //hqId:number=0
+
   @Input() teller: Teller = { tellName: '' };
   user?:User
   categories:Category[]=[];
@@ -31,7 +35,8 @@ export class CardTellerComponent implements OnInit,ActionDialogInterface, CrudIn
     public dialog: MatDialog,
     public  tellerService:TellerService,
     private showMessage: ShowMessageService, 
-    private userSevice:UserService
+    private userSevice:UserService,
+    private mainViewService:MainViewService
 
   ) { }
 
@@ -40,8 +45,16 @@ export class CardTellerComponent implements OnInit,ActionDialogInterface, CrudIn
       this.findUser(this.teller.userId)
     if(this.teller.tellId)
       this.getCategories(this.teller.tellId )
+
+      /*this.listenRoute((o)=>{})*/
   }
 
+  /*private listenRoute(c:(o:any)=>void){
+    this.mainViewService.getParams().subscribe(params=>{
+      this.hqId=parseInt(params['hqId'] || 0)
+      c(this.hqId)
+    })
+  }*/
   /*Dialogs */ 
   openDialogSetUser(){
     const dialogRef = this.dialog.open(FindUserComponent, {
@@ -64,7 +77,8 @@ export class CardTellerComponent implements OnInit,ActionDialogInterface, CrudIn
       panelClass: 'dialog',
       data: {
         row: null,
-        type: null
+        type: null,
+        hqId:this.teller.hqId
       }
     });
     dialogRef.afterClosed().subscribe((result:FlatTreeControlCategory) => {

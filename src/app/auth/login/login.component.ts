@@ -24,14 +24,12 @@ export class LoginComponent implements OnInit {
   isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
-  roles: string[] = [];
 
   loginForm: FormGroup = this.fb.group({
     email: ['', Validators.required],
     password: ['', Validators.required],
   })
   submitted=false;
-
 
   constructor(
     private authService: AuthService,
@@ -45,7 +43,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
-      this.roles = this.tokenStorage.getUser().roles;
+      
       this.reloadPage();
     }
     this.loadingService.hide();
@@ -57,11 +55,10 @@ export class LoginComponent implements OnInit {
     this.authService.login(o.email, o.password).subscribe({
       next: data => {
         this.tokenStorage.saveToken(data.accessToken);
-        this.tokenStorage.saveUser(data);
+        this.tokenStorage.saveUser(data.user);
 
         this.isLoginFailed = false;
         this.isLoggedIn = true;
-        this.roles = this.tokenStorage.getUser().roles;
         this.reloadPage();
 
         this.loadingService.hide();
@@ -83,11 +80,12 @@ export class LoginComponent implements OnInit {
   }
 
   reloadPage(): void {
+    this.router.navigate([`si/${this.tokenStorage.getHqId()}`])
     //window.location.reload();
-    this.router.navigate(['si'])
+    /*this.router.navigate(['si'])
       .then(() => {
         window.location.reload();
-      });
+      });*/
   }
 
 

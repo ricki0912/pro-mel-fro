@@ -34,6 +34,9 @@ export class TellerService extends ParentService {
       return this.https.get<Teller[]>(this.API_TELLER);
   }
 
+  public allByHQ(hqId:number){
+    return this.https.get<Teller[]>(`${this.API_TELLER}/all-by-hq?hqId=${hqId}`);
+  }
 
   public add(object: Teller):Observable<InterfaceParamsResponse<Teller>>{
     return this.https.post<InterfaceParamsResponse<Teller>>(`${this.API_TELLER}`, object);
@@ -77,12 +80,15 @@ export class TellerService extends ParentService {
   }
 
   /*join */
-  public getJoinPerson():Observable<InterfaceParamsResponse<TTellerJoinPerson>>{
+  /*public getJoinPerson():Observable<InterfaceParamsResponse<TTellerJoinPerson>>{
     return this.https.get<InterfaceParamsResponse<TTellerJoinPerson>>(`${this.API_TELLER}/get-join-person`);
+  }*/
+  public getJoinPersonByHQ(hqId:number):Observable<InterfaceParamsResponse<TTellerJoinPerson>>{
+    return this.https.get<InterfaceParamsResponse<TTellerJoinPerson>>(`${this.API_TELLER}/get-join-person-by-hq?hqId=${hqId}`);
   }
-
+/*
   public getJoinPersonByUser(id:number):Observable<InterfaceParamsResponse<TTellerJoinPerson>>{
     return this.https.get<InterfaceParamsResponse<TTellerJoinPerson>>(`${this.API_TELLER}/get-join-person`);
-  }
+  }*/
 
 }

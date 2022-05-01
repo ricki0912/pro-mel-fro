@@ -15,6 +15,8 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
 import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
 import { WaitingLineService } from 'src/app/socket/waiting-line.service';
 import { SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
+import { MainViewService } from '../main-view/main-view.service';
+import { User } from 'src/app/interfaces/user';
 
 
 @Component({
@@ -23,6 +25,7 @@ import { SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
   styleUrls: ['./call.component.scss']
 })
 export class CallComponent implements OnInit {
+  
   user:any={}
   
   isLoading: boolean = false
@@ -30,14 +33,15 @@ export class CallComponent implements OnInit {
   //categories: Category[] = [];
   tellers: TTellerJoinPerson[] = []
   selectedCategory: number = 0
+  currentTeller:Teller={tellName:'Ninguno'}
   selectedTeller: number 
+
 
 
   displayedColumns: string[] = ['select', 'position', 'ticket', 'code_category', 'category', 'time'];
   dataSource = new MatTableDataSource<TAppointmentTemp>();
   selection = new SelectionModel<TAppointmentTemp>(true, []);
   
-  currentUser: any;
 
   constructor(
     private categoryService: CategoryService,
@@ -47,12 +51,13 @@ export class CallComponent implements OnInit {
     private showMessage:ShowMessageService,
     private tokenService: TokenStorageService,
     private waitingLineService:WaitingLineService,
+    private mainViewService:MainViewService
 
 
   ) {
-    this.currentUser = this.tokenService.getUser();
-
-    this.selectedTeller=this.currentUser.user.tellers[0].tellId || -1
+    this.currentTeller=this.tokenService.getTeller() || {tellName:"Solicita que te asignen una ventanilla."}
+    this.selectedTeller=this.currentTeller.tellId || -1
+    
    }
 
   ngOnInit(): void {
@@ -60,9 +65,15 @@ export class CallComponent implements OnInit {
     this.getSocketWaitingLine()
     //this.readAppointmentTempCRUD(0,0);
     this.selectSearch()
+    //this.listenRoute(()=>this.selectSearch())
   }
 
-
+ /* private listenRoute(c:(o:any)=>void){
+    this.mainViewService.getParams().subscribe(params=>{
+      this.hqId=parseInt(params['hqId'] || 0)
+      c(this.hqId);
+    })
+  }*/
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -111,7 +122,7 @@ export class CallComponent implements OnInit {
   } 
   //select search
   selectSearch(){
-    this.readAppointmentTempCRUD(this.selectedTeller, this.selectedCategory, APPOINTMENT_STATE.PENDING)
+    this.readAppointmentTempCRUD(this.currentTeller.hqId || -1,this.selectedTeller, this.selectedCategory, APPOINTMENT_STATE.PENDING)
   }
 /*
   filterTeller(tellId:number):TTellerJoinPerson{
@@ -147,9 +158,9 @@ export class CallComponent implements OnInit {
 
 
 
-  readAppointmentTempCRUD(tellId:number, catId:number,apptmState:number): boolean {
+  readAppointmentTempCRUD(hqId:number,tellId:number, catId:number,apptmState:number): boolean {
     this.isLoading = true;
-    this.appointmentTempService.getAllBy(tellId, catId,apptmState).subscribe({
+    this.appointmentTempService.getAllBy(hqId,tellId, catId,apptmState).subscribe({
       next: (r) => {
         this.isLoading = false;
         this.dataSource.data = r.data as TAppointmentTemp[]

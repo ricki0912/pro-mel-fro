@@ -1,50 +1,45 @@
-<mat-sidenav-container class="sidenav-container mat-elevation-z8"  >
+<mat-sidenav-container class="sidenav-container mat-elevation-z8">
+
+
   <mat-sidenav #drawer class="sidenav color-primary" style="width: 240px;" [fixedInViewport]="false"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false">
-
-
-
+    <app-select-headquarter></app-select-headquarter>
     <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
 
-    <h4 class="name">{{currentUser.user.person.perName}}</h4>
-    <p class="designation">{{currentUser.user.tellers[0]?.tellName || ''}}</p>
-    
+    <h4 class="name">{{currentUser.person.perName}}</h4>
+    <p class="designation" *ngFor="let e of currentUser.tellers">{{e.tellName}}</p>
+
     <mat-divider></mat-divider>
+    <div *ngFor="let m of mainMenu">
+      <div *appPermission="m.permission">
+        <button *ngIf="m.subMenu.length==0" [routerLink]="m.routerLink"  mat-button class="menu-button">
+          <mat-icon>{{m.icon}}</mat-icon>
+          <span>{{m.name}}</span>
+        </button>
 
-    <button routerLink="/" mat-button class="menu-button">
-      <mat-icon>home</mat-icon>
-      <span>Principal</span>
-    </button>
-    <button
-      routerLink="/clients"
-      mat-button
-      class="menu-button"
-      (click)="doChanges()"
-    >
-      <mat-icon>people</mat-icon>
-      <span>Clientes </span>
-    </button>
+        <button mat-button *ngIf="m.subMenu.length>0" class="menu-button" (click)="m.isDisplay=!m.isDisplay">
+          <mat-icon>{{m.icon}}</mat-icon>
+          <span>{{m.name}}</span>
+          <mat-icon *ngIf="!m.isDisplay">chevron_right</mat-icon>
+          <mat-icon *ngIf="m.isDisplay">expand_more</mat-icon>
+        </button>
+        <mat-nav-list *ngIf="m.subMenu.length>0 && m.isDisplay" class="sidenav-submenu">
 
-    <button mat-button class="menu-button" (click)="toggleMenu()">
-      <mat-icon>tablet</mat-icon>
-      <span>Linea de Espera</span>
-      <mat-icon *ngIf="!showMenu">chevron_right</mat-icon>
-      <mat-icon *ngIf="showMenu">expand_more</mat-icon>
-    </button>
+            <ng-container  *ngFor="let s of m.subMenu"  >
+              <a *appPermission="s.permission" style="color: white;"mat-list-item [routerLink]="s.routerLink">
 
-    <mat-nav-list class="sidenav-submenu" *ngIf="showMenu">
-      <a mat-list-item routerLink="/calls" *ngIf="currentUser.user.tellers"> Atención</a>
-      <a mat-list-item routerLink="/tickets"> Tickets</a>
-      <a mat-list-item routerLink="/tellers" (click)="doChanges()">
-        Ventanillas</a
-      >
-      <a mat-list-item routerLink="/categories" (click)="doChanges()">
-        Categorias
-      </a>
-      <a mat-list-item routerLink="/videos" (click)="doChanges()"> Videos </a>
-      <a mat-list-item routerLink="/cards" (click)="doChanges()"> Tarjetas </a>
-    </mat-nav-list>
+            <mat-icon></mat-icon>{{s.name}}
+          </a>
+
+          </ng-container>
+
+        </mat-nav-list>
+      </div>
+    </div>
+
+
+
 
     <!--
     <button routerLink="/" (click)="doChanges()" mat-button class="menu-button">
@@ -61,19 +56,26 @@
       <mat-icon>info</mat-icon>
       <span>About</span>
     </button>-->
-
-   
-
-    <button routerLink="/users" mat-button class="menu-button">
-      <mat-icon>info</mat-icon>
+    <!--<button mat-button class="menu-button" (click)="toggleMenu()">
+      <mat-icon>people</mat-icon>
       <span>Usuarios</span>
+      <mat-icon *ngIf="!showMenu">chevron_right</mat-icon>
+      <mat-icon *ngIf="showMenu">expand_more</mat-icon>
     </button>
+    <mat-nav-list class="sidenav-submenu" *ngIf="showMenu">
+      <a mat-list-item routerLink="/users" *ngIf="currentUser.tellers"> Usuarios</a>
+      <a mat-list-item routerLink="/permissions"> Permisos</a>
+    </mat-nav-list>
+
+
+  -->
+    <!--<mat-divider></mat-divider>
+
     <button mat-button class="menu-button">
       <mat-icon>info</mat-icon>
-      <span>Perfil</span>
-    </button>
+      <span>Mi perfil</span>
+    </button>-->
 
-    <mat-divider></mat-divider>
 
     <!--<button mat-button class="menu-button">
       <mat-icon>help</mat-icon>
@@ -81,34 +83,31 @@
     </button>-->
 
 
-  
+
 
 
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-      >
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>MELENDRES AUDITORES </span>
-
-      <div class="example-spacer" style="background-color: violet"></div>
+     <!--<span>MELENDRES AUDITORES </span>-->
 
 
-  
-      
+
+
+
 
      
-      <app-search-client></app-search-client>
+      <div class="example-spacer" style="">
+        <app-search-client></app-search-client>
+      </div>
+
       <!--<button matBadge="8" mat-icon-button matBadgeColor="warn" >
         <mat-icon>tablet</mat-icon>
       </button>-->
-      <app-floating-waiting-line *ngIf="currentUser.user.tellers"></app-floating-waiting-line>
+      <app-floating-waiting-line *ngIf="currentUser.tellers"></app-floating-waiting-line>
       <!--matBadgePosition="before"-->
       <!--notifications-->
       <!--notifications_active-->
@@ -123,18 +122,15 @@
         " />
         <mat-menu #menu="matMenu">
           <div style="min-width: 220px" align="center">
-            <img
-              class="avatar mat-elevation-z8"
-              src="https://source.unsplash.com/c_GmwfHBDzk/200x200"
-            />
+            <img class="avatar mat-elevation-z8" src="https://source.unsplash.com/c_GmwfHBDzk/200x200" />
             <p>
-             
+
               <br />
-              <b> <a mat-flat-button href="#">{{currentUser.user.person.perName}}</a>
+              <b> <a mat-flat-button href="#">{{currentUser.person.perName}}</a>
               </b>
               <br>
-              {{currentUser.user.email}}
-            
+              {{currentUser.email}}
+
             </p>
             <a mat-stroked-button href="#">Ver Perfil</a>
             <!-- <h4 class="name">John Smith</h4>
@@ -143,12 +139,7 @@
 
             <mat-divider></mat-divider>
 
-            <button
-              mat-stroked-button
-              color="warn"
-              style="text-align: center"
-              (click)="signOut()"
-            >
+            <button mat-stroked-button color="warn" style="text-align: center" (click)="signOut()">
               <b>Salir</b>
             </button>
           </div>

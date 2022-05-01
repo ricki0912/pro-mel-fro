@@ -1,5 +1,6 @@
 import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { SocketInterface, SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
 import { AppointmentTemp, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
 import { AppointmentTempService } from 'src/app/services/appointment-temp.service';
@@ -11,29 +12,38 @@ import { WaitingLineService } from 'src/app/socket/waiting-line.service';
   styleUrls: ['./called.component.scss']
 })
 export class CalledComponent implements OnInit {
+  private hqId:number=0
   tAppointmentTemps:TAppointmentTemp[]=[]
   soundAlertC=new Audio('assets/sounds/sound02l.mp3')
   limit = 0;
 
   constructor(
     private appointmentTempService: AppointmentTempService,
-    private waitingLineService: WaitingLineService
-
+    private waitingLineService: WaitingLineService,
+    private activatedRouted:ActivatedRoute
   ) { }
 
   ngOnInit(): void {
 
-    this.getAttentionNoPending(10);
-    this.getSocketTV();
+    this.listenRoute(o=>{this.getAttentionNoPending(o,10); this.getSocketTV(o)})
+    
     this.soundAlertC.muted = true; 
 
     //this.getTVRefreshTargetCall()
     //this.getTVAddTargetCall()
   }
 
+  private listenRoute(c:(o:any)=>void){
+    this.activatedRouted.params.subscribe(params=>{
 
-  public getAttentionNoPending(limit:number){
-    this.appointmentTempService.getAttentionNoPending(limit).subscribe({
+      this.hqId=parseInt(params['hqId'] || 0)
+      c(this.hqId)
+    });
+  }
+
+
+  public getAttentionNoPending(hqId:number,limit:number){
+    this.appointmentTempService.getAttentionNoPendingByHQ(hqId,limit).subscribe({
       next:d=>{
         this.tAppointmentTemps=d.data as TAppointmentTemp[]
         console.log(d)
@@ -46,8 +56,8 @@ export class CalledComponent implements OnInit {
 
   /*llamar socket refresh */
   
-  public getSocketTV(){
-      this.waitingLineService.getSocketTV().subscribe({
+  public getSocketTV(hqId:number){
+      this.waitingLineService.getSocketTV(hqId).subscribe({
         next:d=>{
           const action=d.action
           switch(action){

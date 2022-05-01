@@ -9,6 +9,9 @@ import { TellerService } from 'src/app/services/teller.service';
 import { LoadingService } from 'src/app/shared/components/loading/loading.service';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { MainViewService } from '../main-view/main-view.service';
 
 //dialogo
 //import { EditComponent } from './edit/edit.component';
@@ -22,8 +25,9 @@ import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-co
 export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInterface, CrudInterface {
   isLoading=true;
   tellers: Teller[]=[];
-
-
+  
+  /*Id de sede */
+  private hqId:number=0;
 
   ngAfterViewInit() {
   }
@@ -32,16 +36,29 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
     public dialogEditUser: MatDialog,
     private tellerService: TellerService,
     private loadingService: LoadingService,
-    private showMessage: ShowMessageService
+    private showMessage: ShowMessageService,
+    private mainViewService:MainViewService
     ) {
 
   }
 
   ngOnInit(): void {
-    this.readCRUD()
+    this.listenRoute((o)=>this.readCRUD(o))
   }
-
+  
+  private listenRoute(c:(o:any)=>void){
+    this.mainViewService.getParams().subscribe((params)=>{
+      this.hqId = parseInt(params['hqId'] || 0)
+      c(this.hqId)
+    })
+  }
   /*OPEN MODAL  */
+  beforeOpenDialogAdd(){
+    if(this.hqId==0){
+      return;
+    }
+    this.openDialogAdd()
+  }
   openDialogAdd(): boolean {
     const dialogRef = this.dialogEditUser.open(EditComponent, {
       panelClass: 'dialog',
@@ -52,6 +69,7 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
     });
     dialogRef.afterClosed().subscribe((result:Teller) => {
       if(result){
+        
         this.createCRUD(result)
       }
     });
@@ -81,6 +99,7 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
 
   /*Crud service */
   createCRUD(object: Teller): boolean {
+    object.hqId=this.hqId
     this.tellerService.add(object).subscribe({
       next: data=>{
         //this.readCRUD()
@@ -110,9 +129,10 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
     return true;
   }
 
-  readCRUD(): boolean {
+  readCRUD(hqId:number): boolean {
+    console.log("HQID", hqId)
     this.isLoading=true;
-    this.tellerService.all().subscribe({
+    this.tellerService.allByHQ(hqId).subscribe({
       next: d=>{
         this.tellers=d
         this.isLoading=false
@@ -147,7 +167,7 @@ export class TellerComponent implements OnInit, AfterViewInit, ActionDialogInter
     this.tellerService.del(id).subscribe({
       next: data=>{
         this.showMessage.success({message: data.msg});
-        this.readCRUD();
+        this.readCRUD(this.hqId);
       },
       error: error=>{
         this.showMessage.error({message: error.error.message})

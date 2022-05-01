@@ -7,6 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { CategoryHelpers } from '../../../../global/helpers/category.helpers';
+import { MainViewService } from 'src/app/module-si/main-view/main-view.service';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { CategoryHelpers } from '../../../../global/helpers/category.helpers';
   styleUrls: ['./find-category.component.scss']
 })
 export class FindCategoryComponent implements OnInit, OnDestroy {
+  hqId:number=0
   /**guardar el id ultimo  */
   catIdSelected = -1;
   flatTreeControlCategory?: FlatTreeControlCategory;
@@ -32,20 +34,24 @@ export class FindCategoryComponent implements OnInit, OnDestroy {
   constructor(
     public mediaObserver: MediaObserver,
     private categoryService: CategoryService,
+    private mainViewService:MainViewService,
     private dialogRef: MatDialogRef<FindCategoryComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { row: FlatTreeControlCategory, type: Number }
+    @Inject(MAT_DIALOG_DATA) public data: { row: FlatTreeControlCategory, type: Number, hqId:number }
   ) {
   }
 
   ngOnInit(): void {
     this.selectCategory(this.data.row);
-    this.showData();
+    this.showData(this.data.hqId)
+    //this.listenRoute(o=>this.showData(o))
   }
+
 
   ngOnDestroy(): void {
     //this.mediaSub.unsubscribe();
 
   }
+
 
   selectCategory = (row: FlatTreeControlCategory) => {
     this.flatTreeControlCategory = row;
@@ -60,8 +66,8 @@ export class FindCategoryComponent implements OnInit, OnDestroy {
   /**para ver si tiene hijos no no  */
 
   //conexion a services para mostarar informacion 
-  showData = () => {
-    this.categoryService.all().subscribe({
+  showData = (hqId:number) => {
+    this.categoryService.allByHQ(hqId).subscribe({
       complete: () => { },
       next: (r: Category[]) => {
         this.dataSource.data = CategoryHelpers.convertTableToTree(r, undefined);

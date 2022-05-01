@@ -1,0 +1,111 @@
+<mat-grid-list cols="1" rowHeight="30px" style="margin-top:10px ;">
+    <mat-grid-tile colspan="1" rowspan="1">
+        <div class="div-title">
+            <span>Mi perfil</span>
+            <span>
+                <mat-icon>
+                    keyboard_arrow_right</mat-icon>
+            </span>
+            <span>Editar </span>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>
+<mat-divider></mat-divider>
+
+
+<div class="container rounded bg-white mt-5">
+    <div class="row">
+        <div class="col-md-4 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5" src="https://source.unsplash.com/c_GmwfHBDzk/200x200"  width="100">
+                <span class="font-weight-bold">{{currentUser.person.perName}}</span>
+                <span class="text-black-50">{{currentUser.email}}</span>
+                <button mat-button>Cambiar Imagen</button>
+                <button mat-button (click)="openDialogChangePassword()">Cambiar Contraseña</button>
+
+
+
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="p-3 py-5">
+
+                <form class="example-form" [formGroup]="userForm">
+
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <div class="d-flex flex-row align-items-center back">
+                            <i class="fa fa-long-arrow-left mr-1 mb-1"></i>
+                            <h6>Editar Perfil</h6>
+                        </div>
+                        <h6 class="text-right"></h6>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div formGroupName="person">
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width" appearance="legacy">
+                                    <mat-label>Tipo de Identificación</mat-label>
+                                    <mat-select formControlName="perKindDoc">
+                                        <mat-option value="1">DNI</mat-option>
+                                        <mat-option value="2">Carnet de Extranjeria</mat-option>
+                                    </mat-select>
+                                    <mat-error> EL tipo de identidad es requerido. </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width" appearance="legacy">
+                                    <mat-label>DNI</mat-label>
+                                    <input matInput formControlName="perNumberDoc" />
+                                    <mat-error> EL número de identidad es requerido. </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width" appearance="legacy">
+                                    <mat-label>Nombres y Apellidos</mat-label>
+                                    <input matInput formControlName="perName" />
+                                    <mat-error> Los nombres y apellidos son requeridos. </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width" appearance="legacy">
+                                    <mat-label>Número de teléfono</mat-label>
+                                    <input matInput formControlName="perTel" />
+                                    <mat-error> El número de telefono es requerido. </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <mat-form-field class="example-full-width" appearance="legacy">
+                                <mat-label>Correo Electronico</mat-label>
+                                <input matInput formControlName="email" />
+                                <mat-progress-spinner *ngIf="userForm.controls['email'].pending" matSuffix
+                                    [mode]="'indeterminate'" [diameter]="20">
+                                </mat-progress-spinner>
+                                <mat-error>
+                                    {{
+                                    userForm.controls["email"].hasError("required")
+                                    ? "El correo electrónico es requerido"
+                                    : userForm.controls["email"].hasError("existEmail")
+                                    ? "El correo electrónico ya esta en uso."
+                                    : "Ingrese un correo electrónico válido"
+                                    }}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+
+                        </div>
+                    </div>
+
+                    <div class="mt-3 text-right">
+                        <button class="btn btn-primary profile-button" type="button">Guardar cambios</button></div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

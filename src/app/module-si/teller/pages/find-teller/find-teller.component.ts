@@ -21,6 +21,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { User } from 'src/app/interfaces/user';
 import { UserService } from 'src/app/services/user.service';
 import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
+import { MainViewService } from 'src/app/module-si/main-view/main-view.service';
 
 
 
@@ -67,18 +68,17 @@ export class FindTellerComponent implements OnInit, OnDestroy {
     public mediaObserver: MediaObserver,
     private tellerService: TellerService,
     private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: Teller, type: Number },
+    @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: Teller, type: Number, hqId:number},
     private fb: FormBuilder,
     private showMessage: ShowMessageService,
     private dialogRef: MatDialogRef<FindTellerComponent>,
-
+    private mainViewMain:MainViewService
   ) { }
   ngOnInit(): void {
     this.renderScreen()
-    this.readCRUDUserWhitPeson()
+    this.readCRUDUserWhitPeson(this.paramsDialog.hqId)
     //this.selectCategory(this.paramsDialog.row)
   }
-
   ngOnDestroy(): void {
     this.mediaSub.unsubscribe();
   }
@@ -117,9 +117,9 @@ export class FindTellerComponent implements OnInit, OnDestroy {
       });
   }
   
-  readCRUDUserWhitPeson(){
+  readCRUDUserWhitPeson(hqId:number){
     this.isLoading=true;
-    this.tellerService.getJoinPerson().subscribe({
+    this.tellerService.getJoinPersonByHQ(hqId).subscribe({
       next:data=>{
         this.isLoading=false;
 //        this.usersWithPerson=data

@@ -86,6 +86,16 @@
             <mat-error> La contraseña es requerida. </mat-error>
           </mat-form-field>
         </mat-grid-tile>
+
+     
+        <mat-grid-tile>
+          <mat-form-field   class="example-full-width" appearance="outline">
+            <mat-label>Roles</mat-label>
+            <mat-select formControlName="roles"[compareWith]="compareRoleObjects"  multiple>
+              <mat-option  *ngFor="let role of roles" [value]="role">{{role.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile> 
       </mat-grid-list>
     </form>
   </mat-dialog-content>

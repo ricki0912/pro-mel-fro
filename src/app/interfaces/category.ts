@@ -18,6 +18,7 @@ export interface Category extends ParentInterface{
   catLinkBus?:number;
   catAuth?:number;
   catIdParent?:Number;
+  hqId?:number;
 }
   export interface CategoryTree extends Category{
   idParents?: number[];

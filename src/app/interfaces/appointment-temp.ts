@@ -22,6 +22,7 @@ export interface AppointmentTemp extends ParentInterface {
     apptmNumberDocClient?:string; /*RUC, DNI, ETC*/
      catId?:number;
      
+    hqId?:number,
     tellId?:number
     catCode?:string;
     apptmNro?: number;/*NUmero de orden para ssacar cita por categoria */
@@ -40,6 +41,10 @@ export interface AppointmentTemp extends ParentInterface {
     apptmDateStartAttention?:string,
     apptmDateFinishAttention?:string
 
+    apptmScoreClient?:string, 
+    apptmCommentClient?:string,
+    apptmScoreDateClient?:string,
+    apptmCommentDateClient?:string,
 
     teller?:Teller,
     category?:Category,
@@ -54,7 +59,6 @@ export enum APPOINTMENT_KIND_CLIENT {
     BUSINESS=1,
     PERSON=2
 }
-
 
 export interface ApptmState{
     apptmStateId:number,

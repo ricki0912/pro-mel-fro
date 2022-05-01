@@ -42,12 +42,12 @@ export class WaitingLineService {
   }
 
   /*optimizado */
-  public setSocketTV(s:SocketInterface<AppointmentTemp>):void{
-    this.socket.emit('tv:set', s);
+  public setSocketTV(hqId:number, s:SocketInterface<AppointmentTemp>):void{
+    this.socket.emit('tv:set', {hqId:hqId,data:s});
   }
 
-  public getSocketTV():Observable<SocketInterface<AppointmentTemp>>{
-    return this.socket.fromEvent<SocketInterface<AppointmentTemp>>('tv:get')
+  public getSocketTV(hqId:number):Observable<SocketInterface<AppointmentTemp>>{
+    return this.socket.fromEvent<SocketInterface<AppointmentTemp>>('tv:get:'+hqId)
   }
 
   public setSocketLineWaiting(tellId:number, s:SocketInterface<AppointmentTemp>):void{

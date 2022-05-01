@@ -1,0 +1,67 @@
+<mat-toolbar color="primary" class="tollbar">
+    <mat-toolbar-row>
+      <button mat-icon-button mat-dialog-close class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>close</mat-icon>
+      </button>
+      <span class="example-spacer"></span>
+      <span>{{title}}</span>
+  
+    </mat-toolbar-row>
+  </mat-toolbar>
+  
+  
+  <div class="dialog-body">
+    <p>Agrega un <b>sede </b>  </p>
+    <!--<h2 mat-dialog-title>Install Angular</h2>-->
+  
+    <mat-dialog-content class="mat-typography">
+  
+      <form class="example-form" [formGroup]="headquarterForm">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="hqName">
+          <mat-progress-spinner *ngIf="headquarterForm.controls['hqName'].pending" matSuffix [mode]="'indeterminate'"
+            [diameter]="20">
+          </mat-progress-spinner>
+          <mat-error>
+            {{
+            (headquarterForm.controls['hqName'].hasError('required'))?
+            'El nombre es requerido':
+            (headquarterForm.controls['hqName'].hasError('existName'))?
+            'Ya existe un registro con este nombre':''
+            }}
+  
+  
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>RUC</mat-label>
+          <input matInput type="text" formControlName="hqRUC">
+          <mat-error *ngIf="headquarterForm.controls['hqRUC'].hasError('required')">
+            El RUC es requerido
+          </mat-error>
+  
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Dirección</mat-label>
+          <input matInput type="text" formControlName="hqAddress">
+          <mat-error *ngIf="headquarterForm.controls['hqAddress'].hasError('required')">
+            La dirección es requerido
+          </mat-error>
+  
+        </mat-form-field>
+  
+      </form>
+  
+    
+  
+  
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Cancelar</button>
+      <button mat-button [mat-dialog-close]="true" type="submit" (click)="addUpd()"
+        [disabled]="!headquarterForm.valid" cdkFocusInitial>Guardar</button>
+    </mat-dialog-actions>
+  </div>

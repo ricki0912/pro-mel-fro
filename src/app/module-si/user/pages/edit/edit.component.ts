@@ -1,10 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit, VERSION, ViewChild } from '@angular/core';
 import { MediaObserver, MediaChange } from '@angular/flex-layout'
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map, Observable, Subscription } from 'rxjs';
 import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
+import { Role } from 'src/app/interfaces/role';
 import { User } from 'src/app/interfaces/user'
+import { RoleService } from 'src/app/services/role.service';
 import { UserService } from 'src/app/services/user.service';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 @Component({
@@ -14,6 +16,9 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
 })
 export class EditComponent implements OnInit, OnDestroy {
   TAD=TYPES_ACTIONS_DIALOG
+
+  //toppings = new FormControl();
+  roles: Role[] = [];
   /*Para renderizar filas */
   cols: number = 1;
   gridByBreakpoint: GridResponsive = {
@@ -37,6 +42,7 @@ export class EditComponent implements OnInit, OnDestroy {
     password: ['', {
       asyncValidators: this.validateAdd.bind(this),
     }],
+    roles: [''],
     person: this.fb.group({
 
       perKindDoc: ['', Validators.required],
@@ -54,6 +60,7 @@ export class EditComponent implements OnInit, OnDestroy {
     public mediaObserver: MediaObserver, /*esta a la escucha cuando se renderiza */
     private fb: FormBuilder, /*es apra los formularios */
     private userSevice: UserService, /*creamos un servicio para conectarse a la db */
+    private roleService:RoleService,
     //private showMessage: ShowMessageService, /*este servicio es para invocar los mensaje de salerta */
     @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: User, type: number }, /**campturamos el usuario que se recibe com parametro cuando abrimos el modal */
     private dialogRef: MatDialogRef<EditComponent>,
@@ -66,7 +73,7 @@ export class EditComponent implements OnInit, OnDestroy {
       let mqAlias: string = String(result.mqAlias);
       this.cols = this.gridByBreakpoint[mqAlias];
     })
-
+    
     /*verifcamos y para actualizar o añadir */
     this.setTypeDialog();
   }
@@ -89,8 +96,16 @@ export class EditComponent implements OnInit, OnDestroy {
       this.userForm.get('person.perTel')?.setValue(this.userBeforeUpd.person.perTel)
       this.userForm.get('person.perKindDoc')?.setValue(this.userBeforeUpd.person.perKindDoc)
       this.userForm.get('person.perNumberDoc')?.setValue(this.userBeforeUpd.person.perNumberDoc)
+      
+      this.readRoles(()=>this.userForm.controls['roles'].setValue(this.userBeforeUpd?.roles))
+    }else{
+      this.readRoles(()=>{})
     }
   }
+
+  compareRoleObjects(object1: any, object2: any) {
+    return object1 && object2 && object1.id == object2.id;
+}
 
 /**A TRAVES DE ESTE METODO SE DEVUELVE EL USUARIO A LA VENTA ANTERIOR */
   onReturn = (user: User): void => this.dialogRef.close(user);
@@ -147,6 +162,8 @@ export class EditComponent implements OnInit, OnDestroy {
 
 /*AQUI VALIDA QUE TODO ESTA OK ANTES DE RETORNAR EL USUARIO A LA VENTA ANTERIOR */
   addUpdUserWithPerson(): boolean {
+    console.log(this.userForm.value)
+    
     return (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) ?
       this.updUserWithPerson() :
       this.addUserWithPerson();
@@ -167,6 +184,17 @@ export class EditComponent implements OnInit, OnDestroy {
     this.onReturn(user)
 
     return true
+  }
+
+  readRoles(c:()=>void){
+    this.roleService.all().subscribe({
+      next:d=>{
+        this.roles=d.data as Role[]
+        c();
+      }, error: e=>{
+
+      }
+    });
   }
   /*DE ESTA FORMA SE VA AGREGAR, EN ALGUNOS CASOS, POR EJEMPLO DE CLIENTES POR SER MAS GRANDE */
 

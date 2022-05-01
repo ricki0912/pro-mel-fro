@@ -1,4 +1,5 @@
 export interface ParentInterface{
+  
     
 }
 export interface InterfaceParamsResponse<T extends ParentInterface> extends ParentInterface{

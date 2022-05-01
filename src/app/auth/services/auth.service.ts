@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ParentService } from 'src/app/global/parents/parent.service';
+import { Password } from '../interfaces/password';
+import { InterfaceParamsResponse } from 'src/app/global/parents/parent.interface';
 
 
 
@@ -37,4 +39,10 @@ export class AuthService extends ParentService{
   logout(){
     return this.http.post(this.AUTH_API + 'logout', httpOptions);
   }
+
+  
+  changePasswordWithAuth(p:Password):Observable<InterfaceParamsResponse<any>> {
+    return this.http.put<InterfaceParamsResponse<any>>(this.AUTH_API+'change-password-with-auth', p)
+  }
+
 }

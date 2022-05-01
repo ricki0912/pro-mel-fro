@@ -15,6 +15,7 @@ import { User } from 'src/app/interfaces/user';
 import { ActionDialogInterface, TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { RolesComponent } from './pages/roles/roles.component';
 
 
 @Component({
@@ -164,6 +165,35 @@ export class UserComponent implements OnInit, CrudInterface, ActionDialogInterfa
     return true
   }
 
+   openDialogSetRoles(){
+    let ids = this.selection.selected.reduce((a: number[], b: User) => (b.id == null) ? a : [...a, b.id], [])
+    //let userSelected: User = this.selection.selected.filter(o => o.id == ids[0])[0];
+    let userSelected: User = this.selection.selected.filter(o => o.id == ids[0])[0];
+
+    const dialogRef = this.dialogEditUser.open(RolesComponent, {
+      /*maxWidth: '100vw',
+       maxHeight: '100vh',
+       height: '100%',
+       width: '100%',*/ 
+
+
+      panelClass: 'dialog',
+      data: {
+        row: {
+          row: userSelected, /**el usuario seleccionado como parametro */
+          type: TYPES_ACTIONS_DIALOG.UPD /*indicamos que el modal va ser ACTUALIZACION */
+        },
+        type: TYPES_ACTIONS_DIALOG.ADD
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("result fasdf",ids[0], "-",result)
+        this.changePassword(ids[0],result.password)
+      }
+    });
+    return true
+  }
 
 
   /*************** CRUD CON BASE DE DATOS************ */
@@ -252,6 +282,7 @@ export class UserComponent implements OnInit, CrudInterface, ActionDialogInterfa
   updUserWithPerson(user: User): boolean {
     this.userService.updUserWithPerson(user).subscribe({
       next: data => {
+        console.log("current user",data);
         this.showMessage.success({ message: data.msg });
         const users = data.data as User[];
         /*obtenemos la posicion del usuario en la tabla */

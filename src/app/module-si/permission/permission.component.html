@@ -1,0 +1,177 @@
+<mat-grid-list cols="1" rowHeight="30px" style="margin-top:10px ;">
+    <mat-grid-tile colspan="1" rowspan="1">
+        <div class="div-title">
+            <span>Usuarios</span>
+            <span>
+                <mat-icon>
+                    keyboard_arrow_right</mat-icon>
+            </span>
+            <span>Roles y Permisos</span>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>
+<mat-divider></mat-divider>
+
+<mat-grid-list cols="4" rowHeight="100%" appearance="fillx" style="">
+
+
+    <mat-grid-tile colspan="1" rowspan="1" style="">
+
+        <div style=" display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        justify-content: space-between;">
+        <mat-card class="example-card mat-elevation-z8" style="overflow: auto;
+        box-sizing: border-box;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: calc(100% - 20px);
+        height: 100%;
+        ">
+            <mat-card-header>
+                <mat-card-subtitle> <b>Roles </b> | Lista de roles </mat-card-subtitle>
+                <div fxFlex></div>
+                <mat-card-actions align="end" style="flex: 1 1 auto; padding: 0px; vertical-align: top;">
+                    <button mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </mat-card-actions>
+                
+            </mat-card-header>
+            
+
+            <mat-divider></mat-divider>
+
+            <mat-card-content>
+                <mat-progress-bar mode="indeterminate" *ngIf="loadingRoles"></mat-progress-bar>
+
+                <mat-list style=" width: 100%; ">
+                    <mat-list-item routerLink="../{{role.id}}"  *ngFor="let role of roles;let i=index" class="item-role">
+                        <h3 mat-line> {{role.name}} </h3>
+                        <button mat-icon-button class="item-role-button-delete">
+                            <mat-icon class="mat-24">delete</mat-icon>
+                        </button>
+                    </mat-list-item>
+
+                    <!--<mat-list-option routerLink="/indicator-settings/{{row.path}}" *ngFor="let row of indicatorTypes" [value]="row.path">
+      {{row.name}}
+    </mat-list-option>-->
+                </mat-list>
+            </mat-card-content>
+
+
+            <mat-card-footer>
+            </mat-card-footer>
+
+        </mat-card>
+
+        <!-- <div style=" display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        justify-content: space-between;">
+  
+        <mat-card class="example-card mat-elevation-z8" style="   overflow: auto;
+      box-sizing: border-box;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: red;;
+ ">
+          <mat-card-subtitle> <b>Indicador </b> | Lista de todos los indicadores </mat-card-subtitle>
+  
+          <mat-divider></mat-divider>
+  
+          <mat-card-content>
+            <mat-selection-list #indicatorSelect [multiple]="false" style=" width: 100%; ">
+                <mat-list-option routerLink="/indicator-settings/" >
+                    hghk
+                  </mat-list-option> -->
+        <!--<mat-list-option routerLink="/indicator-settings/{{row.path}}" *ngFor="let row of indicatorTypes" [value]="row.path">
+                {{row.name}}
+              </mat-list-option>-->
+        <!--</mat-selection-list>
+   
+  
+  
+  
+          </mat-card-content>
+  
+  
+          <mat-card-footer>
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </mat-card-footer> 
+        </mat-card>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="3" rowspan="1">
+        <div style=" display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      justify-content: space-between;">
+       </div> -->
+    </div>
+    </mat-grid-tile>
+    <mat-grid-tile  colspan="3" rowspan="1">
+        <mat-card class="example-card mat-elevation-z8" style="overflow: auto;
+        box-sizing: border-box;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: calc(100% - 20px);
+        height: 100%;
+        ">
+            <mat-card-header>
+                <mat-card-subtitle> <b>{{titlePermissions}} </b> | Lista de permisos asignados </mat-card-subtitle>
+                
+            </mat-card-header>
+
+
+            <mat-divider></mat-divider>
+
+            <mat-card-content>
+                <mat-progress-bar *ngIf="loadingPermissions" mode="indeterminate"></mat-progress-bar>
+
+               
+                <div class="row"  >
+
+                    <div class=" d-grid col-md-3 col-sm-4 col-12" *ngFor="let element of permissions; let i=index" >
+                        <p><mat-checkbox [(ngModel)]="element.selected" >{{element.name_to_see}}</mat-checkbox></p>
+                    </div>
+
+                   <!-- <div class=" d-grid col-md-3 col-sm-4 col-12 my-2 "  >
+
+                        <section class="example-section" [formGroup]="toppings">
+                            <span class="section-permission">Usuarios</span>
+                            <p><mat-checkbox formControlName="pepperoni">Ver usuarios</mat-checkbox></p>
+                            <p><mat-checkbox formControlName="extracheese">Agregar </mat-checkbox></p>
+                            <p><mat-checkbox formControlName="mushroom">Mushroom</mat-checkbox></p>
+                          </section>
+                    </div>--> 
+                </div>
+
+            </mat-card-content>
+
+            <mat-card-actions align="end">
+                <button
+                  mat-button                  
+                  (click)="saveChanges()"
+
+                  cdkFocusInitial
+                >
+                    Guardar Cambios
+                </button>
+              </mat-card-actions>
+            <mat-card-footer>
+
+            </mat-card-footer>
+
+        </mat-card>
+    </mat-grid-tile>
+
+</mat-grid-list>

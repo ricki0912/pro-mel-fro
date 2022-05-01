@@ -29,6 +29,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { MainViewRoutingModule } from './main-view-routing.module';
+import {MatSelectModule} from '@angular/material/select';
 
 
 /**Cli */
@@ -41,6 +42,9 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import { ChronometerModule } from '../shared/components/chronometer/chronometer.module';
 import { AuthModuleSIInterceptor } from '../core/http/auth-module-si.interceptor';
 
+import { CoreModule } from '../core/core.module';
+import { SelectHeadquarterComponent } from './main-view/pages/select-headquarter/select-headquarter.component';
+import { MainViewService } from './main-view/main-view.service';
 
 
 @NgModule({
@@ -48,6 +52,7 @@ import { AuthModuleSIInterceptor } from '../core/http/auth-module-si.interceptor
     MainViewComponent,
     SearchClientComponent,
     FloatingWaitingLineComponent,
+    SelectHeadquarterComponent,
   ],
   imports: [
     MainViewRoutingModule,
@@ -74,13 +79,17 @@ import { AuthModuleSIInterceptor } from '../core/http/auth-module-si.interceptor
     OverlayModule,
     ChronometerModule,
     MatDialogModule,
+    MatSelectModule,
+    CoreModule,
+    
 
   ],
   exports: [
-    MainViewComponent,
+    MainViewComponent
+    
 
   ],
-  providers: [
+  providers: [MainViewService,
     {
       provide: HTTP_INTERCEPTORS, 
       useClass: AuthModuleSIInterceptor, 

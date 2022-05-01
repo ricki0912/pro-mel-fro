@@ -15,6 +15,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CoreModule } from '../core/core.module';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     MatProgressSpinnerModule,
     FormsModule, 
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    CoreModule 
   ], exports: [
     
     LoginComponent, 

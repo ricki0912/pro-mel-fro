@@ -14,6 +14,7 @@ import { HeadService } from './pages/head/head.service';
 import { AlertService } from './pages/alert/alert.service';
 import { SocketInterface, SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
 import { WaitingLineService } from 'src/app/socket/waiting-line.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 declare var electron: any;
@@ -24,6 +25,9 @@ declare var electron: any;
   styleUrls: ['./ticket-dispensing.component.scss']
 })
 export class TicketDispensingComponent implements OnInit {
+
+  /* */
+  private hqId:number=0;
   /*Lista de categorias de base de datos */
   private categoriesTree: CategoryTree[] = []
 
@@ -58,14 +62,21 @@ export class TicketDispensingComponent implements OnInit {
     public datepipe: DatePipe,
     private headService:HeadService,
     private alertService:AlertService,
-    private waitingLineService:WaitingLineService
+    private waitingLineService:WaitingLineService,
+    private activatedRoute:ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.loadingService.hide()
-    this.readCategoriesCRUD()
+    this.listenRoute(o=>this.readCategoriesCRUD(o))
   }
 
+  private listenRoute(c:(o:any)=>void){
+    this.activatedRoute.params.subscribe(params=>{
+      this.hqId = parseInt(params['hqId'] || 0)
+      c(this.hqId)
+    })
+  }
   private isAuthRequired(categoryTree: CategoryTree) {
     if (categoryTree.catAuth && categoryTree.catAuth != CATEGORY_TYPES_AUTH.NEITHER) {
       return true;
@@ -184,8 +195,8 @@ export class TicketDispensingComponent implements OnInit {
 
   /*Conexion API */
   /*Leer Categorias */
-  readCategoriesCRUD(): boolean {
-    this.categoryService.all().subscribe({
+  readCategoriesCRUD(hqId:number): boolean {
+    this.categoryService.allByHQ(hqId).subscribe({
       complete: () => { },
       next: (r: Category[]) => {
         this.categoriesTree = CategoryHelpers.convertTableToTree(r)

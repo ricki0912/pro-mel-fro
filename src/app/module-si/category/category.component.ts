@@ -13,6 +13,7 @@ import { ActionDialogInterface, TYPES_ACTIONS_DIALOG } from 'src/app/global/inte
 import { NULL_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
+import { MainViewService } from '../main-view/main-view.service';
 
 
 @Component({
@@ -21,13 +22,15 @@ import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-co
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInterface {
+  private hqId:number=0;
   isLoading = true;
 
   constructor(
     public dialogEditUser: MatDialog,
     private categoryService: CategoryService,
     private loadingService: LoadingService, 
-    private showMessage: ShowMessageService
+    private showMessage: ShowMessageService,
+    private mainViewService: MainViewService
   ) {
     this.loadingService.show();
     this.dataSource.data = [];
@@ -36,7 +39,14 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
   }
   
   ngOnInit(): void {
-    this.readCRUD()
+    this.listenRoute((o)=>this.readCRUD(o))
+  }
+
+  private listenRoute(c:(o:any)=>void){
+    this.mainViewService.getParams().subscribe(params=>{
+      this.hqId = parseInt(params['hqId'] || 0)
+      c(this.hqId)
+    })
   }
 
   displayedColumns: string[] = ['catName', 'catCode', 'option'];
@@ -129,7 +139,7 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
       data: {
         row: null,
         rowParent: data,
-        type: TYPES_ACTIONS_DIALOG.ADD
+        type: TYPES_ACTIONS_DIALOG.ADD,
       }
     });
 
@@ -143,9 +153,10 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
 
 /*SERVICIOS DE BASE DE DATOS */
   createCRUD(object: Category): boolean {
+    object.hqId=this.hqId
     this.categoryService.add(object).subscribe({
       next: data=>{
-        this.readCRUD()
+        this.readCRUD(this.hqId)
         this.showMessage.success({message: data.msg})
       },
       error: error=>{
@@ -160,7 +171,7 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
     this.categoryService.upd(object).subscribe({
       next: data=>{
         this.showMessage.success({message: data.msg})
-        this.readCRUD()
+        this.readCRUD(this.hqId)
       },
       error: error=>{
         this.showMessage.error({message: error.error.message, action:()=>this.updateCRUD(object)})
@@ -170,9 +181,9 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
     return true;
   }
 
-  readCRUD(): boolean {
+  readCRUD(hqId:number): boolean {
     this.isLoading=true;
-    this.categoryService.all().subscribe({
+    this.categoryService.allByHQ(hqId).subscribe({
       complete: () => { },
       next: (r: Category[]) => {
         this.isLoading=false;
@@ -206,7 +217,7 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
     this.categoryService.del(id).subscribe({
       next: data=>{
         this.showMessage.success({message: data.msg});
-        this.readCRUD();
+        this.readCRUD(this.hqId);
       }, 
       error: error=>{
         this.showMessage.error({message: error.error.message})
