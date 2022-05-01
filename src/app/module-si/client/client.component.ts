@@ -11,6 +11,7 @@ import { EditClientComponent } from './pages/edit-client/edit-client.component';
 import { ActionDialogInterface, TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -25,7 +26,8 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   constructor(
     private bussinesService: BussinesService,
     public dialogEditClient: MatDialog,
-    private showMessage: ShowMessageService
+    private showMessage: ShowMessageService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -37,6 +39,7 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   selection = new SelectionModel<Bussines>(true, []);
 
   clickedRows = new Set<Bussines>();
+
 
   //para el paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -140,7 +143,11 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
         this.showMessage.error({ message: error.error.message, action: () => this.addBusinessWithPerson(business) })
       }
     });
-    return true
+    return true;
+  }
+
+  loadClientsView(o: Bussines){
+    this.router.navigate([`/clients/${o.bussId}`])
   }
 }
 

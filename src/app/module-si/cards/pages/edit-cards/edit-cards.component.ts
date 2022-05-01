@@ -71,6 +71,19 @@ export class EditCardsComponent implements OnInit {
 
   onReturn = (cards: Cards): void => this.dialogRef.close(cards);
 
+  updCards(): boolean {
+    const cards : Cards = this.cardsForm.value;
+    cards.cardId = this.cardsBeforeUpd?.cardId;
+    this.onReturn(cards);
+    return true;
+  }
+
+  addUpdCards(): boolean{
+    return (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) ?
+    this.updCards():
+    this.addCards();
+  }
+
   addCards(): boolean {
     const cards: Cards = this.cardsForm.value;
     this.onReturn(cards);

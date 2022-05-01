@@ -13,6 +13,8 @@ import { EditCardsComponent } from './pages/edit-cards/edit-cards.component';
   styleUrls: ['./cards.component.scss']
 })
 export class CardsComponent implements OnInit, CrudInterface, ActionDialogInterface {
+  isLoading = true;
+  cards: Cards[]=[];
 
   constructor(
     public dialogEditCard: MatDialog,
@@ -21,15 +23,26 @@ export class CardsComponent implements OnInit, CrudInterface, ActionDialogInterf
   ) { }
 
   ngOnInit(): void {
+    this.readCRUD();
   }
 
-  cards:Cards[] = [{cardName: "tarjeta 1", cardPhrases: "Hola mundo"},{cardName: "trajeta 2", cardPhrases:"hola perro"}];
+  //cards:Cards[] = [{cardName: "tarjeta 1", cardPhrases: "Hola mundo"},{cardName: "trajeta 2", cardPhrases:"hola perro"}];
 
-  createCRUD(object: any): boolean {
+  createCRUD(): boolean {
     throw new Error('Method not implemented.');
   }
   readCRUD(): boolean {
-    throw new Error('Method not implemented.');
+    this.isLoading=true;
+    this.cardsService.all().subscribe({
+      next: d=>{
+        this.cards=d
+        this.isLoading=false
+      },
+      error: e=>{
+        this.showMessage.error({message: e.error.message})
+      }
+    })
+    return true;
   }
   updateCRUD(object: any, id: string | number | null): boolean {
     throw new Error('Method not implemented.');
@@ -64,22 +77,16 @@ export class CardsComponent implements OnInit, CrudInterface, ActionDialogInterf
   addCards(cards: Cards): boolean {
     this.cardsService.addCards(cards).subscribe({
       next: data => {
-        /**mostramos un mensaje de exito */
+        const cards = data.data as Cards[];
+        this.cards.unshift(...cards);
         this.showMessage.success({ message: data.msg });
-        /*obtenemos el ultimo business devuelto por el backend y que viene en data */
-        const cards = data.data as Cards[]
-
-        /*El nuevo usuario lo añadimos a la primera fila de la tabla */
-        //this.dataSource.data.unshift(...business)
-        /**actualizamops paginator */
-        //this.paginator._changePageSize(this.paginator.pageSize)
       },
       error: error => {
-        /**Mostramos un mensaje de error y pasamos una funcion para reintenar nuevamente añdir el usuario  */
         this.showMessage.error({ message: error.error.message, action: () => this.addCards(cards) })
       }
     });
-    return true
+    return true;
   }
 
 }
+

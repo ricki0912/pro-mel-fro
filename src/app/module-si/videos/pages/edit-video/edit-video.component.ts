@@ -54,7 +54,8 @@ export class EditVideoComponent implements OnInit {
   /*Formulario para añadir negocio con persona */
   videosForm: FormGroup = this.fb.group({
     vidName : ['',Validators.required],
-    vidLink : ['',Validators.required]
+    vidLink : ['',Validators.required],
+    vidState : ['',Validators.required]
   });
 
 
@@ -69,6 +70,7 @@ export class EditVideoComponent implements OnInit {
       /*redirizar informacion en el formulario*/
       this.videosForm.get('vidName')?.setValue(this.videosBeforeUpd.vidName)
       this.videosForm.get('vidLink')?.setValue(this.videosBeforeUpd.vidLink)
+      this.videosForm.get('vidState')?.setValue(this.videosBeforeUpd.vidState)
     }
   }
 
@@ -79,7 +81,21 @@ export class EditVideoComponent implements OnInit {
   addVideos(): boolean {
     const videos: Videos = this.videosForm.value;
     this.onReturn(videos);
-    return true
+    return true;
+  }
+
+  updVideos(): boolean {
+    const videos : Videos = this.videosForm.value;
+    videos.vidId = this.videosBeforeUpd?.vidId;
+    this.onReturn(videos);
+    console.log(videos);
+    return true;
+  }
+
+  addUpdVideos(): boolean{
+    return (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) ?
+    this.updVideos():
+    this.addVideos();
   }
 
 }

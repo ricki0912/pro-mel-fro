@@ -11,6 +11,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { EditVideoComponent } from './pages/edit-video/edit-video.component';
 import { ActionDialogInterface, TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
+import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
 
 @Component({
   selector: 'app-videos',
@@ -30,7 +31,7 @@ export class VideosComponent implements OnInit, CrudInterface, ActionDialogInter
     this.readCRUD();
   }
 
-  displayedColumns: string[] = ['select','nombres', 'link'];
+  displayedColumns: string[] = ['select','nombres', 'link', 'state'];
   dataSource = new MatTableDataSource<Videos>();
   selection = new SelectionModel<Videos>(true, []);
 
@@ -76,7 +77,6 @@ export class VideosComponent implements OnInit, CrudInterface, ActionDialogInter
     this.isLoading = true;
     this.videosService.all()?.subscribe({
       next: data => {
-        console.log(data);
         this.dataSource.data = data;
         this.isLoading = false
       },
@@ -88,9 +88,6 @@ export class VideosComponent implements OnInit, CrudInterface, ActionDialogInter
   }
 
   updateCRUD(object: any, id: string | number | null): boolean {
-    throw new Error('Method not implemented.');
-  }
-  deleteCRUD(ids: string | number | string[] | number[] | null): boolean {
     throw new Error('Method not implemented.');
   }
 
@@ -109,9 +106,25 @@ export class VideosComponent implements OnInit, CrudInterface, ActionDialogInter
     });
     return true
   }
-  openDialogUpd(object: any): boolean {
-    throw new Error('Method not implemented.');
+  openDialogUpd(): boolean {
+    let ids = this.selection.selected.reduce((a: number[], b: Videos) => (b.vidId == null) ? a : [...a, b.vidId], [])
+    let videoSelected : Videos = this.selection.selected.filter(o => o.vidId == ids[0])[0];
+    const dialogRef = this.dialogEditVideo.open(EditVideoComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: videoSelected,
+        type: TYPES_ACTIONS_DIALOG.UPD
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result) {
+        this.updVideos(result);
+      }
+    });
+    return false;
   }
+
   openDialogdAddAndUpd(object: any): boolean {
     throw new Error('Method not implemented.');
   }
@@ -124,7 +137,6 @@ export class VideosComponent implements OnInit, CrudInterface, ActionDialogInter
         this.showMessage.success({ message: data.msg });
         /*obtenemos el ultimo business devuelto por el backend y que viene en data */
         const videos = data.data as Videos[]
-        console.log(videos);
 
         /*El nuevo usuario lo añadimos a la primera fila de la tabla */
         this.dataSource.data.unshift(...videos)
@@ -136,6 +148,72 @@ export class VideosComponent implements OnInit, CrudInterface, ActionDialogInter
         this.showMessage.error({ message: error.error.message, action: () => this.addVideos(videos) })
       }
     });
-    return true
+    return true;
+  }
+
+  updVideos(videos: Videos): boolean {
+    console.log(videos);
+    this.videosService.updVideos(videos).subscribe({
+      next: data => {
+
+        this.showMessage.success({ message: data.msg });
+        const videos = data.data as Videos[];
+        const objIndex = this.dataSource.data.findIndex((obj => obj.vidId == videos[0].vidId));
+        this.dataSource.data[objIndex] = videos[0];
+        this.selection.clear();
+        this.paginator._changePageSize(this.paginator.pageSize);
+      },
+      error: error => {
+        this.showMessage.error({ message: error.error.message, action: () => this.updVideos(videos) });
+      }
+    });
+    return true;
+  }
+
+  delVideos(){
+    let ids = this.selection.selected.reduce((a: number[], b: Videos) => (b.vidId == null) ? a : [...a, b.vidId], []);
+    console.log(ids);
+    this.wantDelete(()=>this.deleteCRUD(ids))
+  }
+
+  wantDelete(d:()=>void){
+    this.dialogEditVideo
+      .open(DialogConfirmationComponent, {
+        data: `Esta seguro que desea Eliminar.`,
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
+          d();
+        } else {
+
+        }
+      });
+  }
+
+  deleteCRUD(id: number[]): boolean {
+    this.videosService.delVideos(id).subscribe({
+      next: data=>{
+        this.showMessage.success({message: data.msg});
+        this.readCRUD();
+      },
+      error: error=>{
+        this.showMessage.error({message: error.error.message})
+      }
+    })
+    return true;
+  }
+
+  enableDisableVideos(id: number[]):boolean{
+    this.videosService.enableDisableVideos(id).subscribe({
+      next: data=>{
+        this.showMessage.success({message: data.msg});
+        this.readCRUD();
+      },
+      error: error=>{
+        this.showMessage.error({message: error.error.message})
+      }
+    })
+    return true;
   }
 }

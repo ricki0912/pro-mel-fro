@@ -24,6 +24,11 @@ const routes: Routes=[
         loadChildren: ()=>import('./client/client.module').then(m=>m.ClientModule)
       },
       {
+        path: 'clients/:bussId',
+        //component: ClientComponent
+        loadChildren: ()=>import('./client-view/client-view.module').then(m=>m.ClientViewModule)
+      },
+      {
         path: 'users',
         //component: ClientComponent
         loadChildren: ()=>import('./user/user.module').then(m=>m.UserModule)
@@ -54,8 +59,6 @@ const routes: Routes=[
         path: 'prueba',
         component: PruebaComponent
       }*/
-
-
     ]
   },
 ]
