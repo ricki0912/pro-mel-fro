@@ -28,6 +28,7 @@ import { ClientRoutingModule } from './client-routing.module';
 import { EditClientComponent } from './pages/edit-client/edit-client.component';
 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatRadioModule,
     FormsModule, ReactiveFormsModule,
     MatStepperModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatListModule
   ],
   exports: [
     ClientComponent,

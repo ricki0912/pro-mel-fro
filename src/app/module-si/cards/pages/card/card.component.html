@@ -1,5 +1,5 @@
 <mat-card class="example-card" style="text-align: center">
-  <mat-card-header style="text-align: center">
+  <mat-card-header style="text-align: center; vertical-align: middle">
     <mat-card-title>{{ card.cardName }}</mat-card-title>
   </mat-card-header>
   <img
@@ -11,7 +11,36 @@
     <p>{{ card.cardPhrases }}</p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button>EDITAR</button>
-    <button mat-button>ESTADO</button>
+    <button
+      color="accent"
+      mat-button
+      matTooltip="Editar"
+      aria-label="Des"
+      (click)="openDialogUpd(card)"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button
+      mat-button
+      color="warn"
+      matTooltip="Eliminar"
+      aria-label="Des"
+      (click)="delCards(card)"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      (click)="enableDisableCards(card)"
+      color="{{ card.cardState?.trim() == '1' ? 'accent' : 'warn' }}"
+      matSuffix
+      matTooltip="{{
+        card.cardState?.trim() == '1' ? 'Habilitado' : 'Deshabilitado'
+      }}"
+    >
+      <mat-icon>{{
+        card.cardState?.trim() == "1" ? "visibility" : "visibility_off"
+      }}</mat-icon>
+    </button>
   </mat-card-actions>
 </mat-card>

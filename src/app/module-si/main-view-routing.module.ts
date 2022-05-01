@@ -36,6 +36,10 @@ const routes: Routes=[
         //component: ClientComponent
         loadChildren: ()=>import('./reports/waiting-line/waiting-line.module').then(m=>m.WaitingLineModule)
       },
+      { path: 'clients/:bussId',
+        //component: ClientComponent
+        loadChildren: ()=>import('./client-view/client-view.module').then(m=>m.ClientViewModule)
+      },
       {
         path: 'users',
         //component: ClientComponent
@@ -84,8 +88,6 @@ const routes: Routes=[
         path: 'prueba',
         component: PruebaComponent
       }*/
-
-
     ]
   },
 ]

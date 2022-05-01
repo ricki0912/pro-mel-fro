@@ -18,6 +18,11 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import { FlexLayoutModule } from "@angular/flex-layout";
+import {MatMenuModule} from '@angular/material/menu';
+import {MatListModule} from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -40,7 +45,12 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     ReactiveFormsModule,
     MatInputModule,
     MatSelectModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatMenuModule,
+    MatListModule,
+    MatProgressBarModule,
+    MatCheckboxModule,
+    MatTooltipModule
   ]
 })
 export class CardsModule { }

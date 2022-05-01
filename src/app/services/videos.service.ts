@@ -12,6 +12,9 @@ import { Videos } from '../interfaces/videos';
 export class VideosService extends ParentService implements CrudApiInterface {
   private API_ALL = `${this.HOST_API}/api/v1/videos`
   private API_ADD_VIDEOS = `${this.HOST_API}/api/v1/videos/add-videos`
+  private API_UPD_VIDEOS = `${this.HOST_API}/api/v1/videos/upd-videos`
+  private API_DEL_VIDEOS = `${this.HOST_API}/api/v1/videos`
+  private API_STATE_VIDEOS = `${this.HOST_API}/api/v1/videos/stateVideo`
 
   constructor(private https:HttpClient) {
     super()
@@ -35,5 +38,17 @@ export class VideosService extends ParentService implements CrudApiInterface {
 
   addVideos(object: Videos):Observable<InterfaceParamsResponse<Videos>>{
     return this.https.post<InterfaceParamsResponse<Videos>>(`${this.API_ADD_VIDEOS}`, object);
+  }
+
+  updVideos(object: Videos):Observable<InterfaceParamsResponse<Videos>>{
+    return this.https.put<InterfaceParamsResponse<Videos>>(`${this.API_UPD_VIDEOS}`, object);
+  }
+
+  public delVideos(id: number[]): Observable<InterfaceParamsResponse<Videos>> {
+    return this.https.delete<InterfaceParamsResponse<Videos>>(`${this.API_DEL_VIDEOS}/${id}`);
+  }
+
+  public enableDisableVideos(id: number[]): Observable<InterfaceParamsResponse<Videos>> {
+    return this.https.delete<InterfaceParamsResponse<Videos>>(`${this.API_STATE_VIDEOS}/${id}`);
   }
 }

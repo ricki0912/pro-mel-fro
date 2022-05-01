@@ -11,7 +11,11 @@ import { Cards } from '../interfaces/cards';
 })
 
 export class CardsService extends ParentService implements CrudApiInterface {
+  private API_CARDS=`${this.HOST_API}/api/v1/cards`
   private API_ADD_CARDS = `${this.HOST_API}/api/v1/cards/add-cards`
+  private API_UPD_CARDS = `${this.HOST_API}/api/v1/cards/upd_cards`
+  private API_DEL_CARDS = `${this.HOST_API}/api/v1/cards`
+  private API_STATE_CARDS = `${this.HOST_API}/api/v1/cards/stateCards`
 
   constructor(private https:HttpClient) {
     super()
@@ -26,8 +30,8 @@ export class CardsService extends ParentService implements CrudApiInterface {
   del(id: string | number): Observable<InterfaceParamsResponse<ParentInterface>> | null {
     throw new Error('Method not implemented.');
   }
-  all(): Observable<InterfaceParamsResponse<ParentInterface>> | Observable<ParentInterface[]> | null {
-    throw new Error('Method not implemented.');
+  all(): Observable<Cards[]> {
+    return this.https.get<Cards[]>(this.API_CARDS);
   }
   find(id: string | number): Observable<ParentInterface> | null {
     throw new Error('Method not implemented.');
@@ -35,5 +39,17 @@ export class CardsService extends ParentService implements CrudApiInterface {
 
   addCards(object: Cards):Observable<InterfaceParamsResponse<Cards>>{
     return this.https.post<InterfaceParamsResponse<Cards>>(`${this.API_ADD_CARDS}`, object);
+  }
+
+  public updCards(object: Cards): Observable<InterfaceParamsResponse<ParentInterface>> {
+    return this.https.put<InterfaceParamsResponse<Cards>>(`${this.API_UPD_CARDS}`, object);
+  }
+
+  public delCards(id: number[]): Observable<InterfaceParamsResponse<Cards>> {
+    return this.https.delete<InterfaceParamsResponse<Cards>>(`${this.API_DEL_CARDS}/${id}`);
+  }
+
+  public enableDisableCards(id: number[]): Observable<InterfaceParamsResponse<Cards>> {
+    return this.https.delete<InterfaceParamsResponse<Cards>>(`${this.API_STATE_CARDS}/${id}`);
   }
 }

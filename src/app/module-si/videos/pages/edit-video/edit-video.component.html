@@ -17,7 +17,7 @@
   <mat-dialog-content class="mat-typography">
     <form class="example-form" [formGroup]="videosForm">
       <mat-form-field class="example-full-width" appearance="outline">
-        <mat-label>Nombres</mat-label>
+        <mat-label>Titulo</mat-label>
         <input matInput formControlName="vidName" />
         <mat-error> Los Nombres son requeridos. </mat-error>
       </mat-form-field>
@@ -25,6 +25,14 @@
         <mat-label>Link</mat-label>
         <input matInput formControlName="vidLink" />
         <mat-error> El link es requerido. </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="vidState">
+          <mat-option value="1">Habilitado</mat-option>
+          <mat-option value="2">Deshabilitado</mat-option>
+        </mat-select>
+        <mat-error> EL estado es requerido. </mat-error>
       </mat-form-field>
     </form>
   </mat-dialog-content>
@@ -35,7 +43,7 @@
       cdkFocusInitial
       type="submit"
       [disabled]="!videosForm.valid"
-      (click)="addVideos()"
+      (click)="addUpdVideos()"
     >
       Guardar
     </button>

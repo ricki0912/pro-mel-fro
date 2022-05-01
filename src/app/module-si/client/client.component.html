@@ -11,12 +11,42 @@
     <mat-card-title-group>
       <mat-card-title>Lista de todos los clientes</mat-card-title>
       <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button (click)="openDialogAdd()">Agregar</button>
+        <div
+          style="
+            z-index: 5;
+            position: fixed;
+            display: flex;
+            align-self: flex-end;
+            align-items: center;
+
+            bottom: 3px;
+            right: 3px;
+          "
+        >
+          <mat-list>
+            <mat-list-item
+              style="
+                margin: 5px 0px 5px 0px;
+                display: flex;
+                justify-content: center;
+              "
+            >
+              <button
+                mat-button
+                (click)="openDialogAdd()"
+                mat-fab
+                color="accent"
+                aria-label="Añadir"
+              >
+                <mat-icon>group_add</mat-icon>
+              </button>
+            </mat-list-item>
+          </mat-list>
+        </div>
       </mat-card-actions>
     </mat-card-title-group>
     <mat-divider></mat-divider>
-    <mat-card-content>
+    <mat-card-content style="margin-top: 10px">
       <div class="example-table-container">
         <table mat-table [dataSource]="dataSource">
           <!-- Checkbox Column -->
@@ -83,7 +113,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr
             mat-row
-            (click)="clickedRows.add(row)"
+            (click)="loadClientsView(row)"
             [class.demo-row-is-clicked]="clickedRows.has(row)"
             *matRowDef="let row; columns: displayedColumns"
           ></tr>
@@ -98,8 +128,10 @@
         aria-label="Select page"
       >
       </mat-paginator>
-      <mat-progress-bar mode="indeterminate" *ngIf="isLoading" ></mat-progress-bar>
-
+      <mat-progress-bar
+        mode="indeterminate"
+        *ngIf="isLoading"
+      ></mat-progress-bar>
     </mat-card-footer>
   </mat-card>
 </div>

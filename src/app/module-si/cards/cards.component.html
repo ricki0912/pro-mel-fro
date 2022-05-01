@@ -10,16 +10,53 @@
     <mat-card-title-group>
       <mat-card-title>Lista de tarjetas</mat-card-title>
       <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button (click)="openDialogAdd()">Agregar</button>
+        <div
+          style="
+            z-index: 5;
+            position: fixed;
+            display: flex;
+            align-self: flex-end;
+            align-items: center;
+
+            bottom: 3px;
+            right: 3px;
+          "
+        >
+          <mat-list>
+            <mat-list-item
+              style="
+                margin: 5px 0px 5px 0px;
+                display: flex;
+                justify-content: center;
+              "
+            >
+              <button
+                mat-button
+                (click)="openDialogAdd()"
+                mat-fab
+                color="accent"
+                aria-label="Añadir"
+              >
+                <mat-icon>library_add</mat-icon>
+              </button>
+            </mat-list-item>
+          </mat-list>
+        </div>
       </mat-card-actions>
     </mat-card-title-group>
     <mat-divider></mat-divider>
     <mat-card-content style="margin-top: 16px">
-      <div fxLayout="row" fxLayoutGap="20px">
-        <app-card [card]="card" *ngFor="let card of cards"></app-card>
+      <div
+        class="example-table-container"
+        fxLayout="row wrap"
+        fxFlexFill
+        fxLayoutGap="20px grid"
+      >
+        <app-card (onDel)="readCRUD()" [card]="card" *ngFor="let card of cards">
+        </app-card>
       </div>
     </mat-card-content>
+
     <mat-card-footer>
       <mat-paginator
         [length]="100"
@@ -28,12 +65,10 @@
         aria-label="Select page"
       >
       </mat-paginator>
+      <mat-progress-bar
+        mode="indeterminate"
+        *ngIf="isLoading"
+      ></mat-progress-bar>
     </mat-card-footer>
   </mat-card>
 </div>
-
-<mat-card fxLayout="row wrap" fxLayoutGap="30px">
-  <mat-card class="child-1">1. Children</mat-card>
-  <mat-card class="child-2">2. Children</mat-card>
-  <mat-card class="child-3">3. Children</mat-card>
-</mat-card>
