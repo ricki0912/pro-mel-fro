@@ -1,0 +1,165 @@
+<mat-card
+  class="otrasInformacion"
+  *ngIf="showAditional"
+  style="padding: 5px; margin-bottom: 5px"
+>
+  <mat-card-title-group>
+    <mat-card-title style="margin: 0px">Información Adicionales</mat-card-title>
+    <mat-card-actions>
+      <button mat-icon-button (click)="showEditOtros()">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card-title-group>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <mat-grid-list cols="2" rowHeight="2rem">
+      <mat-grid-tile>
+        <div>
+          <small>Fecha de Ingreso: </small>
+          <b>20/04/22</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Fecha de Inicio de Actividades: </small>
+          <b>12/12/13</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Tipo de Regimen: </small>
+          <b>Tributario</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Tipo de Libro: </small>
+          <b>Electronico</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Numero Corporativo: </small>
+          <b>963852741</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Correo Corporativos: </small>
+          <b>melendres@melendres.pe</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Observaciones: </small>
+          <b>Lorem ipsum</b>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</mat-card>
+<mat-card
+  class="datosOtrosEdit"
+  *ngIf="showAditionalEdit"
+  style="padding: 5px; margin-bottom: 5px"
+>
+  <mat-card-title-group>
+    <mat-card-title style="margin: 0px">Información Adicionales</mat-card-title>
+    <mat-card-actions>
+      <button mat-icon-button (click)="showEditOtros()">
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card-title-group>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <form class="example-form" [formGroup]="datosAdicionalForm">
+      <mat-grid-list [cols]="cols" rowHeight="5rem" appearance="fillx">
+        <div formGroupName="adicional">
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Fecha de Ingreso al estudio</mat-label>
+              <input
+                matInput
+                formControlName="bussDateMembership"
+                [matDatepicker]="picker"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error> La fecha de ingreso es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Fecha de Inicio de Actividades</mat-label>
+              <input
+                matInput
+                formControlName="bussDateStartedAct"
+                [matDatepicker]="picker1"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker1"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+              <mat-error>
+                La fecha de Inicio de Actividades es requerido.
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Tipo de Regimen</mat-label>
+              <mat-select formControlName="bussRegime">
+                <mat-option value="1">Especial</mat-option>
+                <mat-option value="2">General</mat-option>
+                <mat-option value="3">MYPE Tributario</mat-option>
+              </mat-select>
+              <mat-error> EL tipo de Regimen es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Tipo de Libro</mat-label>
+              <mat-select formControlName="bussKindBookAcc">
+                <mat-option value="1">Electronico</mat-option>
+                <mat-option value="2">Computarizado</mat-option>
+              </mat-select>
+              <mat-error> EL tipo de Regimen es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Número Corporativo</mat-label>
+              <input matInput formControlName="bussTel" />
+              <mat-error> El número corporativo es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Correo Corporativo</mat-label>
+              <input matInput formControlName="bussEmail" />
+              <mat-error> El correo corporativo es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Observaciones</mat-label>
+              <textarea matInput formControlName="bussObservation"></textarea>
+              <mat-error> Las observaciones es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        </div>
+      </mat-grid-list>
+    </form>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button cdkFocusInitial type="submit">Guardar</button>
+  </mat-dialog-actions>
+</mat-card>

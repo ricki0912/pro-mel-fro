@@ -1,0 +1,129 @@
+<mat-card
+  class="datosAfiliacion"
+  *ngIf="showAfiliacion"
+  style="padding: 5px; margin-bottom: 5px"
+>
+  <mat-card-title-group>
+    <mat-card-title style="margin: 0px"
+      >Información de Afiliación</mat-card-title
+    >
+    <mat-card-actions>
+      <button mat-icon-button (click)="showEditAfiliacion()">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card-title-group>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <mat-grid-list cols="2" rowHeight="2rem">
+      <mat-grid-tile>
+        <div>
+          <small>Usuario SUNAT: </small>
+          <b>Gshdushd</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Clave Sol: </small>
+          <b>sdsdsd</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Codigo de Envio: </small>
+          <b>4546582</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Codigo RNP: </small>
+          <b>1245</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Usuario AFP NET: </small>
+          <b>fdklfd</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Clave AFP NET: </small>
+          <b>co002</b>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</mat-card>
+<mat-card
+  class="datosAfiliacionEdit"
+  *ngIf="showAfiliacionEdit"
+  style="padding: 5px; margin-bottom: 5px"
+>
+  <mat-card-title-group>
+    <mat-card-title style="margin: 0px"
+      >Información de Afiliación</mat-card-title
+    >
+    <mat-card-actions>
+      <button mat-icon-button (click)="showEditAfiliacion()">
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card-title-group>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <form class="example-form" [formGroup]="datosAfiliacionForm">
+      <mat-grid-list [cols]="cols" rowHeight="5rem" appearance="fillx">
+        <div formGroupName="afiliacion">
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Usuario SUNAT</mat-label>
+              <input matInput formControlName="bussSunatUser" />
+              <mat-error> El Usuario SUNAT es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Clave Sol</mat-label>
+              <input matInput formControlName="bussSunatPass" />
+              <mat-error> La Clave Sol es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Codigo de Envio</mat-label>
+              <input matInput formControlName="bussCodeSend" />
+              <mat-error> El codigo de envio es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Codigo RNP</mat-label>
+              <input matInput formControlName="bussCodeRNP" />
+              <mat-error> El Codigo RNP es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Usuario AFP NET</mat-label>
+              <input matInput formControlName="bussAfpUser" />
+              <mat-error> El usuario AFP NET es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Clave AFP NET</mat-label>
+              <input matInput formControlName="bussAfpPass" />
+              <mat-error> La clave AFP NET es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        </div>
+      </mat-grid-list>
+    </form>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button cdkFocusInitial type="submit">Guardar</button>
+  </mat-dialog-actions>
+</mat-card>

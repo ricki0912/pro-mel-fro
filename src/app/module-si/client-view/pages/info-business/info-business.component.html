@@ -1,0 +1,146 @@
+<mat-card
+  class="datosNegocio"
+  *ngIf="showBusiness"
+  style="padding: 5px; margin-bottom: 5px"
+>
+  <mat-card-title-group>
+    <mat-card-title style="margin: 0px">Información del Negocio</mat-card-title>
+    <mat-card-actions>
+      <button mat-icon-button (click)="showEditBusiness()">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card-title-group>
+
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <mat-grid-list cols="3" rowHeight="4rem">
+      <mat-grid-tile>
+        <div>
+          <small>Tipo de Negocio: </small>
+          <b>Juridico</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>RUC: </small>
+          <b>10724563928</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Direccion: </small>
+          <b>Calle los angeles Mz A Lote 19 Columna Pasco - Yanacancha</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Tipo de Archivador: </small>
+          <b>Archivador</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>N° Archivador: </small>
+          <b>45</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Estado: </small>
+          <b>Activo</b>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</mat-card>
+<mat-card
+  class="datosNegocioEdit"
+  *ngIf="showBusinessEdit"
+  style="padding: 5px; margin-bottom: 5px"
+>
+  <mat-card-title-group>
+    <mat-card-title style="margin: 0px">Información del Negocio</mat-card-title>
+    <mat-card-actions>
+      <button mat-icon-button (click)="showEditBusiness()">
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card-title-group>
+
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <form class="example-form" [formGroup]="datosBusinesForm">
+      <mat-grid-list [cols]="cols" rowHeight="5rem" appearance="fillx">
+        <div formGroupName="business">
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Tipo de negocio</mat-label>
+              <mat-select formControlName="bussKind">
+                <mat-option value="1">Persona Juridica</mat-option>
+                <mat-option value="2">Persona Natural</mat-option>
+              </mat-select>
+              <mat-error> EL tipo de negocio es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Nombres y/o Razón Social</mat-label>
+              <input matInput formControlName="bussName" />
+              <mat-error>
+                Los Nombres y/o Razón Social son requeridos.
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>RUC</mat-label>
+              <input matInput formControlName="bussRuc" />
+              <mat-error> El RUC es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Dirección del Negocio</mat-label>
+              <input matInput formControlName="bussAddress" />
+              <mat-error> La Dirección es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Tipo de Archivador</mat-label>
+              <mat-select formControlName="bussFileKind">
+                <mat-option value="1">Archivador</mat-option>
+                <mat-option value="2">Folder</mat-option>
+              </mat-select>
+              <mat-error> EL tipo de Archivador es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Numero de Archivador</mat-label>
+              <input matInput formControlName="bussFileNumber" />
+              <mat-error> Numero de Archivador es Requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Estado</mat-label>
+              <mat-select formControlName="bussState">
+                <mat-option value="1">Activo</mat-option>
+                <mat-option value="2">Suspendido</mat-option>
+                <mat-option value="3">Retirado</mat-option>
+              </mat-select>
+              <mat-error> EL tipo de Archivador es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        </div>
+      </mat-grid-list>
+    </form>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button cdkFocusInitial type="submit">Guardar</button>
+  </mat-dialog-actions>
+</mat-card>

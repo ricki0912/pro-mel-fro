@@ -20,10 +20,18 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
+import { InfoBusinessComponent } from './pages/info-business/info-business.component';
+import { InfoPersonComponent } from './pages/info-person/info-person.component';
+import { InfoAfiliationComponent } from './pages/info-afiliation/info-afiliation.component';
+import { InfoAditionalComponent } from './pages/info-aditional/info-aditional.component';
 
 @NgModule({
   declarations: [
-    ClientViewComponent
+    ClientViewComponent,
+    InfoBusinessComponent,
+    InfoPersonComponent,
+    InfoAfiliationComponent,
+    InfoAditionalComponent
   ],
   imports: [
     CommonModule,

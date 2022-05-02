@@ -1,0 +1,132 @@
+<mat-card
+  class="datosRepresentate"
+  *ngIf="showPerson"
+  style="padding: 5px; margin-bottom: 5px"
+>
+  <mat-card-title-group>
+    <mat-card-title style="margin: 0px"
+      >Información del Representate Legal</mat-card-title
+    >
+    <mat-card-actions>
+      <button mat-icon-button (click)="showEditPerson()">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card-title-group>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <mat-grid-list cols="3" rowHeight="4rem">
+      <mat-grid-tile>
+        <div>
+          <small>Tipo de Documento: </small>
+          <b>DNI</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Numero de DNI: </small>
+          <b>72456392</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Apellidos y Nombres: </small>
+          <b>Condor Chacon Julio Cesar</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Numero de Telefono: </small>
+          <b>9233136969</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Correo Electronico: </small>
+          <b>jc.condor.sistemas@gmail.com</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Direccion: </small>
+          <b>San Juan Pampa Arenales</b>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</mat-card>
+<mat-card
+  class="datosPersonEdit"
+  *ngIf="showPersonEdit"
+  style="padding: 5px; margin-bottom: 5px"
+>
+  <mat-card-title-group>
+    <mat-card-title style="margin: 0px"
+      >Información del Representate Legal</mat-card-title
+    >
+    <mat-card-actions>
+      <button mat-icon-button (click)="showEditPerson()">
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card-title-group>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <form class="example-form" [formGroup]="datosPersonForm">
+      <mat-grid-list [cols]="cols" rowHeight="5rem" appearance="fillx">
+        <div formGroupName="person">
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Tipo de Documento</mat-label>
+              <mat-select formControlName="perKindDoc">
+                <mat-option value="1">DNI</mat-option>
+                <mat-option value="2">Carnet de Extranjeria</mat-option>
+              </mat-select>
+              <mat-error> EL tipo de identidad es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>DNI</mat-label>
+              <input matInput formControlName="perNumberDoc" />
+              <mat-error> El numero de DNI es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Nombres y Apellidos</mat-label>
+              <input matInput formControlName="perName" />
+              <mat-error> Los nombres y apellidos son requeridos. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Número de teléfono</mat-label>
+              <input matInput formControlName="perTel" />
+              <mat-error> El número de telefono es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Correo Electronico</mat-label>
+              <input matInput formControlName="perEmail" />
+              <mat-error> El correo electronico es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Dirección</mat-label>
+              <input matInput formControlName="perAddress" />
+              <mat-error> La Dirección es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        </div>
+      </mat-grid-list>
+    </form>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button cdkFocusInitial type="submit">Guardar</button>
+  </mat-dialog-actions>
+</mat-card>
