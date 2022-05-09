@@ -52,6 +52,8 @@ export class BussinesService extends ParentService implements CrudApiInterface{
   search(like:string):Observable<InterfaceParamsResponse<Bussines>>{
     return this.https.get<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/search?like=${like}`)
   }
-  
-  /* */
+
+  findBusiness(): Observable<Bussines[]> {
+    return this.https.get<Bussines[]>(this.API_ALL);
+  }
 }

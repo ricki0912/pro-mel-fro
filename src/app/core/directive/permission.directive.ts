@@ -16,14 +16,14 @@ export class PermissionDirective {
 
   ngOnInit(): void {
     this.currentUser=this.tokenService.getToken()
-    
+
   }
 
   @Input()
   set appPermission(val: string){
     console.log('**VALOR DE ESTO ***', val)
     this.permissions=val;
-    const l=this.tokenService.hasPermission(val)
+    //const l=this.tokenService.hasPermission(val)
     this.viewContainer.createEmbeddedView(this.templateRef);
 
 /*    if (l)
