@@ -37,7 +37,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private showMessageService: ShowMessageService,
     private loadingService: LoadingService,
-    private router:Router
+    private router:Router,
+
   ) { }
 
   ngOnInit(): void {
@@ -46,7 +47,7 @@ export class LoginComponent implements OnInit {
       
       this.reloadPage();
     }
-    this.loadingService.hide();
+    this.loadingService.stop();
   }
 
   onSubmit(o: User): void {

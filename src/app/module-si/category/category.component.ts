@@ -32,7 +32,6 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
     private showMessage: ShowMessageService,
     private mainViewService: MainViewService
   ) {
-    this.loadingService.show();
     this.dataSource.data = [];
     //this.dataSource.data = TREE_DATA;
 

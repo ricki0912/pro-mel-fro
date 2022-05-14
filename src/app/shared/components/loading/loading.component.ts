@@ -11,9 +11,8 @@ export class LoadingComponent implements OnInit {
   constructor(private loadingService: LoadingService) { }
   
   ngOnInit(): void {
-    this.loadingService.changeState.subscribe((n)=>{this.noCall+=(n)
-      console.log("Nro llamadas"+this.noCall)
-    })
+    this.loadingService.changeState.subscribe((n)=>{this.noCall+=(n)})
+    this.loadingService.changeStop.subscribe((n)=>{this.noCall=0 })
   }
 
 

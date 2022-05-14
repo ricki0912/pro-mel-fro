@@ -1,6 +1,6 @@
 <mat-card class="border-card without-box-shadow size-card-user card-teller">
     <mat-card-header  >
-        <div mat-card-avatar class="header-image"></div>
+        <div mat-card-avatar class="header-image" [style]="'background-image: url( '+ user?.img+');'"></div>
         <mat-card-title align="left">{{teller.tellCode}} - {{teller.tellName}} </mat-card-title>
         <mat-card-subtitle align="left"><b [ngClass]="{'teller-activo':teller.tellState==TTS.ACTIVO, 'teller-en-espera':teller.tellState==TTS.EN_ESPERA}" >{{getStateName(teller.tellState ||-1)}}</b> | {{user?.person?.perName}} - {{user?.person?.perNumberDoc}}</mat-card-subtitle>
 

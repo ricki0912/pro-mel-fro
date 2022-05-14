@@ -17,10 +17,10 @@
     <div class="row">
         <div class="col-md-4 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                <img class="rounded-circle mt-5" src="//www.gstatic.com/images/branding/product/2x/avatar_square_grey_48dp.png"  width="100">
+                <img class="rounded-circle mt-5" [src]="currentUser.img"  width="100">
                 <span class="font-weight-bold">{{currentUser.person.perName}}</span>
                 <span class="text-black-50">{{currentUser.email}}</span>
-                <button mat-button>Cambiar Imagen</button>
+                <button mat-button (click)="openDialogProfileImage()">Cambiar Imagen</button>
                 <button mat-button (click)="openDialogChangePassword()">Cambiar Contraseña</button>
 
 

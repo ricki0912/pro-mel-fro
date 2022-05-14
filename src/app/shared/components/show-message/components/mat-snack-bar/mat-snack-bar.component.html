@@ -1,15 +1,15 @@
 <table style="width: 100%">
-  <td>
+  <td class="align-center">
     <span>
       {{ data.message }}
     </span>
   </td>
-  <td *ngIf="existAction" style="vertical-align: middle; align-items: flex-end">
+  <td *ngIf="existAction" class="align-center">
     <button mat-button (click)="onAction()">
       {{ titleButtonRetry }}
     </button>
   </td>
-  <td style="vertical-align: middle; align-items: flex-end">
+  <td class="align-center">
     <div align="end">
       <button
         mat-icon-button

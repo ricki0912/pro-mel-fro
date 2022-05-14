@@ -6,3 +6,7 @@ export interface Cards extends ParentInterface{
   cardPhrases?: string,
   cardState?: string
 }
+
+export enum CARDS_STATES {
+  ENABLE=1, DISABLE=2
+}

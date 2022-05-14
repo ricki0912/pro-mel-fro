@@ -12,6 +12,9 @@ import { MainViewService } from '../../main-view/main-view.service';
 import { Appointment } from 'src/app/interfaces/appointment';
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { Teller } from 'src/app/interfaces/teller';
+import { ParamsTicketMigration, TicketsMigrationComponent } from './pages/tickets-migration/tickets-migration.component';
+import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
+import { AppointmentTempService } from 'src/app/services/appointment-temp.service';
 
 @Component({
   selector: 'app-waiting-line',
@@ -29,6 +32,7 @@ export class WaitingLineComponent implements OnInit {
   apptmStates:ApptmState[]=[
     {apptmStateId:APPOINTMENT_STATE.PENDING, apptmStateName:"Pendiente"},
     {apptmStateId:APPOINTMENT_STATE.CURRENT_ATTENTION, apptmStateName:"En atención"},
+    {apptmStateId:APPOINTMENT_STATE. ATTENDED, apptmStateName:"Atendido"},
   ]
 
   selectedCategory: number = 0
@@ -44,6 +48,7 @@ export class WaitingLineComponent implements OnInit {
     
     
     private appointmentService: AppointmentService,
+    private appointmentTempService:AppointmentTempService,
     private dialog: MatDialog, 
     private showMessage:ShowMessageService,
     private mainViewService:MainViewService
@@ -110,8 +115,25 @@ export class WaitingLineComponent implements OnInit {
   
 
 
+  /*  /*Open modal */
+  openDialogMigration(): boolean {
+    const dialogRef = this.dialog.open(TicketsMigrationComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: null,
+        type: TYPES_ACTIONS_DIALOG.ADD
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: ParamsTicketMigration) => {
+      if (result) {
+        this.migrateTickets(this.hqId, result.migrateToday)
+      }
+    });
+    return false;
+  }
 
-  readAppointmentCRUD(hqId:number,tellId:number, catId:number, apptmState:number, dateStart:string, dateEnd:string ): boolean {
+  /*AÑos */
+  private readAppointmentCRUD(hqId:number,tellId:number, catId:number, apptmState:number, dateStart:string, dateEnd:string ): boolean {
     this.isLoading = true;
     this.appointmentService.getAllBy(hqId,tellId, catId, apptmState,dateStart,dateEnd).subscribe({
       next: (r) => {
@@ -127,6 +149,17 @@ export class WaitingLineComponent implements OnInit {
     });
 
     return true
+  }
+
+  private migrateTickets(hqId:number, migrateToday:boolean){
+    this.appointmentTempService.migrateTickets(hqId,migrateToday).subscribe({
+      next:d=>{
+        this.showMessage.success({message:d.msg})
+      },
+      error:e=>{
+        this.showMessage.error({message:e.error.message})
+      }
+    })
   }
 
 }

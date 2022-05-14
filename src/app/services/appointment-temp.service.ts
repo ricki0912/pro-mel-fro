@@ -67,6 +67,10 @@ export class AppointmentTempService extends ParentService {
   public getNroTotal(apptmState:number, tellId:number): Observable<InterfaceParamsResponse<TAppointmentTemp>>{
     return this.https.get<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/get-nro-total?apptmState=${apptmState}&tellId=${tellId}`)
   }
+
+  public migrateTickets(hqId:number, migrateToday:boolean):Observable<InterfaceParamsResponse<TAppointmentTemp>>{
+    return this.https.delete<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/migrate-tickets?hqId=${hqId}&migrateToday=${migrateToday}`)
+  }
 }
   
   

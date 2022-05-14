@@ -13,7 +13,7 @@ export class ShowMessageComponent implements OnInit {
     message:''
   }
 
-  configSuccess: MatSnackBarConfig = {
+  private configSuccess: MatSnackBarConfig = {
     panelClass: 'style-success',
     duration: 10000,
     horizontalPosition: 'left',
@@ -26,27 +26,22 @@ export class ShowMessageComponent implements OnInit {
   ngOnInit(): void {
     this.showMessageService.change.subscribe((o)=>{
       this.showMessageInterface=o;
-
-      //chagne color
       this.configSuccess.panelClass=(this.showMessageInterface.status=='success')?'blue-snackbar':'red-snackbar';
-
-      //console.log("Nro llamadas"+th)
-      console.log('***DENTRO DE MATSNACKNAT*****')
+      if(typeof this.showMessageInterface.action!=='undefined'){
+        this.configSuccess.duration=100000
+      }
       this.openSnackBar();
     })
   }
   
-  openSnackBar=()=> {
+  private openSnackBar=()=> {
     this._snackBar.openFromComponent(MatSnackBarComponent, {
       data: this.showMessageInterface,
       ...this.configSuccess
     });
   }
 
-
-  
-
-   public error=()=>{
+  public error=()=>{
     this._snackBar.open("message", "Cerrar");
   }
 
@@ -54,8 +49,6 @@ export class ShowMessageComponent implements OnInit {
     this._snackBar.open(msg, "Cerrar");
 
   }
-
-
 
 }
 

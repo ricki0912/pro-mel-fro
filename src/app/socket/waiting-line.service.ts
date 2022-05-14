@@ -14,13 +14,13 @@ export class WaitingLineService {
 
   }
 
-  public sendMessage(message:string):void{
+  /*public sendMessage(message:string):void{
     this.socket.emit('sendMessage', message)
   }
 
   public getNewMessage():Observable<string>{
     return this.socket.fromEvent<string>('newMessage');
-  }
+  }*/
 
   /*sendAppointmentTemp */
 

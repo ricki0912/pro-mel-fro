@@ -23,7 +23,9 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { ModuleSiGuard } from './core/guards/module-si.guard';
 import { CoreModule } from './core/core.module';
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+import { environment } from '../environments/environment';
+
+const config: SocketIoConfig = { url: environment.WLI_SOCKET_SERVER, options: {} };
 //const config: SocketIoConfig = { url: 'http://192.168.1.96:3000', options: {} };
 
 @NgModule({

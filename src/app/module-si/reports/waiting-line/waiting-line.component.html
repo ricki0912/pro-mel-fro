@@ -31,10 +31,10 @@
                     <mat-card-subtitle> <b>Tickets en espera</b> </mat-card-subtitle>
                     <mat-card-actions>
                        
-                        <!--<button mat-button>
-                            <mat-icon>pause</mat-icon>Espera
-                        </button>--->
-                 >
+                        <button mat-button (click)="openDialogMigration()">
+                            <mat-icon>sync</mat-icon>Migrar Registros
+                        </button>
+                 
 
 
                         <!--
@@ -154,7 +154,7 @@
 
                         </mat-form-field>
                         <button mat-button (click)="selectSearch()">
-                            <mat-icon>autorenew</mat-icon>Buscar
+                            <mat-icon>search</mat-icon>Buscar
                         </button>
                         <mat-card *ngIf="isLoading" style="
                           display: flex;

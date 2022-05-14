@@ -4,7 +4,6 @@ export enum PMS{
     TD_SEE='TD_SEE',
     SI_SEE='SI_SEE',
 
-
     /*Clientes */
     SI_CLIENTS_SEE='SI_CLIENTS_SEE',
     SI_CLIENTS_ADD='SI_CLIENTS_ADD',
@@ -13,6 +12,9 @@ export enum PMS{
 
     /*Usuarios */
     SI_USERS_SEE='SI_USERS_SEE',
+    SI_USERS_ADD='SI_USERS_ADD',
+    SI_USERS_UPD='SI_USERS_UPD',
+    SI_USERS_DEL='SI_USERS_DEL',
 
     /*Permisos y roles */
     SI_PERMISSIONS_SEE='SI_PERMISSIONS_SEE',
@@ -32,6 +34,8 @@ export enum PMS{
     /*Reportes */
     SI_REPORT_WAITING_LINE='SI_REPORT_WAITING_LINE',
     SI_REPORT_CLIENT_SEE='SI_REPORT_CLIENT_SEE',
-    
+
+    /*Profile */
+    SI_PROFILE_SEE='SI_PROFILE_SEE',
 }
 

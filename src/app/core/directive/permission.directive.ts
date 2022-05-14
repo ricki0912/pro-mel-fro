@@ -21,14 +21,14 @@ export class PermissionDirective {
 
   @Input()
   set appPermission(val: string){
-    console.log('**VALOR DE ESTO ***', val)
     this.permissions=val;
     const l=this.tokenService.hasPermission(val)
-    this.viewContainer.createEmbeddedView(this.templateRef);
+    //this.viewContainer.createEmbeddedView(this.templateRef);
 
-/*    if (l)
+    if (l)
       this.viewContainer.createEmbeddedView(this.templateRef);
     else
       this.viewContainer.clear();
-  */}
+  
+  }
 }
