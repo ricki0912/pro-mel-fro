@@ -45,14 +45,13 @@ export class MainViewComponent implements OnInit {
       const u=this.tokenService.getUser()
       if(u){
         this.currentUser = u as User
+        console.log(this.currentUser)
       } else{
         this.signOut();
       }
   }
   ngOnInit(): void {
-      this.loadingService.hide()
-    
-      console.log(this.currentUser)
+      this.loadingService.stop()
   }
 
   toggle(nav: MatSidenav) {
@@ -121,7 +120,7 @@ export class MainViewComponent implements OnInit {
       
     ] 
   },
-  {isDisplay:false, name:'Mi perfil',routerLink:'./profile', icon:'person', permission:PMS.SI_USERS_SEE,
+  {isDisplay:false, name:'Mi perfil',routerLink:'./profile', icon:'person', permission:PMS.SI_PROFILE_SEE,
   subMenu:[
     
   ] 

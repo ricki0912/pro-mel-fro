@@ -25,11 +25,19 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+
+
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { TicketsMigrationComponent } from './pages/tickets-migration/tickets-migration.component';
+
+
 
 @NgModule({
   declarations: [
-    WaitingLineComponent
+    WaitingLineComponent,
+    TicketsMigrationComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +62,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatToolbarModule,
+    FormsModule, ReactiveFormsModule
   ]
 })
 export class WaitingLineModule { }

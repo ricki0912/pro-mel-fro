@@ -13,10 +13,10 @@ const routes: Routes = [
     loadChildren: ()=>import('./auth/auth.module').then(m=>m.AuthModule),
   },
   {
-    path:'si/:hqId',
+    path:'si',
     loadChildren:()=>import('./module-si/main-view.module').then(m=>m.MainViewModule),
-    /*canLoad:[ModuleSiGuard],
-    data:{permission: PMS.SI_SEE}*/
+    canLoad:[ModuleSiGuard],
+    data:{permission: PMS.SI_SEE}
   },
   {
     path:'ticket-dispensing/:hqId',

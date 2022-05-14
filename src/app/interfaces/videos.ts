@@ -6,3 +6,6 @@ export interface Videos extends ParentInterface{
   vidLink?: string,
   vidState?: string
 }
+export enum VIDEOS_STATE{
+  ENABLE=1, DISABLE=2
+}

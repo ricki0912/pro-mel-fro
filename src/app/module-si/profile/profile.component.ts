@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { map, Observable } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
 import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
 import { User } from 'src/app/interfaces/user';
 import { UserService } from 'src/app/services/user.service';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
-
+import {ProfileImageComponent} from './pages/profile-image/profile-image.component'
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -39,7 +40,7 @@ export class ProfileComponent implements OnInit {
     private fb: FormBuilder,
     private userSevice: UserService, /*creamos un servicio para conectarse a la db */
     private dialog: MatDialog,
-
+    private authService: AuthService,
 
 
   ) {
@@ -98,6 +99,29 @@ export class ProfileComponent implements OnInit {
     });
     return false;
   }
+
+  openDialogProfileImage(): boolean {
+    const dialogRef = this.dialog.open(ProfileImageComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: this.currentUser,
+        type: null
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        
+      }
+    });
+    return false;
+  }
+
+  /*Save in DB, */
+  private updateCURD(){
+    this.authService.changePasswordWithAuth
+  }
+
+  
 
 
 }

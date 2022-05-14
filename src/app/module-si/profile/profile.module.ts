@@ -17,12 +17,14 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatDialogModule} from '@angular/material/dialog';
+import { ProfileImageComponent } from './pages/profile-image/profile-image.component';
 
 
 @NgModule({
   declarations: [
     ProfileComponent,
     ChangePasswordComponent,
+    ProfileImageComponent,
     
   ],
   imports: [

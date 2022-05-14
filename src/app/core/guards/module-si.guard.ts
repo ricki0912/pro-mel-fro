@@ -35,8 +35,6 @@ export class ModuleSiGuard implements CanActivate, CanActivateChild, CanDeactiva
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log("***can load***", route, segments)
-    console.log("**Viedno dentro de route*", route.path)
     if (!route.data) {
       return true
     }

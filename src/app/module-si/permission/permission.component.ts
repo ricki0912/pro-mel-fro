@@ -6,6 +6,8 @@ import { Role } from 'src/app/interfaces/role';
 import { PermissionService } from 'src/app/services/permission.service';
 import { RoleService } from 'src/app/services/role.service';
 import {Location} from '@angular/common';
+import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
+
 
 @Component({
   selector: 'app-permission',
@@ -28,8 +30,9 @@ public titlePermissions:string="Seleccione un rol para agregar o actualizar sus 
       private roleService:RoleService,
       private permissionService:PermissionService,
       private location: Location,
-      private activatedRoute: ActivatedRoute
-    ) {
+      private activatedRoute: ActivatedRoute, 
+      private showMessage: ShowMessageService,
+      ) {
     this.toppings = fb.group({
       pepperoni: false,
       extracheese: false,
@@ -108,7 +111,6 @@ public titlePermissions:string="Seleccione un rol para agregar o actualizar sus 
     this.roleService.getPersmissions(roleName).subscribe({
       next: d=>{
         const t=d.data as TCBPermission[]
-        console.log("PERSMISSION BY ROLE",t)
         this.permissionsByRole=t.reduce((acc, key)=>({...acc, [key.name || '']:key}),{})
         console.log(this.permissionsByRole)
         this.showFilteredPermissions()        
@@ -134,10 +136,10 @@ public titlePermissions:string="Seleccione un rol para agregar o actualizar sus 
   private syncPermissionsByRole(roleName:string, permissionsIds:number[]){
     this.roleService.syncPermissions(roleName, permissionsIds).subscribe({
       next:d=>{
-        console.log("sincronizar permisos", d)
+        this.showMessage.success({message:d.msg})
       },
       error:e=>{
-        
+        this.showMessage.success({message:e.error.message})
       }
     })
   }

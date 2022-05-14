@@ -12,8 +12,8 @@ import { WaitingLineService } from 'src/app/socket/waiting-line.service';
 export class TVComponent implements OnInit {
   @ViewChild('form') form!: NgForm
 
-  newMessage$?:Observable<string>;
-  messages:string[]=[]
+  //newMessage$?:Observable<string>;
+  //messages:string[]=[]
   
 
   constructor(

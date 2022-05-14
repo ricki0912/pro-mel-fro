@@ -14,6 +14,7 @@ export interface User extends ParentInterface {
     roles?:Role[],
     permissions?:Permission[] | {} | []
     tellers?:Teller[]
+    img?:string
     
 
 }

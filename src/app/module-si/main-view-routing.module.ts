@@ -7,8 +7,14 @@ import { MainViewComponent } from './main-view/main-view.component';
 const routes: Routes=[
   {
     path:'',
+    pathMatch:'full',
+    redirectTo:'0'
+  },
+  {
+    path:':hqId',
     component: MainViewComponent,
     children: [
+      
       {
         path: '',
         //component: CategoryComponent
@@ -24,8 +30,6 @@ const routes: Routes=[
         //component: TellerComponent
         loadChildren:()=>import('./teller/teller.module').then(m=>m.TellerModule)
       },
-      
-
       {
         path: 'clients',
         //component: ClientComponent

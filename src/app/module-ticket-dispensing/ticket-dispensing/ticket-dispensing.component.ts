@@ -15,6 +15,8 @@ import { AlertService } from './pages/alert/alert.service';
 import { SocketInterface, SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
 import { WaitingLineService } from 'src/app/socket/waiting-line.service';
 import { ActivatedRoute } from '@angular/router';
+import { CardsService } from 'src/app/services/cards.service';
+import { Cards, CARDS_STATES } from 'src/app/interfaces/cards';
 
 
 declare var electron: any;
@@ -26,8 +28,10 @@ declare var electron: any;
 })
 export class TicketDispensingComponent implements OnInit {
 
+  /*Cards */
+  private cards:Cards[]=[]
   /* */
-  private hqId:number=0;
+  private hqId: number = 0;
   /*Lista de categorias de base de datos */
   private categoriesTree: CategoryTree[] = []
 
@@ -44,7 +48,7 @@ export class TicketDispensingComponent implements OnInit {
   public CT = COMPONENT_TYPES
 
   /* Appointment*/
-  private appointmentTemp:AppointmentTemp={}
+  private appointmentTemp: AppointmentTemp = {}
 
 
 
@@ -52,27 +56,29 @@ export class TicketDispensingComponent implements OnInit {
   /*Loading*/
   loadingMessage: string = ''
   //public alertMessage:string=''
-  
+
   /* */
 
   constructor(
     private categoryService: CategoryService,
+    private cardsService:CardsService,
     private appointmentTempService: AppointmentTempService,
     private loadingService: LoadingService,
-    public datepipe: DatePipe,
-    private headService:HeadService,
-    private alertService:AlertService,
-    private waitingLineService:WaitingLineService,
-    private activatedRoute:ActivatedRoute
+    private datepipe: DatePipe,
+    private headService: HeadService,
+    private alertService: AlertService,
+    private waitingLineService: WaitingLineService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.loadingService.hide()
-    this.listenRoute(o=>this.readCategoriesCRUD(o))
+    this.readCardsCrud()
+    this.listenRoute(o => this.readCategoriesCRUD(o))
   }
 
-  private listenRoute(c:(o:any)=>void){
-    this.activatedRoute.params.subscribe(params=>{
+  private listenRoute(c: (o: any) => void) {
+    this.activatedRoute.params.subscribe(params => {
       this.hqId = parseInt(params['hqId'] || 0)
       c(this.hqId)
     })
@@ -107,7 +113,7 @@ export class TicketDispensingComponent implements OnInit {
       apptKindClient: e.apptKindClient,
       bussId: e.bussId
     }
-    this.appointmentTemp=a;
+    this.appointmentTemp = a;
     this.createAppointmentCRUD(a)
   }
 
@@ -127,7 +133,7 @@ export class TicketDispensingComponent implements OnInit {
         this.history.push({ type: COMPONENT_TYPES.KEYBOARD, history: {} })
         this.componentSelected = COMPONENT_TYPES.KEYBOARD
       } else {
-        this.appointmentTemp={
+        this.appointmentTemp = {
           catId: this.categoryTree?.catId,
         }
         this.createAppointmentCRUD(this.appointmentTemp)
@@ -172,7 +178,7 @@ export class TicketDispensingComponent implements OnInit {
         this.categoriesTreeSelected = this.history[this.history.length - 1].history
         this.componentSelected = COMPONENT_TYPES.CATEGORY
         this.headService.setMessage("Bienvenido, por favor seleccione un servicio.")
-        
+
       }
 
       if (this.history[this.history.length - 1].type == this.CT.KEYBOARD) {
@@ -183,19 +189,19 @@ export class TicketDispensingComponent implements OnInit {
   }
 
   public home() {
-    this.history.splice(1);  
+    this.history.splice(1);
     this.componentSelected = COMPONENT_TYPES.CATEGORY
     this.headService.setMessage("Bienvenido, por favor seleccione un servicio.")
 
-    
+
 
   }
-  
+
 
 
   /*Conexion API */
   /*Leer Categorias */
-  readCategoriesCRUD(hqId:number): boolean {
+  readCategoriesCRUD(hqId: number): boolean {
     this.categoryService.allByHQ(hqId).subscribe({
       complete: () => { },
       next: (r: Category[]) => {
@@ -212,7 +218,15 @@ export class TicketDispensingComponent implements OnInit {
 
     return true
   }
-
+  
+  readCardsCrud():boolean{
+    this.cardsService.all().subscribe({
+      next:(d)=>{
+        this.cards=d.filter(e=>(parseInt(e.cardState || "0") == CARDS_STATES.ENABLE))
+      }, 
+    })
+    return true;
+  }
 
   /*aqui se crear un registro para citas */
   private createAppointmentCRUD(object: AppointmentTemp): boolean {
@@ -221,20 +235,20 @@ export class TicketDispensingComponent implements OnInit {
     this.loadingMessage = 'Por favor espere. Estamos procesando tu solicitud.'
     this.appointmentTempService.add(object).subscribe({
       next: d => {
-        const data=d.data as AppointmentTemp[];
-      
+        const data = d.data as AppointmentTemp[];
+
 
         this.printTicket(data[0])
-        this.setSocketWaitingLine(data[0].tellId || -1, {action: SOCKET_ACTION.WAITING_LINE_ADD_APPOINTMENT, data: data[0]})
+        this.setSocketWaitingLine(data[0].tellId || -1, { action: SOCKET_ACTION.WAITING_LINE_ADD_APPOINTMENT, data: data[0] })
       },
       error: e => {
         this.alertService.error({
-          message:e.error.message.match(/(?<=<msg>)(.*)(?=<msg>)/s)[0],
-          comeBack: ()=>this.home(),
-          tryAgain: ()=>this.createAppointmentCRUD(object)
+          message: e.error.message.match(/(?<=<msg>)(.*)(?=<msg>)/s)[0],
+          comeBack: () => this.home(),
+          tryAgain: () => this.createAppointmentCRUD(object)
         })
         //this.alertMessage=e.error.message.match(/(?<=<msg>)(.*)(?=<msg>)/s)[0]
-        this.componentSelected=COMPONENT_TYPES.ALERT;
+        this.componentSelected = COMPONENT_TYPES.ALERT;
 
       }
     })
@@ -242,32 +256,33 @@ export class TicketDispensingComponent implements OnInit {
   }
 
 
-  private printTicket(d:AppointmentTemp) {
-    console.log("Listo para imprimir",d)
-    this.componentSelected=COMPONENT_TYPES.ALERT;
+
+  private printTicket(d: AppointmentTemp) {
+    console.log("Listo para imprimir", d)
+    this.componentSelected = COMPONENT_TYPES.ALERT;
     this.alertService.success({
-      message:"Gracias por su preferencia. No olvide recoger su ticket y esperar su turno.",
-      success: ()=>this.home()
+      message: "Gracias por su preferencia. No olvide recoger su ticket y esperar su turno.",
+      success: () => this.home()
     })
-    const t={
-      dateTicket:this.dateFormat(d), 
-      numberTicket:this.joinCodeTicket(d), 
-      tellerTicket:d.teller?.tellCode,/*ventanilla*/
-      phraseTicket:'Frase Frase',
-      codeQrTicket:'melendres.com'
-    } 
+    const t = {
+      dateTicket: this.dateFormat(d),
+      numberTicket: this.joinCodeTicket(d),
+      tellerTicket: d.teller?.tellCode,/*ventanilla*/
+      phraseTicket: this.cards[Math.floor(Math.random() * this.cards.length)].cardPhrases,
+      codeQrTicket: 'melendres.com'
+    }
     try {
       electron.ipcRenderer.send('print-ticket', t)
 
     } catch (error) {
-      
+
     }
-   
+
   }
-  dateFormat(d:AppointmentTemp){
-    let t=''
-    if(d.apptmDateTimePrint){    
-      t=this.datepipe.transform(new Date(d.apptmDateTimePrint), 'dd/MM/yyyy hh:mm:ss a')||'';
+  dateFormat(d: AppointmentTemp) {
+    let t = ''
+    if (d.apptmDateTimePrint) {
+      t = this.datepipe.transform(new Date(d.apptmDateTimePrint), 'dd/MM/yyyy hh:mm:ss a') || '';
     }
     return t;
   }
@@ -275,17 +290,17 @@ export class TicketDispensingComponent implements OnInit {
     return element.catCode + String(element.apptmNro).padStart(2, '0')
   }
 
-  private setSocketWaitingLine(tellId:number, s:SocketInterface<AppointmentTemp>){
+  private setSocketWaitingLine(tellId: number, s: SocketInterface<AppointmentTemp>) {
     this.waitingLineService.setSocketLineWaiting(tellId, s)
 
-}
+  }
 }
 
 export enum COMPONENT_TYPES {
   KEYBOARD = 2,
   CATEGORY = 1,
   LOADING = 3,
-  ALERT=4
+  ALERT = 4
 }
 export interface History {
   type: COMPONENT_TYPES,
