@@ -19,37 +19,41 @@
       <mat-grid-tile>
         <div>
           <small>Tipo de Documento: </small>
-          <b>DNI</b>
+          <b [ngSwitch]="per?.person?.perKindDoc"
+            ><b *ngSwitchCase="1">DNI</b
+            ><b *ngSwitchCase="2">Carnet de Extranjeria</b
+            ><b *ngSwitchCase="3">Pasaporte</b></b
+          >
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Numero de DNI: </small>
-          <b>72456392</b>
+          <b>{{ per?.person?.perNumberDoc }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Apellidos y Nombres: </small>
-          <b>Condor Chacon Julio Cesar</b>
+          <b>{{ per?.person?.perName }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Numero de Telefono: </small>
-          <b>9233136969</b>
+          <b>{{ per?.person?.perTel }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Correo Electronico: </small>
-          <b>jc.condor.sistemas@gmail.com</b>
+          <b>{{ per?.person?.perEmail }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Direccion: </small>
-          <b>San Juan Pampa Arenales</b>
+          <b>{{ per?.person?.perAddress }}</b>
         </div>
       </mat-grid-tile>
     </mat-grid-list>
@@ -89,7 +93,26 @@
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>DNI</mat-label>
               <input matInput formControlName="perNumberDoc" />
-              <mat-error> El numero de DNI es requerido. </mat-error>
+              <mat-progress-spinner
+                *ngIf="datosPersonForm.get('person.perNumberDoc')?.pending"
+                matSuffix
+                [mode]="'indeterminate'"
+                [diameter]="20"
+              >
+              </mat-progress-spinner>
+              <mat-error>
+                {{
+                  datosPersonForm
+                    .get("person.perNumberDoc")
+                    ?.hasError("required")
+                    ? "El numero de DNI es requerido"
+                    : datosPersonForm
+                        .get("person.perNumberDoc")
+                        ?.hasError("existDni")
+                    ? "El numero de DNI ya existe."
+                    : "Ingrese el numero de DNI correcto"
+                }}
+              </mat-error>
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile>
@@ -97,6 +120,13 @@
               <mat-label>Nombres y Apellidos</mat-label>
               <input matInput formControlName="perName" />
               <mat-error> Los nombres y apellidos son requeridos. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Dirección</mat-label>
+              <input matInput formControlName="perAddress" />
+              <mat-error> La Dirección es requerido. </mat-error>
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile>
@@ -113,20 +143,25 @@
               <mat-error> El correo electronico es requerido. </mat-error>
             </mat-form-field>
           </mat-grid-tile>
-          <mat-grid-tile>
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Dirección</mat-label>
-              <input matInput formControlName="perAddress" />
-              <mat-error> La Dirección es requerido. </mat-error>
-            </mat-form-field>
-          </mat-grid-tile>
         </div>
       </mat-grid-list>
     </form>
   </mat-card-content>
   <mat-divider></mat-divider>
-  <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button cdkFocusInitial type="submit">Guardar</button>
+  <mat-dialog-actions>
+    <div style="text-align: right; padding-top: 5px">
+      <button mat-button mat-dialog-close (click)="showEditPerson()">
+        Cancelar
+      </button>
+      <button
+        mat-button
+        cdkFocusInitial
+        type="submit"
+        [disabled]="!datosPersonForm.valid"
+        (click)="UpdPerson()"
+      >
+        Guardar
+      </button>
+    </div>
   </mat-dialog-actions>
 </mat-card>

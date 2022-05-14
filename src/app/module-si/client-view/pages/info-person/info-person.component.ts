@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { map, Observable, Subscription } from 'rxjs';
+import { Bussines } from 'src/app/interfaces/bussines';
+import { Person } from 'src/app/interfaces/person';
+import { BussinesService } from 'src/app/services/bussines.service';
+import { PersonService } from 'src/app/services/person.service';
+import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 
 @Component({
   selector: 'app-info-person',
@@ -9,14 +14,19 @@ import { Subscription } from 'rxjs';
 })
 export class InfoPersonComponent implements OnInit {
 
+  @Input() per: Bussines | undefined;
   showPerson = true;
   showPersonEdit = false;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private businessSevice: BussinesService,
+    private personService: PersonService,
+    private showMessage: ShowMessageService
   ) { }
 
   ngOnInit(): void {
+    this.setTypeDialog();
   }
 
   cols: number = 2;
@@ -32,7 +42,11 @@ export class InfoPersonComponent implements OnInit {
   datosPersonForm: FormGroup = this.fb.group({
     person : this.fb.group({
       perKindDoc : ['',Validators.required],
-      perNumberDoc : ['',Validators.required],
+      perNumberDoc : ['', {
+        validators: [Validators.required],
+        asyncValidators: this.validateDNI.bind(this),
+        updateOn: 'blur',
+      }],
       perName : ['',Validators.required],
       perTel :[''],
       perEmail : [''],
@@ -40,9 +54,55 @@ export class InfoPersonComponent implements OnInit {
     })
   });
 
+  setTypeDialog() {
+    this.datosPersonForm.get('person.perKindDoc')?.setValue(this.per?.person.perKindDoc);
+    this.datosPersonForm.get('person.perNumberDoc')?.setValue(this.per?.person.perNumberDoc);
+    this.datosPersonForm.get('person.perName')?.setValue(this.per?.person.perName);
+    this.datosPersonForm.get('person.perTel')?.setValue(this.per?.person.perTel);
+    this.datosPersonForm.get('person.perEmail')?.setValue(this.per?.person.perEmail);
+    this.datosPersonForm.get('person.perAddress')?.setValue(this.per?.person.perAddress);
+  }
+
+  validateDNI(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {
+    return this.personService.existDni(control.value)
+    .pipe(
+      map((person: Person) => {
+        if (2 == 2) {
+          if (!person) {
+            return null;
+          }
+          if (this.per?.person.perNumberDoc != person.perNumberDoc) {
+            return { existDni: 'El Numero de DNI ya esta en uso.' };
+          }
+          return null
+        }
+        return (!person) ? null : { existDni: 'El Numero de DNI ya existe.' }
+      })
+    )
+  }
+
   showEditPerson(){
     this.showPerson = !this.showPerson;
     this.showPersonEdit = !this.showPersonEdit;
+  }
+
+  UpdPerson(): boolean {
+    const business : Bussines = this.datosPersonForm.value;
+    business.bussId = this.per?.bussId;
+    console.log(JSON.stringify(business));
+
+    this.businessSevice.updPersonData(business).subscribe({
+      next: data=>{
+        console.log("vuelve peersona"+JSON.stringify(data.data));
+        this.showMessage.success({message: data.msg})
+        this.showPerson = !this.showPerson;
+        this.showPersonEdit = !this.showPersonEdit;
+      },
+      error: error=>{
+        this.showMessage.error({message: error.error.message, action:()=>this.UpdPerson()})
+      }
+    })
+    return true;
   }
 
 }

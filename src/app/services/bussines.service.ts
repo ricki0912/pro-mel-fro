@@ -53,7 +53,23 @@ export class BussinesService extends ParentService implements CrudApiInterface{
     return this.https.get<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/search?like=${like}`)
   }
 
-  findBusiness(): Observable<Bussines[]> {
-    return this.https.get<Bussines[]>(this.API_ALL);
+  findBusiness(bussId: number[]): Observable<Bussines[]> {
+    return this.https.get<Bussines[]>(`${this.API_BUSSINES}/${bussId}`);
+  }
+
+  updBusinessData(object: Bussines):Observable<InterfaceParamsResponse<Bussines>>{
+    return this.https.put<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/upd-bussData`, object);
+  }
+
+  updPersonData(object: Bussines):Observable<InterfaceParamsResponse<Bussines>>{
+    return this.https.put<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/upd-perData`, object);
+  }
+
+  updAfiliationData(object: Bussines):Observable<InterfaceParamsResponse<Bussines>>{
+    return this.https.put<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/upd-afiData`, object);
+  }
+
+  updAditionalData(object: Bussines):Observable<InterfaceParamsResponse<Bussines>>{
+    return this.https.put<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/upd-adiData`, object);
   }
 }

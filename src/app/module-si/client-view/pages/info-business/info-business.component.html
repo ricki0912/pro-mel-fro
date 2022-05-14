@@ -18,37 +18,42 @@
       <mat-grid-tile>
         <div>
           <small>Tipo de Negocio: </small>
-          <b>Juridico</b>
+          <b>{{ buss?.bussKind?.trim() == "1" ? "Juridica" : "Natural" }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>RUC: </small>
-          <b>10724563928</b>
+          <b>{{ buss?.bussRUC }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Direccion: </small>
-          <b>Calle los angeles Mz A Lote 19 Columna Pasco - Yanacancha</b>
+          <b>{{ buss?.bussAddress }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
-          <small>Tipo de Archivador: </small>
-          <b>Archivador</b>
+          <small>Tipo de Almacenamiento: </small>
+          <b>{{
+            buss?.bussFileKind?.trim() == "1" ? "Archivador" : "Folder"
+          }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>N° Archivador: </small>
-          <b>45</b>
+          <b>{{ buss?.bussFileNumber }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Estado: </small>
-          <b>Activo</b>
+          <b [ngSwitch]="buss?.bussState"
+            ><b *ngSwitchCase="1">Activo</b><b *ngSwitchCase="2">Suspendido</b
+            ><b *ngSwitchCase="3">Eliminado</b></b
+          >
         </div>
       </mat-grid-tile>
     </mat-grid-list>
@@ -95,8 +100,25 @@
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>RUC</mat-label>
-              <input matInput formControlName="bussRuc" />
-              <mat-error> El RUC es requerido. </mat-error>
+              <input matInput formControlName="bussRUC" />
+              <mat-progress-spinner
+                *ngIf="datosBusinesForm.get('business.bussRUC')?.pending"
+                matSuffix
+                [mode]="'indeterminate'"
+                [diameter]="20"
+              >
+              </mat-progress-spinner>
+              <mat-error>
+                {{
+                  datosBusinesForm.get("business.bussRUC")?.hasError("required")
+                    ? "El numero de RUC es requerido"
+                    : datosBusinesForm
+                        .get("business.bussRUC")
+                        ?.hasError("existRuc")
+                    ? "El numero de RUC ya existe."
+                    : "Ingrese el numero de RUC correcto"
+                }}
+              </mat-error>
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile>
@@ -120,7 +142,26 @@
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Numero de Archivador</mat-label>
               <input matInput formControlName="bussFileNumber" />
-              <mat-error> Numero de Archivador es Requerido. </mat-error>
+              <mat-progress-spinner
+                *ngIf="datosBusinesForm.get('business.bussFileNumber')?.pending"
+                matSuffix
+                [mode]="'indeterminate'"
+                [diameter]="20"
+              >
+              </mat-progress-spinner>
+              <mat-error>
+                {{
+                  datosBusinesForm
+                    .get("business.bussFileNumber")
+                    ?.hasError("required")
+                    ? "El numero de Archivador es requerido"
+                    : datosBusinesForm
+                        .get("business.bussFileNumber")
+                        ?.hasError("existFileNumber")
+                    ? "El numero de Archivador ya existe."
+                    : "Ingrese el numero de Archivador correcto"
+                }}
+              </mat-error>
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile>
@@ -139,8 +180,18 @@
     </form>
   </mat-card-content>
   <mat-divider></mat-divider>
-  <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button cdkFocusInitial type="submit">Guardar</button>
+  <mat-dialog-actions>
+    <div style="text-align: right; padding-top: 5px">
+      <button mat-button (click)="showEditBusiness()">Cancelar</button>
+      <button
+        mat-button
+        cdkFocusInitial
+        type="submit"
+        [disabled]="!datosBusinesForm.valid"
+        (click)="UpdBusiness()"
+      >
+        Guardar
+      </button>
+    </div>
   </mat-dialog-actions>
 </mat-card>

@@ -27,7 +27,7 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     private bussinesService: BussinesService,
     public dialogEditClient: MatDialog,
     private showMessage: ShowMessageService,
-    private router: Router, 
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -81,7 +81,6 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     this.isLoading = true;
     this.bussinesService.all()?.subscribe({
       next: data => {
-        console.log(data);
         this.dataSource.data = data;
         this.isLoading = false
       },
@@ -128,10 +127,7 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
         /**mostramos un mensaje de exito */
         this.showMessage.success({ message: data.msg });
         /*obtenemos el ultimo business devuelto por el backend y que viene en data */
-        const business = data.data as Bussines[]
-        console.log("ya probe business");
-
-        console.log(business);
+        const business = data.data as Bussines[];
 
         /*El nuevo usuario lo añadimos a la primera fila de la tabla */
         this.dataSource.data.unshift(...business)

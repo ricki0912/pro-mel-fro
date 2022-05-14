@@ -109,7 +109,7 @@ export class EditClientComponent implements OnInit, OnDestroy {
       this.businessForm.get('business.bussKind')?.setValue(this.businessBeforeUpd.bussKind)
       this.businessForm.get('business.bussName')?.setValue(this.businessBeforeUpd.bussName)
       this.businessForm.get('business.bussRUC')?.setValue(this.businessBeforeUpd.bussRUC)
-      this.businessForm.get('business.bussAddress')?.setValue(this.businessBeforeUpd.bussAdress)
+      this.businessForm.get('business.bussAddress')?.setValue(this.businessBeforeUpd.bussAddress)
       this.businessForm.get('business.bussFileKind')?.setValue(this.businessBeforeUpd.bussFileKind)
       this.businessForm.get('business.bussFileNumber')?.setValue(this.businessBeforeUpd.bussFileNumber)
       this.businessForm.get('business.bussDateStartedAct')?.setValue(this.businessBeforeUpd.bussDateStartedAct)
@@ -130,8 +130,6 @@ export class EditClientComponent implements OnInit, OnDestroy {
     return this.businessSevice.existRuc(control.value)
     .pipe(
       map((business: Bussines) => {
-          console.log("Estoy dentro de",business);
-
         if (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) {
           /*el usuario devuelto pod backend sera de null o vacio */
           if (!business) {
@@ -196,7 +194,7 @@ export class EditClientComponent implements OnInit, OnDestroy {
   addBusinessWithPerson(): boolean {
     const business: Bussines = this.businessForm.value;
     this.onReturn(business);
-    console.log(this.businessForm.value);
+    console.log("datos de cliente de formulario"+this.businessForm.value);
     return true
   }
 }

@@ -28,9 +28,8 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
 
   ngOnInit(): void {
     this.activate.params.subscribe((params)=>{
-      console.log("PAMRAMETROS DE CLIENT VIEW", params['bussId']);
+      this.readCRUD(params['bussId']);
     })
-    this.readCRUD();
   }
   ngOnDestroy(): void {
 
@@ -39,20 +38,20 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
   createCRUD(object: any): boolean {
     throw new Error('Method not implemented.');
   }
-  readCRUD(): boolean {
+  readCRUD(id : number[]): boolean {
     this.isLoading=true;
-    this.businessService.all()?.subscribe({
-      next: d=>{
-        this.business=d
+    this.businessService.findBusiness(id)?.subscribe({
+      next: data=>{
+        this.business=data
         this.isLoading=false
       },
       error: e=>{
         this.showMessage.error({message: e.error.message})
       }
     })
-    console.log("yo en client view"+this.business);
     return true;
   }
+
   updateCRUD(object: any, id: string | number | null): boolean {
     throw new Error('Method not implemented.');
   }

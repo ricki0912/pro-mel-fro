@@ -7,7 +7,7 @@
   <mat-divider></mat-divider>
   <div fxLayout="row" fxLayoutGap="5px">
     <mat-card id="datos">
-      <mat-card-content>
+      <mat-card-content *ngFor="let a of business">
         <div class="perfil">
           <img
             class="photo"
@@ -17,10 +17,10 @@
         </div>
         <div class="datosBusiness">
           <div>
-            <span>Corporacion umbrella</span>
+            <span>{{ a.bussName }}</span>
           </div>
           <div>
-            <span>32982389289</span>
+            <span>{{ a.bussRUC }}</span>
           </div>
         </div>
         <div class="datosRepresentate">
@@ -28,39 +28,67 @@
             <span>Representate Legal</span>
           </div>
           <div>
-            <span>Julio Cesar Condor Chacon</span>
+            <span>{{ a.person.perName }}</span>
           </div>
           <div>
-            <span>72456392</span>
+            <span>{{ a.person.perNumberDoc }}</span>
           </div>
         </div>
         <mat-divider></mat-divider>
         <div class="datosFuncionamiento">
           <div>
-            <span>Inicio de actividades: 24/03/2021</span>
+            <span>Inicio de actividades: {{ a.bussDateStartedAct }}</span>
           </div>
           <div>
-            <span>Ingreso al Estudio: 01/01/2022</span>
+            <span>Ingreso al Estudio: {{ a.bussDateMembership }}</span>
           </div>
           <div>
-            <span>Estado: Habilitado</span>
+            <span
+              >Estado:
+              <b [ngSwitch]="a?.bussState"
+                ><b *ngSwitchCase="1">Activo</b
+                ><b *ngSwitchCase="2">Suspendido</b
+                ><b *ngSwitchCase="3">Eliminado</b></b
+              ></span
+            >
           </div>
         </div>
         <mat-divider></mat-divider>
       </mat-card-content>
-      <mat-card-footer>
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      </mat-card-footer>
+
+      <mat-progress-bar
+        mode="indeterminate"
+        *ngIf="isLoading"
+      ></mat-progress-bar>
     </mat-card>
     <mat-card id="contenido">
-      <!-- Datos del Negocio-->
-      <app-info-business></app-info-business>
-      <!-- Datos del representate-->
-      <app-info-person></app-info-person>
-      <!-- Datos de Afilicion-->
-      <app-info-afiliation></app-info-afiliation>
-      <!-- Otros datos-->
-      <app-info-aditional></app-info-aditional>
+      <mat-card-content>
+        <!-- Datos del Negocio-->
+        <app-info-business
+          [buss]="buss"
+          *ngFor="let buss of business"
+        ></app-info-business>
+        <!-- Datos del representate-->
+        <app-info-person
+          [per]="per"
+          *ngFor="let per of business"
+        ></app-info-person>
+        <!-- Datos de Afilicion-->
+        <app-info-afiliation
+          [afi]="afi"
+          *ngFor="let afi of business"
+        ></app-info-afiliation>
+        <!-- Otros datos-->
+        <app-info-aditional
+          [adi]="adi"
+          *ngFor="let adi of business"
+        ></app-info-aditional>
+      </mat-card-content>
+
+      <mat-progress-bar
+        mode="indeterminate"
+        *ngIf="isLoading"
+      ></mat-progress-bar>
     </mat-card>
   </div>
 </div>

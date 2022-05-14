@@ -6,7 +6,7 @@
   <mat-card-title-group>
     <mat-card-title style="margin: 0px">Información Adicionales</mat-card-title>
     <mat-card-actions>
-      <button mat-icon-button (click)="showEditOtros()">
+      <button mat-icon-button (click)="showEditAditional()">
         <mat-icon>edit</mat-icon>
       </button>
     </mat-card-actions>
@@ -17,43 +17,49 @@
       <mat-grid-tile>
         <div>
           <small>Fecha de Ingreso: </small>
-          <b>20/04/22</b>
+          <b>{{ adi?.bussDateMembership }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Fecha de Inicio de Actividades: </small>
-          <b>12/12/13</b>
+          <b>{{ adi?.bussDateStartedAct }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Tipo de Regimen: </small>
-          <b>Tributario</b>
+          <b [ngSwitch]="adi?.bussRegime"
+            ><b *ngSwitchCase="1">Especial</b><b *ngSwitchCase="2">General</b
+            ><b *ngSwitchCase="3">MYPE Tributario</b></b
+          >
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Tipo de Libro: </small>
-          <b>Electronico</b>
+          <b [ngSwitch]="adi?.bussKindBookAcc"
+            ><b *ngSwitchCase="1">Electronico</b
+            ><b *ngSwitchCase="2">Computarizado</b></b
+          >
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Numero Corporativo: </small>
-          <b>963852741</b>
+          <b>{{ adi?.bussTel }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Correo Corporativos: </small>
-          <b>melendres@melendres.pe</b>
+          <b>{{ adi?.bussEmail }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Observaciones: </small>
-          <b>Lorem ipsum</b>
+          <b>{{ adi?.bussObservation }}</b>
         </div>
       </mat-grid-tile>
     </mat-grid-list>
@@ -67,16 +73,16 @@
   <mat-card-title-group>
     <mat-card-title style="margin: 0px">Información Adicionales</mat-card-title>
     <mat-card-actions>
-      <button mat-icon-button (click)="showEditOtros()">
+      <button mat-icon-button (click)="showEditAditional()">
         <mat-icon>keyboard_arrow_up</mat-icon>
       </button>
     </mat-card-actions>
   </mat-card-title-group>
   <mat-divider></mat-divider>
   <mat-card-content>
-    <form class="example-form" [formGroup]="datosAdicionalForm">
+    <form class="example-form" [formGroup]="datosAditionalForm">
       <mat-grid-list [cols]="cols" rowHeight="5rem" appearance="fillx">
-        <div formGroupName="adicional">
+        <div formGroupName="aditional">
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Fecha de Ingreso al estudio</mat-label>
@@ -158,8 +164,12 @@
     </form>
   </mat-card-content>
   <mat-divider></mat-divider>
-  <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button cdkFocusInitial type="submit">Guardar</button>
+  <mat-dialog-actions>
+    <div style="text-align: right; padding-top: 5px">
+      <button mat-button (click)="showEditAditional()">Cancelar</button>
+      <button mat-button cdkFocusInitial type="submit" (click)="UpdAditional()">
+        Guardar
+      </button>
+    </div>
   </mat-dialog-actions>
 </mat-card>

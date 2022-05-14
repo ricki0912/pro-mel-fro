@@ -19,37 +19,37 @@
       <mat-grid-tile>
         <div>
           <small>Usuario SUNAT: </small>
-          <b>Gshdushd</b>
+          <b>{{ afi?.bussSunatUser }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Clave Sol: </small>
-          <b>sdsdsd</b>
+          <b>{{ afi?.bussSunatUser }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Codigo de Envio: </small>
-          <b>4546582</b>
+          <b>{{ afi?.bussCodeSend }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Codigo RNP: </small>
-          <b>1245</b>
+          <b>{{ afi?.bussCodeRNP }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Usuario AFP NET: </small>
-          <b>fdklfd</b>
+          <b>{{ afi?.bussAfpUser }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Clave AFP NET: </small>
-          <b>co002</b>
+          <b>{{ afi?.bussAfpPass }}</b>
         </div>
       </mat-grid-tile>
     </mat-grid-list>
@@ -72,9 +72,9 @@
   </mat-card-title-group>
   <mat-divider></mat-divider>
   <mat-card-content>
-    <form class="example-form" [formGroup]="datosAfiliacionForm">
+    <form class="example-form" [formGroup]="datosAfiliationForm">
       <mat-grid-list [cols]="cols" rowHeight="5rem" appearance="fillx">
-        <div formGroupName="afiliacion">
+        <div formGroupName="afiliation">
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Usuario SUNAT</mat-label>
@@ -122,8 +122,17 @@
     </form>
   </mat-card-content>
   <mat-divider></mat-divider>
-  <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button cdkFocusInitial type="submit">Guardar</button>
+  <mat-dialog-actions>
+    <div style="text-align: right; padding-top: 5px">
+      <button mat-button (click)="showEditAfiliacion()">Cancelar</button>
+      <button
+        mat-button
+        cdkFocusInitial
+        type="submit"
+        (click)="UpdAfiliation()"
+      >
+        Guardar
+      </button>
+    </div>
   </mat-dialog-actions>
 </mat-card>

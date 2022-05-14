@@ -152,7 +152,6 @@ export class VideosComponent implements OnInit, CrudInterface, ActionDialogInter
   }
 
   updVideos(videos: Videos): boolean {
-    console.log(videos);
     this.videosService.updVideos(videos).subscribe({
       next: data => {
 
@@ -172,7 +171,6 @@ export class VideosComponent implements OnInit, CrudInterface, ActionDialogInter
 
   delVideos(){
     let ids = this.selection.selected.reduce((a: number[], b: Videos) => (b.vidId == null) ? a : [...a, b.vidId], []);
-    console.log(ids);
     this.wantDelete(()=>this.deleteCRUD(ids))
   }
 

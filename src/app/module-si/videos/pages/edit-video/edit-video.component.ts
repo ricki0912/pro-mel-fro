@@ -88,7 +88,6 @@ export class EditVideoComponent implements OnInit {
     const videos : Videos = this.videosForm.value;
     videos.vidId = this.videosBeforeUpd?.vidId;
     this.onReturn(videos);
-    console.log(videos);
     return true;
   }
 

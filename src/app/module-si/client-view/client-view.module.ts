@@ -24,6 +24,7 @@ import { InfoBusinessComponent } from './pages/info-business/info-business.compo
 import { InfoPersonComponent } from './pages/info-person/info-person.component';
 import { InfoAfiliationComponent } from './pages/info-afiliation/info-afiliation.component';
 import { InfoAditionalComponent } from './pages/info-aditional/info-aditional.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { InfoAditionalComponent } from './pages/info-aditional/info-aditional.co
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule
   ]
 })
 export class ClientViewModule { }

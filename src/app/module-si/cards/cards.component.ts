@@ -24,8 +24,6 @@ export class CardsComponent implements OnInit, CrudInterface, ActionDialogInterf
 
   ngOnInit(): void {
     this.readCRUD();
-    console.log("holaaaaaaaa"+this.cards);
-
   }
 
   //cards:Cards[] = [{cardName: "tarjeta 1", cardPhrases: "Hola mundo"},{cardName: "trajeta 2", cardPhrases:"hola perro"}];
