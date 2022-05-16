@@ -1,65 +1,97 @@
 <mat-toolbar color="primary" class="tollbar">
-    <mat-toolbar-row>
-      <button mat-icon-button mat-dialog-close class="example-icon" aria-label="Example icon-button with menu icon">
-        <mat-icon>close</mat-icon>
-      </button>
-      <span class="example-spacer"></span>
-      <span>{{title}}</span>
-  
-    </mat-toolbar-row>
-  </mat-toolbar>
-  
-  
-  <div class="dialog-body">
-    <p>Agrega un <b>comentario corto</b> de la atención actual</p>
-    <!--<h2 mat-dialog-title>Install Angular</h2>-->
-  
-    <mat-dialog-content class="mat-typography">
-  
-      <form class="example-form" [formGroup]="appointmentTempForm">
-       
-        <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Número de Telefono</mat-label>
+  <mat-toolbar-row>
+    <button mat-icon-button mat-dialog-close class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>{{title}}</span>
 
-            <input matInput maxlength="9" minlength="9"   formControlName="apptmTel">
-            <mat-icon matSuffix>phone</mat-icon>
+  </mat-toolbar-row>
+</mat-toolbar>
 
-           
+
+<div class="dialog-body">
+  <p>Agrega un <b>comentario corto</b> de la atención actual. Actualiza su número de telefono y correo.</p>
+  <!--<h2 mat-dialog-title>Install Angular</h2>-->
+
+  <mat-dialog-content class="mat-typography">
+
+    <form class="example-form" [formGroup]="appointmentTempForm">
+      <mat-grid-list [cols]="cols" rowHeight="5.5rem" appearance="fillx">
+
+        <mat-grid-tile>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>DNI/RUC</mat-label>
+  
+            <input matInput formControlName="apptmNumberDocClient">
             <mat-error>
-              Ingrese un número de teléfono válido.   
+              Ingrese un DNI/RUC valido
             </mat-error>
-        </mat-form-field>
+          </mat-form-field>
+        </mat-grid-tile>
 
+        <mat-grid-tile>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Nombre o Razón Social</mat-label>
+  
+            <input matInput formControlName="apptmNameClient">
+            <mat-error>
+              Ingrese un nombre valido
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+
+       <mat-grid-tile>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Número de Telefono</mat-label>
+
+          <input matInput maxlength="9" minlength="9" formControlName="apptmTel">
+          <mat-icon matSuffix>phone</mat-icon>
+
+
+          <mat-error>
+            Ingrese un número de teléfono válido.
+          </mat-error>
+        </mat-form-field>
+       </mat-grid-tile>
+
+      <mat-grid-tile >
         <mat-form-field class="example-full-width" appearance="outline">
           <mat-label>Correo electrónico</mat-label>
           <input matInput formControlName="apptmEmail">
           <mat-error>
-            
-                Ingrese un correo electrónico válido.   
-            
-  
-  
-          </mat-error>
-        </mat-form-field>
-  
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Comentario</mat-label>
-          
-          <textarea matInput placeholder="" maxlength="200" formControlName="apptmComment"></textarea>
-          <mat-hint>Máximo 200 caracteres.</mat-hint>
 
-          <mat-error *ngIf="appointmentTempForm.controls['apptmComment'].hasError('required')">
-            El comentario es requerido
+            Ingrese un correo electrónico válido.
+
+
+
           </mat-error>
-  
         </mat-form-field>
-  
-      </form>
-    
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>Cancelar</button>
-      <button mat-button [mat-dialog-close]="true" type="submit" (click)="addUpd()"
-        [disabled]="!appointmentTempForm.valid" cdkFocusInitial>Guardar</button>
-    </mat-dialog-actions>
-  </div>
+      </mat-grid-tile>
+
+        
+
+
+      </mat-grid-list>
+
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Comentario</mat-label>
+
+        <textarea matInput placeholder="" maxlength="200" formControlName="apptmComment"></textarea>
+        <mat-hint>Máximo 200 caracteres.</mat-hint>
+
+        <mat-error *ngIf="appointmentTempForm.controls['apptmComment'].hasError('required')">
+          El comentario es requerido
+        </mat-error>
+
+      </mat-form-field>
+
+    </form>
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button [mat-dialog-close]="true" type="submit" (click)="addUpd()"
+      [disabled]="!appointmentTempForm.valid" cdkFocusInitial>Guardar</button>
+  </mat-dialog-actions>
+</div>

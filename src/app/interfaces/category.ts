@@ -34,8 +34,14 @@ export interface FlatTreeControlCategory {
   catNameLong:string;
   idParents:any[];
 
+  catAuth:number;
+  catLinkBus:number;
+
+
+
   /*fin de atributos */
   selected:boolean;
   level: number;
 
 }
+

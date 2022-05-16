@@ -28,28 +28,28 @@ export class AppointmentTempService extends ParentService {
 
   public updateTeller(apptmIds:number[], tellId:number):Observable<InterfaceParamsResponse<TAppointmentTemp>>{
     console.log(`${this.API_APPOINTMENT_TEMP}/${apptmIds}/teller/`);
-    return this.https.put<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/${apptmIds}/teller/`,{tellId})
+    return this.https.put<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/${apptmIds}/teller`,{tellId})
   }
   
   public startCallByTeller(tellId:number, apptmId?:number): Observable<InterfaceParamsResponse<TAppointmentTemp>>{
-    return this.https.put<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/start-call-by-teller/`, {tellId, apptmId})
+    return this.https.put<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/start-call-by-teller`, {tellId, apptmId})
 
   }
 
   public undoCall(apptmId:number): Observable<InterfaceParamsResponse<TAppointmentTemp>>{
-    return this.https.put<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/${apptmId}/undo-call/`, {})
+    return this.https.put<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/${apptmId}/undo-call`, {})
   }
 
   public callAgain(apptmId:number): Observable<InterfaceParamsResponse<TAppointmentTemp>>{
-    return this.https.put<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/${apptmId}/call-again/`, {})
+    return this.https.put<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/${apptmId}/call-again`, {})
   }
 
   public finalizeCall(apptmId:number, appointmentTemp:AppointmentTemp): Observable<InterfaceParamsResponse<TAppointmentTemp>>{
-    return this.https.put<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/${apptmId}/finalize-call/`, appointmentTemp)
+    return this.https.put<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/${apptmId}/finalize-call`, appointmentTemp)
   }
 
   public transferCallToTeller(apptmId:number, tellId:number): Observable<InterfaceParamsResponse<TAppointmentTemp>>{
-    return this.https.put<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/${apptmId}/transfer-call-to-teller/`, {tellId})
+    return this.https.put<InterfaceParamsResponse<TAppointmentTemp>>(`${this.API_APPOINTMENT_TEMP}/${apptmId}/transfer-call-to-teller`, {tellId})
   }
 
   public getAttentionPendingByTeller( tellId:number): Observable<InterfaceParamsResponse<TAppointmentTemp>>{

@@ -110,6 +110,7 @@ export class TicketDispensingComponent implements OnInit {
     const a: AppointmentTemp = {
       catId: this.categoryTree?.catId,
       apptmNumberDocClient: e.apptmNumberDocClient,
+      apptmNameClient:e.apptmNameClient,
       apptKindClient: e.apptKindClient,
       bussId: e.bussId
     }
@@ -269,7 +270,7 @@ export class TicketDispensingComponent implements OnInit {
       numberTicket: this.joinCodeTicket(d),
       tellerTicket: d.teller?.tellCode,/*ventanilla*/
       phraseTicket: this.cards[Math.floor(Math.random() * this.cards.length)].cardPhrases,
-      codeQrTicket: 'melendres.com'
+      codeQrTicket: 'http://melendresauditores.com/'
     }
     try {
       electron.ipcRenderer.send('print-ticket', t)

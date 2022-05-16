@@ -20,6 +20,8 @@ export class FindCategoryComponent implements OnInit, OnDestroy {
   /**guardar el id ultimo  */
   catIdSelected = -1;
   flatTreeControlCategory?: FlatTreeControlCategory;
+  
+  
 
   cols: number = 1;
   gridByBreakpoint: GridResponsive = {
@@ -97,6 +99,10 @@ export class FindCategoryComponent implements OnInit, OnDestroy {
       catName: (node.catName == null) ? '' : node.catName,
       catCode: (node.catCode == null) ? '' : node.catCode,
       catNameLong: (node.catNameLong == null) ? '' : node.catNameLong,
+
+      catAuth: (node.catAuth==null)? 0:node.catAuth,
+      catLinkBus: (node.catLinkBus==null)?0:node.catLinkBus,
+
       idParents: (node.idParents == null) ? [] : node.idParents,
       selected: false,
 

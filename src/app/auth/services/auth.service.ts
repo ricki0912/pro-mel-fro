@@ -60,4 +60,8 @@ export class AuthService extends ParentService{
 
       return this.http.post<InterfaceParamsResponse<any>>(this.AUTH_API + 'upload-profile-image-with-auth', form,{headers: headers});
    }
+
+   updUserWithPersonWithAuth(object:User):Observable<InterfaceParamsResponse<User>>{
+    return this.http.put<InterfaceParamsResponse<User>>(this.AUTH_API+'upd-user-with-person-with-auth', object)
+   }
 }

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { CategoryService } from 'src/app/services/category.service';
-import { Teller, TTellerJoinPerson } from 'src/app/interfaces/teller';
+import { Teller, TELLER_TYPES_STATE, TTellerJoinPerson } from 'src/app/interfaces/teller';
 import { TellerService } from 'src/app/services/teller.service';
 import { Category } from 'src/app/interfaces/category';
 import { FindTellerComponent } from '../teller/pages/find-teller/find-teller.component';
@@ -25,7 +25,8 @@ import { User } from 'src/app/interfaces/user';
   styleUrls: ['./call.component.scss']
 })
 export class CallComponent implements OnInit {
-  
+  TTS=TELLER_TYPES_STATE
+
   user:any={}
   
   isLoading: boolean = false
@@ -66,6 +67,9 @@ export class CallComponent implements OnInit {
     //this.readAppointmentTempCRUD(0,0);
     this.selectSearch()
     //this.listenRoute(()=>this.selectSearch())
+    
+    if(this.currentTeller.tellId)
+      this.readTeller(this.currentTeller.tellId)
   }
 
  /* private listenRoute(c:(o:any)=>void){
@@ -98,6 +102,14 @@ export class CallComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.apptmId}`;
   }
+  
+  substrNameClient(s:string){
+    let r=s
+    if(s && s.length>18){
+      r=s.substring(0,15)+'...'
+    }
+    return r
+  }
 
   //
   joinCodeTicket(element: AppointmentTemp) {
@@ -123,6 +135,7 @@ export class CallComponent implements OnInit {
   //select search
   selectSearch(){
     this.readAppointmentTempCRUD(this.currentTeller.hqId || -1,this.selectedTeller, this.selectedCategory, APPOINTMENT_STATE.PENDING)
+    if(this.currentTeller.tellId) this.readTeller(this.currentTeller.tellId)
   }
 /*
   filterTeller(tellId:number):TTellerJoinPerson{
@@ -156,7 +169,15 @@ export class CallComponent implements OnInit {
 
   }
 
-
+  getStateName(tellState:number):string{
+    if(tellState==TELLER_TYPES_STATE.ACTIVO){
+      return TELLER_TYPES_STATE.ACTIVO_NAME
+    }
+    if(tellState==TELLER_TYPES_STATE.EN_ESPERA){
+      return TELLER_TYPES_STATE.EN_ESPERA_NAME
+    }
+    return ''
+  }
 
   readAppointmentTempCRUD(hqId:number,tellId:number, catId:number,apptmState:number): boolean {
     this.isLoading = true;
@@ -203,6 +224,49 @@ export class CallComponent implements OnInit {
           default:
             break;
         }
+      }
+    })
+  }
+
+
+
+  beforeUpdState(){
+    if(this.currentTeller.tellState && this.currentTeller.tellState==TELLER_TYPES_STATE.ACTIVO){
+      const tellState=TELLER_TYPES_STATE.EN_ESPERA; /*En espera*/
+      this.updState(
+        this.currentTeller.tellId || -1,
+         tellState,
+         ()=>{this.showMessage.success({message:"En espera. Puedes darte un respiro."});this.currentTeller.tellState=tellState} 
+        );
+    }
+    if(this.currentTeller.tellState && this.currentTeller.tellState==TELLER_TYPES_STATE.EN_ESPERA){
+      const tellState=TELLER_TYPES_STATE.ACTIVO;/*Activo*/
+      this.updState(
+        this.currentTeller.tellId || -1, 
+        tellState,
+        ()=>{this.showMessage.success({message:"En arranque. Listo para empezar el dia"});this.currentTeller.tellState=tellState}
+      );
+    }
+  }
+  
+  private updState(id:number, tellState:number, f:()=>void){
+    this.tellerService.updState(id, tellState).subscribe({
+      next: d=>{
+        f();
+      }, 
+      error:e=>{
+        this.showMessage.error({message:e.error.message})
+      }
+    })
+  }
+
+  private readTeller(id:number){
+    this.tellerService.find(id).subscribe({
+      next: d=>{
+        this.currentTeller=d
+      }, 
+      error:e=>{
+        this.showMessage.error({message: e.error.message})
       }
     })
   }

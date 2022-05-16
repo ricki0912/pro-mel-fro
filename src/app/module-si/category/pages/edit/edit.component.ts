@@ -50,7 +50,7 @@ export class EditComponent implements OnInit, OnDestroy {
     public mediaObserver: MediaObserver,
     private categoryService: CategoryService,
     public dialogFindCategory: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: FlatTreeControlCategory, rowParent: FlatTreeControlCategory, type: Number },
+    @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: FlatTreeControlCategory, rowParent: FlatTreeControlCategory, type: Number , hqId:number},
     private fb: FormBuilder,
     private showMessage: ShowMessageService,
     private dialogRef: MatDialogRef<EditComponent>,
@@ -156,7 +156,8 @@ export class EditComponent implements OnInit, OnDestroy {
       panelClass: 'dialog',
       data: {
         row: this.flatTreeControlCategory,
-        type: 1
+        type: 1,
+        hqId:this.paramsDialog.hqId
       }
     });
     dialogRefFindCategory.afterClosed().subscribe((result: FlatTreeControlCategory) => {

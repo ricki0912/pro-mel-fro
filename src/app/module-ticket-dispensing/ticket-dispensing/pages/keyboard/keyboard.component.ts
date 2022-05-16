@@ -5,6 +5,7 @@ import { CategoryTree, CATEGORY_LINK_BUS, CATEGORY_TYPES_AUTH } from 'src/app/in
 import { Person } from 'src/app/interfaces/person';
 import { BussinesService } from 'src/app/services/bussines.service';
 import { HeadService } from '../head/head.service';
+import { ApiPeruService } from 'src/app/servicesx/api-peru.service'
 
 @Component({
   selector: 'app-keyboard',
@@ -52,7 +53,9 @@ export class KeyboardComponent implements OnInit {
 
   constructor(
     private bussinesService: BussinesService,
-    private headService:HeadService
+    private headService:HeadService,
+    private apiPeruService:ApiPeruService
+
   ) {
   }
 
@@ -68,7 +71,7 @@ export class KeyboardComponent implements OnInit {
       message='Por favor digite su número de RUC.'
     }else if(this.categoryTree.catAuth==CATEGORY_TYPES_AUTH.DNI){
       message='Por favor digite su número de DNI.'
-    }else if(this.categoryTree.catAuth==CATEGORY_TYPES_AUTH.NEITHER){
+    }else if(this.categoryTree.catAuth==CATEGORY_TYPES_AUTH.ANYONE){
       message='Por favor digite su número de DNI o RUC.'
     }
     
@@ -103,33 +106,63 @@ export class KeyboardComponent implements OnInit {
     const l = v.length
     
     if (this.categoryTree.catAuth == CATEGORY_TYPES_AUTH.DNI && l == 8/*longitud dni */) {
-      this.existDniCRUD(v, this.searchByDNI)
+      this.existDniCRUDApiPeru(v, this.searchByDNI)
     } else if (this.categoryTree.catAuth == CATEGORY_TYPES_AUTH.RUC && this.categoryTree.catLinkBus == CATEGORY_LINK_BUS.YES && l == 11) {
       this.existRucCRUD(v, this.searchByRUCInBuss)
     } else if (this.categoryTree.catAuth == CATEGORY_TYPES_AUTH.RUC && l == 11) {
-      this.existRucCRUD(v, this.searchByRUC)
+      this.existRucCRUDApiPeru(v, this.searchByRUC)
     } else if (this.categoryTree.catAuth == CATEGORY_TYPES_AUTH.ANYONE && l == 8 ) {
-      this.existDniCRUD(v, this.searchByDNI)
+      this.existDniCRUDApiPeru(v, this.searchByDNI)
     }else if (this.categoryTree.catAuth == CATEGORY_TYPES_AUTH.ANYONE && l == 11 ) {
-      this.existRucCRUD(v, this.searchByRUC)
+      this.existRucCRUDApiPeru(v, this.searchByRUC)
     }else{
       this.searchDefault();
     }
   }
-  searchByDNI(d:Person) {
-    
+  searchByDNI=(d:any)=> {
+    console.log("DENTRO DE BUSSINES SIN ENLACE A BUSSINES Y API EXTERNO",d)
+    if(this.value.length!=8){
+      return;
+    }
+    if (d.success) {
+      this.appointmentTemp={
+        apptKindClient:APPOINTMENT_KIND_CLIENT.PERSON,
+        
+        apptmNumberDocClient: d.data.numero,
+        apptmNameClient: this.nameOwn(d.data.nombre_completo)
+      }
+
+      //this.bussines = d;
+      this.headService.setMessage(((d.data.sexo==="MASCULINO")?"Bienvenido ":"Bienvenida ")+this.nameOwn(d.data.nombres)+", seleccione en siguiente para generar una cita.")
+      //this.message = d.bussName || ''
+      this.state=true;
+    }
+    else {
+      this.appointmentTemp={
+        apptKindClient:APPOINTMENT_KIND_CLIENT.PERSON,
+        apptmNumberDocClient:this.value
+      }
+      this.loadMessage()
+      //this.message = ''
+      this.state=true;
+    }
   }
 
-  searchByRUC=(d:Bussines) =>{
-    console.log("DENTRO DE BUSSINES",d)
-    if (d) {
+  searchByRUC=(d:any) =>{
+    if(this.value.length!=11){
+      return;
+    }
+    console.log("DENTRO DE BUSSINES SIN ENLACE A BUSSINES Y API EXTERNO",d)
+    if (d.success) {
       this.appointmentTemp={
         apptKindClient:APPOINTMENT_KIND_CLIENT.BUSINESS,
-        bussId:d.bussId,
-        apptmNumberDocClient:d.bussRUC
+        //bussId:d.bussId,
+        apptmNumberDocClient: d.data.ruc,//d.bussRUC
+        apptmNameClient:d.data.nombre_o_razon_social
       }
-      this.bussines = d;
-      this.headService.setMessage("Bienvenido "+d.bussName+", seleccione en siguiente parar generar una cita.")
+
+      //this.bussines = d;
+      this.headService.setMessage("Bienvenido "+d.data.nombre_o_razon_social+", seleccione en siguiente para generar una cita.")
       //this.message = d.bussName || ''
       this.state=true;
     }
@@ -153,7 +186,7 @@ export class KeyboardComponent implements OnInit {
       }
       
       this.bussines = d;
-      this.headService.setMessage("Bienvenido "+d.bussName+", seleccione en siguiente parar generar una cita.")
+      this.headService.setMessage("Bienvenido "+d.bussName+", seleccione en siguiente para generar una cita.")
       //this.message = d.bussName || 'SIN NOMBRE'
       this.state=true;
     }
@@ -187,6 +220,37 @@ export class KeyboardComponent implements OnInit {
     });
   }
 
+  existRucCRUDApiPeru(bussRUC: string, c: (d:any) => void) {
+    this.loading=true;
+    this.apiPeruService.findByRUC(bussRUC).subscribe({
+      next: d =>{
+         c(d)
+         this.loading=false;
+        },
+      error: e => {
+
+      }
+
+    });
+  }
+
+  existDniCRUDApiPeru(dni: string, c: (d:any) => void) {
+    this.loading=true;
+    this.apiPeruService.findByDNI(dni).subscribe({
+      next: d =>{
+         c(d)
+         this.loading=false;
+        },
+      error: e => {
+
+      }
+
+    });
+  }
+
+
+
+
   existDniCRUD(perNumberDoc: string, c: (d:Person) => void) {
     this.person={perNumberDoc: perNumberDoc}
     //this.message=''
@@ -196,7 +260,15 @@ export class KeyboardComponent implements OnInit {
       apptmNumberDocClient:this.value
     }
   }
+ 
   
+private nameOwn(w:string):string{
+  w=w.toLowerCase()
+ return w.replace(/([^\s]+)/gm, function (t) {
+    return t.charAt(0).toUpperCase() + t.substring(1);
+});
+}
+
 }
 
 

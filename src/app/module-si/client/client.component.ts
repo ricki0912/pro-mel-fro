@@ -12,6 +12,7 @@ import { ActionDialogInterface, TYPES_ACTIONS_DIALOG } from 'src/app/global/inte
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { MainViewService } from '../main-view/main-view.service';
 
 
 @Component({
@@ -21,6 +22,8 @@ import { Router } from '@angular/router';
 })
 
 export class ClientComponent implements OnInit, CrudInterface, ActionDialogInterface{
+  private hqId:number=0
+
   isLoading = true;
 
   constructor(
@@ -28,10 +31,20 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     public dialogEditClient: MatDialog,
     private showMessage: ShowMessageService,
     private router: Router,
+    private mainViewService:MainViewService
   ) { }
 
   ngOnInit(): void {
     this.readCRUD();
+    this.listenRoute(o=>{})
+
+  }
+
+  private listenRoute(c:(o:any)=>void){
+    this.mainViewService.getParams().subscribe(p=>{
+      this.hqId=parseInt(p['hqId'] || 0)
+      c(this.hqId)
+    })
   }
 
   displayedColumns: string[] = ['select','nombres', 'ruc', 'numArchivador', 'representate', 'dni'];
@@ -143,7 +156,7 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   }
 
   loadClientsView(o: Bussines){
-    this.router.navigate([`./clients/${o.bussId}`])
+    this.router.navigate([`si/${this.hqId}/clients/${o.bussId}`])
   }
 }
 

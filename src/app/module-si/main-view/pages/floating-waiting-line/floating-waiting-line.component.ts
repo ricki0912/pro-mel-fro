@@ -87,7 +87,7 @@ export class FloatingWaitingLineComponent implements OnInit {
     const dialogRef = this.dialog.open(CommentCallComponent, {
       panelClass: 'dialog',
       data: {
-        row: null,
+        row: this.tAppointmentTemp,
         type: TYPES_ACTIONS_DIALOG.ADD
       }
     });

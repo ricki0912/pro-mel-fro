@@ -43,6 +43,8 @@ export class CurrentAttentionComponent implements OnInit {
 
   }
 
+ 
+
  joinCodeTicket(element: TAppointmentTemp) {
     return element.catCode + String(element.apptmNro).padStart(2, '0')
   }
@@ -82,7 +84,7 @@ export class CurrentAttentionComponent implements OnInit {
     const dialogRef = this.dialog.open(CommentCallComponent, {
       panelClass: 'dialog',
       data: {
-        row: null,
+        row: this.tAppointmentTemp,
         type: TYPES_ACTIONS_DIALOG.ADD
       }
     });
@@ -107,6 +109,7 @@ export class CurrentAttentionComponent implements OnInit {
         if(t.length>0){
           this.tAppointmentTemp=t[0]
           this.fwlService.diminish()
+          
           this.returnValue()
           this.setSocketTV(this.tAppointmentTemp.hqId||-1, {action:SOCKET_ACTION.TV_ADD_TARGET_CALL, data: this.tAppointmentTemp})
           //this.setTVAddTargetCall(this.tAppointmentTemp)
@@ -158,6 +161,7 @@ export class CurrentAttentionComponent implements OnInit {
     this.appointmentTempService.undoCall(apptmId).subscribe({
       next: d=>{
         console.log(d)
+        this.fwlService.increase()
         this.returnValue()
         const hqId=this.tAppointmentTemp?.hqId || -1
 
@@ -208,6 +212,8 @@ export class CurrentAttentionComponent implements OnInit {
   /*private setTVAddTargetCall(appointmentTemp:AppointmentTemp){
     this.waitingLineService.setTVAddTargetCall(appointmentTemp);
   }*/
+
+
   
 
 

@@ -20,6 +20,9 @@ export interface AppointmentTemp extends ParentInterface {
 
     /*EL nro de documento y nombre del cliente viaja a esta tabla para un acceso rapido*/
     apptmNumberDocClient?:string; /*RUC, DNI, ETC*/
+    apptmNameClient?:string;
+
+
      catId?:number;
      
     hqId?:number,
@@ -30,7 +33,9 @@ export interface AppointmentTemp extends ParentInterface {
     /*Transfer*/
     apptmTransfer?:number,
     apptmTel?:string,
+    apptmEmail?:string,
 
+    apptmComment?:string,
     /*Posiblemente en la siguiente tabla original*/
     tellNameLong?:string;
     catNameLOng?:string
@@ -44,10 +49,15 @@ export interface AppointmentTemp extends ParentInterface {
     apptmScoreClient?:string, 
     apptmCommentClient?:string,
     apptmScoreDateClient?:string,
+
+    
+
+
     apptmCommentDateClient?:string,
 
     teller?:Teller,
     category?:Category,
+
 }
 
 export interface TAppointmentTemp extends AppointmentTemp{

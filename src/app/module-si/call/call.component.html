@@ -28,18 +28,28 @@
 
 
         <mat-card-title-group>
-          <mat-card-subtitle> <b>Tickets en espera</b> </mat-card-subtitle>
+          <mat-card-subtitle> <b>Tickets en espera </b>
+            <br>
+            <b [ngClass]="{'teller-activo':currentTeller.tellState==TTS.ACTIVO, 'teller-en-espera':currentTeller.tellState==TTS.EN_ESPERA}" >{{getStateName(currentTeller.tellState ||-1)}}</b>  </mat-card-subtitle>
           <mat-card-actions>
+          
+
+            
             <button mat-button (click)="selectSearch()">
               <mat-icon>refresh</mat-icon>Actualizar
             </button>
-            <button mat-button>
-              <mat-icon>pause</mat-icon>Espera
-            </button>
+            
             <button mat-button (click)="openDialogChageTeller()" [disabled]="selection.selected.length==0">
               <mat-icon>swap_horiz</mat-icon>Transferir
             </button>
 
+            <button mat-raised-button color="warn" (click)="beforeUpdState()" *ngIf="currentTeller.tellState==TTS.ACTIVO">
+              <mat-icon>pause</mat-icon> Poner en espera 
+          </button>
+          <button mat-raised-button  (click)="beforeUpdState()" *ngIf="currentTeller.tellState==TTS.EN_ESPERA">
+              <mat-icon>play_arrow</mat-icon> Poner en activo 
+          </button>
+            
 
             <!--
                     <div style="z-index:5; 
@@ -135,8 +145,8 @@
 
               <!-- Weight Column -->
               <ng-container matColumnDef="code_category">
-                <th mat-header-cell *matHeaderCellDef> Ventanilla </th>
-                <td mat-cell *matCellDef="let element"> {{ element.teller.tellCode}} </td>
+                <th mat-header-cell *matHeaderCellDef> Doc/Nombre </th>
+                <td mat-cell *matCellDef="let element"> {{ element.apptmNumberDocClient}} /<br> {{substrNameClient(element.apptmNameClient)}}</td>
               </ng-container>
 
               <!-- Name Column -->

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { User } from 'src/app/interfaces/user';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
@@ -17,7 +17,9 @@ export class ProfileImageComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: User, type: Number },
     private authService: AuthService,
-    private showMessage: ShowMessageService
+    private showMessage: ShowMessageService,
+    private dialogRef: MatDialogRef<ProfileImageComponent>,
+
 
     
   ) { }
@@ -25,6 +27,7 @@ export class ProfileImageComponent implements OnInit {
   ngOnInit(): void {
 
   }
+  private onReturn = (category: User): void => this.dialogRef.close(category);
 
   addUpd(){}
 
@@ -44,8 +47,9 @@ export class ProfileImageComponent implements OnInit {
 
     this.authService.uploadProfileImage(this.profileImage).subscribe({
       next: (d)=>{
-        console.log("ProfileImage",d)
         this.showMessage.success({message: d.msg})
+        this.onReturn(this.paramsDialog.row)
+
       }, 
       error:(e)=>{
        this.showMessage.error({message: e.error.message}) 

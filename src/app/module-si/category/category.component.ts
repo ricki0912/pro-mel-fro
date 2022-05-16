@@ -2,7 +2,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { Category, CategoryTree, FlatTreeControlCategory } from 'src/app/interfaces/category';
+import { Category, CategoryTree, CATEGORY_LINK_BUS, CATEGORY_TYPES_AUTH, FlatTreeControlCategory } from 'src/app/interfaces/category';
 import { ParentInterface } from 'src/app/global/parents/parent.interface';
 import { CategoryService } from 'src/app/services/category.service';
 import { LoadingService } from '../../shared/components/loading/loading.service';
@@ -25,6 +25,16 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
   private hqId:number=0;
   isLoading = true;
 
+  private categoriesTypesAuth=new Map<number, string>()
+  .set(CATEGORY_TYPES_AUTH.NEITHER, 'Ninguno')
+  .set(CATEGORY_TYPES_AUTH.DNI, 'DNI')
+  .set(CATEGORY_TYPES_AUTH.RUC, 'RUC')
+  .set(CATEGORY_TYPES_AUTH.ANYONE, 'Cualquiera');
+  
+  private categoriesLinkClients=new Map<number, string>()
+  .set(CATEGORY_LINK_BUS.YES, 'SI')
+  .set(CATEGORY_LINK_BUS.NO,'NO')
+
   constructor(
     public dialogEditUser: MatDialog,
     private categoryService: CategoryService,
@@ -41,6 +51,13 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
     this.listenRoute((o)=>this.readCRUD(o))
   }
 
+  getTypeAuth(id:number){
+    return this.categoriesTypesAuth.get(id)
+  }
+  isLinkBus(id:number){
+    return this.categoriesLinkClients.get(id)
+  }
+
   private listenRoute(c:(o:any)=>void){
     this.mainViewService.getParams().subscribe(params=>{
       this.hqId = parseInt(params['hqId'] || 0)
@@ -48,7 +65,7 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
     })
   }
 
-  displayedColumns: string[] = ['catName', 'catCode', 'option'];
+  displayedColumns: string[] = ['catName', 'catCode', 'catAuth', 'catLinkBus','option'];
 
   private transformer = (node: CategoryTree, level: number) => {
     return {
@@ -58,6 +75,11 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
       catName: (node.catName == null) ? '' : node.catName,
       catCode: (node.catCode == null) ? '' : node.catCode,
       catNameLong: (node.catNameLong == null) ? '' : node.catNameLong,
+
+      catAuth: (node.catAuth==null)? 0:node.catAuth,
+      catLinkBus: (node.catLinkBus==null)?0:node.catLinkBus,
+
+
       idParents: (node.idParents == null) ? [] : node.idParents,
       selected: false,
 
@@ -85,7 +107,8 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
       data: {
         row: null,
         rowParent: null,
-        type: TYPES_ACTIONS_DIALOG.ADD
+        type: TYPES_ACTIONS_DIALOG.ADD,
+        hqId:this.hqId
       }
     });
     dialogRef.afterClosed().subscribe((result:Category) => {
@@ -108,7 +131,8 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
       data: {
         row: data,
         rowParent: null,
-        type: TYPES_ACTIONS_DIALOG.UPD
+        type: TYPES_ACTIONS_DIALOG.UPD,
+        hqId:this.hqId
       }
     });
 
@@ -139,6 +163,7 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
         row: null,
         rowParent: data,
         type: TYPES_ACTIONS_DIALOG.ADD,
+        hqId:this.hqId
       }
     });
 
@@ -212,7 +237,7 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
         }
       });
   }
-  deleteCRUD(id: number): boolean {
+   deleteCRUD(id: number): boolean {
     this.categoryService.del(id).subscribe({
       next: data=>{
         this.showMessage.success({message: data.msg});
@@ -226,4 +251,6 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
   }
 
 }
+
+
 

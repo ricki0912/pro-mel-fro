@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
 import { User } from 'src/app/interfaces/user';
 import { UserService } from 'src/app/services/user.service';
+import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import {ProfileImageComponent} from './pages/profile-image/profile-image.component'
 @Component({
@@ -41,6 +42,7 @@ export class ProfileComponent implements OnInit {
     private userSevice: UserService, /*creamos un servicio para conectarse a la db */
     private dialog: MatDialog,
     private authService: AuthService,
+    private showMessage:ShowMessageService
 
 
   ) {
@@ -117,8 +119,18 @@ export class ProfileComponent implements OnInit {
   }
 
   /*Save in DB, */
-  private updateCURD(){
-    this.authService.changePasswordWithAuth
+  beforeUpdUser(){
+    this.updUserWithPersonWithAuth(this.userForm.value)
+  }
+  private updUserWithPersonWithAuth(object:User){
+    this.authService.updUserWithPersonWithAuth(object).subscribe({
+      next:d=>{
+        this.showMessage.success({message:d.msg})
+      },
+      error:e=>{
+        this.showMessage.error({message:e.error.message})
+      }
+    })
   }
 
   

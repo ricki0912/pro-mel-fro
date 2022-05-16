@@ -27,7 +27,7 @@ import { AppointmentTemp } from 'src/app/interfaces/appointment-temp';
 })
 export class CommentCallComponent implements OnInit, OnDestroy {
 
-  cols: number = 1;
+  cols: number = 2;
 
   gridByBreakpoint: GridResponsive = {
     xl: 2,
@@ -44,8 +44,11 @@ export class CommentCallComponent implements OnInit, OnDestroy {
   
 
 
-  appointmentTemp:AppointmentTemp={}
+  appointmentTempBefore:AppointmentTemp={}
+
   appointmentTempForm: FormGroup = this.fb.group({
+    apptmNumberDocClient:[''],
+    apptmNameClient:[''],
     apptmTel: ['', Validators.pattern("[9]{1}[0-9]{8}")],
     apptmEmail: ['', Validators.email],
     apptmComment: ['', Validators.maxLength]  
@@ -56,7 +59,7 @@ export class CommentCallComponent implements OnInit, OnDestroy {
     public mediaObserver: MediaObserver,
     private tellerService: TellerService,
     public dialogFindCategory: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: Teller, type: Number },
+    @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: AppointmentTemp, type: Number },
     private fb: FormBuilder,
     private showMessage: ShowMessageService,
     private dialogRef: MatDialogRef<CommentCallComponent>,
@@ -66,6 +69,7 @@ export class CommentCallComponent implements OnInit, OnDestroy {
     this.renderScreen()
     //this.selectCategory(this.paramsDialog.row)
     //this.setTypeDialog()
+    this.setDataOnForm()
   }
 
   ngOnDestroy(): void {
@@ -79,19 +83,17 @@ export class CommentCallComponent implements OnInit, OnDestroy {
     })
   }
 
-  /*setTypeDialog() {
-    if (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) {
-      this.tellerBeforeUpd=this.paramsDialog.row;
-      this.title=this.tellerBeforeUpd.tellName
+  setDataOnForm() {
 
-   
-      this.tellerForm.controls['tellCode'].setValue(this.tellerBeforeUpd.tellCode)
-      this.tellerForm.controls['tellName'].setValue(this.tellerBeforeUpd.tellName)
-    }
+    //omite el hecho de actualizar o añadir, trata de plasmar todo lo que tenga
+    this.appointmentTempBefore=this.paramsDialog.row
 
-    if (TYPES_ACTIONS_DIALOG.ADD == this.paramsDialog.type) {
-    }
-  }*/
+    this.appointmentTempForm.controls['apptmNumberDocClient'].setValue(this.appointmentTempBefore.apptmNumberDocClient)
+    this.appointmentTempForm.controls['apptmNameClient'].setValue(this.appointmentTempBefore.apptmNameClient)
+    this.appointmentTempForm.controls['apptmTel'].setValue(this.appointmentTempBefore.apptmTel)
+    this.appointmentTempForm.controls['apptmEmail'].setValue(this.appointmentTempBefore.apptmEmail)
+    this.appointmentTempForm.controls['apptmComment'].setValue(this.appointmentTempBefore.apptmComment)
+  }
 
 
 
