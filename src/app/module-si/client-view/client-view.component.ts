@@ -1,9 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
 import { Bussines } from 'src/app/interfaces/bussines';
 import { BussinesService } from 'src/app/services/bussines.service';
@@ -18,6 +15,9 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
 
   isLoading = true;
   business: Bussines[]=[];
+  contentBusiness = true;
+  contentServices = false;
+
 
   constructor(
     private location : Location,
@@ -33,6 +33,11 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
   }
   ngOnDestroy(): void {
 
+  }
+
+  showServices(){
+    this.contentBusiness = !this.contentBusiness;
+    this.contentServices = !this.contentServices;
   }
 
   createCRUD(object: any): boolean {

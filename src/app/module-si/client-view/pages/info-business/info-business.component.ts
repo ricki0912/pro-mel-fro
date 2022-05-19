@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { map, Observable, Subscription } from 'rxjs';
 import { Bussines } from 'src/app/interfaces/bussines';
@@ -14,9 +14,9 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
 export class InfoBusinessComponent implements OnInit {
 
   @Input() buss: Bussines | undefined;
+  @Output() onLoading = new EventEmitter<Bussines>();
   showBusiness = true;
   showBusinessEdit = false;
-
 
   constructor(
     private fb: FormBuilder,
@@ -121,6 +121,7 @@ export class InfoBusinessComponent implements OnInit {
         this.showMessage.success({message: data.msg})
         this.showBusiness = !this.showBusiness;
         this.showBusinessEdit = !this.showBusinessEdit;
+        this.onLoading.emit(this.buss);
       },
       error: error=>{
         this.showMessage.error({message: error.error.message, action:()=>this.UpdBusiness()})

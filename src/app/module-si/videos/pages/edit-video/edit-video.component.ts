@@ -68,9 +68,9 @@ export class EditVideoComponent implements OnInit {
       this.title = this.videosBeforeUpd.vidName || ''
 
       /*redirizar informacion en el formulario*/
-      this.videosForm.get('vidName')?.setValue(this.videosBeforeUpd.vidName)
-      this.videosForm.get('vidLink')?.setValue(this.videosBeforeUpd.vidLink)
-      this.videosForm.get('vidState')?.setValue(this.videosBeforeUpd.vidState)
+      this.videosForm.get('vidName')?.setValue(this.videosBeforeUpd.vidName);
+      this.videosForm.get('vidLink')?.setValue(this.videosBeforeUpd.vidLink);
+      this.videosForm.get('vidState')?.setValue(this.videosBeforeUpd.vidState?.trim());
     }
   }
 

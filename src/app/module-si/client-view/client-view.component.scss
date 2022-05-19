@@ -54,6 +54,27 @@ mat-form-field.mat-form-field {
   font-size: 12px;
 }
 
+.mat-button.mat-success,
+.mat-stroked-button.mat-success {
+  color: #f8f9fa;
+}
+.mat-button.mat-success:hover,
+.mat-stroked-button.mat-success:hover {
+  background-color: #f0fff3;
+}
+
+.mat-raised-button.mat-success,
+.mat-flat-button.mat-success,
+.mat-fab.mat-success,
+.mat-mini-fab.mat-success {
+  color: #000;
+  background-color: #f8f9fa;
+}
+
+.mat-icon-button.mat-success {
+  color:#f8f9fa;
+}
+
 
 
 

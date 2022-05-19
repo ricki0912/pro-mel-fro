@@ -183,13 +183,7 @@
   <mat-dialog-actions>
     <div style="text-align: right; padding-top: 5px">
       <button mat-button (click)="showEditBusiness()">Cancelar</button>
-      <button
-        mat-button
-        cdkFocusInitial
-        type="submit"
-        [disabled]="!datosBusinesForm.valid"
-        (click)="UpdBusiness()"
-      >
+      <button mat-button cdkFocusInitial type="submit" (click)="UpdBusiness()">
         Guardar
       </button>
     </div>

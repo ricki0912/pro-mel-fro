@@ -153,13 +153,7 @@
       <button mat-button mat-dialog-close (click)="showEditPerson()">
         Cancelar
       </button>
-      <button
-        mat-button
-        cdkFocusInitial
-        type="submit"
-        [disabled]="!datosPersonForm.valid"
-        (click)="UpdPerson()"
-      >
+      <button mat-button cdkFocusInitial type="submit" (click)="UpdPerson()">
         Guardar
       </button>
     </div>

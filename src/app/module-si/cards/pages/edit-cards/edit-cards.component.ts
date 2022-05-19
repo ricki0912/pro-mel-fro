@@ -65,7 +65,7 @@ export class EditCardsComponent implements OnInit {
       /*redirizar informacion en el formulario*/
       this.cardsForm.get('cardName')?.setValue(this.cardsBeforeUpd.cardName)
       this.cardsForm.get('cardPhrases')?.setValue(this.cardsBeforeUpd.cardPhrases)
-      this.cardsForm.get('cardState')?.setValue(this.cardsBeforeUpd.cardState)
+      this.cardsForm.get('cardState')?.setValue(this.cardsBeforeUpd.cardState?.trim())
     }
   }
 

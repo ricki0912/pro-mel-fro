@@ -5,6 +5,7 @@
     </mat-grid-tile>
   </mat-grid-list>
   <mat-divider></mat-divider>
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   <div fxLayout="row" fxLayoutGap="5px">
     <mat-card id="datos">
       <mat-card-content *ngFor="let a of business">
@@ -54,41 +55,44 @@
           </div>
         </div>
         <mat-divider></mat-divider>
+        <button
+          mat-raised-button
+          color="success"
+          style="width: 100%; margin-top: 10px"
+          (click)="showServices()"
+        >
+          Servicios
+        </button>
       </mat-card-content>
-
-      <mat-progress-bar
-        mode="indeterminate"
-        *ngIf="isLoading"
-      ></mat-progress-bar>
     </mat-card>
     <mat-card id="contenido">
-      <mat-card-content>
+      <mat-card-content *ngIf="contentBusiness">
         <!-- Datos del Negocio-->
         <app-info-business
+          (onLoading)="ngOnInit()"
           [buss]="buss"
           *ngFor="let buss of business"
         ></app-info-business>
         <!-- Datos del representate-->
         <app-info-person
+          (onLoading)="ngOnInit()"
           [per]="per"
           *ngFor="let per of business"
         ></app-info-person>
         <!-- Datos de Afilicion-->
         <app-info-afiliation
+          (onLoading)="ngOnInit()"
           [afi]="afi"
           *ngFor="let afi of business"
         ></app-info-afiliation>
         <!-- Otros datos-->
         <app-info-aditional
+          (onLoading)="ngOnInit()"
           [adi]="adi"
           *ngFor="let adi of business"
         ></app-info-aditional>
       </mat-card-content>
-
-      <mat-progress-bar
-        mode="indeterminate"
-        *ngIf="isLoading"
-      ></mat-progress-bar>
+      <app-services *ngIf="contentServices"></app-services>
     </mat-card>
   </div>
 </div>

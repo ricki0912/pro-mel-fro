@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Bussines } from 'src/app/interfaces/bussines';
@@ -13,6 +13,7 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
 export class InfoAfiliationComponent implements OnInit {
 
   @Input() afi: Bussines | undefined;
+  @Output() onLoading = new EventEmitter<Bussines>();
   showAfiliacion = true;
   showAfiliacionEdit = false;
 
@@ -73,6 +74,7 @@ export class InfoAfiliationComponent implements OnInit {
         this.showMessage.success({message: data.msg})
         this.showAfiliacion = !this.showAfiliacion;
         this.showAfiliacionEdit = !this.showAfiliacionEdit;
+        this.onLoading.emit(this.afi);
       },
       error: error=>{
         this.showMessage.error({message: error.error.message, action:()=>this.UpdAfiliation()})

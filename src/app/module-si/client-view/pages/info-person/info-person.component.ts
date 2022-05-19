@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { map, Observable, Subscription } from 'rxjs';
 import { Bussines } from 'src/app/interfaces/bussines';
@@ -15,6 +15,7 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
 export class InfoPersonComponent implements OnInit {
 
   @Input() per: Bussines | undefined;
+  @Output() onLoading = new EventEmitter<Bussines>();
   showPerson = true;
   showPersonEdit = false;
 
@@ -88,15 +89,17 @@ export class InfoPersonComponent implements OnInit {
 
   UpdPerson(): boolean {
     const business : Bussines = this.datosPersonForm.value;
+    business.person.perId = this.per?.person.perId;
     business.bussId = this.per?.bussId;
-    console.log(JSON.stringify(business));
+    //console.log(JSON.stringify(this.datosPersonForm.value));
 
     this.businessSevice.updPersonData(business).subscribe({
       next: data=>{
-        console.log("vuelve peersona"+JSON.stringify(data.data));
+        //console.log("devuelto buss"+JSON.stringify(data.data));
         this.showMessage.success({message: data.msg})
         this.showPerson = !this.showPerson;
         this.showPersonEdit = !this.showPersonEdit;
+        this.onLoading.emit(this.per);
       },
       error: error=>{
         this.showMessage.error({message: error.error.message, action:()=>this.UpdPerson()})

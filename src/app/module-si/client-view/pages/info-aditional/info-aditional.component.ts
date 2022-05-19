@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Bussines } from 'src/app/interfaces/bussines';
@@ -13,6 +13,7 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
 export class InfoAditionalComponent implements OnInit {
 
   @Input() adi: Bussines | undefined;
+  @Output() onLoading = new EventEmitter<Bussines>();
   showAditional = true;
   showAditionalEdit = false;
 
@@ -66,7 +67,7 @@ export class InfoAditionalComponent implements OnInit {
   UpdAditional(): boolean {
     const business : Bussines = this.datosAditionalForm.value;
     business.bussId = this.adi?.bussId;
-    console.log("formulario"+JSON.stringify(business));
+    //console.log("formulario"+JSON.stringify(business));
 
     this.businessSevice.updAditionalData(business).subscribe({
       next: data=>{
@@ -75,6 +76,7 @@ export class InfoAditionalComponent implements OnInit {
         this.showMessage.success({message: data.msg})
         this.showAditional = !this.showAditional;
         this.showAditionalEdit = !this.showAditionalEdit;
+        this.onLoading.emit(this.adi);
       },
       error: error=>{
         this.showMessage.error({message: error.error.message, action:()=>this.UpdAditional()})
