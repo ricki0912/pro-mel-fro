@@ -12,6 +12,7 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
   templateUrl: './info-person.component.html',
   styleUrls: ['./info-person.component.scss']
 })
+
 export class InfoPersonComponent implements OnInit {
 
   @Input() per: Bussines | undefined;

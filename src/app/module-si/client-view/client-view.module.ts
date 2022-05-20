@@ -20,13 +20,14 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
+import {MatTableModule} from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { InfoBusinessComponent } from './pages/info-business/info-business.component';
 import { InfoPersonComponent } from './pages/info-person/info-person.component';
 import { InfoAfiliationComponent } from './pages/info-afiliation/info-afiliation.component';
 import { InfoAditionalComponent } from './pages/info-aditional/info-aditional.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ServicesComponent } from './pages/services/services.component';
-import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import {MatTableModule} from '@angular/material/table';
     MatDialogModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    MatTableModule
+    MatTableModule,
+    MatCheckboxModule
   ]
 })
 export class ClientViewModule { }
