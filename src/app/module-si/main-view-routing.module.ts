@@ -84,6 +84,10 @@ const routes: Routes=[
         loadChildren:()=>import('./profile/profile.module').then(m=>m.ProfileModule)
       },
       {
+        path: 'periods',
+        loadChildren:()=>import('./period/period.module').then(m=>m.PeriodModule)
+      },
+      {
         path: 'prueba',
         loadChildren:()=>import('./prueba/prueba.module').then(m=>m.PruebaModule)
       },
