@@ -115,6 +115,11 @@ export class MainViewComponent implements OnInit {
         {name: 'Permisos', routerLink: './permissions', permission: PMS.SI_PERMISSIONS_SEE}
       ] 
     },
+    {isDisplay:false, name:'Configuración',routerLink:'./settings', icon:'business', permission:PMS.SI_SEE,
+      subMenu: [
+        {name: 'Periodos', routerLink: './periods' , permission: PMS.SI_USERS_SEE}, 
+      ] 
+    },
     {isDisplay:false, name:'Sedes',routerLink:'./headquarters', icon:'place', permission:PMS.SI_USERS_SEE,
     subMenu:[
       
