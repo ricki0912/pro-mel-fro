@@ -28,6 +28,11 @@ import { InfoAfiliationComponent } from './pages/info-afiliation/info-afiliation
 import { InfoAditionalComponent } from './pages/info-aditional/info-aditional.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ServicesComponent } from './pages/services/services.component';
+import { SatPopoverModule } from '@ncstate/sat-popover';
+import { InlineEditComponent } from './pages/inline-edit/inline-edit.component';
+import { AddServicesComponent } from './pages/add-services/add-services.component';
+import { AddPeriodComponent } from './pages/add-period/add-period.component';
+import { AddAmountComponent } from './pages/add-amount/add-amount.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +41,11 @@ import { ServicesComponent } from './pages/services/services.component';
     InfoPersonComponent,
     InfoAfiliationComponent,
     InfoAditionalComponent,
-    ServicesComponent
+    ServicesComponent,
+    InlineEditComponent,
+    AddServicesComponent,
+    AddPeriodComponent,
+    AddAmountComponent
   ],
   imports: [
     CommonModule,
@@ -60,7 +69,8 @@ import { ServicesComponent } from './pages/services/services.component';
     MatSelectModule,
     MatProgressSpinnerModule,
     MatTableModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    SatPopoverModule
   ]
 })
 export class ClientViewModule { }

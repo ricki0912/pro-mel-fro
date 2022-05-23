@@ -2,13 +2,15 @@
   <mat-expansion-panel hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title> 2022 </mat-panel-title>
-      <mat-panel-description>
-        This is a summary of the content
-      </mat-panel-description>
+      <div tyle="text-align: right">
+        <mat-panel-description style="margin: 0px">
+          1800.00
+        </mat-panel-description>
+      </div>
     </mat-expansion-panel-header>
     <div class="demo-button-container">
       <button mat-raised-button (click)="addData()" class="demo-button">
-        Add data
+        Agregar
       </button>
       <button
         mat-raised-button
@@ -16,11 +18,11 @@
         (click)="removeData()"
         class="demo-button"
       >
-        Remove data
+        Quitar
       </button>
     </div>
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
       <!-- Checkbox Column -->
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
@@ -44,27 +46,140 @@
       </ng-container>
 
       <!-- Position Column -->
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef>Periodo.</th>
-        <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+      <ng-container matColumnDef="service">
+        <th mat-header-cell *matHeaderCellDef>Servicios</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [satPopoverAnchor]="p"
+          (click)="p.open()"
+        >
+          <ng-container *ngIf="element.service">
+            {{ element.service }}
+          </ng-container>
+          <span class="add-service" *ngIf="!element.service">
+            Agregar un Servicio
+          </span>
+          <sat-popover
+            #p
+            hasBackdrop
+            xAlign="start"
+            yAlign="start"
+            (closed)="updSv(element, $event)"
+          >
+            <app-add-services [value]="element.service"></app-add-services>
+          </sat-popover>
+        </td>
       </ng-container>
 
       <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Detalle</th>
-        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      <ng-container matColumnDef="period">
+        <th mat-header-cell *matHeaderCellDef>Periodo</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [satPopoverAnchor]="p"
+          (click)="p.open()"
+        >
+          <ng-container *ngIf="element.period">
+            {{ element.period }}
+          </ng-container>
+          <span class="add-period" *ngIf="!element.period">
+            Agregar Periodo
+          </span>
+          <sat-popover
+            #p
+            hasBackdrop
+            xAlign="start"
+            yAlign="start"
+            (closed)="updPd(element, $event)"
+          >
+            <app-add-period [value]="element.period"></app-add-period>
+          </sat-popover>
+        </td>
       </ng-container>
 
       <!-- Weight Column -->
-      <ng-container matColumnDef="weight">
+      <ng-container matColumnDef="amount">
         <th mat-header-cell *matHeaderCellDef>Monto</th>
-        <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [satPopoverAnchor]="p"
+          (click)="p.open()"
+        >
+          <ng-container *ngIf="element.amount">
+            {{ element.amount }}
+          </ng-container>
+          <span class="add-comment" *ngIf="!element.amount">
+            Agregar Monto
+          </span>
+          <sat-popover
+            #p
+            hasBackdrop
+            xAlign="start"
+            yAlign="start"
+            (closed)="updMt(element, $event)"
+          >
+            <app-add-amount [value]="element.amount"></app-add-amount>
+          </sat-popover>
+        </td>
       </ng-container>
 
       <!-- Symbol Column -->
-      <ng-container matColumnDef="symbol">
-        <th mat-header-cell *matHeaderCellDef>Comprobante</th>
-        <td mat-cell *matCellDef="let element">{{ element.symbol }}</td>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Fecha</th>
+        <td mat-cell *matCellDef="let element">{{ element.date }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="voucher">
+        <th mat-header-cell *matHeaderCellDef>Tipo Comprob.</th>
+        <td mat-cell *matCellDef="let element">{{ element.voucher }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="numVoucher">
+        <th mat-header-cell *matHeaderCellDef>N° Comprob.</th>
+        <td mat-cell *matCellDef="let element">{{ element.numVoucher }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef>Estado.</th>
+        <td mat-cell *matCellDef="let element">{{ element.state }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="comment">
+        <th mat-header-cell *matHeaderCellDef>Comentario</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [satPopoverAnchor]="p"
+          (click)="p.open()"
+        >
+          <ng-container *ngIf="element.comment">
+            {{ element.comment }}
+          </ng-container>
+          <span class="add-comment" *ngIf="!element.comment">
+            Add a comment
+          </span>
+          <sat-popover
+            #p
+            hasBackdrop
+            xAlign="start"
+            yAlign="start"
+            (closed)="update(element, $event)"
+          >
+            <app-inline-edit [value]="element.comment"></app-inline-edit>
+          </sat-popover>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" matSuffix>
+            <mat-icon>check_circle</mat-icon>
+          </button>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -74,17 +189,5 @@
         (click)="selection.toggle(row)"
       ></tr>
     </table>
-  </mat-expansion-panel>
-  <mat-expansion-panel
-    (opened)="panelOpenState = true"
-    (closed)="panelOpenState = false"
-  >
-    <mat-expansion-panel-header>
-      <mat-panel-title> 2021 </mat-panel-title>
-      <mat-panel-description>
-        Currently I am {{ panelOpenState ? "open" : "closed" }}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <p>I'm visible because I am open</p>
   </mat-expansion-panel>
 </mat-accordion>

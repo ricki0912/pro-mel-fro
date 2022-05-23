@@ -17,7 +17,7 @@ export class ServicesComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'date', 'voucher', 'numVoucher', 'state', 'comment', 'actions'];
   dataToDisplay = [...ELEMENT_DATA];
 
   dataSource = new MatTableDataSource<PeriodicElement>(this.dataToDisplay);
@@ -45,7 +45,7 @@ export class ServicesComponent implements OnInit {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.service + 1}`;
   }
 
 
@@ -53,7 +53,7 @@ export class ServicesComponent implements OnInit {
     const randomElementIndex = Math.floor(Math.random() * ELEMENT_DATA.length);
     this.dataToDisplay = [...this.dataToDisplay, ELEMENT_DATA[randomElementIndex]];
     //this.dataSource.setData(this.dataToDisplay);
-    const p: PeriodicElement={name: 'Julio', position: 1, symbol: 'sss', weight: 1};
+    const p: PeriodicElement={service: 'Declaracion Jurada', period: 'Enero', amount: '20.00', date: '20/02/2022', voucher:'Boleta', numVoucher:0, state:'pagado', comment:'g'};
     this.dataSource.data.push(p);
     this.dataSource.data = this.dataSource.data.slice();
   }
@@ -69,9 +69,39 @@ export class ServicesComponent implements OnInit {
     this.dataSource.data = this.dataSource.data.slice(0,-1);
   }
 
+  /*Actualizar todos los datos de los servicios*/
+  updSv(el: PeriodicElement, sv: sv) {
+    console.log(sv);
+    console.log(sv.name);
+    if (sv == null) { return; }
+    el.service = sv.name;
+    this.dataSource.data = this.dataSource.data;
+  }
+
+  updPd(el: PeriodicElement, pd: pd) {
+    console.log(pd);
+    console.log(pd.period);
+
+    if (pd == null) { return; }
+    el.period = pd.period;
+    this.dataSource.data = this.dataSource.data;
+  }
+
+  updMt(el: PeriodicElement, amount: string) {
+    if (amount == null) { return; }
+    el.amount = amount;
+    this.dataSource.data = this.dataSource.data;
+  }
+
+  update(el: PeriodicElement, comment: string) {
+    if (comment == null) { return; }
+    el.comment = comment;
+    this.dataSource.data = this.dataSource.data;
+  }
+
 }
 
-class ServicesDataSource extends DataSource<PeriodicElement> {
+/*class ServicesDataSource extends DataSource<PeriodicElement> {
   private _dataStream = new ReplaySubject<PeriodicElement[]>();
 
   constructor(initialData: PeriodicElement[]) {
@@ -88,26 +118,33 @@ class ServicesDataSource extends DataSource<PeriodicElement> {
   setData(data: PeriodicElement[]) {
     this._dataStream.next(data);
   }
-}
+}*/
 
 export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+  service: string;
+  period: string;
+  amount: string;
+  date: string;
+  voucher: string;
+  numVoucher: number;
+  state: string;
+  comment: string;
+}
+
+export interface sv {
+  name : string;
+}
+
+export interface pd {
+  period : string;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+  {service: '1', period: 'Hydrogen', amount: '1.00', date: '27/04/2022', voucher:'boleta', numVoucher: 1, state:'pagado', comment:'h'},
+  {service: '2', period: 'Helium', amount: '4.00', date: '27/04/2022', voucher:'factura', numVoucher: 10, state:'pagado', comment:'h'},
+  {service: '3', period: 'Lithium', amount: '6.97', date: '27/04/2022',voucher:'boleta', numVoucher: 12, state:'Pendiente', comment:'h'},
+  {service: '4', period: 'Beryllium', amount: '9.01', date: '27/04/2022', voucher:'boleta', numVoucher: 234, state:'pagado', comment:'h'},
+  {service: '5', period: 'Boron', amount: '10.81', date: '27/04/2022', voucher:'ticket', numVoucher: 3, state:'pagado', comment:'h'},
 ];
 
 
