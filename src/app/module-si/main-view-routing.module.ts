@@ -14,7 +14,7 @@ const routes: Routes=[
     path:':hqId',
     component: MainViewComponent,
     children: [
-      
+
       {
         path: '',
         //component: CategoryComponent
@@ -56,7 +56,7 @@ const routes: Routes=[
         /*canLoad:[ModuleSiGuard],
         data:{permission: PMS.SI_PERMISSIONS_SEE}*/
       },
-     
+
       {
         path: 'calls',
         loadChildren: ()=>import('./call/call.module').then(m=>m.CallModule)
@@ -66,7 +66,7 @@ const routes: Routes=[
         path: 'tickets',
         loadChildren:()=>import('./ticket/ticket.module').then(m=>m.TicketModule)
       },
-      
+
       {
         path: 'videos',
         loadChildren:()=>import('./videos/videos.module').then(m=>m.VideosModule)
@@ -88,10 +88,14 @@ const routes: Routes=[
         loadChildren:()=>import('./period/period.module').then(m=>m.PeriodModule)
       },
       {
+        path: 'services',
+        loadChildren:()=>import('./md-services/md-services.module').then(m=>m.MdServicesModule)
+      },
+      {
         path: 'prueba',
         loadChildren:()=>import('./prueba/prueba.module').then(m=>m.PruebaModule)
       },
-  
+
       /*{
         path: 'prueba',
         component: PruebaComponent

@@ -1,193 +1,27 @@
-<mat-accordion>
-  <mat-expansion-panel hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title> 2022 </mat-panel-title>
-      <div tyle="text-align: right">
-        <mat-panel-description style="margin: 0px">
-          1800.00
-        </mat-panel-description>
-      </div>
-    </mat-expansion-panel-header>
-    <div class="demo-button-container">
-      <button mat-raised-button (click)="addData()" class="demo-button">
-        Agregar
-      </button>
-      <button
-        mat-raised-button
-        [disabled]="!dataSource._filterData.length"
-        (click)="removeData()"
-        class="demo-button"
-      >
-        Quitar
-      </button>
-    </div>
-
-    <table mat-table [dataSource]="dataSource">
-      <!-- Checkbox Column -->
-      <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox
-            (change)="$event ? masterToggle() : null"
-            [checked]="selection.hasValue() && isAllSelected()"
-            [indeterminate]="selection.hasValue() && !isAllSelected()"
-            [aria-label]="checkboxLabel()"
-          >
-          </mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-checkbox
-            (click)="$event.stopPropagation()"
-            (change)="$event ? selection.toggle(row) : null"
-            [checked]="selection.isSelected(row)"
-            [aria-label]="checkboxLabel(row)"
-          >
-          </mat-checkbox>
-        </td>
-      </ng-container>
-
-      <!-- Position Column -->
-      <ng-container matColumnDef="service">
-        <th mat-header-cell *matHeaderCellDef>Servicios</th>
-        <td
-          mat-cell
-          *matCellDef="let element"
-          [satPopoverAnchor]="p"
-          (click)="p.open()"
+<mat-card style="padding: 5px; margin-bottom: 5px">
+  <mat-card-title-group>
+    <mat-card-title style="margin: 0px"
+      >Lista de Servicios por Periodo</mat-card-title
+    >
+    <mat-card-actions>
+      <mat-list-item style="display: flex; justify-content: right">
+        <button
+          mat-button
+          mat-mini-fab
+          color="accent"
+          aria-label="Añadir"
+          (click)="openDialogChoosePeriod()"
         >
-          <ng-container *ngIf="element.service">
-            {{ element.service }}
-          </ng-container>
-          <span class="add-service" *ngIf="!element.service">
-            Agregar un Servicio
-          </span>
-          <sat-popover
-            #p
-            hasBackdrop
-            xAlign="start"
-            yAlign="start"
-            (closed)="updSv(element, $event)"
-          >
-            <app-add-services [value]="element.service"></app-add-services>
-          </sat-popover>
-        </td>
-      </ng-container>
-
-      <!-- Name Column -->
-      <ng-container matColumnDef="period">
-        <th mat-header-cell *matHeaderCellDef>Periodo</th>
-        <td
-          mat-cell
-          *matCellDef="let element"
-          [satPopoverAnchor]="p"
-          (click)="p.open()"
-        >
-          <ng-container *ngIf="element.period">
-            {{ element.period }}
-          </ng-container>
-          <span class="add-period" *ngIf="!element.period">
-            Agregar Periodo
-          </span>
-          <sat-popover
-            #p
-            hasBackdrop
-            xAlign="start"
-            yAlign="start"
-            (closed)="updPd(element, $event)"
-          >
-            <app-add-period [value]="element.period"></app-add-period>
-          </sat-popover>
-        </td>
-      </ng-container>
-
-      <!-- Weight Column -->
-      <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef>Monto</th>
-        <td
-          mat-cell
-          *matCellDef="let element"
-          [satPopoverAnchor]="p"
-          (click)="p.open()"
-        >
-          <ng-container *ngIf="element.amount">
-            {{ element.amount }}
-          </ng-container>
-          <span class="add-comment" *ngIf="!element.amount">
-            Agregar Monto
-          </span>
-          <sat-popover
-            #p
-            hasBackdrop
-            xAlign="start"
-            yAlign="start"
-            (closed)="updMt(element, $event)"
-          >
-            <app-add-amount [value]="element.amount"></app-add-amount>
-          </sat-popover>
-        </td>
-      </ng-container>
-
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef>Fecha</th>
-        <td mat-cell *matCellDef="let element">{{ element.date }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="voucher">
-        <th mat-header-cell *matHeaderCellDef>Tipo Comprob.</th>
-        <td mat-cell *matCellDef="let element">{{ element.voucher }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="numVoucher">
-        <th mat-header-cell *matHeaderCellDef>N° Comprob.</th>
-        <td mat-cell *matCellDef="let element">{{ element.numVoucher }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="state">
-        <th mat-header-cell *matHeaderCellDef>Estado.</th>
-        <td mat-cell *matCellDef="let element">{{ element.state }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="comment">
-        <th mat-header-cell *matHeaderCellDef>Comentario</th>
-        <td
-          mat-cell
-          *matCellDef="let element"
-          [satPopoverAnchor]="p"
-          (click)="p.open()"
-        >
-          <ng-container *ngIf="element.comment">
-            {{ element.comment }}
-          </ng-container>
-          <span class="add-comment" *ngIf="!element.comment">
-            Add a comment
-          </span>
-          <sat-popover
-            #p
-            hasBackdrop
-            xAlign="start"
-            yAlign="start"
-            (closed)="update(element, $event)"
-          >
-            <app-inline-edit [value]="element.comment"></app-inline-edit>
-          </sat-popover>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Acciones</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary" matSuffix>
-            <mat-icon>check_circle</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: displayedColumns"
-        (click)="selection.toggle(row)"
-      ></tr>
-    </table>
-  </mat-expansion-panel>
-</mat-accordion>
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-card-actions>
+  </mat-card-title-group>
+  <mat-divider></mat-divider>
+  <mat-card-content style="padding-top: 10px">
+    <app-list-buss-periods
+      [bp]="bp"
+      *ngFor="let bp of dBussPer"
+    ></app-list-buss-periods>
+  </mat-card-content>
+</mat-card>

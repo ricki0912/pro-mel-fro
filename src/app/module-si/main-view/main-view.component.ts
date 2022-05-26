@@ -85,67 +85,68 @@ export class MainViewComponent implements OnInit {
     {isDisplay:false, name:'Principal',routerLink:'./', icon:'home', permission:PMS.SI_SEE,
       subMenu:[
 
-      ] 
+      ]
     },
     {isDisplay:false, name:'Clientes',routerLink:'./clients', icon:'business', permission:PMS.SI_CLIENTS_SEE,
       subMenu: [
 
-      ] 
+      ]
     },
     {isDisplay:false, name:'Linea de Espera',routerLink:'./', icon:'tablet', permission:PMS.SI_SEE,
       subMenu:[
-        {name:'Atencion', routerLink:'./calls', permission: PMS.SI_CALLS_SEE}, 
-        {name: 'Tickets', routerLink: './tickets', permission: PMS.SI_TICKETS_SEE}, 
+        {name:'Atencion', routerLink:'./calls', permission: PMS.SI_CALLS_SEE},
+        {name: 'Tickets', routerLink: './tickets', permission: PMS.SI_TICKETS_SEE},
         {name: 'Ventanillas', routerLink:'./tellers', permission: PMS.SI_TELLERS_SEE},
         {name: 'Categorias', routerLink:'./categories', permission:PMS.SI_CATEGORIES_SEE},
         {name: 'Videos', routerLink:'./videos', permission: PMS.SI_VIDEOS_SEE},
         {name: 'Tarjetas', routerLink:'./cards', permission:PMS.SI_CARDS_SEE}
 
-      ] 
+      ]
     },
     {isDisplay:false, name:'Reportes',routerLink:'./', icon:'pie_chart', permission:PMS.SI_REPORT_WAITING_LINE,
       subMenu: [
-        {name:'Linea de espera', routerLink:'./reports/waiting-line', permission: PMS.SI_REPORT_WAITING_LINE}, 
-        
-      ] 
+        {name:'Linea de espera', routerLink:'./reports/waiting-line', permission: PMS.SI_REPORT_WAITING_LINE},
+
+      ]
     },
     {isDisplay:false, name:'Usuarios',routerLink:'./', icon:'people', permission:PMS.SI_USERS_SEE,
       subMenu:[
-        {name: 'Usuarios', routerLink: './users' , permission: PMS.SI_USERS_SEE}, 
+        {name: 'Usuarios', routerLink: './users' , permission: PMS.SI_USERS_SEE},
         {name: 'Permisos', routerLink: './permissions', permission: PMS.SI_PERMISSIONS_SEE}
-      ] 
+      ]
     },
     {isDisplay:false, name:'Configuración',routerLink:'./settings', icon:'business', permission:PMS.SI_SEE,
       subMenu: [
-        {name: 'Periodos', routerLink: './periods' , permission: PMS.SI_USERS_SEE}, 
-      ] 
+        {name: 'Periodos', routerLink: './periods' , permission: PMS.SI_USERS_SEE},
+        {name: 'Servicios', routerLink: './services' , permission: PMS.SI_USERS_SEE}
+      ]
     },
     {isDisplay:false, name:'Sedes',routerLink:'./headquarters', icon:'place', permission:PMS.SI_USERS_SEE,
     subMenu:[
-      
-    ] 
+
+    ]
   },
   {isDisplay:false, name:'Mi perfil',routerLink:'./profile', icon:'person', permission:PMS.SI_PROFILE_SEE,
   subMenu:[
-    
-  ] 
+
+  ]
 }
-    
+
   ]
 }
 
 
 interface Menu {
-  isDisplay: boolean, 
+  isDisplay: boolean,
   name:string,
   routerLink:string
   icon:string
-  subMenu:SubMenu[], 
+  subMenu:SubMenu[],
   permission: PMS
 }
 
 interface SubMenu{
   name:string,
-  routerLink:string, 
+  routerLink:string,
   permission:PMS
 }

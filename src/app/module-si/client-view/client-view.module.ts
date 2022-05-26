@@ -33,6 +33,8 @@ import { InlineEditComponent } from './pages/inline-edit/inline-edit.component';
 import { AddServicesComponent } from './pages/add-services/add-services.component';
 import { AddPeriodComponent } from './pages/add-period/add-period.component';
 import { AddAmountComponent } from './pages/add-amount/add-amount.component';
+import {MatListModule} from '@angular/material/list';
+import { ListBussPeriodsComponent } from './pages/list-buss-periods/list-buss-periods.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import { AddAmountComponent } from './pages/add-amount/add-amount.component';
     InlineEditComponent,
     AddServicesComponent,
     AddPeriodComponent,
-    AddAmountComponent
+    AddAmountComponent,
+    ListBussPeriodsComponent
   ],
   imports: [
     CommonModule,
@@ -70,7 +73,8 @@ import { AddAmountComponent } from './pages/add-amount/add-amount.component';
     MatProgressSpinnerModule,
     MatTableModule,
     MatCheckboxModule,
-    SatPopoverModule
+    SatPopoverModule,
+    MatListModule
   ]
 })
 export class ClientViewModule { }

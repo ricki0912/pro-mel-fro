@@ -194,7 +194,6 @@ export class EditClientComponent implements OnInit, OnDestroy {
   addBusinessWithPerson(): boolean {
     const business: Bussines = this.businessForm.value;
     this.onReturn(business);
-    console.log("datos de cliente de formulario"+this.businessForm.value);
     return true
   }
 }
