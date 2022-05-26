@@ -95,15 +95,11 @@ const routes: Routes=[
         path: 'prueba',
         loadChildren:()=>import('./prueba/prueba.module').then(m=>m.PruebaModule)
       },
-<<<<<<< HEAD
       {
         path: 'accounting',
         loadChildren:()=>import('./accounting/accounting.module').then(m=>m.AccountingModule)
       },
-  
-=======
 
->>>>>>> e15200f783f989aee4cc9d212a05b3a4a8aac01a
       /*{
         path: 'prueba',
         component: PruebaComponent
