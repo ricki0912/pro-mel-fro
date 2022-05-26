@@ -39,7 +39,7 @@ export class CardsComponent implements OnInit, CrudInterface, ActionDialogInterf
         this.isLoading=false
       },
       error: e=>{
-        this.showMessage.error({message: e.error.message})
+        this.showMessage.error({message: e.error.message});
       }
     })
     return true;

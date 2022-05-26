@@ -6,6 +6,8 @@ import { CrudApiInterface } from '../global/interfaces/crud-api.interface';
 import { Observable } from 'rxjs';
 import { ParentInterface, InterfaceParamsResponse } from '../global/parents/parent.interface';
 import { Bussines } from '../interfaces/bussines';
+import { DBusinessPeriod } from '../interfaces/d-business-period';
+import { Period } from '../interfaces/period';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +18,7 @@ export class BussinesService extends ParentService implements CrudApiInterface{
   private API_EXIST_FILE_NUMBER = `${this.HOST_API}/api/v1/business/exist-fileNumber`
   private API_ADD_BUSINESS_WHIT_PERSON = `${this.HOST_API}/api/v1/business/add-business-with-person`
   private API_BUSSINES=`${this.HOST_API}/api/v1/business`
+  private API_DBUSINES_PERIODS = `${this.HOST_API}/api/v1/d-business-periods`
 
   constructor(private https:HttpClient) {
     super()
@@ -71,5 +74,18 @@ export class BussinesService extends ParentService implements CrudApiInterface{
 
   updAditionalData(object: Bussines):Observable<InterfaceParamsResponse<Bussines>>{
     return this.https.put<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/upd-adiData`, object);
+  }
+
+  /*Agregar un periodo de cada Negocio */
+  addDBusinessPeriod(object: DBusinessPeriod):Observable<InterfaceParamsResponse<DBusinessPeriod>>{
+    return this.https.post<InterfaceParamsResponse<DBusinessPeriod>>(`${this.API_DBUSINES_PERIODS}/addDBP`, object);
+  }
+
+  /*public allDBusinesPeriods(bussId: number): Observable<Period[]> | null {
+    return this.https.get<Period[]>(`${this.API_BUSSINES}/${bussId}/periods`);
+  }*/
+
+  public allDBusinesPeriods(bussId:number): Observable<InterfaceParamsResponse<Period[]>>  {
+    return this.https.get<InterfaceParamsResponse<Period[]>>(`${this.API_BUSSINES}/${bussId}/periods`);
   }
 }

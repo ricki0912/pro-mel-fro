@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -11,7 +11,7 @@ import { Videos } from 'src/app/interfaces/videos';
   templateUrl: './edit-video.component.html',
   styleUrls: ['./edit-video.component.scss']
 })
-export class EditVideoComponent implements OnInit {
+export class EditVideoComponent implements OnInit, OnDestroy {
 
   title = 'Añadir un Video Nuevo';
   videosBeforeUpd: Videos | null = null;

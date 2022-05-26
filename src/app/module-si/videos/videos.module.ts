@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { VideosRoutingModule } from './videos-routing.module';
 import { VideosComponent } from './videos.component';
 import { EditVideoComponent } from './pages/edit-video/edit-video.component';
+
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
