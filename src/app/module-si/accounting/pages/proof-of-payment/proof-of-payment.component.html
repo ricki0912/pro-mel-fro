@@ -1,0 +1,219 @@
+<mat-toolbar color="primary" class="tollbar">
+  <mat-toolbar-row>
+    <button mat-icon-button mat-dialog-close class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>{{title}}</span>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+
+
+
+
+
+<div class="dialog-body" style="">
+  <!-- <p>Agrega un <b>usuario </b>, puedes buscar por nombre y apellidos o ingresando el número de DNI </p>
+   -->
+  <!--<h2 mat-dialog-title>Install Angular</h2>-->
+  <mat-dialog-content class="mat-typography" style="max-height: initial;">
+
+    <div class="d-flex justify-content-center">
+      <div class=" w-100" style="max-width: 700px;">
+        <div class="card mb-2">
+          <div class="card-header">
+           1. Datos Generales
+          </div>
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width" appearance="legacy">
+                  <mat-label>Tipo de Identificación</mat-label>
+                  <mat-select formControlName="perKindDoc">
+                    <mat-option value="1">DNI</mat-option>
+                    <mat-option value="2">RUC</mat-option>
+                  </mat-select>
+                  <mat-error> EL tipo de identidad es requerido. </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width" appearance="legacy">
+                  <mat-label>DNI/RUC</mat-label>
+                  <input matInput formControlName="perNumberDoc" />
+                  <mat-error> EL número de identidad es requerido. </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width" appearance="legacy">
+                  <mat-label>Señor(es)</mat-label>
+                  <input matInput formControlName="perNumberDoc" />
+                  <mat-error> EL número de identidad es requerido. </mat-error>
+                </mat-form-field>
+              
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width" appearance="legacy">
+                  <mat-label>Dirección</mat-label>
+                  <input matInput formControlName="perNumberDoc" />
+                  <mat-error> EL número de identidad es requerido. </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+
+            
+          </div>
+        </div>
+        <div class="card mb-2">
+          <div class="card-header">
+            2. Detalle
+          </div>
+          <div class="card-body">
+            <table mat-table [dataSource]="transactions" >
+              <!-- Item Column -->
+              <ng-container matColumnDef="pdsQuantity">
+                <th mat-header-cell *matHeaderCellDef> Cant. </th>
+                <td mat-cell *matCellDef="let transaction"> {{transaction.pdsQuantity}} </td>
+                <td mat-footer-cell *matFooterCellDef>  </td>
+              </ng-container>
+
+              <ng-container matColumnDef="pdsDescription">
+                <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                <td mat-cell *matCellDef="let transaction"> {{transaction.pdsDescription}} </td>
+                <td mat-footer-cell *matFooterCellDef>  </td>
+              </ng-container>
+              <ng-container matColumnDef="pdsUnitPrice">
+                <th mat-header-cell *matHeaderCellDef style="width: 50px;"> P. Unit </th>
+                <td mat-cell *matCellDef="let transaction"> {{transaction.pdsUnitPrice |currency:'S/.'}} </td>
+                <td mat-footer-cell *matFooterCellDef> Total </td>
+              </ng-container>
+            
+              <ng-container matColumnDef="pdsAmount">
+                <th mat-header-cell *matHeaderCellDef style="width: 35px;"> Importe </th>
+                <td mat-cell *matCellDef="let transaction"> {{transaction.pdsAmount | currency:'S/.'}} </td>
+                <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency:'S/.'}} </td>
+              </ng-container>
+              <ng-container matColumnDef="pdsDelete">
+                <th mat-header-cell *matHeaderCellDef style="width: 20px;"> 
+                  <button mat-mini-fab  aria-label="Example icon button with a vertical three dot icon" color="accent">
+                    <mat-icon>add</mat-icon>
+                    </button>
+                </th>
+                <td mat-cell *matCellDef="let transaction"> 
+                  <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+                <td mat-footer-cell *matFooterCellDef> </td>
+              </ng-container>
+            
+              <!-- Item Description Column -->
+           
+            
+              <!-- Disclaimer column -->
+              <ng-container matColumnDef="disclaimer">
+                <td mat-footer-cell *matFooterCellDef colspan="5">
+                  Para editar dele click una columna dele click encima del valor.
+                </td>
+              </ng-container>
+            
+              <!-- The table will render two header rows, one data row per data object, and two footer rows. -->
+              <tr mat-header-row *matHeaderRowDef="displayedColumns2"
+                  class="example-first-header-row">
+              </tr>
+              
+              <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+            
+              <tr mat-footer-row *matFooterRowDef="displayedColumns2" class="example-first-footer-row"></tr>
+              <tr mat-footer-row *matFooterRowDef="['disclaimer']" class="example-second-footer-row"></tr>
+            </table>
+          </div>
+        </div>
+       
+        <div class="card mb-2">
+          <div class="card-header">
+            3. Metodo de Pago
+          </div>
+          <div class="card-body">
+            <div>
+              <table>
+              <tr>
+                <th colspan="4">
+                    <b style="opacity: 0.85;">Categorias asignadas para atención</b>
+                </th>
+                <th>
+                  <button align="end"  mat-mini-fab  aria-label="Example icon button with a vertical three dot icon" color="accent">
+                    <mat-icon>add</mat-icon>
+                    </button>
+                    
+                </th>
+            </tr>
+            <tr >
+              <td>1</td>
+              <td>
+                <mat-form-field class="example-full-width" appearance="legacy">
+                  <mat-label>Tipo de Identificación</mat-label>
+                  <mat-select formControlName="perKindDoc">
+                    <mat-option value="1">DNI</mat-option>
+                    <mat-option value="2">RUC</mat-option>
+                  </mat-select>
+                  <mat-error> EL tipo de identidad es requerido. </mat-error>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field class="example-full-width" appearance="legacy">
+                  <mat-label>Señor(es)</mat-label>
+                  <input matInput formControlName="perNumberDoc" />
+                  <mat-error> EL número de identidad es requerido. </mat-error>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field class="example-full-width" appearance="legacy">
+                  <mat-label>Señor(es)</mat-label>
+                  <input matInput formControlName="perNumberDoc" />
+                  <mat-error> EL número de identidad es requerido. </mat-error>
+                </mat-form-field>
+              </td>
+              <td>
+                  <button mat-icon-button aria-label="Example icon-button with a menu">
+                      <mat-icon>delete</mat-icon>
+                  </button>
+              </td>
+          </tr>
+            <!--<tr *ngFor="let category of categories; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{category.catNameLong}}</td>
+                <td>
+                    <button (click)="detachCategory(teller.tellId || -1, category.catId || -1)" mat-icon-button aria-label="Example icon-button with a menu">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </td>
+            </tr>-->
+        </table>
+        <p color="warn" style="color: red; font-size: 16px; text-align: right; padding: 0 12px 0 0; font-weight: bold;">
+        Tienes S/.200.OO sin asignar
+        </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+    
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button [mat-dialog-close]="true" type="submit" (click)="ok()" [disabled]="!userSelected"
+      cdkFocusInitial>Listo</button>
+  </mat-dialog-actions>
+</div>

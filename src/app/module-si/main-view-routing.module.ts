@@ -91,6 +91,10 @@ const routes: Routes=[
         path: 'prueba',
         loadChildren:()=>import('./prueba/prueba.module').then(m=>m.PruebaModule)
       },
+      {
+        path: 'accounting',
+        loadChildren:()=>import('./accounting/accounting.module').then(m=>m.AccountingModule)
+      },
   
       /*{
         path: 'prueba',

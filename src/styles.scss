@@ -11,11 +11,12 @@ html, body { height: 100%;
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
 
 .dialog .mat-dialog-container{
-    padding: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px !important;
+    margin: 0px 0px 0px 0px !important;
   }
   
 .dialog .mat-dialog-container .dialog-body{
-    padding: 24px;
+    padding: 24px ;
 }
     
 .blue-snackbar {

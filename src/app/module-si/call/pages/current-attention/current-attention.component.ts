@@ -5,6 +5,7 @@ import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.in
 import { SocketInterface, SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
 import { AppointmentTemp, APPOINTMENT_STATE, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
 import { Teller } from 'src/app/interfaces/teller';
+import { ProofOfPaymentComponent } from 'src/app/module-si/accounting/pages/proof-of-payment/proof-of-payment.component';
 import { FloatingWaitingLineService} from 'src/app/module-si/main-view/pages/floating-waiting-line/floating-waiting-line.service';
 import { FindTellerComponent } from 'src/app/module-si/teller/pages/find-teller/find-teller.component';
 import { AppointmentTempService } from 'src/app/services/appointment-temp.service';
@@ -62,6 +63,27 @@ export class CurrentAttentionComponent implements OnInit {
     }
   }
 
+  openDialogEmitProofOfPayment() {
+    const dialogRef = this.dialog.open(ProofOfPaymentComponent, {
+      panelClass: 'dialog',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+       height: '100%',
+       width: '100%',
+      data: {
+        row: null,
+        type: TYPES_ACTIONS_DIALOG.ADD
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: Teller) => {
+      if (result) {
+        this.transferCallToTeller(this.tAppointmentTemp?.apptmId || -1, result.tellId || -1)
+
+        /*const apptmIds:number[]= this.selection.selected.reduce(( p:number[], c:TAppointmentTemp)=>[...p, c.apptmId || -1], [])
+        this.updateTeller(apptmIds, result.tellId || -1)*/
+      }
+    });
+  }
   openDialogChageTeller() {
     const dialogRef = this.dialog.open(FindTellerComponent, {
       panelClass: 'dialog',
