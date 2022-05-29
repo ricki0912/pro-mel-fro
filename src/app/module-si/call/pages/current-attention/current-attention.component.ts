@@ -72,6 +72,9 @@ export class CurrentAttentionComponent implements OnInit {
        width: '100%',
       data: {
         row: null,
+        appointmentTemp:this.tAppointmentTemp,
+        payLinkBuss:false,
+        
         type: TYPES_ACTIONS_DIALOG.ADD
       }
     });

@@ -1,0 +1,14 @@
+<form (ngSubmit)="onSubmit()">
+  <div class="mat-subheading-2">Agregar Cantidad</div>
+
+  <mat-form-field>
+    <input         autocomplete="off" 
+     matInput maxLength="12" name="amount" [(ngModel)]="amount">
+    <mat-hint align="end">{{amount?.length || 0}}/12</mat-hint>
+  </mat-form-field>
+
+  <div class="actions">
+    <button mat-button type="button" color="primary" (click)="onCancel()">Cancelar</button>
+    <button mat-button type="submit" color="primary">Listo</button>
+  </div>
+</form>

@@ -38,15 +38,26 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 
 //import {MatGridListModule} from '@angular/material/grid-list';
+import { SatPopoverModule } from '@ncstate/sat-popover';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { AddUnitPriceComponent } from './pages/add-unit-price/add-unit-price.component';
 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { AddDescriptionComponent } from './pages/add-description/add-description.component';
+import { AddQuantityComponent } from './pages/add-quantity/add-quantity.component';
 
 
 
 
 @NgModule({
   declarations: [
+    AddUnitPriceComponent,
     AccountingComponent,
-    ProofOfPaymentComponent
+    ProofOfPaymentComponent,
+    AddDescriptionComponent,
+    AddQuantityComponent
   ],
   imports: [
     CommonModule,
@@ -72,7 +83,13 @@ import {MatSelectModule} from '@angular/material/select';
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    SatPopoverModule,
+    MatFormFieldModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    
   ]
 })
 export class AccountingModule { }

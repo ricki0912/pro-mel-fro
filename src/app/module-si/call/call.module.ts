@@ -26,6 +26,7 @@ import { CommentCallComponent } from './pages/comment-call/comment-call.componen
 
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { SatPopoverModule } from '@ncstate/sat-popover';
 
 
 @NgModule({
@@ -56,7 +57,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatProgressBarModule,
     MatToolbarModule,
     FormsModule, 
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    /*Crear module  */
+    SatPopoverModule
   ]
 })
 export class CallModule { }

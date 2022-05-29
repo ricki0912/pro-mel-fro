@@ -90,3 +90,13 @@ table {
 .mat-column-pdsDelete {
   flex: 0 0 5%;
 }
+
+.borrador{
+  font-style: italic;
+  color: rgb(38, 38, 38);
+}
+
+
+.message-error{
+  color: red; font-size: 16px; text-align: right; padding: 0 12px 0 0; font-weight: bold;
+}
