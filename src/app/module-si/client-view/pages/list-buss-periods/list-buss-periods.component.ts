@@ -2,8 +2,10 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Period } from 'src/app/interfaces/period';
+import { Services } from 'src/app/interfaces/services';
 import { ServicesProvided } from 'src/app/interfaces/services-provided';
 import { ServicesProvidedService } from 'src/app/services/services-provided.service';
+import { ServicesService } from 'src/app/services/services.service';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 
 @Component({
@@ -14,12 +16,15 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
 export class ListBussPeriodsComponent implements OnInit {
 
   @Input() bp: Period = {};
+  private services: Services[] = [];
   constructor(
     private spService: ServicesProvidedService,
-    private showMessage: ShowMessageService
+    private showMessage: ShowMessageService,
+    private servicesService: ServicesService
   ) { }
 
   ngOnInit(): void {
+    this.readServices();
   }
 
   displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'debt', 'paid', 'state', 'LimitPayment', 'comment', 'actions'];
@@ -75,7 +80,7 @@ export class ListBussPeriodsComponent implements OnInit {
   }
 
   /*Actualizar todos los datos de los servicios*/
-  updSv(el: PeriodicElement, sv: sv) {    
+  updSv(el: PeriodicElement, sv: sv) {
     if (sv == null) { return; }
     el.service = Number(sv.name);
     this.dataSource.data = this.dataSource.data;
@@ -110,6 +115,7 @@ export class ListBussPeriodsComponent implements OnInit {
   }
 
   addServices(sp: ServicesProvided): boolean{
+
     this.spService.addServicesProvided(sp).subscribe({
       next: data => {
         this.showMessage.success({ message: data.msg });
@@ -123,6 +129,38 @@ export class ListBussPeriodsComponent implements OnInit {
     });
     return true;
   }
+
+  findSubPeriod(so: string){
+    return this.subperiod.find(o=>o.value==so);
+  }
+
+  findServices(fs: number){
+    return this.services.find(o=>o.svId==fs);
+  }
+
+
+  readServices(){
+    this.servicesService.all()?.subscribe({
+      next:d=>{
+        this.services = d;
+      }
+    })
+  }
+
+  subperiod: SubPeriodo[] = [
+    {value: '1', name: 'Enero'},
+    {value: '2', name: 'Febrero'},
+    {value: '3', name: 'Marzo'},
+    {value: '4', name: 'Abril'},
+    {value: '5', name: 'Mayo'},
+    {value: '6', name: 'Junio'},
+    {value: '7', name: 'Julio'},
+    {value: '8', name: 'Agosto'},
+    {value: '9', name: 'Setiembre'},
+    {value: '10', name: 'Octubre'},
+    {value: '11', name: 'Noviembre'},
+    {value: '12', name: 'Diciembre'},
+  ];
 
 }
 
@@ -152,5 +190,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {service: 4, period: 12, amount: 9.01, date: '27/04/2022', voucher:'boleta', numVoucher: 234, state:'pagado', comment:'h'},
   {service: 5, period: 8, amount: 10.81, date: '27/04/2022', voucher:'ticket', numVoucher: 3, state:'pagado', comment:'h'},
 ];
+
+interface SubPeriodo {
+value: string;
+name: string;
+}
 
 

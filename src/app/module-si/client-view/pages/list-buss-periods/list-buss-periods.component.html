@@ -57,7 +57,7 @@
           (click)="p.open()"
         >
           <ng-container *ngIf="element.service">
-            {{ element.service }}
+            {{ findServices(element.service)?.svName }}
           </ng-container>
           <span class="add-service" *ngIf="!element.service">
             Agregar un Servicio
@@ -84,7 +84,7 @@
           (click)="p.open()"
         >
           <ng-container *ngIf="element.period">
-            {{ element.period }}
+            {{ findSubPeriod(element.period)?.name }}
           </ng-container>
           <span class="add-period" *ngIf="!element.period">
             Agregar Periodo
