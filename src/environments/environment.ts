@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   API_URL:'http://localhost:8000', 
+    //API_URL:'http://192.168.119.17:8000', 
+
   WLI_SOCKET_SERVER:'http://54.144.140.118:3000',
 
   //WLI_SOCKET_SERVER:'http://localhost:3000',

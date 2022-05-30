@@ -1,6 +1,6 @@
 <mat-accordion>
   <mat-expansion-panel hideToggle>
-    <mat-expansion-panel-header>
+    <mat-expansion-panel-header >
       <mat-panel-title>
         {{ bp.prdsNameShort }}
       </mat-panel-title>
@@ -21,6 +21,12 @@
         class="demo-button"
       >
         Quitar
+      </button>
+      <button
+      mat-raised-button
+      (click)="prepareBeforeGenerateProof()"
+      >
+      Generar Comprobante
       </button>
     </div>
 
@@ -56,10 +62,10 @@
           [satPopoverAnchor]="p"
           (click)="p.open()"
         >
-          <ng-container *ngIf="element.service">
-            {{ findServices(element.service)?.svName }}
+          <ng-container *ngIf="element.svId">
+            {{ findServices(element.svId)?.svName }}
           </ng-container>
-          <span class="add-service" *ngIf="!element.service">
+          <span class="add-service borrador" *ngIf="!element.svId">
             Agregar un Servicio
           </span>
           <sat-popover
@@ -69,7 +75,7 @@
             yAlign="start"
             (closed)="updSv(element, $event)"
           >
-            <app-add-services [value]="element.service"></app-add-services>
+            <app-add-services [value]="element.svId"></app-add-services>
           </sat-popover>
         </td>
       </ng-container>
@@ -83,10 +89,10 @@
           [satPopoverAnchor]="p"
           (click)="p.open()"
         >
-          <ng-container *ngIf="element.period">
-            {{ findSubPeriod(element.period)?.name }}
+          <ng-container *ngIf="element.ppayId">
+            {{findSubPeriod(element.ppayId)?.ppayName }}
           </ng-container>
-          <span class="add-period" *ngIf="!element.period">
+          <span class="add-period borrador" *ngIf="!element.ppayId">
             Agregar Periodo
           </span>
           <sat-popover
@@ -96,7 +102,7 @@
             yAlign="start"
             (closed)="updPd(element, $event)"
           >
-            <app-add-period [value]="element.period"></app-add-period>
+            <app-add-period [value]="element.ppayId" [periodPayments]="periodPayments" ></app-add-period>
           </sat-popover>
         </td>
       </ng-container>
@@ -110,10 +116,10 @@
           [satPopoverAnchor]="p"
           (click)="p.open()"
         >
-          <ng-container *ngIf="element.amount">
-            {{ element.amount }}
+          <ng-container *ngIf="element.spCost">
+            {{ element.spCost }}
           </ng-container>
-          <span class="add-comment" *ngIf="!element.amount">
+          <span class="add-comment borrador" *ngIf="!element.spCost">
             Agregar Monto
           </span>
           <sat-popover
@@ -123,7 +129,7 @@
             yAlign="start"
             (closed)="updMt(element, $event)"
           >
-            <app-add-amount [value]="element.amount"></app-add-amount>
+            <app-add-amount [value]="element.spCost"></app-add-amount>
           </sat-popover>
         </td>
       </ng-container>
@@ -131,22 +137,22 @@
       <!-- Symbol Column -->
       <ng-container matColumnDef="debt">
         <th mat-header-cell *matHeaderCellDef>Deuda</th>
-        <td mat-cell *matCellDef="let element">{{ element.date }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.spDebt }}</td>
       </ng-container>
 
       <ng-container matColumnDef="paid">
         <th mat-header-cell *matHeaderCellDef>Pagado</th>
-        <td mat-cell *matCellDef="let element">{{ element.voucher }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.spPaid }}</td>
       </ng-container>
 
       <ng-container matColumnDef="state">
         <th mat-header-cell *matHeaderCellDef>Estado</th>
-        <td mat-cell *matCellDef="let element">{{ element.state }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.spState }}</td>
       </ng-container>
 
       <ng-container matColumnDef="LimitPayment">
         <th mat-header-cell *matHeaderCellDef>Limite de Pago</th>
-        <td mat-cell *matCellDef="let element">{{ element.state }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.spLimitPaymentDate }}</td>
       </ng-container>
 
       <ng-container matColumnDef="comment">
@@ -157,11 +163,11 @@
           [satPopoverAnchor]="p"
           (click)="p.open()"
         >
-          <ng-container *ngIf="element.comment">
-            {{ element.comment }}
+          <ng-container *ngIf="element.spComment">
+            {{ element.spComment }}
           </ng-container>
-          <span class="add-comment" *ngIf="!element.comment">
-            Add a comment
+          <span class="add-comment borrador" *ngIf="!element.spComment">
+            Agregar un comentario
           </span>
           <sat-popover
             #p
@@ -170,7 +176,7 @@
             yAlign="start"
             (closed)="update(element, $event)"
           >
-            <app-inline-edit [value]="element.comment"></app-inline-edit>
+            <app-inline-edit [value]="element.spComment"></app-inline-edit>
           </sat-popover>
         </td>
       </ng-container>

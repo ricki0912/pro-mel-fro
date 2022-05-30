@@ -11,6 +11,7 @@ export interface Payment extends ParentInterface{
   payNumber?:number , /*Numero correlativo*/
 
   payDatePrint?:Date ,
+  payToken?:string,
   
   bussId?:number,
 

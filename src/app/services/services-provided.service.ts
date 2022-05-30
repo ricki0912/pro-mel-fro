@@ -20,8 +20,8 @@ export class ServicesProvidedService extends ParentService implements CrudApiInt
   add(object: ParentInterface): Observable<InterfaceParamsResponse<ParentInterface>> | Observable<ParentInterface> | null {
     throw new Error('Method not implemented.');
   }
-  upd(id: string | number, object: ParentInterface): Observable<InterfaceParamsResponse<ParentInterface>> | Observable<ParentInterface> | null {
-    throw new Error('Method not implemented.');
+  upd(spId: number, object: ServicesProvided): Observable<InterfaceParamsResponse<ServicesProvided>> {
+    return this.https.put<InterfaceParamsResponse<ServicesProvided>>(`${this.API_SERVICES_PROVIDED}/${spId}`, object)    
   }
   del(id: string | number): Observable<InterfaceParamsResponse<ParentInterface>> | null {
     throw new Error('Method not implemented.');
@@ -31,6 +31,9 @@ export class ServicesProvidedService extends ParentService implements CrudApiInt
   }
   find(id: string | number): Observable<ParentInterface> | null {
     throw new Error('Method not implemented.');
+  }
+  allByDBP(dbpId:number):Observable<InterfaceParamsResponse<ServicesProvided>>{
+    return this.https.get<InterfaceParamsResponse<ServicesProvided>>(`${this.API_SERVICES_PROVIDED}/all-by-dbp?dbpId=${dbpId}`);
   }
 
   addServicesProvided(object: ServicesProvided):Observable<InterfaceParamsResponse<ServicesProvided>>{

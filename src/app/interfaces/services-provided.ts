@@ -4,6 +4,7 @@ export interface ServicesProvided extends ParentInterface {
   spId?: number,
   dbpId?: number,
   svId?: number,
+  ppayId?:number,
   spPeriodPayment?: number,
   spName?: string,
   spCost?: number,
@@ -17,3 +18,11 @@ export interface ServicesProvided extends ParentInterface {
   spLimitPaymentDate?: string,
   spMaxPartToPay?: number
 }
+
+
+
+  /*"spPeriodPayment" INTEGER,*/
+      
+
+
+ 

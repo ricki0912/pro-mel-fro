@@ -25,12 +25,20 @@ export class PaymentService extends ParentService {
   public allByHQ(hqId: number) {
     return this.https.get<Payment[]>(`${this.API_PAYMENT}/all-by-hq?hqId=${hqId}`);
   }
-/*
+
   public add(object: Payment): Observable<InterfaceParamsResponse<Payment>> {
     return this.https.post<InterfaceParamsResponse<Payment>>(`${this.API_PAYMENT}`, object);
-  }*/
-  public add(object: Payment):any{
+  }
+
+  
+  /*public proofPDF(object: Payment):any{
     return this.https.post(`${this.API_PAYMENT}`, object, {
+      responseType: 'blob', observe: 'response'
+    });
+  }*/
+
+  public getProofPDF(payToken:string):any{
+    return this.https.get(`${this.API_PAYMENT}/${payToken}/proof-of-payment`, {
       responseType: 'blob', observe: 'response'
     });
   }

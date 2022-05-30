@@ -53,17 +53,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     this.userSelected=useSelected
   }
 
-  private findSubPeriod(v:string){
-    return this.subPeriods.find(o=>o.value==v)
-  }
-
-  private findService(v:number){
-    return this.services.find(o=>o.svId==v)
-  }
-  private findPeriod(v:number){
-    return this.periods.find(o=>o.prdsId)
-  }
-
+  
 
   cols: number = 1;
   gridByBreakpoint: GridResponsive = {
@@ -100,7 +90,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   ) { 
     this.payment={}
     this.payment.paymentDetails=[]
-    if(/*this.paramsDialog.payLinkBuss*/true){
+    if(this.paramsDialog.payLinkBuss){
       this.loadPreviewLinkBuss(
         this.paramsDialog.bussines,
         this.paramsDialog.servicesProvideds,
@@ -137,11 +127,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   }
   private loadPreviewLinkBuss(buss:Bussines, sps:ServicesProvided[], a:AppointmentTemp){
     /*Datos cliente */
-    a= a || {hqId:1}
-    buss=buss || {bussId:1}
-
-    
-
+   
     this.payment.payClientRucOrDni=buss.bussRUC;
     this.payment.payClientName=buss.bussName;
     this.payment.payClientAddress=buss.bussAddress;
@@ -154,15 +140,13 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     this.payment.payKindDoc=PAYMENT_KIND_DOC.RECIBO
     /*Detalle */
     this.payment.paymentDetails=[]
-    this.payment.paymentDetails.push({pdsQuantity:1, spId:1, pdsUnitPrice:600, pdsAmount: 600})
-    /*for(let sp of sps){
-      this.payment.paymentDetails.push({pdsQuantity:1, spId:sp.spId, pdsDescription: this.findPeriod(1)+"" , pdsUnitPrice:sp.spCost,  pdsAmount: sp.spCost})
+    for(let sp of sps){
+      this.payment.paymentDetails.push({pdsQuantity:1, spId:sp.spId, pdsDescription: sp.spName, pdsUnitPrice:sp.spCost,  pdsAmount: sp.spCost})
      
-    }*/
-
+    }
+    this.dataSourcePD.data=this.payment.paymentDetails
   }
   private loadPreviewWithoutBuss(a:AppointmentTemp ={}){
-     a= a || {hqId:1}
     this.payment.payClientRucOrDni=a.apptmNumberDocClient || '';
     this.payment.payClientName=a.apptmNameClient  ||''
     this.payment.hqId=a.hqId
@@ -239,12 +223,25 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
       this.messageError=vpd
       return;
     }
-    
+    console.log("BEFORE ADD PAYAMENT",this.payment)
     this.addPayment(this.payment)
   }
   
   private addPayment(payment:Payment){
     this.paymentService.add(payment).subscribe({
+      next: (d)=>{
+      this.payment=d.data as Payment  
+      console.log("addPayment", d.data)
+      this.printPDF(this.payment.payToken || '-1')
+      },
+       error:(e)=>{
+        
+        console.log(e)
+      }
+    })
+  }
+  private printPDF(payToken:string){
+    this.paymentService.getProofPDF(payToken).subscribe({
       next: (d:any)=>{
         console.log("blob->",d)
         var blob = new Blob([d.body], {type: 'application/pdf'});

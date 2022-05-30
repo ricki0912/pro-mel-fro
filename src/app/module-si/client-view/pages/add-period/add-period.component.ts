@@ -2,6 +2,7 @@ import { Component, Host, Input, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SatPopover } from '@ncstate/sat-popover';
 import { filter } from 'rxjs/operators';
+import { PeriodPayment } from 'src/app/interfaces/period-payment';
 
 @Component({
   selector: 'app-add-period',
@@ -12,8 +13,8 @@ import { filter } from 'rxjs/operators';
       <mat-form-field appearance="fill">
         <mat-label>Periodo</mat-label>
         <mat-select formControlName="period">
-          <mat-option *ngFor="let pd of period" [value]="pd.value">
-            {{pd.name}}
+          <mat-option *ngFor="let pd of periodPayments" [value]="pd.ppayId">
+            {{pd.ppayName}}
           </mat-option>
         </mat-select>
         <mat-error> EL perido es requerido. </mat-error>
@@ -33,6 +34,8 @@ export class AddPeriodComponent implements OnInit {
   set value(x: string) {
     this.pd = this._value = x;
   }
+  @Input() periodPayments:PeriodPayment[]=[]
+
   private _value = '';
 
   /** Form model for the input. */
@@ -64,7 +67,7 @@ export class AddPeriodComponent implements OnInit {
     }
   }
 
-  period: Period[] = [
+  /*period: Period[] = [
     {value: '1', name: 'Enero'},
     {value: '2', name: 'Febrero'},
     {value: '3', name: 'Marzo'},
@@ -78,10 +81,10 @@ export class AddPeriodComponent implements OnInit {
     {value: '11', name: 'Noviembre'},
     {value: '12', name: 'Diciembre'},
   ];
-
+*/
 }
 
-interface Period {
+/*interface Period {
   value: string;
   name: string;
-}
+}*/

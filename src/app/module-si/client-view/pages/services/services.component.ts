@@ -46,8 +46,8 @@ export class ServicesComponent implements OnInit, CrudInterface {
     
     this.bussinesService.allDBusinesPeriods(ids).subscribe({
       next: d=>{
-        console.log(d);
         this.dBussPer=d.data as Period[];
+        console.log("Periodos", d.data);
         this.isLoading=false
       },
       error: e=>{
