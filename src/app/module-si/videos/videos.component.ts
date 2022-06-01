@@ -140,8 +140,8 @@ export class VideosComponent implements OnInit, CrudInterface, ActionDialogInter
 
         /*El nuevo usuario lo añadimos a la primera fila de la tabla */
         this.dataSource.data.unshift(...videos)
-        /**actualizamops paginator */
-        this.paginator._changePageSize(this.paginator.pageSize)
+        this.selection.clear() /*actualiza la seleccion  */
+        this.paginator._changePageSize(this.paginator.pageSize)/*y actualizamos el paginator */
       },
       error: error => {
         /**Mostramos un mensaje de error y pasamos una funcion para reintenar nuevamente añdir el usuario  */
@@ -194,6 +194,8 @@ export class VideosComponent implements OnInit, CrudInterface, ActionDialogInter
       next: data=>{
         this.showMessage.success({message: data.msg});
         this.readCRUD();
+        this.selection.clear() /*actualiza la seleccion  */
+        this.paginator._changePageSize(this.paginator.pageSize)/*y actualizamos el paginator */
       },
       error: error=>{
         this.showMessage.error({message: error.error.message})
@@ -207,6 +209,8 @@ export class VideosComponent implements OnInit, CrudInterface, ActionDialogInter
       next: data=>{
         this.showMessage.success({message: data.msg});
         this.readCRUD();
+        this.selection.clear() /*actualiza la seleccion  */
+        this.paginator._changePageSize(this.paginator.pageSize)/*y actualizamos el paginator */
       },
       error: error=>{
         this.showMessage.error({message: error.error.message})

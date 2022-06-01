@@ -26,7 +26,8 @@
   }
 
   .mat-row:hover .mat-cell {
-    border-color: currentColor;
+    visibility: visible;
+    background-color: rgba($color: #90caf9, $alpha: 0.3);
   }
 
   .demo-row-is-clicked {

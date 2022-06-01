@@ -12,12 +12,12 @@
     font-size: 15px;
     opacity: .85;
     white-space: nowrap;
-    
+
     display: flex;
     justify-content: left;
   }
 
- 
+
 
   table {
     width: 100%;
@@ -29,11 +29,11 @@
     border-top: 1px solid transparent;
     cursor: pointer;
   }
-  
+
   .mat-row:hover .mat-cell {
     //border-color: currentColor;
   }
-  
+
   .demo-row-is-clicked {
     font-weight: bold;
   }
@@ -42,7 +42,7 @@
   .example-card {
     max-width: 100%;
   }
-  
+
   .mat-form-field {
     margin-right: 4px;
   }
@@ -60,8 +60,8 @@
 }
 
 .row-option:hover{
-    visibility: visible;
-    background-color: rgba($color: #CFCFCF, $alpha: 0.3);
+  visibility: visible;
+  background-color: rgba($color: #90caf9, $alpha: 0.3);
 
 }
 

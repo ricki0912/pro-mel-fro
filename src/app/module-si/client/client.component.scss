@@ -33,10 +33,19 @@ table {
 }
 
 .mat-row:hover .mat-cell {
-  border-color: currentColor;
+  visibility: visible;
+  background-color: rgba($color: #90caf9, $alpha: 0.3);
 }
 
 .demo-row-is-clicked {
   font-weight: bold;
 }
 
+.mat-cell:nth-child(2){
+  color: #2962ff;
+}
+
+.mat-cell:nth-child(2):hover{
+  text-decoration: underline;
+  font-weight: bold;
+}

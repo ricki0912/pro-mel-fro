@@ -24,6 +24,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatStepperModule} from '@angular/material/stepper';
 import { CategoryComponent } from './category.component';
+import {MatListModule} from '@angular/material/list';
 
 
 //
@@ -53,7 +54,7 @@ import { CategoryRoutingModule } from './category-routing.module';
   declarations: [
     CategoryComponent,
     EditComponent,
-    FindCategoryComponent    
+    FindCategoryComponent
   ],
   imports: [
     CategoryRoutingModule,
@@ -68,7 +69,7 @@ import { CategoryRoutingModule } from './category-routing.module';
     MatProgressBarModule,
     MatButtonModule,
     MatDividerModule,
-    
+
     MatTableModule,
     MatPaginatorModule,
     MatCheckboxModule,
@@ -83,7 +84,7 @@ import { CategoryRoutingModule } from './category-routing.module';
     MatExpansionModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule,  
+    MatSelectModule,
     MatRadioModule,
     FormsModule, ReactiveFormsModule,
     MatStepperModule
@@ -99,18 +100,18 @@ import { CategoryRoutingModule } from './category-routing.module';
     MatMenuModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatListModule
 
- 
 
- 
-    
+
+
 
   ],
   exports: [
     CategoryComponent,
-  
+
   ]
 })
-export class CategoryModule { 
+export class CategoryModule {
 
 }

@@ -69,7 +69,7 @@ export class EditClientComponent implements OnInit, OnDestroy {
       bussKind : ['',Validators.required],
       bussName : ['',Validators.required],
       bussRUC : ['', {
-        validators: [Validators.required],
+        validators: [Validators.required, Validators.minLength(11), Validators.maxLength(11)],
         asyncValidators: this.validateRuc.bind(this),
         updateOn: 'blur',
       }],
@@ -195,6 +195,11 @@ export class EditClientComponent implements OnInit, OnDestroy {
     const business: Bussines = this.businessForm.value;
     this.onReturn(business);
     return true
+  }
+
+  tester(){
+    console.log(this.businessForm);
+
   }
 }
 

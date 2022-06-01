@@ -161,7 +161,8 @@ export class PeriodComponent implements OnInit, CrudInterface, ActionDialogInter
         const videos = data.data as Period[]
 
         /*El nuevo usuario lo añadimos a la primera fila de la tabla */
-        this.dataSource.data.unshift(...videos)
+        this.dataSource.data.unshift(...videos);
+        this.selection.clear();
         /**actualizamops paginator */
         this.paginator._changePageSize(this.paginator.pageSize)
       },
@@ -217,6 +218,8 @@ export class PeriodComponent implements OnInit, CrudInterface, ActionDialogInter
       next: data=>{
         this.showMessage.success({message: data.msg});
         this.readCRUD();
+        this.selection.clear();
+        this.paginator._changePageSize(this.paginator.pageSize);
       },
       error: error=>{
         this.showMessage.error({message: error.error.message})
@@ -230,6 +233,8 @@ export class PeriodComponent implements OnInit, CrudInterface, ActionDialogInter
       next: data=>{
         this.showMessage.success({message: data.msg});
         this.readCRUD();
+        this.selection.clear();
+        this.paginator._changePageSize(this.paginator.pageSize);
       },
       error: error=>{
         this.showMessage.error({message: error.error.message})
@@ -238,5 +243,5 @@ export class PeriodComponent implements OnInit, CrudInterface, ActionDialogInter
     return true;
   }
 
-  
+
 }
