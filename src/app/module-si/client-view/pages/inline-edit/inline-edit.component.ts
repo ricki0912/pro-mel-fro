@@ -15,8 +15,8 @@ import { filter } from 'rxjs/operators';
       </mat-form-field>
 
       <div class="actions">
-        <button mat-button type="button" color="primary" (click)="onCancel()">CANCEL</button>
-        <button mat-button type="submit" color="primary">SAVE</button>
+        <button mat-button type="button" color="primary" (click)="onCancel()">Cancelar</button>
+        <button mat-button type="submit" color="primary">Listo</button>
       </div>
     </form>
   `
