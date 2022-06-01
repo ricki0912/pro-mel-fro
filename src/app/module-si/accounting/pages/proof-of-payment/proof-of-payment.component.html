@@ -136,12 +136,12 @@
 
               <ng-container matColumnDef="pdsAmount">
                 <th mat-header-cell *matHeaderCellDef style="width: 35px;"> Importe </th>
-                <td mat-cell *matCellDef="let transaction"> {{transaction.pdsAmount | currency:'S/.'}} </td>
+                <td mat-cell *matCellDef="let transaction"> {{transaction.pdsAmount |  currency:'S/.'}} </td>
                 <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency:'S/.'}} </td>
               </ng-container>
               <ng-container matColumnDef="pdsDelete">
                 <th mat-header-cell *matHeaderCellDef style="width: 20px;">
-                  <button (click)="addRowInPaymentDetails()" mat-mini-fab
+                  <button *ngIf="!this.paramsDialog.payLinkBuss" (click)="addRowInPaymentDetails()" mat-mini-fab
                     aria-label="Example icon button with a vertical three dot icon" color="accent">
                     <mat-icon>add</mat-icon>
                   </button>
@@ -238,15 +238,35 @@
             </div>
           </div>
         </div>-->
+     
+        <div class="alert alert-success" role="alert">
+          {{messageError}}
+        </div> 
+        <div *ngIf="messageError" class="alert alert-danger" role="alert">
+          {{messageError}}
+        </div> 
 
       </div>
     </div>
-    <p class="message-error">
-      {{messageError}}
-    </p>
+   
+   
   </mat-dialog-content>
+  <mat-divider></mat-divider>
+  <mat-progress-bar *ngIf="isLoadingEnd" mode="indeterminate"></mat-progress-bar>
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-button (click)="ok()" cdkFocusInitial>Imprimir ticket</button>
+<div *ngIf="payment.payState==PS.FILLED">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button (click)="openPDFNewWindow()"><mat-icon>pdf</mat-icon>Ver</button> 
+  <button mat-button (click)="sendToWhatsApp()"><mat-icon>whatsapp</mat-icon> WhatsApp</button>
+  <button mat-button (click)="retryPrint()"><mat-icon>print</mat-icon> Imprimir</button>
+</div>
+<div *ngIf="payment.payState!==PS.FILLED">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button (click)="ok()" cdkFocusInitial><mat-icon>payment</mat-icon> Pagar</button>
+</div>
+
+
+    
   </mat-dialog-actions>
+  
 </div>

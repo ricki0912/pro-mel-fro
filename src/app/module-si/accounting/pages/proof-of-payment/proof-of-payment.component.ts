@@ -7,7 +7,6 @@ import {
 //import {Observable} from "rxjs/Observable";
 
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { find, Observable, Subscription } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { Teller } from 'src/app/interfaces/teller';
@@ -24,13 +23,21 @@ import { Services} from 'src/app/interfaces/services'
 import {ServicesService } from 'src/app/services/services.service'
 import {Period} from 'src/app/interfaces/period'
 import {PeriodService} from 'src/app/services/period.service'
+import { environment } from 'src/environments/environment';
+
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-proof-of-payment',
   templateUrl: './proof-of-payment.component.html',
   styleUrls: ['./proof-of-payment.component.scss']
 })
 export class ProofOfPaymentComponent implements OnInit, OnDestroy {
+  PS=PAYMENT_STATE
   isLoading:boolean=false;
+
+  isLoadingEnd:boolean=false;
+
+  displayedColumns2: string[] = ['pdsQuantity','pdsDescription', 'pdsUnitPrice','pdsAmount', 'pdsDelete'];
 
   /*Obtener todos los serviciso */
   private services:Services[]=[]
@@ -40,20 +47,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   payment:Payment
   dataSourcePD = new MatTableDataSource<PaymentDetail>([]);
 
-
-  usersWithPerson:User[]=[];
-
-  userSelected?:User;
-
   messageError:string='';
-
-
-
-  setUserSelected(useSelected:any){
-    this.userSelected=useSelected
-  }
-
-  
 
   cols: number = 1;
   gridByBreakpoint: GridResponsive = {
@@ -67,7 +61,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   mediaSub!: Subscription;
 
 
-  title = "Emitir comprobante "
+  title = "Imprimir Comprobante "
   
   constructor(
     public mediaObserver: MediaObserver,
@@ -84,8 +78,6 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     private showMessage: ShowMessageService,
     private loadingService:LoadingService,
     private dialogRef: MatDialogRef<ProofOfPaymentComponent>,
-    private servicesService:ServicesService, 
-    private periodService:PeriodService
 
   ) { 
     this.payment={}
@@ -104,7 +96,6 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.renderScreen()
-    //this.selectCategory(this.paramsDialog.row)
   }
 
   
@@ -141,7 +132,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     /*Detalle */
     this.payment.paymentDetails=[]
     for(let sp of sps){
-      this.payment.paymentDetails.push({pdsQuantity:1, spId:sp.spId, pdsDescription: sp.spName, pdsUnitPrice:sp.spCost,  pdsAmount: sp.spCost})
+      this.payment.paymentDetails.push({pdsQuantity:1, spId:sp.spId, pdsDescription: sp.spName, pdsUnitPrice:sp.spDebt,  pdsAmount: sp.spDebt})
      
     }
     this.dataSourcePD.data=this.payment.paymentDetails
@@ -184,7 +175,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     })
   }
 
-  onReturn = (user: User): void => this.dialogRef.close(user);
+  onReturn = (p: Payment): void => this.dialogRef.close(p);
   /*Prepara para guaarda y actualizar */
   ok() {
     //this.imprimirPDF('')
@@ -192,20 +183,8 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     //if(this.userSelected)
     //this.onReturn(this.userSelected)
   }
-  
-  
-
-  displayedColumns2: string[] = ['pdsQuantity','pdsDescription', 'pdsUnitPrice','pdsAmount', 'pdsDelete'];
-  transactions: PaymentDetail[] = [
-    {pdsQuantity: 1, pdsDescription:'Casa', pdsUnitPrice:23798.977, pdsAmount:909},
-    {pdsQuantity: 1, pdsDescription:'Casa', pdsUnitPrice:23.0, pdsAmount:909},
-    {pdsQuantity: 1, pdsDescription:'Casa', pdsUnitPrice:23.0, pdsAmount:909},
-    {pdsQuantity: 1, pdsDescription:'Casa', pdsUnitPrice:23.0, pdsAmount:909}
-  
-  ];
-
   /** Gets the total cost of all transactions. */
-  getTotalCost() {
+   getTotalCost() {
     return this.dataSourcePD.data.map(t => t.pdsAmount).reduce((acc, value) => (acc || 0) +(value || 0), 0);
   }
 
@@ -228,19 +207,40 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   }
   
   private addPayment(payment:Payment){
+    this.isLoadingEnd=true
     this.paymentService.add(payment).subscribe({
       next: (d)=>{
       this.payment=d.data as Payment  
       console.log("addPayment", d.data)
       this.printPDF(this.payment.payToken || '-1')
+      this.isLoadingEnd=false
       },
        error:(e)=>{
+      //this.messageError=e.error.message
         
-        console.log(e)
-      }
+      this.messageError="Surgio un error: "+e.error.message.match(/(?<=<msg>)(.*)(?=<msg>)/s)[0]  
+      this.isLoadingEnd=false
+     
+    }
     })
-  }
+  } 
+  public retryPrint(){
+    if(this.payment.payState==this.PS.FILLED && this.payment.payToken){
+      this.printPDF(this.payment.payToken )
+    }else {
+    
+    }
+  } 
+  public openPDFNewWindow(){
+    if(this.payment.payState==this.PS.FILLED && this.payment.payToken){
+      window.open(environment.API_URL+"/v1/payments/"+this.payment.payToken+"/proof-of-payment");
+    }else {
+    
+    }
+  } 
   private printPDF(payToken:string){
+    this.isLoadingEnd=true
+
     this.paymentService.getProofPDF(payToken).subscribe({
       next: (d:any)=>{
         console.log("blob->",d)
@@ -251,75 +251,39 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
         iframe.src = blobUrl;
         document.body.appendChild(iframe);
         iframe.contentWindow?.print();
+        this.isLoadingEnd=false
+
       }, error:(e:any)=>{
-        
+        this.isLoadingEnd=false
         console.log(e)
       }
     })
   }
 
+  public sendToWhatsApp(){
+    if(!this.payment.payClientTel){
+        this.messageError=""
+        return; 
+    }
+    window.open("https://wa.me/"+this.payment.payClientTel+"/?text=" + encodeURIComponent(environment.API_URL+"/v1/payments/"+this.payment.payToken+"/proof-of-payment"));
+  }
+
   private validatePaymentDetails(pd:PaymentDetail[]):string|null{
+    console.log("pd",pd)
     for(const  [i, e] of pd.entries()){
-      if(!e.pdsQuantity){
+      console.log("fila por fila",(e))
+      if(!e.pdsQuantity  || Number(e.pdsQuantity)<=0){
         return `En detalle, en la fila ${(i+1)} la cantidad no es válido.`
       }else if(!e.pdsDescription){
         return `En detalle, en la fila ${(i+1)} la descripción no es válido.`
-      }else if(!e.pdsUnitPrice){
+      }else if(!e.pdsUnitPrice || Number(e.pdsUnitPrice)<=0){
         return `En detalle, en la fila ${(i+1)} el precio unitario  no es válido.`
       }
     }
     return null;
   }
-
-  /*get all services */
-  private readCRUDServices(){
-    this.servicesService.all()?.subscribe({
-      next: d=>{
-        this.services=d
-    }, error:e=>{
-      this.showMessage.error({message:e.error.message})
-    }})
-  }
-
-  private readCRUDPeriods(){
-    this.periodService.all().subscribe({
-      next: d=>{
-        this.periods=d.data as Period[]
-      },
-       error:e=>{
-
-      }
-    });
-  }
-  /*OPtimizar parte de codigo  */
-private subPeriods: SubPeriod[] = [
-    {value: '1', name: 'Enero'},
-    {value: '2', name: 'Febrero'},
-    {value: '3', name: 'Marzo'},
-    {value: '4', name: 'Abril'},
-    {value: '5', name: 'Mayo'},
-    {value: '6', name: 'Junio'},
-    {value: '7', name: 'Julio'},
-    {value: '8', name: 'Agosto'},
-    {value: '9', name: 'Setiembre'},
-    {value: '10', name: 'Octubre'},
-    {value: '11', name: 'Noviembre'},
-    {value: '12', name: 'Diciembre'},
-  ];
-  
 }
 
 interface GridResponsive {
   [key: string]: number
 }
-
-
-
-
-
-interface SubPeriod {
-value: string;
-name: string;
-}
-
-
