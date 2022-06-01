@@ -8,15 +8,19 @@
     font-size: 15px;
     opacity: .85;
     white-space: nowrap;
-    
+
     display: flex;
     justify-content: left;
   }
 /*Tabla*/
 table {
-    width: 100%;
-  }
-  .example-card {
-    margin: 10px;
-  }
-  
+  width: 100%;
+}
+.example-card {
+  margin: 10px;
+}
+
+.mat-row:hover .mat-cell {
+  visibility: visible;
+  background-color: rgba($color: #90caf9, $alpha: 0.3);
+}

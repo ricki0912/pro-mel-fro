@@ -56,6 +56,14 @@
                     ? "El numero de RUC es requerido"
                     : businessForm.get("business.bussRUC")?.hasError("existRuc")
                     ? "El numero de RUC ya existe."
+                    : businessForm
+                        .get("business.bussRUC")
+                        ?.hasError("minlength")
+                    ? "El numero de RUC debe tener minimo 11 caracteres."
+                    : businessForm
+                        .get("business.bussRUC")
+                        ?.hasError("maxlength")
+                    ? "El numero de RUC debe tener maximo 11 caracteres."
                     : "Ingrese el numero de RUC correcto"
                 }}
               </mat-error>
@@ -202,5 +210,6 @@
     >
       Guardar
     </button>
+    <button (click)="tester()">tester</button>
   </mat-dialog-actions>
 </div>

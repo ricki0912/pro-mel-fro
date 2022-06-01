@@ -92,10 +92,12 @@
           *ngFor="let adi of business"
         ></app-info-aditional>
       </mat-card-content>
-      <app-services
-        [serBuss]="serBuss"
-        *ngFor="let serBuss of business"
-      ></app-services>
+      <ng-container *ngIf="contentServices">
+        <app-services
+          [serBuss]="serBuss"
+          *ngFor="let serBuss of business"
+        ></app-services>
+      </ng-container>
     </mat-card>
   </div>
 </div>

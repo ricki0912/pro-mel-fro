@@ -1,10 +1,9 @@
-<mat-grid-list cols="1" rowHeight="30px" style="margin-top:10px ;">
+<mat-grid-list cols="1" rowHeight="30px" style="margin-top: 10px">
   <mat-grid-tile colspan="1" rowspan="1">
     <div class="div-title">
       <span>Linea de Espera</span>
       <span>
-        <mat-icon>
-          keyboard_arrow_right</mat-icon>
+        <mat-icon> keyboard_arrow_right</mat-icon>
       </span>
       <span>Categorias</span>
     </div>
@@ -14,88 +13,138 @@
 
 <mat-card class="example-card mat-elevation-z8">
   <mat-card-title-group>
-    <mat-card-subtitle> <b>Categoria </b> | Orden en tus categorias, orden en las lineas de espera.</mat-card-subtitle>
+    <mat-card-subtitle>
+      <b>Categoria </b> | Orden en tus categorias, orden en las lineas de
+      espera.</mat-card-subtitle
+    >
     <mat-card-actions>
-      
+      <div
+        style="
+          z-index: 5;
+          position: fixed;
+          display: flex;
+          align-self: flex-end;
+          align-items: center;
 
-      <button mat-button (click)="openDialogAdd()">Agregar</button>
+          bottom: 3px;
+          right: 3px;
+        "
+      >
+        <mat-list>
+          <mat-list-item
+            style="
+              margin: 5px 0px 5px 0px;
+              display: flex;
+              justify-content: center;
+            "
+          >
+            <button
+              mat-button
+              (click)="openDialogAdd()"
+              mat-fab
+              color="accent"
+              aria-label="Añadir"
+            >
+              <mat-icon>category</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-list>
+      </div>
     </mat-card-actions>
   </mat-card-title-group>
   <mat-divider></mat-divider>
 
   <mat-card-content>
-
     <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="catName">
         <th mat-header-cell *matHeaderCellDef>
           <span [style.paddingLeft.px]="40"> Nombre </span>
         </th>
         <td mat-cell *matCellDef="let data">
-          <button mat-icon-button [style.visibility]="!data.expandable ? 'hidden' : ''"
-            [style.marginLeft.px]="data.level * 32" (click)="treeControl.toggle(data)">
+          <button
+            mat-icon-button
+            [style.visibility]="!data.expandable ? 'hidden' : ''"
+            [style.marginLeft.px]="data.level * 32"
+            (click)="treeControl.toggle(data)"
+          >
             <mat-icon class="mat-icon-rtl-mirror">
-              {{treeControl.isExpanded(data) ? 'expand_more' : 'chevron_right'}}
+              {{
+                treeControl.isExpanded(data) ? "expand_more" : "chevron_right"
+              }}
             </mat-icon>
           </button>
-          {{data.catName}}
+          {{ data.catName }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="catCode">
-        <th mat-header-cell *matHeaderCellDef> Codígo </th>
-        <td mat-cell *matCellDef="let data"> {{data.catCode}} </td>
+        <th mat-header-cell *matHeaderCellDef>Codígo</th>
+        <td mat-cell *matCellDef="let data">{{ data.catCode }}</td>
       </ng-container>
 
       <ng-container matColumnDef="catAuth">
-        <th mat-header-cell *matHeaderCellDef> Atenticación </th>
-        <td mat-cell *matCellDef="let data"> {{getTypeAuth(data.catAuth)}} </td>
+        <th mat-header-cell *matHeaderCellDef>Atenticación</th>
+        <td mat-cell *matCellDef="let data">{{ getTypeAuth(data.catAuth) }}</td>
       </ng-container>
 
       <ng-container matColumnDef="catLinkBus">
-        <th mat-header-cell *matHeaderCellDef> Enlazada a Clientes </th>
-        <td mat-cell *matCellDef="let data"> {{isLinkBus(data.catLinkBus)}} </td>
+        <th mat-header-cell *matHeaderCellDef>Enlazada a Clientes</th>
+        <td mat-cell *matCellDef="let data">
+          {{ isLinkBus(data.catLinkBus) }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="option">
-        <th mat-header-cell *matHeaderCellDef> Opciones </th>
+        <th mat-header-cell *matHeaderCellDef>Opciones</th>
         <td mat-cell *matCellDef="let data">
           <div class="container-option">
-            <button (click)="openDialogAddToOne(data)" mat-icon-button
-              aria-label="Example icon button with a vertical three dot icon">
+            <button
+              (click)="openDialogAddToOne(data)"
+              mat-icon-button
+              aria-label="Example icon button with a vertical three dot icon"
+            >
               <mat-icon>add</mat-icon>
             </button>
-            <button mat-icon-button [matMenuTriggerFor]="menu"
-              aria-label="Example icon button with a vertical three dot icon">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              aria-label="Example icon button with a vertical three dot icon"
+            >
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button  (click)="openDialogUpd(data)" mat-menu-item>
+              <button (click)="openDialogUpd(data)" mat-menu-item>
                 <mat-icon>edit</mat-icon>
                 <span>Editar</span>
               </button>
-          
+
               <button mat-menu-item (click)="beforeDelete(data.catId)">
                 <mat-icon>delete</mat-icon>
                 <span>Eliminar</span>
               </button>
             </mat-menu>
-
           </div>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="row-option"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        class="row-option"
+      ></tr>
     </table>
-    <mat-card *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center">
+    <mat-card
+      *ngIf="isLoading"
+      style="display: flex; justify-content: center; align-items: center"
+    >
       <mat-progress-spinner color="primary" mode="indeterminate">
       </mat-progress-spinner>
     </mat-card>
-
   </mat-card-content>
 
   <mat-card-footer>
-   <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar>-->
+    <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar>-->
   </mat-card-footer>
 </mat-card>

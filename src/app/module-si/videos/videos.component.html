@@ -1,13 +1,12 @@
 <div class="windows">
-  <mat-grid-list cols="1" rowHeight="30px" style="margin-top:10px ;">
+  <mat-grid-list cols="1" rowHeight="30px" style="margin-top: 10px">
     <mat-grid-tile colspan="1" rowspan="1">
       <div class="div-title">
         <span>Linea de Espera</span>
         <span>
-          <mat-icon>
-            keyboard_arrow_right</mat-icon>
+          <mat-icon> keyboard_arrow_right</mat-icon>
         </span>
-        <span >Videos</span>
+        <span>Videos</span>
       </div>
     </mat-grid-tile>
   </mat-grid-list>
@@ -147,7 +146,11 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            (click)="selection.toggle(row)"
+          ></tr>
         </table>
       </div>
     </mat-card-content>

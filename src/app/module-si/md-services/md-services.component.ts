@@ -93,6 +93,8 @@ export class MdServicesComponent implements OnInit, CrudInterface, ActionDialogI
       next: data=>{
         this.showMessage.success({message: data.msg});
         this.readCRUD();
+        this.selection.clear();
+        this.paginator._changePageSize(this.paginator.pageSize);
       },
       error: error=>{
         this.showMessage.error({message: error.error.message})
@@ -145,6 +147,7 @@ export class MdServicesComponent implements OnInit, CrudInterface, ActionDialogI
         this.showMessage.success({ message: data.msg });
         const service = data.data as Services[];
         this.dataSource.data.unshift(...service);
+        this.selection.clear();
         this.paginator._changePageSize(this.paginator.pageSize);
       },
       error: error => {
@@ -196,6 +199,8 @@ export class MdServicesComponent implements OnInit, CrudInterface, ActionDialogI
       next: data=>{
         this.showMessage.success({message: data.msg});
         this.readCRUD();
+        this.selection.clear();
+        this.paginator._changePageSize(this.paginator.pageSize);
       },
       error: error=>{
         this.showMessage.error({message: error.error.message})
