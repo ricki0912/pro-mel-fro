@@ -87,12 +87,12 @@ export class EditClientComponent implements OnInit, OnDestroy {
 
       perKindDoc: ['', Validators.required],
       perNumberDoc : ['', {
-        validators: [Validators.required],
+        validators: [Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern("[0-9]{8}")],
         asyncValidators: this.validateDNI.bind(this),
         updateOn: 'blur',
       }],
       perName: ['', Validators.required],
-      perTel :['']
+      perTel :['', {validators: [Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern("[9]{1}[0-9]{8}")]}]
     })
   });
 
@@ -197,9 +197,21 @@ export class EditClientComponent implements OnInit, OnDestroy {
     return true
   }
 
-  tester(){
-    console.log(this.businessForm);
-
+  public validateFormat(event:any) {
+    let key;
+    if (event.type === 'paste') {
+      key = event.clipboardData.getData('text/plain');
+    } else {
+      key = event.keyCode;
+      key = String.fromCharCode(key);
+    }
+    const regex = /[0-9]|\./;
+    if (!regex.test(key)) {
+      event.returnValue = false;
+      if (event.preventDefault) {
+        event.preventDefault();
+      }
+    }
   }
 }
 
