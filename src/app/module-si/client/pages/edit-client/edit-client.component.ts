@@ -69,7 +69,7 @@ export class EditClientComponent implements OnInit, OnDestroy {
       bussKind : ['',Validators.required],
       bussName : ['',Validators.required],
       bussRUC : ['', {
-        validators: [Validators.required, Validators.minLength(11), Validators.maxLength(11)],
+        validators: [Validators.required, Validators.minLength(11), Validators.maxLength(11), Validators.pattern("[0-9]{11}")],
         asyncValidators: this.validateRuc.bind(this),
         updateOn: 'blur',
       }],
