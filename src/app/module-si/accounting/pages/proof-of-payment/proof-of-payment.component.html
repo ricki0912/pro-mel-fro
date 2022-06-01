@@ -239,8 +239,8 @@
           </div>
         </div>-->
      
-        <div class="alert alert-success" role="alert">
-          {{messageError}}
+        <div *ngIf="messageSuccess" class="alert alert-success" role="alert">
+          {{messageSuccess}}
         </div> 
         <div *ngIf="messageError" class="alert alert-danger" role="alert">
           {{messageError}}

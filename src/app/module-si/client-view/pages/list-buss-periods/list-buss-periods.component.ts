@@ -105,9 +105,19 @@ export class ListBussPeriodsComponent implements OnInit {
 
   //FUNCIONES
   prepareBeforeGenerateProof(){
-    console.log("bussines", this.business);
-    console.log("bussines", this.selection.selected);
-    console.log("bussines", this.appointmentTemp);
+    if(!this.business){
+      this.showMessage.error({message:'Cliente vació'})
+      return;
+    }
+    if(!this.selection.selected){
+      this.showMessage.error({message:'Seleccione más de un servicio.'})
+      return;
+    }
+    if(!this.appointmentTemp){
+      this.showMessage.error({message:'Tiene que sacar su ticket de atención para poder realizar un pago.'})
+      return;
+    }
+
 
     this.openDialogEmitProofOfPayment()
 
@@ -218,7 +228,8 @@ export class ListBussPeriodsComponent implements OnInit {
         console.log("response",data)
         this.showMessage.success({ message: data.msg });
         const servPro = data.data as ServicesProvided[];
-        //this.dataSource.data.unshift(...servPro);
+        this.dataSource.data.unshift(...servPro);
+        this.dataSource.data=this.dataSource.data
         //this.paginator._changePageSize(this.paginator.pageSize);
         this.loadingService.hide();
       },

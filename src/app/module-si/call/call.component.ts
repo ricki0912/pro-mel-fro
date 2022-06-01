@@ -39,7 +39,7 @@ export class CallComponent implements OnInit {
 
 
 
-  displayedColumns: string[] = ['select', 'position', 'ticket', 'code_category', 'category', 'time'];
+  displayedColumns: string[] = ['select', 'position','linkBuss', 'ticket', 'code_category', 'category', 'time'];
   dataSource = new MatTableDataSource<TAppointmentTemp>();
   selection = new SelectionModel<TAppointmentTemp>(true, []);
   

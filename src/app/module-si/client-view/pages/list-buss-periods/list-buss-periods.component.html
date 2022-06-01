@@ -6,7 +6,7 @@
       </mat-panel-title>
       <div tyle="text-align: right">
         <mat-panel-description style="margin: 0px">
-          1800.00
+        <span style="color: red;"> {{bp.dbp?.dbpDebt | currency:'S/.' }} </span> - <span style="color: green;"> {{bp.dbp?.dbpPaid | currency:'S/.' }} </span> - <span style="font-weight: bold;"> {{bp.dbp?.dbpCost | currency:'S/.'}} </span>
         </mat-panel-description>
       </div>
     </mat-expansion-panel-header>
@@ -14,14 +14,7 @@
       <button mat-raised-button (click)="addData()" class="demo-button">
         Agregar
       </button>
-      <button
-        mat-raised-button
-        [disabled]="!dataSource._filterData.length"
-        (click)="removeData()"
-        class="demo-button"
-      >
-        Quitar
-      </button>
+    
       <button
       mat-raised-button
       (click)="prepareBeforeGenerateProof()"

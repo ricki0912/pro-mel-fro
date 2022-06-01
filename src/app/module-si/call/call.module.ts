@@ -27,6 +27,7 @@ import { CommentCallComponent } from './pages/comment-call/comment-call.componen
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SatPopoverModule } from '@ncstate/sat-popover';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { SatPopoverModule } from '@ncstate/sat-popover';
     FormsModule, 
     ReactiveFormsModule,
     /*Crear module  */
-    SatPopoverModule
+    SatPopoverModule,
+    MatChipsModule
   ]
 })
 export class CallModule { }

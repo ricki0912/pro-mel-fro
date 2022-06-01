@@ -4,7 +4,15 @@ export interface DBusinessPeriod extends ParentInterface{
   dbpId?: number,
   prdsId?: number,
   bussId?: number,
-  dbpState?: number
+  dbpState?: number,
+  dbpCost?: number,
+    dbpCostDate?: Date,
+
+    dbpDebt?:number,
+    dbpDebtDate?: Date,
+
+    dbpPaid?:number
+    dbpPaidDate?:Date,
 }
 
 export enum DBP_STATE{

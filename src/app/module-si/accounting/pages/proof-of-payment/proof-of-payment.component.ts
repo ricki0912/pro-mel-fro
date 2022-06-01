@@ -48,6 +48,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   dataSourcePD = new MatTableDataSource<PaymentDetail>([]);
 
   messageError:string='';
+  messageSuccess:string='';
 
   cols: number = 1;
   gridByBreakpoint: GridResponsive = {
@@ -192,6 +193,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   /*api */
   private beforeAddPayment(){
     this.messageError=''
+    this.messageSuccess=''
     this.payment.paymentDetails=this.dataSourcePD.data;
     let vpd=this.validatePaymentDetails(this.payment.paymentDetails)
     if(vpd){
@@ -207,6 +209,8 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   }
   
   private addPayment(payment:Payment){
+    this.messageSuccess="Generando pago..."
+    
     this.isLoadingEnd=true
     this.paymentService.add(payment).subscribe({
       next: (d)=>{
@@ -214,11 +218,15 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
       console.log("addPayment", d.data)
       this.printPDF(this.payment.payToken || '-1')
       this.isLoadingEnd=false
+      this.messageError=''
+      this.messageSuccess="Pago Generado"
+
       },
        error:(e)=>{
       //this.messageError=e.error.message
         
       this.messageError="Surgio un error: "+e.error.message.match(/(?<=<msg>)(.*)(?=<msg>)/s)[0]  
+      this.messageSuccess=""
       this.isLoadingEnd=false
      
     }
@@ -239,6 +247,9 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     }
   } 
   private printPDF(payToken:string){
+    
+    this.messageSuccess="Pago Generado. Imprimiendo, espere un momento."
+
     this.isLoadingEnd=true
 
     this.paymentService.getProofPDF(payToken).subscribe({
@@ -252,9 +263,13 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
         document.body.appendChild(iframe);
         iframe.contentWindow?.print();
         this.isLoadingEnd=false
-
-      }, error:(e:any)=>{
+        this.messageSuccess="Abriendo impresoras... Si despues de varios segunods no abre seleccione una de las opciones. "
+        this.messageError=""
+      }
+      , error:(e:any)=>{
         this.isLoadingEnd=false
+        this.messageError="No se pudo obtener el documento para imprimir. Seleccione una de las opciones."
+        this.messageSuccess=""
         console.log(e)
       }
     })
