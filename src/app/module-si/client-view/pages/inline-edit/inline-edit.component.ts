@@ -7,7 +7,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./inline-edit.component.scss'],
   template: `
     <form (ngSubmit)="onSubmit()">
-      <div class="mat-subheading-2">Add a comment</div>
+      <div class="mat-subheading-2">Agrega un comentario</div>
 
       <mat-form-field>
         <input matInput maxLength="140" name="comment" [(ngModel)]="comment">

@@ -12,7 +12,7 @@ import { PeriodPayment } from 'src/app/interfaces/period-payment';
       <div class="mat-subheading-2">Agregar Perido</div>
       <mat-form-field appearance="fill">
         <mat-label>Periodo</mat-label>
-        <mat-select formControlName="period">
+        <mat-select  formControlName="period">
           <mat-option *ngFor="let pd of periodPayments" [value]="pd.ppayId">
             {{pd.ppayName}}
           </mat-option>
@@ -53,6 +53,8 @@ export class AddPeriodComponent implements OnInit {
       this.popover.closed.pipe(filter(val => val == null))
         .subscribe(() => this.pd = this.value || '');
     }
+    this.pdForm.controls['period'].setValue(this.value);
+
   }
 
   addPd() {
@@ -63,7 +65,7 @@ export class AddPeriodComponent implements OnInit {
 
   onCancel() {
     if (this.popover) {
-      this.popover.close('hide');
+      this.popover.close();
     }
   }
 

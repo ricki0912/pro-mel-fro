@@ -1,0 +1,164 @@
+<mat-grid-list cols="1" rowHeight="30px" style="margin-top: 10px">
+    <mat-grid-tile colspan="1" rowspan="1">
+      <div class="div-title">
+        <span>Configuración</span>
+        <span>
+          <mat-icon> keyboard_arrow_right</mat-icon>
+        </span>
+        <span>Gestión de Metodos de Pago</span>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <mat-divider></mat-divider>
+  
+  <mat-card class="example-card mat-elevation-z8">
+    <mat-card-title-group>
+      <mat-card-title>Lista de todos los metodos de pago</mat-card-title>
+      <mat-card-actions>
+        <div
+          style="
+            z-index: 5;
+            position: fixed;
+            display: flex;
+            align-self: flex-end;
+            align-items: center;
+  
+            bottom: 3px;
+            right: 3px;
+          "
+        >
+          <mat-list>
+            <mat-list-item
+              style="
+                margin: 5px 0px 5px 0px;
+                display: flex;
+                justify-content: center;
+              "
+            >
+              <button
+                mat-mini-fab
+                [matMenuTriggerFor]="menup"
+                color="primary"
+                aria-label="Opciones"
+              >
+                <mat-icon>tune</mat-icon>
+              </button>
+              <mat-menu #menup="matMenu">
+                
+                <button
+                  mat-menu-item
+                  (click)="delPeriod()"
+                  [disabled]="selection.selected.length < 1"
+                >
+                  <mat-icon>delete</mat-icon>
+                  Eliminar
+                </button>
+                <button
+                  mat-menu-item
+                  (click)="openDialogUpd()"
+                  [disabled]="selection.selected.length != 1"
+                >
+                  <mat-icon>edit</mat-icon>
+                  <span>Editar</span>
+                </button>
+              </mat-menu>
+            </mat-list-item>
+            <mat-list-item
+              style="
+                margin: 5px 0px 5px 0px;
+                display: flex;
+                justify-content: center;
+              "
+            >
+              <button
+                mat-button
+                (click)="openDialogAdd()"
+                mat-fab
+                color="accent"
+                aria-label="Añadir"
+              >
+                <mat-icon>add</mat-icon>
+              </button>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </mat-card-actions>
+    </mat-card-title-group>
+    <mat-divider></mat-divider>
+    <mat-card-content style="margin-top: 10px">
+      <div class="example-table-container">
+        <table mat-table [dataSource]="dataSource">
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox
+                (change)="$event ? masterToggle() : null"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                [aria-label]="checkboxLabel()"
+              >
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(row) : null"
+                [checked]="selection.isSelected(row)"
+                [aria-label]="checkboxLabel(row)"
+              >
+              </mat-checkbox>
+            </td>
+          </ng-container>
+  
+          <!-- Position Column -->
+          <ng-container matColumnDef="nombres">
+            <th mat-header-cell *matHeaderCellDef>Método de Pago</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.paymthdsName }}
+            </td>
+          </ng-container>
+  
+      
+  
+          <ng-container matColumnDef="state">
+            <th mat-header-cell *matHeaderCellDef>Estado</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                (click)="
+                  changeState(element.paymthdsId, element.paymthdsState == 1 ? 2 : 1)
+                "
+                color="{{ element.paymthdsState == 1 ? 'accent' : 'warn' }}"
+                matSuffix
+                matTooltip="{{
+                  element.paymthdsState == 1 ? 'Habilitado' : 'Deshabilitado'
+                }}"
+              >
+                <mat-icon>{{
+                  element.paymthdsState == 1 ? "visibility" : "visibility_off"
+                }}</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            (click)="selection.toggle(row)"
+          ></tr>
+        </table>
+      </div>
+    </mat-card-content>
+    <mat-card-footer>
+      <mat-paginator
+        [length]="100"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page"
+      >
+      </mat-paginator>
+      <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+    </mat-card-footer>
+  </mat-card>
+  

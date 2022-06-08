@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Period } from 'src/app/interfaces/period';
 import { PeriodPayment } from 'src/app/interfaces/period-payment';
 import { Services } from 'src/app/interfaces/services';
-import { ServicesProvided } from 'src/app/interfaces/services-provided';
+import { ServicesProvided, TServicesProvided } from 'src/app/interfaces/services-provided';
 import { AppointmentTempService } from 'src/app/services/appointment-temp.service';
 import { BussinesService } from 'src/app/services/bussines.service';
 import { PeriodPaymentService } from 'src/app/services/period-payment.service';
@@ -18,6 +18,8 @@ import { TokenStorageService } from 'src/app/auth/services/token-storage.service
 import { User } from 'src/app/interfaces/user';
 import {ProofOfPaymentComponent} from 'src/app/module-si/accounting/pages/proof-of-payment/proof-of-payment.component'
 import { MatDialog } from '@angular/material/dialog';
+import { ClientViewService } from '../../client-view.service';
+import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
 
 @Component({
   selector: 'app-list-buss-periods',
@@ -27,7 +29,8 @@ import { MatDialog } from '@angular/material/dialog';
 export class ListBussPeriodsComponent implements OnInit {
 
   @Input() bp: Period = {};
-  private services: Services[] = [];
+  @Input() serBuss?:Bussines
+  public services: Services[] = [];
   public periodPayments:PeriodPayment[]=[];
   private currentUser: User;
 
@@ -46,6 +49,9 @@ export class ListBussPeriodsComponent implements OnInit {
 
     private tokenStorage: TokenStorageService,
     private dialog:MatDialog, 
+    private clientViewService:ClientViewService,
+    private serviceService: ServicesService,
+
 
     //private services:ServicesProvided
   ) { 
@@ -53,17 +59,21 @@ export class ListBussPeriodsComponent implements OnInit {
     this.currentUser=this.tokenStorage.getUser() as User
   }
 
+  private listenSelectedBusiness(o:()=>void){
+    this.clientViewService.getSelectedBussines().subscribe((b:Bussines | null)=>{
+      if(b)
+        this.business=b;
+          
+    })
+  }
   ngOnInit(): void {
     this.readServices();
     this.readPeriodPayments()
     this.readServiceProvidedsByDBP(this.bp.dbp?.dbpId || -1)
-
+    this.listenSelectedBusiness(()=>{})
     /*Optimizar esta parte para que no consuma mucho recursos
      */
 
-    
-    if(this.bp.dbp?.bussId)
-    this.readCRUCBusiness([this.bp.dbp?.bussId])
 
     const telleId=this.tokenStorage.getTeller()?.tellId
 
@@ -71,7 +81,10 @@ export class ListBussPeriodsComponent implements OnInit {
     this.readCRUDCurrentAppointment(telleId)
   }
 
-  displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'debt', 'paid', 'state', 'LimitPayment', 'comment', 'actions'];
+  //displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'debt', 'paid', 'state', 'LimitPayment', 'comment', 'actions'];
+  
+  displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'state', 'LimitPayment', 'comment', 'actions'];
+
   //servicesProvided = [...ELEMENT_DATA];
   servicesProvided:ServicesProvided[] = [];
 
@@ -156,7 +169,7 @@ export class ListBussPeriodsComponent implements OnInit {
     //this.servicesProvided = [...this.servicesProvided, this.servicesProvided[randomElementIndex]];
     //this.dataSource.setData(this.servicesProvided);
     //const p: ServicesProvided={service: 1, period: 1, amount: 20.00, date: '20/02/2022', voucher:'Boleta', numVoucher:0, state:'pagado', comment:'g'};
-    const p: ServicesProvided={dbpId:this.bp.dbp?.dbpId, spState:1};
+    const p: ServicesProvided={dbpId:this.bp.dbp?.dbpId, spState:1, spCost:0.0, spDebt:0.0, spPaid:0.0};
     this.dataSource.data.push(p);
     this.dataSource.data = this.dataSource.data.slice();
   }
@@ -173,37 +186,40 @@ export class ListBussPeriodsComponent implements OnInit {
   }
 
   /*Actualizar todos los datos de los servicios*/
-  updSv(el: ServicesProvided, sv: sv) {
+  updSv(el: TServicesProvided, sv: sv) {
     if (sv == null) { return; }
     //el.service = Number(sv.name);
     el.svId = Number(sv.name);
+    el.spEditable=true
     this.dataSource.data = this.dataSource.data;
   }
 
-  updPd(el: ServicesProvided, pd: pd) {
+  updPd(el: TServicesProvided, pd: pd) {
+    console.log("UPD PERIODOS ROW", pd)
     if (pd == null) { return; }
-    console.log("updPD",el.ppayId, pd.period)
-    //el.period = Number(pd.period);
+    
     el.ppayId = Number(pd.period);
-    console.log("updPD", el.ppayId)
+    el.spEditable=true;
     this.dataSource.data = this.dataSource.data;
   }
 
-  updMt(el: ServicesProvided, amount: number) {
+  updMt(el: TServicesProvided, amount: number) {
     if (amount == null) { return; }
     //el.amount = amount;
       el.spCost = amount;
+      el.spEditable=true;
     this.dataSource.data = this.dataSource.data;
   }
 
-  update(el: ServicesProvided, comment: string) {
+  update(el: TServicesProvided, comment: string) {
     if (comment == null) { return; }
     //el.comment = comment;
     el.spComment = comment;
+    el.spEditable=true;
     this.dataSource.data = this.dataSource.data;
   }
 
-  prepareAdd(el: ServicesProvided){
+  prepareAdd(el: TServicesProvided,indexRow:number){
     const sp: ServicesProvided = {};
     sp.dbpId = this.bp.dbp?.dbpId;
     sp.svId = el.svId;
@@ -213,14 +229,14 @@ export class ListBussPeriodsComponent implements OnInit {
     sp.spId=el.spId
     
     if(sp.spId && sp.spId>0){
-      this.updServices(sp.spId, sp)
+      this.updServices(sp.spId, sp,indexRow)
     }else {
-      this.addServices(sp);
+      this.addServices(sp, indexRow);
     }
     
   }
 
-  addServices(sp: ServicesProvided): boolean{
+  addServices(sp: TServicesProvided,indexRow:number): boolean{
     this.loadingService.show();
 
     this.spService.addServicesProvided(sp).subscribe({
@@ -228,24 +244,31 @@ export class ListBussPeriodsComponent implements OnInit {
         console.log("response",data)
         this.showMessage.success({ message: data.msg });
         const servPro = data.data as ServicesProvided[];
-        this.dataSource.data.unshift(...servPro);
+
+        //this.dataSource.data.unshift(...servPro);
+        this.dataSource.data[indexRow] = servPro[0]
         this.dataSource.data=this.dataSource.data
         //this.paginator._changePageSize(this.paginator.pageSize);
         this.loadingService.hide();
       },
       error: error => {
         this.loadingService.hide()
-        this.showMessage.error({ message: error.error.message, action: () => this.addServices(sp) })
+        this.showMessage.error({ message: error.error.message, action: () => this.addServices(sp,indexRow) })
       }
     });
     return true;
   }
 
-  updServices(spId:number,sp:ServicesProvided){
+  updServices(spId:number,sp:ServicesProvided,indexRow:number){
     this.loadingService.show()
     this.spService.upd(spId, sp).subscribe({
       next:d=>{
         this.showMessage.success({ message: d.msg });
+        const servPro = d.data as ServicesProvided[];
+
+        //this.dataSource.data.unshift(...servPro);
+        this.dataSource.data[indexRow] = servPro[0]
+        this.dataSource.data=this.dataSource.data
         this.loadingService.hide()
       }, 
       error:e=>{
@@ -285,7 +308,7 @@ export class ListBussPeriodsComponent implements OnInit {
   readServiceProvidedsByDBP(dbpId:number){
     this.spService.allByDBP(dbpId).subscribe({
       next: d=>{
-        this.servicesProvided=d.data as ServicesProvided[]
+        this.servicesProvided=d.data as TServicesProvided[]
         this.dataSource.data=this.servicesProvided
       }, 
      error:  e=>{
@@ -294,17 +317,7 @@ export class ListBussPeriodsComponent implements OnInit {
     })
   }
 
-  readCRUCBusiness(bussIds:number[]){
-    this.businessServices.findBusiness(bussIds)?.subscribe({
-      next:d=>{
-        const b=d as Bussines[]
-        this.business=b[0]
-      },
-      error:e=>{
-        this.showMessage.error({message: e.error.message})
-      }
-    })
-  }
+  
 
   readCRUDCurrentAppointment(tellId:number){
     this.appointmentTempService.getAttentionPendingByTeller(tellId)
@@ -317,6 +330,49 @@ export class ListBussPeriodsComponent implements OnInit {
         }
       })
   }
+
+
+  calcWidth(firstNumber?:number, totalNumber?:number):number{
+   return ((firstNumber|| 0)/( totalNumber ||0))*100
+  }
+  getTotalToPay(){
+    return this.selection.selected.map(t => t.spDebt).reduce((acc, value?:number) => (acc || 0) +(Number(value) || 0), 0);
+
+  }
+
+
+  beforeDelete(id:number){
+    this.wantDelete(()=>this.deleteCRUD(id))
+  }
+  wantDelete(d:()=>void){
+    this.dialog
+      .open(DialogConfirmationComponent, {
+        data: `Esta seguro que desea eliminar.`,
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
+          d();
+        } else {
+          
+        }
+      });
+  }
+   deleteCRUD(id: number): boolean {
+    this.spService.del(id).subscribe({
+      next: data=>{
+        this.showMessage.success({message: data.msg});
+        this.readServiceProvidedsByDBP(this.bp.dbp?.dbpId || -1);
+      }, 
+      error: error=>{
+        this.showMessage.error({message: error.error.message})
+      }
+    })
+    return true;
+  }
+
+
+ 
 
   /*subperiod: SubPeriodo[] = [
     {value: '1', name: 'Enero'},
