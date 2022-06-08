@@ -19,6 +19,10 @@ export interface ServicesProvided extends ParentInterface {
   spMaxPartToPay?: number
 }
 
+export interface TServicesProvided extends ServicesProvided{
+  spEditable?:boolean
+}
+
 
 
   /*"spPeriodPayment" INTEGER,*/

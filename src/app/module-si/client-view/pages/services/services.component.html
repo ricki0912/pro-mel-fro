@@ -1,7 +1,7 @@
-<mat-card style="padding: 5px; margin-bottom: 5px">
+<mat-card  class="mat-elevation-z0" style="padding: 5px; margin-bottom: 5px">
   <mat-card-title-group>
     <mat-card-title style="margin: 0px"
-      >Lista de Servicios por Periodo</mat-card-title
+      >Control de Ejercicio por Periodo</mat-card-title
     >
     <mat-card-actions>
       <mat-list-item style="display: flex; justify-content: right">
@@ -19,8 +19,20 @@
   </mat-card-title-group>
   <mat-divider></mat-divider>
   <mat-card-content style="padding-top: 10px">
-    <app-list-buss-periods
-      [bp]="bp"
+    <mat-card class="mat-elevation-z0"
+    *ngIf="isLoading"
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    "
+  >
+    <mat-progress-spinner color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+  </mat-card>
+    <app-list-buss-periods class="example-accordion-item"
+      [bp]="bp" 
+      [serBuss]="serBuss"
       *ngFor="let bp of dBussPer"
     ></app-list-buss-periods>
   </mat-card-content>

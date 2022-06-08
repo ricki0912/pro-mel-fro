@@ -1,0 +1,22 @@
+<mat-card-content >
+    <!-- Datos del Negocio-->
+    <app-info-business
+      (onLoading)="ngOnInit()"
+      [buss]="serBuss"
+    ></app-info-business>
+    <!-- Datos del representate-->
+    <app-info-person
+      (onLoading)="ngOnInit()"
+      [per]="serBuss"
+    ></app-info-person>
+    <!-- Datos de Afilicion-->
+    <app-info-afiliation
+      (onLoading)="ngOnInit()"
+      [afi]="serBuss"
+    ></app-info-afiliation>
+    <!-- Otros datos-->
+    <app-info-aditional
+      (onLoading)="ngOnInit()"
+      [adi]="serBuss"
+    ></app-info-aditional>
+  </mat-card-content>

@@ -23,9 +23,14 @@ export class ServicesProvidedService extends ParentService implements CrudApiInt
   upd(spId: number, object: ServicesProvided): Observable<InterfaceParamsResponse<ServicesProvided>> {
     return this.https.put<InterfaceParamsResponse<ServicesProvided>>(`${this.API_SERVICES_PROVIDED}/${spId}`, object)    
   }
-  del(id: string | number): Observable<InterfaceParamsResponse<ParentInterface>> | null {
-    throw new Error('Method not implemented.');
+  public del(prdsId: number): Observable<InterfaceParamsResponse<ServicesProvided>> {
+    return this.https.delete<InterfaceParamsResponse<ServicesProvided>>(`${this.API_SERVICES_PROVIDED}/${prdsId}`)
   }
+
+  public dels(ids: number[]): Observable<InterfaceParamsResponse<ServicesProvided>> {
+    return this.https.delete<InterfaceParamsResponse<ServicesProvided>>(`${this.API_SERVICES_PROVIDED}/${ids}`);
+  }
+ 
   all(): Observable<InterfaceParamsResponse<ParentInterface>> | Observable<ParentInterface[]> | null {
     throw new Error('Method not implemented.');
   }

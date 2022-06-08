@@ -118,7 +118,9 @@ export class MainViewComponent implements OnInit {
     {isDisplay:false, name:'Configuración',routerLink:'./settings', icon:'business', permission:PMS.SI_SEE,
       subMenu: [
         {name: 'Periodos', routerLink: './periods' , permission: PMS.SI_USERS_SEE},
-        {name: 'Servicios', routerLink: './services' , permission: PMS.SI_USERS_SEE}
+        {name: 'Servicios', routerLink: './services' , permission: PMS.SI_USERS_SEE},
+        {name: 'Metodos de Pago', routerLink: './payment-methods' , permission: PMS.SI_USERS_SEE}
+
       ]
     },
     {isDisplay:false, name:'Sedes',routerLink:'./headquarters', icon:'place', permission:PMS.SI_USERS_SEE,

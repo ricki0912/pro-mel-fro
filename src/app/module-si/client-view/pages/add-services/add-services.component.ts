@@ -29,9 +29,9 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
     </form>
   `
 })
-export class AddServicesComponent implements OnInit, CrudInterface {
+export class AddServicesComponent implements OnInit {
 
-  listServ: Services[]=[];
+  @Input() listServ: Services[]=[];
 
   /** Overrides the comment and provides a reset value when changes are cancelled. */
   @Input()
@@ -62,13 +62,17 @@ export class AddServicesComponent implements OnInit, CrudInterface {
       this.popover.closed.pipe(filter(val => val == null))
         .subscribe(() => this.sv = this.value || '');
     }
-    this.readCRUD();
+    this.svForm.controls['name'].setValue(this.value);
+
+    //this.userForm.get('person.perKindDoc')?.setValue(this.userBeforeUpd.person.perKindDoc)
+
+    //this.readCRUD();
   }
 
   createCRUD(): boolean {
     throw new Error('Method not implemented.');
   }
-  readCRUD(): boolean {
+  /*readCRUD(): boolean {
     this.serviceService.all()?.subscribe({
       next: data => {        
         this.listServ = data;
@@ -78,7 +82,7 @@ export class AddServicesComponent implements OnInit, CrudInterface {
       }
     })
     return false;
-  }
+  }*/
   updateCRUD(object: any, id: string | number | null): boolean {
     throw new Error('Method not implemented.');
   }
@@ -96,7 +100,7 @@ export class AddServicesComponent implements OnInit, CrudInterface {
 
   onCancel() {
     if (this.popover) {
-      this.popover.close('hide');
+      this.popover.close();
     }
   }
 

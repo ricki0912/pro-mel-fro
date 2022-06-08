@@ -11,7 +11,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { Teller } from 'src/app/interfaces/teller';
 import { MatTableDataSource } from '@angular/material/table';
-import { User } from 'src/app/interfaces/user';
 import { PaymentDetail } from 'src/app/interfaces/payment-detail';
 import { Payment, PAYMENT_STATE, PAYMENT_KIND_DOC } from 'src/app/interfaces/payment';
 import { AppointmentTemp } from 'src/app/interfaces/appointment-temp';
@@ -20,12 +19,13 @@ import { ServicesProvided } from 'src/app/interfaces/services-provided';
 import { PaymentService } from 'src/app/services/payment.service';
 import { LoadingService } from 'src/app/shared/components/loading/loading.service';
 import { Services} from 'src/app/interfaces/services'
-import {ServicesService } from 'src/app/services/services.service'
 import {Period} from 'src/app/interfaces/period'
-import {PeriodService} from 'src/app/services/period.service'
 import { environment } from 'src/environments/environment';
 
 import { Subscription } from 'rxjs';
+import { DPaymentPaymentMethod } from 'src/app/interfaces/d-payment-payment-method';
+import { PaymentMethodService } from 'src/app/services/payment-method.service';
+import { PaymentMethod, PAYMENT_METHOD_STATE } from 'src/app/interfaces/payment-method';
 @Component({
   selector: 'app-proof-of-payment',
   templateUrl: './proof-of-payment.component.html',
@@ -38,14 +38,20 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   isLoadingEnd:boolean=false;
 
   displayedColumns2: string[] = ['pdsQuantity','pdsDescription', 'pdsUnitPrice','pdsAmount', 'pdsDelete'];
+  dataSourcePD = new MatTableDataSource<PaymentDetail>([]);
 
+  displayedColumnDPPM:string[]=['i', '']
+  dataSourceDPPM=new MatTableDataSource<DPaymentPaymentMethod>([])
+  dPaymentPaymentMethods:DPaymentPaymentMethod[]=[]
   /*Obtener todos los serviciso */
   private services:Services[]=[]
   private periods:Period[]=[]
 
+  public paymentMethods:PaymentMethod[]=[]
+
   /*payment*/
   payment:Payment
-  dataSourcePD = new MatTableDataSource<PaymentDetail>([]);
+
 
   messageError:string='';
   messageSuccess:string='';
@@ -79,6 +85,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     private showMessage: ShowMessageService,
     private loadingService:LoadingService,
     private dialogRef: MatDialogRef<ProofOfPaymentComponent>,
+    private paymentMethodService:PaymentMethodService
 
   ) { 
     this.payment={}
@@ -97,6 +104,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.renderScreen()
+    this.readCRUDPaymentMethods(PAYMENT_METHOD_STATE.ENABLE)
   }
 
   
@@ -125,6 +133,8 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     this.payment.payClientAddress=buss.bussAddress;
     this.payment.payClientEmail=buss.bussEmail
     this.payment.payClientTel=buss.bussTel;
+    this.payment.bussId=buss.bussId;
+
 
     this.payment.hqId=a.hqId;
     this.payment.apptmId=a.apptmId
@@ -137,6 +147,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
      
     }
     this.dataSourcePD.data=this.payment.paymentDetails
+    this.payment.dPaymentPaymentMethods=[]
   }
   private loadPreviewWithoutBuss(a:AppointmentTemp ={}){
     this.payment.payClientRucOrDni=a.apptmNumberDocClient || '';
@@ -149,7 +160,16 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     this.payment.paymentDetails=[]
     this.payment.paymentDetails.push({pdsQuantity:1, pdsDescription:'Servicios contables', pdsUnitPrice:0, pdsAmount: 0})
     this.dataSourcePD.data = this.payment.paymentDetails;
+    this.payment.dPaymentPaymentMethods=[]
+  }
 
+  addRowInDPaymentPaymentMethods(){
+    
+    this.dPaymentPaymentMethods?.push({dppmAmount:0,})
+  }
+
+  removeRowFromDPaymentPaymentMethods(index:number){
+    this.payment.dPaymentPaymentMethods?.splice(index,1)
   }
 
   addRowInPaymentDetails(){
@@ -157,8 +177,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     this.dataSourcePD.data.push({pdsQuantity:1, pdsDescription:'', pdsUnitPrice:0, pdsAmount: 0})
     this.dataSourcePD.data=this.dataSourcePD.data
   }
-
-
+  
   removeRowFromPaymentDetails(index:number){
     this.dataSourcePD.data.splice(index,1)
     this.dataSourcePD.data=this.dataSourcePD.data
@@ -186,9 +205,25 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   }
   /** Gets the total cost of all transactions. */
    getTotalCost() {
-    return this.dataSourcePD.data.map(t => t.pdsAmount).reduce((acc, value) => (acc || 0) +(value || 0), 0);
+    return this.dataSourcePD.data.map(t => t.pdsAmount).reduce((acc, value?:number) => (acc || 0) +(Number(value) || 0), 0);
   }
 
+  /*Read crud Payment Method  */
+  private readCRUDPaymentMethods(paymthdsState:number=0){
+    this.isLoading=true
+    this.paymentMethodService.all(paymthdsState).subscribe({
+      next:d=>{
+        this.paymentMethods=d.data as PaymentMethod[]
+        this.isLoading=false
+      }, 
+      error:e=>{
+        this.showMessage.error({message:e.error.message})
+        this.isLoading=false
+      }
+
+      
+    });
+  }
 
   /*api */
   private beforeAddPayment(){
@@ -215,7 +250,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     this.paymentService.add(payment).subscribe({
       next: (d)=>{
       this.payment=d.data as Payment  
-      console.log("addPayment", d.data)
+      console.log("addPayment", d)
       this.printPDF(this.payment.payToken || '-1')
       this.isLoadingEnd=false
       this.messageError=''

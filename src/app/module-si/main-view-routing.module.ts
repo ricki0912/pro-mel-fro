@@ -88,6 +88,10 @@ const routes: Routes=[
         loadChildren:()=>import('./period/period.module').then(m=>m.PeriodModule)
       },
       {
+        path: 'payment-methods',
+        loadChildren:()=>import('./payment-method/payment-method.module').then(m=>m.PaymentMethodModule)
+      },
+      {
         path: 'services',
         loadChildren:()=>import('./md-services/md-services.module').then(m=>m.MdServicesModule)
       },

@@ -122,7 +122,8 @@ export class CallComponent implements OnInit {
       panelClass: 'dialog',
       data: {
         row: null,
-        type: TYPES_ACTIONS_DIALOG.ADD
+        type: TYPES_ACTIONS_DIALOG.ADD,
+        hqId:this.currentTeller.hqId || -1
       }
     });
     dialogRef.afterClosed().subscribe((result: Teller) => {

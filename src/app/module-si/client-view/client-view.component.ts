@@ -5,11 +5,12 @@ import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
 import { Bussines } from 'src/app/interfaces/bussines';
 import { BussinesService } from 'src/app/services/bussines.service';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
+import { ClientViewService } from './client-view.service';
 
 @Component({
   selector: 'app-client-view',
   templateUrl: './client-view.component.html',
-  styleUrls: ['./client-view.component.scss']
+  styleUrls: ['./client-view.component.scss'],
 })
 export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
 
@@ -23,7 +24,8 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
     private location : Location,
     private activate : ActivatedRoute,
     private businessService: BussinesService,
-    private showMessage: ShowMessageService
+    private showMessage: ShowMessageService,
+    private clientViewService: ClientViewService
   ) { }
 
   ngOnInit(): void {
@@ -49,6 +51,7 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
       next: data=>{
         this.business=data
         this.isLoading=false
+        this.onSelectedBussines(this.business[0])
       },
       error: e=>{
         this.showMessage.error({message: e.error.message})
@@ -62,6 +65,10 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
   }
   deleteCRUD(ids: string | number | string[] | number[] | null): boolean {
     throw new Error('Method not implemented.');
+  }
+
+  private onSelectedBussines(business:Bussines){
+    this.clientViewService.onSelectedBussines(business)
   }
 
 }

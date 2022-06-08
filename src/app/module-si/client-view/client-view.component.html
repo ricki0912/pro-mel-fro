@@ -1,3 +1,4 @@
+
 <div class="windows">
   <mat-grid-list cols="1" rowHeight="30px">
     <mat-grid-tile colspan="1" rowspan="1">
@@ -55,48 +56,79 @@
           </div>
         </div>
         <mat-divider></mat-divider>
-        <button
+        <!--<button
           mat-raised-button
           color="success"
           style="width: 100%; margin-top: 10px"
           (click)="showServices()"
         >
           Servicios
+        </button>-->
+        <button
+        mat-raised-button
+        color="success"
+        style="width: 100%; margin-top: 10px"
+        routerLink="./"
+      >
+       Información General
+      </button>
+
+        <button
+          mat-raised-button
+          color="success"
+          style="width: 100%; margin-top: 10px"
+          routerLink="./services-provided"
+        >
+          Control de Ejercicio
         </button>
+        <button
+        mat-raised-button
+        color="success"
+        style="width: 100%; margin-top: 10px"
+        routerLink="./proof-of-payment"
+      >
+       Comprobante de Pago
+      </button>
       </mat-card-content>
     </mat-card>
     <mat-card id="contenido">
-      <mat-card-content *ngIf="contentBusiness">
-        <!-- Datos del Negocio-->
+      <router-outlet>
+
+      </router-outlet>
+      
+<!--<mat-card-content *ngIf="contentBusiness">
+       
         <app-info-business
           (onLoading)="ngOnInit()"
           [buss]="buss"
           *ngFor="let buss of business"
         ></app-info-business>
-        <!-- Datos del representate-->
+
         <app-info-person
           (onLoading)="ngOnInit()"
           [per]="per"
           *ngFor="let per of business"
         ></app-info-person>
-        <!-- Datos de Afilicion-->
+      
         <app-info-afiliation
           (onLoading)="ngOnInit()"
           [afi]="afi"
           *ngFor="let afi of business"
         ></app-info-afiliation>
-        <!-- Otros datos-->
+     
         <app-info-aditional
           (onLoading)="ngOnInit()"
           [adi]="adi"
           *ngFor="let adi of business"
         ></app-info-aditional>
-      </mat-card-content>
+      </mat-card-content> -->
       <ng-container *ngIf="contentServices">
         <app-services
+        ></app-services>
+ <!--       <app-services
           [serBuss]="serBuss"
           *ngFor="let serBuss of business"
-        ></app-services>
+        ></app-services>-->
       </ng-container>
     </mat-card>
   </div>

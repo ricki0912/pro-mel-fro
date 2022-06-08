@@ -18,8 +18,13 @@ export class PaymentService extends ParentService {
     super()
   }
 
-  public all(prdsState:number=0): Observable<InterfaceParamsResponse<Payment>> {
-    return this.https.get<InterfaceParamsResponse<Payment>>(`${this.API_PAYMENT}?prdsState=${prdsState}` );
+  public all(bussId:number=0): Observable<InterfaceParamsResponse<Payment>> {
+    return this.https.get<InterfaceParamsResponse<Payment>>(`${this.API_PAYMENT}?bussId=${bussId}` );
+  }
+
+
+  public allByBuss(bussId:number=0): Observable<InterfaceParamsResponse<Payment>> {
+    return this.https.get<InterfaceParamsResponse<Payment>>(`${this.API_PAYMENT}/all-by-buss?bussId=${bussId}` );
   }
 
   public allByHQ(hqId: number) {

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { ClientViewRoutingModule } from './client-view-routing.module';
 import { ClientViewComponent } from './client-view.component';
@@ -35,6 +35,9 @@ import { AddPeriodComponent } from './pages/add-period/add-period.component';
 import { AddAmountComponent } from './pages/add-amount/add-amount.component';
 import {MatListModule} from '@angular/material/list';
 import { ListBussPeriodsComponent } from './pages/list-buss-periods/list-buss-periods.component';
+import { GeneralInformationComponent } from './pages/general-information/general-information.component';
+import { ProofOfPaymentComponent } from './pages/proof-of-payment/proof-of-payment.component';
+import { MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,9 @@ import { ListBussPeriodsComponent } from './pages/list-buss-periods/list-buss-pe
     AddServicesComponent,
     AddPeriodComponent,
     AddAmountComponent,
-    ListBussPeriodsComponent
+    ListBussPeriodsComponent,
+    GeneralInformationComponent,
+    ProofOfPaymentComponent
   ],
   imports: [
     CommonModule,
@@ -74,7 +79,9 @@ import { ListBussPeriodsComponent } from './pages/list-buss-periods/list-buss-pe
     MatTableModule,
     MatCheckboxModule,
     SatPopoverModule,
-    MatListModule
-  ]
+    MatListModule,
+    MatMenuModule
+  ],
+  providers: [DatePipe]
 })
 export class ClientViewModule { }

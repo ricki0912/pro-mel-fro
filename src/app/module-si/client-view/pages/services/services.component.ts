@@ -9,6 +9,7 @@ import { FindPeriodComponent } from 'src/app/module-si/period/pages/find-period/
 import { BussinesService } from 'src/app/services/bussines.service';
 import { PeriodService } from 'src/app/services/period.service';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
+import { ClientViewService } from '../../client-view.service';
 
 
 @Component({
@@ -19,7 +20,8 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
 export class ServicesComponent implements OnInit, CrudInterface {
 
   isLoading = true;
-  @Input() serBuss: Bussines | undefined;
+  //@Input() serBuss: Bussines | undefined;
+  serBuss: Bussines | undefined;
   panelOpenState = false;
   dbp : DBusinessPeriod = {};
 
@@ -29,11 +31,23 @@ export class ServicesComponent implements OnInit, CrudInterface {
     private bussinesService: BussinesService,
     private periodService: PeriodService,
     public dialogSelect: MatDialog,
-    private showMessage: ShowMessageService
+    private showMessage: ShowMessageService,
+    private clientViewService:ClientViewService
+
   ) {  }
 
   ngOnInit(): void {
-    this.readCRUD();
+    this.listenSelectedBusiness(()=>this.readCRUD())
+    
+  }
+  private listenSelectedBusiness(o:()=>void){
+    this.clientViewService.getSelectedBussines().subscribe((b:Bussines |null)=>{
+      
+      if(b){
+        this.serBuss=b;
+        o();
+      }
+    })
   }
 
   createCRUD(object: any): boolean {
@@ -85,14 +99,18 @@ export class ServicesComponent implements OnInit, CrudInterface {
     this.dbp.prdsId = bp.prdsId;
     this.dbp.bussId = this.serBuss?.bussId;
     this.dbp.dbpState = 1;
-    console.log("agregando detalle", this.dbp);
+    this.isLoading=true;
     
     this.bussinesService.addDBusinessPeriod(this.dbp).subscribe({
       next: data => {
+        //this.dBussPer.unshift(data.data as Period)
+        this.isLoading=false;
+        this.readCRUD()
         this.showMessage.success({ message: data.msg });
       },
       error: error => {
         this.showMessage.error({ message: error.error.message, action: () => this.addBusinessPeriod(this.dbp) })
+        this.isLoading=false
       }
     });
     return true;

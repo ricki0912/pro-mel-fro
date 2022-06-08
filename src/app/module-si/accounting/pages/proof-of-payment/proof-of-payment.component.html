@@ -178,13 +178,17 @@
         </div>
 
 
-<!--
+
         <div class="card mb-2">
           <div class="card-header">
             3. Metodo de Pago
           </div>
           <div class="card-body">
             <div>
+
+              
+
+
               <table>
                 <tr>
                   <th colspan="4">
@@ -192,20 +196,19 @@
                   </th>
                   <th>
                     <button align="end" mat-mini-fab aria-label="Example icon button with a vertical three dot icon"
-                      color="accent">
+                      color="accent" (click)="addRowInDPaymentPaymentMethods()">
                       <mat-icon>add</mat-icon>
                     </button>
 
                   </th>
                 </tr>
-                <tr>
-                  <td>1</td>
+                <tr *ngFor="let e of dPaymentPaymentMethods; let i=index">
+                  <td>{{i+1}}</td>
                   <td>
                     <mat-form-field class="example-full-width" appearance="legacy">
                       <mat-label>Metodo de Pago</mat-label>
-                      <mat-select>
-                        <mat-option value="1">DNI</mat-option>
-                        <mat-option value="2">RUC</mat-option>
+                      <mat-select [(ngModel)]="e.paymthdsId">
+                        <mat-option [value]="pm.paymthdsId" *ngFor="let pm of paymentMethods">{{pm.paymthdsName}}</mat-option>
                       </mat-select>
                       <mat-error> EL metodo de pago es requerido. </mat-error>
                     </mat-form-field>
@@ -213,31 +216,35 @@
                   <td>
                     <mat-form-field class="example-full-width" appearance="legacy">
                       <mat-label>Monto (S/)</mat-label>
-                      <input matInput />
+                      <input matInput [(ngModel)]="e.dppmAmount"/>
                       <mat-error> EL monto es requerido. </mat-error>
                     </mat-form-field>
                   </td>
                   <td>
                     <mat-form-field class="example-full-width" appearance="legacy">
-                      <mat-label>Especifica</mat-label>
-                      <input matInput />
+                      <mat-label>Detalle</mat-label>
+                      <input matInput [(ngModel)]="e.dppmDescription" />
 
                     </mat-form-field>
                   </td>
                   <td>
-                    <button mat-icon-button aria-label="Example icon-button with a menu">
+                    <button mat-icon-button aria-label="Example icon-button with a menu"
+                    (click)="removeRowFromDPaymentPaymentMethods(i)"
+                    >
                       <mat-icon>delete</mat-icon>
                     </button>
                   </td>
                 </tr>
               </table>
               <p color="warn"
-                style="color: red; font-size: 16px; text-align: right; padding: 0 12px 0 0; font-weight: bold;">
-                Tienes S/.200.OO sin asignar
+                style="color: red; font-size: 16px; text-align: right; padding: 0 12px 0 0; font-weight: bold;"
+
+                >
+                Tienes {{getTotalCost() | currency:'S/.'}} sin asignar
               </p>
             </div>
           </div>
-        </div>-->
+        </div>
      
         <div *ngIf="messageSuccess" class="alert alert-success" role="alert">
           {{messageSuccess}}
@@ -256,7 +263,7 @@
   <mat-dialog-actions align="end">
 <div *ngIf="payment.payState==PS.FILLED">
   <button mat-button mat-dialog-close>Cancelar</button>
-  <button mat-button (click)="openPDFNewWindow()"><mat-icon>pdf</mat-icon>Ver</button> 
+  <button mat-button (click)="openPDFNewWindow()"><mat-icon>picture_as_pdf</mat-icon>Ver</button> 
   <button mat-button (click)="sendToWhatsApp()"><mat-icon>whatsapp</mat-icon> WhatsApp</button>
   <button mat-button (click)="retryPrint()"><mat-icon>print</mat-icon> Imprimir</button>
 </div>
