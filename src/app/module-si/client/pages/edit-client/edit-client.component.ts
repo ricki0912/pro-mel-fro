@@ -5,10 +5,11 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors,
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Bussines } from 'src/app/interfaces/bussines';
+import { Bussines, TellerJoinUsers } from 'src/app/interfaces/bussines';
 import { BussinesService } from 'src/app/services/bussines.service';
 import { Person } from 'src/app/interfaces/person';
 import { PersonService } from 'src/app/services/person.service';
+import { MainViewService } from 'src/app/module-si/main-view/main-view.service';
 
 @Component({
   selector: 'app-edit-client',
@@ -19,6 +20,8 @@ export class EditClientComponent implements OnInit, OnDestroy {
 
   title = 'Añadir un Cliente Nuevo';
   businessBeforeUpd: Bussines | null = null;
+  tellers: TellerJoinUsers[] = [];
+  private hqId:number=0;
 
   constructor(
     public mediaObserver: MediaObserver, /*esta a la escucha cuando se renderiza */
@@ -26,20 +29,21 @@ export class EditClientComponent implements OnInit, OnDestroy {
     private businessSevice: BussinesService, /*creamos un servicio para conectarse a la db */
     private personService: PersonService,
     //private showMessage: ShowMessageService, /*este servicio es para invocar los mensaje de alerta */
-    @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: Bussines, type: number }, /**campturamos el usuario que se recibe com parametro cuando abrimos el modal */
+    @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: Bussines, type: number, idSede: number }, /**campturamos el usuario que se recibe com parametro cuando abrimos el modal */
     private dialogRef: MatDialogRef<EditClientComponent>,
+    private mainViewService:MainViewService
   ) { }
 
   ngOnInit(): void {
     /*observador para renderizar */
     this.mediaSub = this.mediaObserver.media$.subscribe((result: MediaChange) => {
-      console.log(result.mqAlias)
       let mqAlias: string = String(result.mqAlias);
       this.cols = this.gridByBreakpoint[mqAlias];
     })
 
     /*verifcamos y para actualizar o añadir */
     this.setTypeDialog();
+    this.readTeller(this.paramsDialog.idSede);
   }
 
   ngOnDestroy(): void {
@@ -81,7 +85,8 @@ export class EditClientComponent implements OnInit, OnDestroy {
         updateOn: 'blur',
       }],
       bussDateStartedAct :[''],
-      bussDateMembership :['']
+      bussDateMembership :[''],
+      tellId : ['',Validators.required]
     }),
     person: this.fb.group({
 
@@ -212,6 +217,13 @@ export class EditClientComponent implements OnInit, OnDestroy {
         event.preventDefault();
       }
     }
+  }
+
+  private readTeller(hqId:number) {
+    console.log("captirado", hqId);
+    this.businessSevice.getTellerJoinUsers(hqId).subscribe({
+      next: d => this.tellers = d.data  as TellerJoinUsers[]
+    })
   }
 }
 
