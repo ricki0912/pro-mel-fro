@@ -36,6 +36,9 @@ export class BussinesService extends ParentService implements CrudApiInterface{
   all(): Observable<Bussines[]> | null {
     return this.https.get<Bussines[]>(this.API_ALL);
   }
+  allSummarized():Observable<Bussines[]> | null {
+    return this.https.get<Bussines[]>(`${this.API_ALL}/all-summarized`);
+  }
   find(id: string | number): Observable<ParentInterface> | null {
     throw new Error('Method not implemented.');
   }

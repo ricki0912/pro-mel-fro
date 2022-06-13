@@ -103,12 +103,19 @@ export class MainViewComponent implements OnInit {
 
       ]
     },
-    {isDisplay:false, name:'Reportes',routerLink:'./', icon:'pie_chart', permission:PMS.SI_REPORT_WAITING_LINE,
-      subMenu: [
-        {name:'Linea de espera', routerLink:'./reports/waiting-line', permission: PMS.SI_REPORT_WAITING_LINE},
+   
+    {isDisplay:false, name:'Contabilidad',routerLink:'./', icon:'payment', permission:PMS.SI_REPORT_WAITING_LINE,
+    subMenu: [
+      {name:'Contabilidad', routerLink:'./accounting', permission: PMS.SI_SEE},
 
-      ]
+    ]
     },
+    {isDisplay:false, name:'Reportes',routerLink:'./', icon:'pie_chart', permission:PMS.SI_REPORT_WAITING_LINE,
+    subMenu: [
+      {name:'Linea de espera', routerLink:'./reports/waiting-line', permission: PMS.SI_REPORT_WAITING_LINE},
+
+    ]
+  },
     {isDisplay:false, name:'Usuarios',routerLink:'./', icon:'people', permission:PMS.SI_USERS_SEE,
       subMenu:[
         {name: 'Usuarios', routerLink: './users' , permission: PMS.SI_USERS_SEE},

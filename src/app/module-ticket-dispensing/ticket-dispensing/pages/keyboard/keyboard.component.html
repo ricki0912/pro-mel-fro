@@ -36,7 +36,7 @@
         </td>
       </tr>
       <tr *ngFor="let keyrow of keys; let i=index ">
-        <td *ngFor="let key of keyrow; let j=index">
+        <td *ngFor="let key of keyrow; let j=index" [attr.rowspan]="key.rowspan">
           <button (click)="key.onClick(key.value)" mat-raised-button [color]="key.color" style="width: 100%; height: 1.2em; font-size: 4em;">{{key.value}}</button>
         </td>
       </tr>

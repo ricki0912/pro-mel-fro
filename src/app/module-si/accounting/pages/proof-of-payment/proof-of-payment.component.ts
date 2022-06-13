@@ -148,6 +148,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     }
     this.dataSourcePD.data=this.payment.paymentDetails
     this.payment.dPaymentPaymentMethods=[]
+    this.dPaymentPaymentMethods.push({dppmAmount: this.getTotalCost()});
   }
   private loadPreviewWithoutBuss(a:AppointmentTemp ={}){
     this.payment.payClientRucOrDni=a.apptmNumberDocClient || '';
@@ -161,6 +162,8 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     this.payment.paymentDetails.push({pdsQuantity:1, pdsDescription:'Servicios contables', pdsUnitPrice:0, pdsAmount: 0})
     this.dataSourcePD.data = this.payment.paymentDetails;
     this.payment.dPaymentPaymentMethods=[]
+    this.dPaymentPaymentMethods.push({dppmAmount: this.getTotalCost()});
+
   }
 
   addRowInDPaymentPaymentMethods(){
@@ -169,7 +172,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   }
 
   removeRowFromDPaymentPaymentMethods(index:number){
-    this.payment.dPaymentPaymentMethods?.splice(index,1)
+    this.dPaymentPaymentMethods?.splice(index,1)
   }
 
   addRowInPaymentDetails(){
@@ -195,7 +198,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     })
   }
 
-  onReturn = (p: Payment): void => this.dialogRef.close(p);
+  private onReturn = (p: Payment): void => this.dialogRef.close(p);
   /*Prepara para guaarda y actualizar */
   ok() {
     //this.imprimirPDF('')
@@ -203,9 +206,19 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     //if(this.userSelected)
     //this.onReturn(this.userSelected)
   }
+  close(){
+    this.onReturn(this.payment)
+  }
   /** Gets the total cost of all transactions. */
    getTotalCost() {
     return this.dataSourcePD.data.map(t => t.pdsAmount).reduce((acc, value?:number) => (acc || 0) +(Number(value) || 0), 0);
+  }
+  private getTotalFromPaymentMethod() {
+    return this.dPaymentPaymentMethods.map(t => t.dppmAmount).reduce((acc, value?:number) => (acc || 0) +(Number(value) || 0), 0);
+  }
+
+  getDifferenceTotal(){
+    return (this.getTotalCost() || 0)- (this.getTotalFromPaymentMethod() || 0)
   }
 
   /*Read crud Payment Method  */
@@ -235,10 +248,21 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
       this.messageError=vpd
       return;
     }
-    if(vpd){
-      this.messageError=vpd
+   
+    /*Validar formas de pago  */
+    this.payment.dPaymentPaymentMethods=this.dPaymentPaymentMethods;
+    let vpm=this.validatePaymentMethods(this.payment.dPaymentPaymentMethods)
+    if(vpm){
+      this.messageError=vpm
       return;
     }
+    let dt=Number(this.getDifferenceTotal())
+    /*Validar que sea 0 */
+    if(dt>0 || dt<0){
+      this.messageError='En método de pago, verifique que el monto este correctamente asignado.'
+      return;
+    }
+
     console.log("BEFORE ADD PAYAMENT",this.payment)
     this.addPayment(this.payment)
   }
@@ -258,6 +282,8 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
 
       },
        error:(e)=>{
+        console.log("addPayment", e)
+
       //this.messageError=e.error.message
         
       this.messageError="Surgio un error: "+e.error.message.match(/(?<=<msg>)(.*)(?=<msg>)/s)[0]  
@@ -284,6 +310,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   private printPDF(payToken:string){
     
     this.messageSuccess="Pago Generado. Imprimiendo, espere un momento."
+    this.messageError=""
 
     this.isLoadingEnd=true
 
@@ -298,7 +325,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
         document.body.appendChild(iframe);
         iframe.contentWindow?.print();
         this.isLoadingEnd=false
-        this.messageSuccess="Abriendo impresoras... Si despues de varios segunods no abre seleccione una de las opciones. "
+        this.messageSuccess="Abriendo impresoras... Si despues de varios segundos no abre seleccione una de las opciones. "
         this.messageError=""
       }
       , error:(e:any)=>{
@@ -328,6 +355,19 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
         return `En detalle, en la fila ${(i+1)} la descripción no es válido.`
       }else if(!e.pdsUnitPrice || Number(e.pdsUnitPrice)<=0){
         return `En detalle, en la fila ${(i+1)} el precio unitario  no es válido.`
+      }
+    }
+    return null;
+  }
+
+  private validatePaymentMethods(pm:DPaymentPaymentMethod[]):string|null{
+
+
+    for(const  [i, e] of pm.entries()){
+      if(!e.paymthdsId  || Number(e.paymthdsId)<=0){
+        return `En la fila ${(i+1)} seleccione un metodo de pago .`
+      }else if(!e.dppmAmount || Number(e.dppmAmount)<=0){
+        return `En método de pago, en la fila ${(i+1)} el monto no es válido.`
       }
     }
     return null;

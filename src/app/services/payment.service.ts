@@ -18,8 +18,8 @@ export class PaymentService extends ParentService {
     super()
   }
 
-  public all(bussId:number=0): Observable<InterfaceParamsResponse<Payment>> {
-    return this.https.get<InterfaceParamsResponse<Payment>>(`${this.API_PAYMENT}?bussId=${bussId}` );
+  public all(bussId:number=0, hqId=0, dateStart:string='', dateEnd:string='', wordLike:string=''): Observable<InterfaceParamsResponse<Payment>> {
+    return this.https.get<InterfaceParamsResponse<Payment>>(`${this.API_PAYMENT}` ,{params:{bussId,hqId, dateStart,dateEnd,wordLike}});
   }
 
 
@@ -34,6 +34,19 @@ export class PaymentService extends ParentService {
   public add(object: Payment): Observable<InterfaceParamsResponse<Payment>> {
     return this.https.post<InterfaceParamsResponse<Payment>>(`${this.API_PAYMENT}`, object);
   }
+
+  public cancel(payId:number, object: Payment): Observable<InterfaceParamsResponse<Payment>> {
+    return this.https.put<InterfaceParamsResponse<Payment>>(`${this.API_PAYMENT}/${payId}/cancel`, object);
+  }
+
+  public setTicket(payId:number, object: Payment): Observable<InterfaceParamsResponse<Payment>> {
+    return this.https.put<InterfaceParamsResponse<Payment>>(`${this.API_PAYMENT}/${payId}/ticket`, object);
+  }
+
+  public setInvoice(payId:number, object: Payment): Observable<InterfaceParamsResponse<Payment>> {
+    return this.https.put<InterfaceParamsResponse<Payment>>(`${this.API_PAYMENT}/${payId}/invoice`, object);
+  }
+
 
   
   /*public proofPDF(object: Payment):any{

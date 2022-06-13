@@ -216,7 +216,7 @@
                   <td>
                     <mat-form-field class="example-full-width" appearance="legacy">
                       <mat-label>Monto (S/)</mat-label>
-                      <input matInput [(ngModel)]="e.dppmAmount"/>
+                      <input matInput [(ngModel)]="e.dppmAmount" type="number" pattern="[0-9]+([\.,][0-9]+)?" step="0.01"/>
                       <mat-error> EL monto es requerido. </mat-error>
                     </mat-form-field>
                   </td>
@@ -236,11 +236,11 @@
                   </td>
                 </tr>
               </table>
-              <p color="warn"
+              <p *ngIf="getDifferenceTotal() as totalDifference" color="warn"
                 style="color: red; font-size: 16px; text-align: right; padding: 0 12px 0 0; font-weight: bold;"
 
                 >
-                Tienes {{getTotalCost() | currency:'S/.'}} sin asignar
+                Tienes {{totalDifference | currency:'S/.'}} sin asignar
               </p>
             </div>
           </div>
@@ -262,7 +262,7 @@
   <mat-progress-bar *ngIf="isLoadingEnd" mode="indeterminate"></mat-progress-bar>
   <mat-dialog-actions align="end">
 <div *ngIf="payment.payState==PS.FILLED">
-  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button (click)="close()">Salir</button>
   <button mat-button (click)="openPDFNewWindow()"><mat-icon>picture_as_pdf</mat-icon>Ver</button> 
   <button mat-button (click)="sendToWhatsApp()"><mat-icon>whatsapp</mat-icon> WhatsApp</button>
   <button mat-button (click)="retryPrint()"><mat-icon>print</mat-icon> Imprimir</button>

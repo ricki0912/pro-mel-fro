@@ -10,13 +10,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { DatePipe, Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
-import { Payment } from 'src/app/interfaces/payment';
+import { Payment, PAYMENT_KIND_CANCELED } from 'src/app/interfaces/payment';
 import { PaymentService } from 'src/app/services/payment.service';
 import { environment } from 'src/environments/environment';
 import { ClientViewService } from '../../client-view.service';
 import { Bussines } from 'src/app/interfaces/bussines';
-
-
+import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
+import { DialogEditOneInputComponent } from 'src/app/shared/components/dialog-edit-one-input/dialog-edit-one-input.component';
+import { LoadingService } from 'src/app/shared/components/loading/loading.service';
 
 @Component({
   selector: 'app-proof-of-payment',
@@ -25,6 +26,7 @@ import { Bussines } from 'src/app/interfaces/bussines';
 })
 export class ProofOfPaymentComponent implements OnInit {
 
+  PKC=PAYMENT_KIND_CANCELED
   isLoading = true;
   serBuss: Bussines | undefined;
 
@@ -35,7 +37,8 @@ export class ProofOfPaymentComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private showMessage: ShowMessageService,
     private datepipe: DatePipe,
-    private clientViewService:ClientViewService
+    private clientViewService:ClientViewService, 
+    private loadingService:LoadingService
 
   ) { }
 
@@ -54,7 +57,7 @@ export class ProofOfPaymentComponent implements OnInit {
     })
   }
 
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol','options'];
+  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol','ticket','invoice', 'options'];
   dataSource = new MatTableDataSource<Payment>();
 
   selection = new SelectionModel<Payment>(true, []);
@@ -164,9 +167,115 @@ public openPDFNewWindow(p:Payment){
   }
 
 
+
+/*Cancelar Pago */
+  beforeCancelPayment(id:number, payment:Payment){
+    this.wantCancelPayment(()=>this.cancelPayment(id, payment))
+  }
+
+  wantCancelPayment(d:()=>void){
+    this.dialogEditUser
+      .open(DialogConfirmationComponent, {
+        data: `¿Esta seguro que desea anular este pago?\nTen en cuenta que esta acción no se puede deshacer.`,
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
+          d();
+        } else {
+          
+        }
+      });
+  }
+
+   cancelPayment(payId: number, payment:Payment): boolean {
+    this.paymentService.cancel(payId, payment).subscribe({
+      next: data=>{
+        this.showMessage.success({message: data.msg});
+        let p=data.data as Payment;
+        let indexRow=this.dataSource.data.findIndex(e=>e.payId);
+        this.dataSource.data[indexRow] = p
+        this.dataSource.data=this.dataSource.data
+      }, 
+      error: error=>{
+        this.showMessage.error({message: error.error.message})
+      }
+    })
+    return true;
+  }
+
   /*Crud services */
   /**Para añadir usuario  */
   
+
+/*Agregar Boleta */
+beforeSetTicket(id:number, payment:Payment){
+  this.openDialogTicketOrInvoice({value:payment.payTicketSN, title:'Agregar Boleta | '+payment.paySerie+' - '+payment.payNumber, maxLength:20},(value)=>{ payment.payTicketSN=value;this.setTicket(id, payment)})
+}
+
+
+setTicket(payId: number, payment:Payment): boolean {
+  this.loadingService.show()
+  this.paymentService.setTicket(payId, payment).subscribe({
+    next: data=>{
+      this.showMessage.success({message: data.msg});
+      let p=data.data as Payment;
+      let indexRow=this.dataSource.data.findIndex(e=>e.payId==payId);
+      this.dataSource.data[indexRow] = p
+      this.selection.clear()
+      this.dataSource.data=this.dataSource.data
+      this.loadingService.hide()
+    }, 
+    error: error=>{
+      this.showMessage.error({message: error.error.message})
+      this.loadingService.hide()
+    }
+  })
+  return true;
+}
+/*Agregar Factura */
+beforeSetInvoice(id:number, payment:Payment){
+  this.openDialogTicketOrInvoice({value:payment.payInvoiceSN, title:'Agregar Factura | '+payment.paySerie+' - '+payment.payNumber, maxLength:20},(value)=>{ payment.payInvoiceSN=value;this.setInvoice(id, payment)})
+}
+
+
+
+ setInvoice(payId: number, payment:Payment): boolean {
+  this.loadingService.show()
+  this.paymentService.setInvoice(payId, payment).subscribe({
+    next: data=>{
+      this.showMessage.success({message: data.msg});
+      let p=data.data as Payment;
+      let indexRow=this.dataSource.data.findIndex(e=>e.payId==payId);
+      this.dataSource.data[indexRow] = p
+      this.selection.clear()
+      this.dataSource.data=this.dataSource.data
+      this.loadingService.hide()
+    }, 
+    error: error=>{
+      this.showMessage.error({message: error.error.message})
+      this.loadingService.hide()
+    }
+  })
+  return true;
+}
+
+
+openDialogTicketOrInvoice(data:{},d:(value:string)=>void){
+  this.dialogEditUser
+    .open(DialogEditOneInputComponent, {
+      data: data
+    })
+    .afterClosed()
+    .subscribe((value: string) => {
+      if (value) {
+        d(value);
+      } else {
+        
+      }
+    });
+}
+
 
 
 }

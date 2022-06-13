@@ -24,6 +24,10 @@ import { ModuleSiGuard } from './core/guards/module-si.guard';
 import { CoreModule } from './core/core.module';
 
 import { environment } from '../environments/environment';
+import { DialogEditOneInputComponent } from './shared/components/dialog-edit-one-input/dialog-edit-one-input.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 const config: SocketIoConfig = { url: environment.WLI_SOCKET_SERVER, options: {} };
 //const config: SocketIoConfig = { url: 'http://192.168.1.96:3000', options: {} };
@@ -35,6 +39,7 @@ const config: SocketIoConfig = { url: environment.WLI_SOCKET_SERVER, options: {}
     ShowMessageComponent,
     MatSnackBarComponent,
     DialogConfirmationComponent,
+    DialogEditOneInputComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +51,9 @@ const config: SocketIoConfig = { url: environment.WLI_SOCKET_SERVER, options: {}
         MatButtonModule,
         MatIconModule,
         CoreModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
         SocketIoModule.forRoot(config)
   ],
   providers: [MatSnackBar,

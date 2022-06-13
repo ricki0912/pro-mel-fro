@@ -1,0 +1,13 @@
+<form (ngSubmit)="onSubmit()">
+    <div class="mat-subheading-2">{{title}}</div>
+
+    <mat-form-field>
+      <input matInput [maxLength]="maxLength" name="value" [(ngModel)]="value">
+      <mat-hint align="end">{{value?.length || 0}}/{{maxLength}}</mat-hint>
+    </mat-form-field>
+
+    <div class="actions" align="end">
+      <button mat-button type="button" color="primary" (click)="onCancel()">Cancelar</button>
+      <button mat-button type="submit" color="primary">Listo</button>
+    </div>
+  </form>
