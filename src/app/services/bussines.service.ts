@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { CrudApiInterface } from '../global/interfaces/crud-api.interface';
 import { Observable } from 'rxjs';
 import { ParentInterface, InterfaceParamsResponse } from '../global/parents/parent.interface';
-import { Bussines } from '../interfaces/bussines';
+import { Bussines, TellerJoinUsers } from '../interfaces/bussines';
 import { DBusinessPeriod } from '../interfaces/d-business-period';
 import { Period } from '../interfaces/period';
 
@@ -90,5 +90,9 @@ export class BussinesService extends ParentService implements CrudApiInterface{
 
   public allDBusinesPeriods(bussId:number): Observable<InterfaceParamsResponse<Period[]>>  {
     return this.https.get<InterfaceParamsResponse<Period[]>>(`${this.API_BUSSINES}/${bussId}/periods`);
+  }
+
+  public getTellerJoinUsers(hqId:number):Observable<InterfaceParamsResponse<TellerJoinUsers>>{
+    return this.https.get<InterfaceParamsResponse<TellerJoinUsers>>(`${this.API_BUSSINES}/getCantTellerUsers?hqId=${hqId}`);
   }
 }

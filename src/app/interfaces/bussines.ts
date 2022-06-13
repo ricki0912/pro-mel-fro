@@ -24,6 +24,15 @@ export interface Bussines extends ParentInterface{
   bussTel ?: string,
   bussEmail ?: string,
   bussObservation ?: string,
+  tellId ?: number,
   perId ?: number,
   person: Person
+}
+
+export interface TellerJoinUsers {
+  tellId?: number;
+  tellCode?: string;
+  tellName?: string;
+  name?: string;
+  cantBusiness?: number;
 }

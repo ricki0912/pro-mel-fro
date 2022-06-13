@@ -24,8 +24,8 @@
             <mat-form-field class="example-full-width" appearance="outline">
               <mat-label>Tipo de negocio</mat-label>
               <mat-select formControlName="bussKind">
-                <mat-option value="1">Persona Juridica</mat-option>
-                <mat-option value="2">Persona Natural</mat-option>
+                <mat-option value="1">Persona Jurídica</mat-option>
+                <mat-option value="2">Persona Natural con Negocio</mat-option>
               </mat-select>
               <mat-error> EL tipo de negocio es requerido. </mat-error>
             </mat-form-field>
@@ -94,7 +94,11 @@
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="outline">
               <mat-label>Numero de Archivador</mat-label>
-              <input matInput formControlName="bussFileNumber" />
+              <input
+                matInput
+                formControlName="bussFileNumber"
+                (keypress)="validateFormat($event)"
+              />
               <mat-progress-spinner
                 *ngIf="businessForm.get('business.bussFileNumber')?.pending"
                 matSuffix
@@ -144,6 +148,22 @@
                 [for]="picker1"
               ></mat-datepicker-toggle>
               <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Asignar Ventanilla</mat-label>
+              <mat-select formControlName="tellId">
+                <mat-option
+                  [value]="teller.tellId"
+                  *ngFor="let teller of tellers"
+                >
+                  {{ teller.tellCode }} - {{ teller.tellName }} ({{
+                    teller.cantBusiness
+                  }}) - {{ teller.name }}</mat-option
+                >
+              </mat-select>
+              <mat-error> EL tipo de Archivador es requerido. </mat-error>
             </mat-form-field>
           </mat-grid-tile>
         </div>

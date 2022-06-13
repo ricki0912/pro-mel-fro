@@ -116,7 +116,8 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
       panelClass: 'dialog',
       data: {
         row: {},
-        type: TYPES_ACTIONS_DIALOG.ADD
+        type: TYPES_ACTIONS_DIALOG.ADD,
+        idSede: this.hqId
       }
     });
     dialogRef.afterClosed().subscribe(result => {
