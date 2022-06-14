@@ -28,7 +28,6 @@ export class InfoPersonComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.setTypeDialog();
   }
 
   cols: number = 2;
@@ -86,6 +85,10 @@ export class InfoPersonComponent implements OnInit {
   showEditPerson(){
     this.showPerson = !this.showPerson;
     this.showPersonEdit = !this.showPersonEdit;
+
+    if(this.showPersonEdit) {
+      this.setTypeDialog();
+    }
   }
 
   UpdPerson(): boolean {

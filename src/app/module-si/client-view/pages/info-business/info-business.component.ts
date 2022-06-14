@@ -25,7 +25,7 @@ export class InfoBusinessComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.setTypeDialog();
+    
   }
 
   cols: number = 2;
@@ -71,6 +71,9 @@ export class InfoBusinessComponent implements OnInit {
   showEditBusiness(){
     this.showBusiness = !this.showBusiness;
     this.showBusinessEdit = !this.showBusinessEdit;
+    if(this.showBusinessEdit){
+      this.setTypeDialog();
+    }
   }
 
   validateRuc(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {

@@ -24,7 +24,6 @@ export class InfoAditionalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.setTypeDialog();
   }
 
   cols: number = 2;
@@ -62,6 +61,10 @@ export class InfoAditionalComponent implements OnInit {
   showEditAditional(){
     this.showAditional = !this.showAditional;
     this.showAditionalEdit = !this.showAditionalEdit;
+    if(this.showAditionalEdit){
+      this.setTypeDialog();
+    }
+
   }
 
   UpdAditional(): boolean {

@@ -82,7 +82,8 @@ export class ListBussPeriodsComponent implements OnInit {
 
   //displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'debt', 'paid', 'state', 'LimitPayment', 'comment', 'actions'];
   
-  displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'state', 'LimitPayment', 'comment', 'actions'];
+//  displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'state', 'LimitPayment', 'comment', 'actions'];
+displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment', 'actions'];
 
   //servicesProvided = [...ELEMENT_DATA];
   servicesProvided:ServicesProvided[] = [];

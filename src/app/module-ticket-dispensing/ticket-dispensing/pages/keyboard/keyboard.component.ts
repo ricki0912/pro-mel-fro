@@ -183,7 +183,8 @@ export class KeyboardComponent implements OnInit {
       this.appointmentTemp={
         apptKindClient:APPOINTMENT_KIND_CLIENT.BUSINESS,
         bussId:d.bussId,
-        apptmNumberDocClient:d.bussRUC
+        apptmNumberDocClient:d.bussRUC,
+        apptmNameClient:d.bussName
       }
       
       this.bussines = d;

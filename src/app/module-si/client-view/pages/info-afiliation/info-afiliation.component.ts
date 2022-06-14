@@ -24,7 +24,7 @@ export class InfoAfiliationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.setTypeDialog();
+    
   }
 
   cols: number = 2;
@@ -60,6 +60,9 @@ export class InfoAfiliationComponent implements OnInit {
   showEditAfiliacion(){
     this.showAfiliacion = !this.showAfiliacion;
     this.showAfiliacionEdit = !this.showAfiliacionEdit;
+    if(this.showAfiliacionEdit){
+      this.setTypeDialog();
+    }
   }
 
   UpdAfiliation(): boolean {
