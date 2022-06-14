@@ -90,7 +90,9 @@
           <ng-container matColumnDef="numArchivador">
             <th mat-header-cell *matHeaderCellDef>N° Archivador</th>
             <td mat-cell *matCellDef="let element">
-              {{ element.bussFileNumber }}
+              <span class="bg-danger rounded-circle">{{
+                element.bussFileNumber
+              }}</span>
             </td>
           </ng-container>
 

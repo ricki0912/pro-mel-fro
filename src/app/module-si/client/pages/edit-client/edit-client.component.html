@@ -59,18 +59,18 @@
               <mat-error>
                 {{
                   businessForm.get("business.bussRUC")?.hasError("required")
-                    ? "El numero de RUC es requerido"
+                    ? "El número de RUC es requerido"
                     : businessForm.get("business.bussRUC")?.hasError("existRuc")
-                    ? "El numero de RUC ya existe."
+                    ? "El número de RUC ya existe."
                     : businessForm
                         .get("business.bussRUC")
                         ?.hasError("minlength")
-                    ? "El numero de RUC debe tener minimo 11 caracteres."
+                    ? "El número de RUC debe tener minimo 11 caracteres."
                     : businessForm
                         .get("business.bussRUC")
                         ?.hasError("maxlength")
-                    ? "El numero de RUC debe tener maximo 11 caracteres."
-                    : "Ingrese el numero de RUC correcto"
+                    ? "El número de RUC debe tener maximo 11 caracteres."
+                    : "Ingrese el número de RUC correcto"
                 }}
               </mat-error>
             </mat-form-field>
@@ -94,7 +94,7 @@
           </mat-grid-tile>
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Numero de Archivador</mat-label>
+              <mat-label>Número de Archivador</mat-label>
               <input
                 matInput
                 formControlName="bussFileNumber"
@@ -112,12 +112,12 @@
                   businessForm
                     .get("business.bussFileNumber")
                     ?.hasError("required")
-                    ? "El numero de Archivador es requerido"
+                    ? "El número de Archivador es requerido"
                     : businessForm
                         .get("business.bussFileNumber")
                         ?.hasError("existFileNumber")
-                    ? "El numero de Archivador ya existe."
-                    : "Ingrese el numero de Archivador correcto"
+                    ? "El número de Archivador ya existe."
+                    : "Ingrese el número de Archivador correcto"
                 }}
               </mat-error>
             </mat-form-field>
@@ -202,20 +202,20 @@
               <mat-error>
                 {{
                   businessForm.get("person.perNumberDoc")?.hasError("required")
-                    ? "El numero de DNI es requerido"
+                    ? "El número de DNI es requerido"
                     : businessForm
                         .get("person.perNumberDoc")
                         ?.hasError("existDni")
-                    ? "El numero de DNI ya existe."
+                    ? "El número de DNI ya existe."
                     : businessForm
                         .get("person.perNumberDoc")
                         ?.hasError("minlength")
-                    ? "El numero de DNI debe tener minimo 8 caracteres."
+                    ? "El número de DNI debe tener minimo 8 caracteres."
                     : businessForm
                         .get("person.perNumberDoc")
                         ?.hasError("maxlength")
-                    ? "El numero de DNI debe tener maximo 8 caracteres."
-                    : "Ingrese el numero de DNI correcto"
+                    ? "El número de DNI debe tener maximo 8 caracteres."
+                    : "Ingrese el número de DNI correcto"
                 }}
               </mat-error>
             </mat-form-field>
@@ -229,7 +229,7 @@
           </mat-grid-tile>
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Número de teléfono</mat-label>
+              <mat-label>Número de Celular</mat-label>
               <input
                 matInput
                 formControlName="perTel"
@@ -239,12 +239,12 @@
               <mat-error>
                 {{
                   businessForm.get("person.perTel")?.hasError("required")
-                    ? "El numero de celular es requerido"
+                    ? "El número de celular es requerido"
                     : businessForm.get("person.perTel")?.hasError("minlength")
-                    ? "El numero de celular debe tener minimo 9 caracteres."
+                    ? "El número de celular debe tener minimo 9 caracteres."
                     : businessForm.get("person.perTel")?.hasError("maxlength")
-                    ? "El numero de celular debe tener maximo 9 caracteres."
-                    : "Ingrese el numero de celular correcto"
+                    ? "El número de celular debe tener maximo 9 caracteres."
+                    : "Ingrese el número de celular correcto"
                 }}
               </mat-error>
             </mat-form-field>
