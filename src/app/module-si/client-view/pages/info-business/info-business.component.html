@@ -18,7 +18,11 @@
       <mat-grid-tile>
         <div>
           <small>Tipo de Negocio: </small>
-          <b>{{ buss?.bussKind?.trim() == "1" ? "Juridica" : "Natural" }}</b>
+          <b [ngSwitch]="buss?.bussKind"
+            ><b *ngSwitchCase="1">Persona Juridica</b
+            ><b *ngSwitchCase="2">Persona Natural con Negocio</b
+            ><b *ngSwitchCase="3">Persona Natural sin Negocio</b></b
+          >
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
@@ -83,7 +87,8 @@
               <mat-label>Tipo de negocio</mat-label>
               <mat-select formControlName="bussKind">
                 <mat-option value="1">Persona Juridica</mat-option>
-                <mat-option value="2">Persona Natural</mat-option>
+                <mat-option value="2">Persona Natural con Negocio</mat-option>
+                <mat-option value="3">Persona Natural sin Negocio</mat-option>
               </mat-select>
               <mat-error> EL tipo de negocio es requerido. </mat-error>
             </mat-form-field>
