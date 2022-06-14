@@ -43,9 +43,24 @@ table {
 
 .mat-cell:nth-child(2){
   color: #2962ff;
+  padding-left: 5px;
 }
 
 .mat-cell:nth-child(2):hover{
   text-decoration: underline;
   font-weight: bold;
+}
+
+.mat-header-cell{
+  text-align: center;
+}
+
+.mat-cell:nth-child(4){
+  text-align: center;
+}
+
+.bg-danger {
+  padding: 5px;
+  color: white;
+  background: #f44336;
 }
