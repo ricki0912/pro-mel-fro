@@ -32,6 +32,22 @@ export interface Payment extends ParentInterface{
   payTotal?:string,
   payTotalInWords?:string,
 
+  
+  
+ /*Igv 09/06/2022*/
+ payTaxAcumulate?:number, /*1=Acumulado, 2=NO acumulado*/
+ paySubPreviusTotal?:number, /*El total previo*/ 
+ /*Igv 09/06/2022*/
+ /*Campos para clientes no registrados*/
+ 
+ payTotalTaxBase?:number,
+ payTaxPercent?:number, 
+
+ payIsCanceled?:number,/*1=cancelado, 2=no cancelado*/
+ 
+ payTicketSN?:string,
+ payInvoiceSN?:string,
+
   paymentDetails?:PaymentDetail[],
   dPaymentPaymentMethods?:DPaymentPaymentMethod[]
 }
@@ -42,6 +58,10 @@ export enum PAYMENT_STATE{
 
 export enum PAYMENT_KIND_DOC{
   RECIBO=1, BOLETA=2, FACTURA=3
+}
+
+export enum PAYMENT_KIND_CANCELED {
+  CANCELED=1, NO_CANCELED=2
 }
 
 

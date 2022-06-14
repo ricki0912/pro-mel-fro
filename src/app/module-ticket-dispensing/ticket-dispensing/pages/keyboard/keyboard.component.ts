@@ -29,24 +29,25 @@ export class KeyboardComponent implements OnInit {
 
   public keys: any = [
     [
-      { value: 7, color: '', colspan: 1, onClick: (value: number) => this.appendValue(value) },
-      { value: 8, color: '', colspan: 1, onClick: (value: number) => this.appendValue(value) },
-      { value: 9, color: '', colspan: 1, onClick: (value: number) => this.appendValue(value) },
+      { value: 7, color: '', colspan: 1,rowspan:1, onClick: (value: number) => this.appendValue(value) },
+      { value: 8, color: '', colspan: 1,rowspan:1, onClick: (value: number) => this.appendValue(value) },
+      { value: 9, color: '', colspan: 1,rowspan:1, onClick: (value: number) => this.appendValue(value) },
+
     ],
     [
-      { value: 4, color: '', colspan: 1, onClick: (value: number) => this.appendValue(value) },
-      { value: 5, color: '', colspan: 1, onClick: (value: number) => this.appendValue(value) },
-      { value: 6, color: '', colspan: 1, onClick: (value: number) => this.appendValue(value) },
+      { value: 4, color: '', colspan: 1,rowspan:1, onClick: (value: number) => this.appendValue(value) },
+      { value: 5, color: '', colspan: 1,rowspan:1, onClick: (value: number) => this.appendValue(value) },
+      { value: 6, color: '', colspan: 1,rowspan:1, onClick: (value: number) => this.appendValue(value) },
     ],
     [
-      { value: 1, color: '', colspan: 1, onClick: (value: number) => this.appendValue(value) },
-      { value: 2, color: '', colspan: 1, onClick: (value: number) => this.appendValue(value) },
-      { value: 3, color: '', colspan: 1, onClick: (value: number) => this.appendValue(value) },
+      { value: 1, color: '', colspan: 1,rowspan:1, onClick: (value: number) => this.appendValue(value) },
+      { value: 2, color: '', colspan: 1,rowspan:1, onClick: (value: number) => this.appendValue(value) },
+      { value: 3, color: '', colspan: 1,rowspan:1, onClick: (value: number) => this.appendValue(value) },
     ],
     [
-      { value: "", color: 'warm', colspan: 1, onClick: (value: number) => this.clear() },
-      { value: 0, color: '', colspan: 1, onClick: (value: number) => this.appendValue(value) },
-      { value: "", color: '', colspan: 1, onClick: (value: number) => this.clearAll() },
+      { value: "", color: 'warm', colspan: 1,rowspan:1, onClick: (value: number) => this.clear() },
+      { value: 0, color: '', colspan: 1,rowspan:1, onClick: (value: number) => this.appendValue(value) },
+      { value: "", color: '', colspan: 1,rowspan:1, onClick: (value: number) => this.clearAll() },
     ],
 
   ]

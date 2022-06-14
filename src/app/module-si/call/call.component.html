@@ -141,8 +141,10 @@
                 <th mat-header-cell *matHeaderCellDef> E/C </th>
                 <td mat-cell *matCellDef="let element; let i = index;"> 
                   <mat-chip-list aria-label="Fish selection" *ngIf="element.bussId">   
-                  <mat-chip style="background-color: green;">C</mat-chip> 
-                </mat-chip-list>            </td>
+                  <mat-icon style="color: green;">business</mat-icon>
+                  <!--<mat-chip style="background-color: green;">C</mat-chip> -->
+                </mat-chip-list>           
+               </td>
               </ng-container>
 
               <ng-container matColumnDef="ticket">

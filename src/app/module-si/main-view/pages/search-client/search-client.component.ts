@@ -39,7 +39,7 @@ export class SearchClientComponent implements OnInit {
   }
 
   private readBussines(){
-    this.bussinesService.all()?.subscribe({
+    this.bussinesService.allSummarized()?.subscribe({
       next: d=>this.bussines=d as Bussines[]
     });
   }

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { AccountingRoutingModule } from './accounting-routing.module';
 import { AccountingComponent } from './accounting.component';
@@ -43,7 +43,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { AddUnitPriceComponent } from './pages/add-unit-price/add-unit-price.component';
 
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { AddDescriptionComponent } from './pages/add-description/add-description.component';
 import { AddQuantityComponent } from './pages/add-quantity/add-quantity.component';
@@ -90,6 +90,8 @@ import { AddQuantityComponent } from './pages/add-quantity/add-quantity.componen
     MatDatepickerModule,
     MatNativeDateModule,
     
-  ]
+  ],
+  providers:[  DatePipe,     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+
 })
 export class AccountingModule { }

@@ -58,6 +58,7 @@
             </tr>
             <tr *ngFor="let category of categories; let i = index">
                 <td>{{i+1}}</td>
+         
                 <td>{{category.catNameLong}}</td>
                 <td>
                     <button (click)="detachCategory(teller.tellId || -1, category.catId || -1)" mat-icon-button aria-label="Example icon-button with a menu">

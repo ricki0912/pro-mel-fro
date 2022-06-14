@@ -63,7 +63,6 @@ export class ListBussPeriodsComponent implements OnInit {
     this.clientViewService.getSelectedBussines().subscribe((b:Bussines | null)=>{
       if(b)
         this.business=b;
-          
     })
   }
   ngOnInit(): void {
@@ -157,6 +156,8 @@ export class ListBussPeriodsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.readServiceProvidedsByDBP(this.bp.dbp?.dbpId || -1)
+
         //this.transferCallToTeller(this.tAppointmentTemp?.apptmId || -1, result.tellId || -1)
 
         /*const apptmIds:number[]= this.selection.selected.reduce(( p:number[], c:TAppointmentTemp)=>[...p, c.apptmId || -1], [])
@@ -310,6 +311,7 @@ export class ListBussPeriodsComponent implements OnInit {
       next: d=>{
         this.servicesProvided=d.data as TServicesProvided[]
         this.dataSource.data=this.servicesProvided
+        this.selection.clear();
       }, 
      error:  e=>{
         this.showMessage.error({message: e.error.message})
