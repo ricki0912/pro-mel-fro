@@ -7,6 +7,8 @@ export interface Person extends ParentInterface{
     perName?: string,
     perAddress?: string
     perTel?: string,
+    perTel2?: string,
+    perTel3?: string,
     perEmail?: string,
 }
 

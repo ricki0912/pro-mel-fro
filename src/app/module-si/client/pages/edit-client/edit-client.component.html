@@ -46,7 +46,7 @@
               <input
                 matInput
                 formControlName="bussRUC"
-                (keypress)="validateFormat($event)"
+                (keypress)="bh.validateFormat($event)"
                 maxlength="11"
               />
               <mat-progress-spinner
@@ -98,7 +98,7 @@
               <input
                 matInput
                 formControlName="bussFileNumber"
-                (keypress)="validateFormat($event)"
+                (keypress)="bh.validateFormat($event)"
               />
               <mat-progress-spinner
                 *ngIf="businessForm.get('business.bussFileNumber')?.pending"
@@ -189,7 +189,7 @@
               <input
                 matInput
                 formControlName="perNumberDoc"
-                (keypress)="validateFormat($event)"
+                (keypress)="bh.validateFormat($event)"
                 maxlength="8"
               />
               <mat-progress-spinner
@@ -233,7 +233,7 @@
               <input
                 matInput
                 formControlName="perTel"
-                (keypress)="validateFormat($event)"
+                (keypress)="bh.validateFormat($event)"
                 maxlength="9"
               />
               <mat-error>

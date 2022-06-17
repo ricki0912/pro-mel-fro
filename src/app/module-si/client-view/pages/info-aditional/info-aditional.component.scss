@@ -13,3 +13,25 @@ mat-form-field.mat-form-field {
   margin-right: 4px;
   background-color: white;
 }
+
+.titleItem{
+  margin: 0px;
+  font-size: 20px;
+  padding-top: 8px;
+}
+
+.titleGroup{
+  background-color: rgba($color: #90caf9, $alpha: 0.2);
+  padding-left: 8px;
+}
+
+.divActions{
+  background-color: rgba($color: #90caf9, $alpha: 0.2);
+  margin: 0px;
+  text-align: right;
+  padding-top: 5px;
+}
+
+.mat-icon{
+  color: #0d47a1;
+}

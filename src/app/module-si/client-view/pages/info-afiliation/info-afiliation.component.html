@@ -1,11 +1,11 @@
 <mat-card
   class="datosAfiliacion"
   *ngIf="showAfiliacion"
-  style="padding: 5px; margin-bottom: 5px"
+  style="padding: 0px; margin-bottom: 5px"
 >
-  <mat-card-title-group>
-    <mat-card-title style="margin: 0px"
-      >Información de Afiliación</mat-card-title
+  <mat-card-title-group class="titleGroup">
+    <mat-card-title class="titleItem"
+      ><i>Información de Afiliación</i></mat-card-title
     >
     <mat-card-actions>
       <button mat-icon-button (click)="showEditAfiliacion()">
@@ -14,8 +14,8 @@
     </mat-card-actions>
   </mat-card-title-group>
   <mat-divider></mat-divider>
-  <mat-card-content>
-    <mat-grid-list cols="2" rowHeight="2rem">
+  <mat-card-content style="padding: 8px">
+    <mat-grid-list cols="3" rowHeight="2rem">
       <mat-grid-tile>
         <div>
           <small>Usuario SUNAT: </small>
@@ -52,17 +52,35 @@
           <b>{{ afi?.bussAfpPass }}</b>
         </div>
       </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Código Sencico: </small>
+          <b>{{ afi?.bussSimpleCode }}</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Clave Detracciones: </small>
+          <b>{{ afi?.bussDetractionsPass }}</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Clave SIS: </small>
+          <b>{{ afi?.bussSisClave }}</b>
+        </div>
+      </mat-grid-tile>
     </mat-grid-list>
   </mat-card-content>
 </mat-card>
 <mat-card
   class="datosAfiliacionEdit"
   *ngIf="showAfiliacionEdit"
-  style="padding: 5px; margin-bottom: 5px"
+  style="padding: 0px; margin-bottom: 5px"
 >
-  <mat-card-title-group>
-    <mat-card-title style="margin: 0px"
-      >Información de Afiliación</mat-card-title
+  <mat-card-title-group style="padding-left: 8px">
+    <mat-card-title class="titleItem"
+      ><i>Información de Afiliación</i></mat-card-title
     >
     <mat-card-actions>
       <button mat-icon-button (click)="showEditAfiliacion()">
@@ -117,16 +135,38 @@
               <mat-error> La clave AFP NET es requerido. </mat-error>
             </mat-form-field>
           </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Código Sencico</mat-label>
+              <input matInput formControlName="bussSimpleCode" />
+              <mat-error> El Código sencico es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Clave Detracciones</mat-label>
+              <input matInput formControlName="bussDetractionsPass" />
+              <mat-error> La clave de detracciones es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Clave SIS</mat-label>
+              <input matInput formControlName="bussSisClave" />
+              <mat-error> La clave SIS es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
         </div>
       </mat-grid-list>
     </form>
   </mat-card-content>
   <mat-divider></mat-divider>
   <mat-dialog-actions>
-    <div style="text-align: right; padding-top: 5px">
+    <div class="divActions">
       <button mat-button (click)="showEditAfiliacion()">Cancelar</button>
       <button
         mat-button
+        color="accent"
         cdkFocusInitial
         type="submit"
         (click)="UpdAfiliation()"

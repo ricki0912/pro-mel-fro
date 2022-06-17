@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { map, Observable, Subscription } from 'rxjs';
+import { BusinessHelpers } from 'src/app/global/helpers/business.helpers';
 import { Bussines } from 'src/app/interfaces/bussines';
 import { Person } from 'src/app/interfaces/person';
 import { BussinesService } from 'src/app/services/bussines.service';
@@ -19,6 +20,7 @@ export class InfoPersonComponent implements OnInit {
   @Output() onLoading = new EventEmitter<Bussines>();
   showPerson = true;
   showPersonEdit = false;
+  bh: BusinessHelpers = new BusinessHelpers();
 
   constructor(
     private fb: FormBuilder,
@@ -44,14 +46,16 @@ export class InfoPersonComponent implements OnInit {
     person : this.fb.group({
       perKindDoc : ['',Validators.required],
       perNumberDoc : ['', {
-        validators: [Validators.required],
+        validators: [Validators.required, Validators.minLength(8), Validators.maxLength(8), Validators.pattern("[0-9]{8}")],
         asyncValidators: this.validateDNI.bind(this),
         updateOn: 'blur',
       }],
       perName : ['',Validators.required],
-      perTel :[''],
-      perEmail : [''],
-      perAddress : ['']
+      perAddress : [''],
+      perEmail : ['',{validators: [Validators.email]}],
+      perTel :['', {validators: [Validators.minLength(9), Validators.maxLength(9), Validators.pattern("[9]{1}[0-9]{8}")]}],
+      perTel2 :['', {validators: [Validators.minLength(9), Validators.maxLength(9), Validators.pattern("[9]{1}[0-9]{8}")]}],
+      perTel3 :['', {validators: [Validators.minLength(9), Validators.maxLength(9), Validators.pattern("[9]{1}[0-9]{8}")]}]
     })
   });
 
@@ -59,9 +63,11 @@ export class InfoPersonComponent implements OnInit {
     this.datosPersonForm.get('person.perKindDoc')?.setValue(this.per?.person.perKindDoc);
     this.datosPersonForm.get('person.perNumberDoc')?.setValue(this.per?.person.perNumberDoc);
     this.datosPersonForm.get('person.perName')?.setValue(this.per?.person.perName);
-    this.datosPersonForm.get('person.perTel')?.setValue(this.per?.person.perTel);
     this.datosPersonForm.get('person.perEmail')?.setValue(this.per?.person.perEmail);
     this.datosPersonForm.get('person.perAddress')?.setValue(this.per?.person.perAddress);
+    this.datosPersonForm.get('person.perTel')?.setValue(this.per?.person.perTel);
+    this.datosPersonForm.get('person.perTel2')?.setValue(this.per?.person.perTel2);
+    this.datosPersonForm.get('person.perTel3')?.setValue(this.per?.person.perTel3);
   }
 
   validateDNI(control: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null> {

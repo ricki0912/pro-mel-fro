@@ -1,11 +1,11 @@
 <mat-card
   class="datosRepresentate"
   *ngIf="showPerson"
-  style="padding: 5px; margin-bottom: 5px"
+  style="padding: 0px; margin-bottom: 5px"
 >
-  <mat-card-title-group>
-    <mat-card-title style="margin: 0px"
-      >Información del Representate Legal</mat-card-title
+  <mat-card-title-group class="titleGroup">
+    <mat-card-title class="titleItem"
+      ><i>Información del Representate Legal</i></mat-card-title
     >
     <mat-card-actions>
       <button mat-icon-button (click)="showEditPerson()">
@@ -28,7 +28,7 @@
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
-          <small>Numero de DNI: </small>
+          <small>Número de DNI: </small>
           <b>{{ per?.person?.perNumberDoc }}</b>
         </div>
       </mat-grid-tile>
@@ -40,8 +40,8 @@
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
-          <small>Numero de Telefono: </small>
-          <b>{{ per?.person?.perTel }}</b>
+          <small>Dirección: </small>
+          <b>{{ per?.person?.perAddress }}</b>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
@@ -52,8 +52,20 @@
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
-          <small>Direccion: </small>
-          <b>{{ per?.person?.perAddress }}</b>
+          <small>N° de Celular(Principal): </small>
+          <b>{{ per?.person?.perTel }}</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>N° de Celular(2): </small>
+          <b>{{ per?.person?.perTel2 }}</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>N° de Celular(3): </small>
+          <b>{{ per?.person?.perTel3 }}</b>
         </div>
       </mat-grid-tile>
     </mat-grid-list>
@@ -61,12 +73,12 @@
 </mat-card>
 <mat-card
   class="datosPersonEdit"
-  *ngIf="showPersonEdit;"
-  style="padding: 5px; margin-bottom: 5px"
+  *ngIf="showPersonEdit"
+  style="padding: 0px; margin-bottom: 5px"
 >
-  <mat-card-title-group>
-    <mat-card-title style="margin: 0px"
-      >Información del Representate Legal</mat-card-title
+  <mat-card-title-group style="padding-left: 8px">
+    <mat-card-title class="titleItem"
+      ><i>Información del Representate Legal</i></mat-card-title
     >
     <mat-card-actions>
       <button mat-icon-button (click)="showEditPerson()">
@@ -92,7 +104,12 @@
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>DNI</mat-label>
-              <input matInput formControlName="perNumberDoc" />
+              <input
+                matInput
+                formControlName="perNumberDoc"
+                (keypress)="bh.validateFormat($event)"
+                maxlength="8"
+              />
               <mat-progress-spinner
                 *ngIf="datosPersonForm.get('person.perNumberDoc')?.pending"
                 matSuffix
@@ -105,12 +122,20 @@
                   datosPersonForm
                     .get("person.perNumberDoc")
                     ?.hasError("required")
-                    ? "El numero de DNI es requerido"
+                    ? "El número de DNI es requerido"
                     : datosPersonForm
                         .get("person.perNumberDoc")
                         ?.hasError("existDni")
-                    ? "El numero de DNI ya existe."
-                    : "Ingrese el numero de DNI correcto"
+                    ? "El número de DNI ya existe."
+                    : datosPersonForm
+                        .get("person.perNumberDoc")
+                        ?.hasError("minlength")
+                    ? "El número de DNI debe tener minimo 8 caracteres."
+                    : datosPersonForm
+                        .get("person.perNumberDoc")
+                        ?.hasError("maxlength")
+                    ? "El número de DNI debe tener maximo 8 caracteres."
+                    : "Ingrese el número de DNI correcto"
                 }}
               </mat-error>
             </mat-form-field>
@@ -131,16 +156,93 @@
           </mat-grid-tile>
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Número de teléfono</mat-label>
-              <input matInput formControlName="perTel" />
-              <mat-error> El número de telefono es requerido. </mat-error>
+              <mat-label>Correo Electrónico</mat-label>
+              <input matInput formControlName="perEmail" />
+              <mat-error>
+                {{
+                  datosPersonForm.get("person.perEmail")?.hasError("email")
+                    ? "El correo electrónico no es válido"
+                    : "Ingrese un correo electrónico válido"
+                }}
+              </mat-error>
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Correo Electronico</mat-label>
-              <input matInput formControlName="perEmail" />
-              <mat-error> El correo electronico es requerido. </mat-error>
+              <mat-label>Número Celular Principal</mat-label>
+              <input
+                matInput
+                formControlName="perTel"
+                (keypress)="bh.validateFormat($event)"
+                maxlength="9"
+              />
+              <mat-error>
+                {{
+                  datosPersonForm.get("person.perTel")?.hasError("required")
+                    ? "El número de celular es requerido"
+                    : datosPersonForm
+                        .get("person.perTel")
+                        ?.hasError("minlength")
+                    ? "El número de celular debe tener minimo 9 caracteres."
+                    : datosPersonForm
+                        .get("person.perTel")
+                        ?.hasError("maxlength")
+                    ? "El número de celular debe tener maximo 9 caracteres."
+                    : "Ingrese el número de celular correcto"
+                }}
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Número Celular 2</mat-label>
+              <input
+                matInput
+                formControlName="perTel2"
+                (keypress)="bh.validateFormat($event)"
+                maxlength="9"
+              />
+              <mat-error>
+                {{
+                  datosPersonForm.get("person.perTel2")?.hasError("required")
+                    ? "El número de celular es requerido"
+                    : datosPersonForm
+                        .get("person.perTel2")
+                        ?.hasError("minlength")
+                    ? "El número de celular debe tener minimo 9 caracteres."
+                    : datosPersonForm
+                        .get("person.perTel2")
+                        ?.hasError("maxlength")
+                    ? "El número de celular debe tener maximo 9 caracteres."
+                    : "Ingrese el número de celular correcto"
+                }}
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Número Celular 3</mat-label>
+              <input
+                matInput
+                formControlName="perTel3"
+                (keypress)="bh.validateFormat($event)"
+                maxlength="9"
+              />
+              <mat-error>
+                {{
+                  datosPersonForm.get("person.perTel3")?.hasError("required")
+                    ? "El número de celular es requerido"
+                    : datosPersonForm
+                        .get("person.perTel3")
+                        ?.hasError("minlength")
+                    ? "El número de celular debe tener minimo 9 caracteres."
+                    : datosPersonForm
+                        .get("person.perTel3")
+                        ?.hasError("maxlength")
+                    ? "El número de celular debe tener maximo 9 caracteres."
+                    : "Ingrese el número de celular correcto"
+                }}
+              </mat-error>
             </mat-form-field>
           </mat-grid-tile>
         </div>
@@ -149,11 +251,15 @@
   </mat-card-content>
   <mat-divider></mat-divider>
   <mat-dialog-actions>
-    <div style="text-align: right; padding-top: 5px">
-      <button mat-button mat-dialog-close (click)="showEditPerson()">
-        Cancelar
-      </button>
-      <button mat-button cdkFocusInitial type="submit" (click)="UpdPerson()">
+    <div class="divActions">
+      <button mat-button (click)="showEditPerson()">Cancelar</button>
+      <button
+        mat-button
+        color="accent"
+        cdkFocusInitial
+        type="submit"
+        (click)="UpdPerson()"
+      >
         Guardar
       </button>
     </div>

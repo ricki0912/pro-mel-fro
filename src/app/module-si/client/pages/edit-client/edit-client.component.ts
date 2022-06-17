@@ -10,6 +10,7 @@ import { BussinesService } from 'src/app/services/bussines.service';
 import { Person } from 'src/app/interfaces/person';
 import { PersonService } from 'src/app/services/person.service';
 import { MainViewService } from 'src/app/module-si/main-view/main-view.service';
+import { BusinessHelpers } from 'src/app/global/helpers/business.helpers';
 
 @Component({
   selector: 'app-edit-client',
@@ -22,6 +23,7 @@ export class EditClientComponent implements OnInit, OnDestroy {
   businessBeforeUpd: Bussines | null = null;
   tellers: TellerJoinUsers[] = [];
   private hqId:number=0;
+  bh: BusinessHelpers = new BusinessHelpers();
 
   constructor(
     public mediaObserver: MediaObserver, /*esta a la escucha cuando se renderiza */
@@ -200,23 +202,6 @@ export class EditClientComponent implements OnInit, OnDestroy {
     const business: Bussines = this.businessForm.value;
     this.onReturn(business);
     return true
-  }
-
-  public validateFormat(event:any) {
-    let key;
-    if (event.type === 'paste') {
-      key = event.clipboardData.getData('text/plain');
-    } else {
-      key = event.keyCode;
-      key = String.fromCharCode(key);
-    }
-    const regex = /[0-9]|\./;
-    if (!regex.test(key)) {
-      event.returnValue = false;
-      if (event.preventDefault) {
-        event.preventDefault();
-      }
-    }
   }
 
   private readTeller(hqId:number) {

@@ -4,6 +4,7 @@ import { map, Observable, Subscription } from 'rxjs';
 import { Bussines } from 'src/app/interfaces/bussines';
 import { BussinesService } from 'src/app/services/bussines.service';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
+import { BusinessHelpers } from 'src/app/global/helpers/business.helpers'
 
 @Component({
   selector: 'app-info-business',
@@ -17,6 +18,7 @@ export class InfoBusinessComponent implements OnInit {
   @Output() onLoading = new EventEmitter<Bussines>();
   showBusiness = true;
   showBusinessEdit = false;
+  bh: BusinessHelpers = new BusinessHelpers();
 
   constructor(
     private fb: FormBuilder,
@@ -25,7 +27,7 @@ export class InfoBusinessComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+
   }
 
   cols: number = 2;
@@ -43,7 +45,7 @@ export class InfoBusinessComponent implements OnInit {
       bussKind : ['',Validators.required],
       bussName : ['',Validators.required],
       bussRUC : ['', {
-        validators: [Validators.required],
+        validators: [Validators.required, Validators.minLength(11), Validators.maxLength(11), Validators.pattern("[0-9]{11}")],
         asyncValidators: this.validateRuc.bind(this),
         updateOn: 'blur',
       }],
@@ -54,7 +56,10 @@ export class InfoBusinessComponent implements OnInit {
         asyncValidators: this.validateFileNumber.bind(this),
         updateOn: 'blur',
       }],
-      bussState : ['',Validators.required]
+      bussState : ['',Validators.required],
+      bussTel :['', {validators: [Validators.minLength(9), Validators.maxLength(9), Validators.pattern("[9]{1}[0-9]{8}")]}],
+      bussTel2 :['', {validators: [Validators.minLength(9), Validators.maxLength(9), Validators.pattern("[9]{1}[0-9]{8}")]}],
+      bussTel3 :['', {validators: [Validators.minLength(9), Validators.maxLength(9), Validators.pattern("[9]{1}[0-9]{8}")]}]
     })
   });
 
@@ -66,6 +71,9 @@ export class InfoBusinessComponent implements OnInit {
     this.datosBusinesForm.get('business.bussFileKind')?.setValue(this.buss?.bussFileKind?.trim());
     this.datosBusinesForm.get('business.bussFileNumber')?.setValue(this.buss?.bussFileNumber);
     this.datosBusinesForm.get('business.bussState')?.setValue(this.buss?.bussState?.trim());
+    this.datosBusinesForm.get('business.bussTel')?.setValue(this.buss?.bussTel);
+    this.datosBusinesForm.get('business.bussTel2')?.setValue(this.buss?.bussTel2);
+    this.datosBusinesForm.get('business.bussTel3')?.setValue(this.buss?.bussTel3);
   }
 
   showEditBusiness(){
