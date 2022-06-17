@@ -1,10 +1,12 @@
 <mat-card
   class="otrasInformacion"
   *ngIf="showAditional"
-  style="padding: 5px; margin-bottom: 5px"
+  style="padding: 0px; margin-bottom: 5px"
 >
-  <mat-card-title-group>
-    <mat-card-title style="margin: 0px">Información Adicionales</mat-card-title>
+  <mat-card-title-group class="titleGroup">
+    <mat-card-title class="titleItem"
+      ><i>Información Adicionales</i></mat-card-title
+    >
     <mat-card-actions>
       <button mat-icon-button (click)="showEditAditional()">
         <mat-icon>edit</mat-icon>
@@ -12,7 +14,7 @@
     </mat-card-actions>
   </mat-card-title-group>
   <mat-divider></mat-divider>
-  <mat-card-content>
+  <mat-card-content style="padding: 8px">
     <mat-grid-list cols="2" rowHeight="2rem">
       <mat-grid-tile>
         <div>
@@ -46,13 +48,7 @@
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
-          <small>Numero Corporativo: </small>
-          <b>{{ adi?.bussTel }}</b>
-        </div>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <div>
-          <small>Correo Corporativos: </small>
+          <small>Correo Corporativo: </small>
           <b>{{ adi?.bussEmail }}</b>
         </div>
       </mat-grid-tile>
@@ -68,10 +64,12 @@
 <mat-card
   class="datosOtrosEdit"
   *ngIf="showAditionalEdit"
-  style="padding: 5px; margin-bottom: 5px"
+  style="padding: 0px; margin-bottom: 5px"
 >
-  <mat-card-title-group>
-    <mat-card-title style="margin: 0px">Información Adicionales</mat-card-title>
+  <mat-card-title-group style="padding-left: 8px">
+    <mat-card-title class="titleItem"
+      ><i>Información Adicionales</i></mat-card-title
+    >
     <mat-card-actions>
       <button mat-icon-button (click)="showEditAditional()">
         <mat-icon>keyboard_arrow_up</mat-icon>
@@ -79,7 +77,7 @@
     </mat-card-actions>
   </mat-card-title-group>
   <mat-divider></mat-divider>
-  <mat-card-content>
+  <mat-card-content style="padding: 8px">
     <form class="example-form" [formGroup]="datosAditionalForm">
       <mat-grid-list [cols]="cols" rowHeight="5rem" appearance="fillx">
         <div formGroupName="aditional">
@@ -140,16 +138,17 @@
           </mat-grid-tile>
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Número Corporativo</mat-label>
-              <input matInput formControlName="bussTel" />
-              <mat-error> El número corporativo es requerido. </mat-error>
-            </mat-form-field>
-          </mat-grid-tile>
-          <mat-grid-tile>
-            <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Correo Corporativo</mat-label>
               <input matInput formControlName="bussEmail" />
-              <mat-error> El correo corporativo es requerido. </mat-error>
+              <mat-error>
+                {{
+                  datosAditionalForm
+                    .get("aditional.bussEmail")
+                    ?.hasError("email")
+                    ? "El correo electrónico no es válido"
+                    : "Ingrese un correo electrónico válido"
+                }}
+              </mat-error>
             </mat-form-field>
           </mat-grid-tile>
           <mat-grid-tile>
@@ -165,9 +164,15 @@
   </mat-card-content>
   <mat-divider></mat-divider>
   <mat-dialog-actions>
-    <div style="text-align: right; padding-top: 5px">
+    <div class="divActions">
       <button mat-button (click)="showEditAditional()">Cancelar</button>
-      <button mat-button cdkFocusInitial type="submit" (click)="UpdAditional()">
+      <button
+        mat-button
+        color="accent"
+        cdkFocusInitial
+        type="submit"
+        (click)="UpdAditional()"
+      >
         Guardar
       </button>
     </div>

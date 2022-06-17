@@ -1,4 +1,3 @@
-
 <div class="windows">
   <mat-grid-list cols="1" rowHeight="30px">
     <mat-grid-tile colspan="1" rowspan="1">
@@ -11,18 +10,14 @@
     <mat-card id="datos">
       <mat-card-content *ngFor="let a of business">
         <div class="perfil">
-          <img
-            class="photo"
-            src="//www.gstatic.com/images/branding/product/2x/avatar_square_grey_48dp.png"
-            alt=""
-          />
+          <span class="number">{{ a.bussFileNumber }}</span>
         </div>
         <div class="datosBusiness">
           <div>
-            <span>{{ a.bussName }}</span>
+            <span class="bussName">{{ a.bussName }}</span>
           </div>
           <div>
-            <span>{{ a.bussRUC }}</span>
+            <span class="bussRuc">{{ a.bussRUC }}</span>
           </div>
         </div>
         <div class="datosRepresentate">
@@ -30,27 +25,37 @@
             <span>Representate Legal</span>
           </div>
           <div>
-            <span>{{ a.person.perName }}</span>
+            <span class="perName">{{ a.person.perName }}</span>
           </div>
           <div>
-            <span>{{ a.person.perNumberDoc }}</span>
+            <span class="perNumberDoc">{{ a.person.perNumberDoc }}</span>
           </div>
         </div>
         <mat-divider></mat-divider>
         <div class="datosFuncionamiento">
           <div>
-            <span>Inicio de actividades: {{ a.bussDateStartedAct }}</span>
+            <span
+              >Inicio de actividades:
+              <b
+                ><i>{{ a.bussDateStartedAct }}</i></b
+              ></span
+            >
           </div>
           <div>
-            <span>Ingreso al Estudio: {{ a.bussDateMembership }}</span>
+            <span
+              >Ingreso al Estudio: <b>{{ a.bussDateMembership }}</b></span
+            >
           </div>
           <div>
             <span
               >Estado:
               <b [ngSwitch]="a?.bussState"
-                ><b *ngSwitchCase="1">Activo</b
-                ><b *ngSwitchCase="2">Suspendido</b
-                ><b *ngSwitchCase="3">Eliminado</b></b
+                ><b style="color: #28a745" *ngSwitchCase="1"><i>Activo</i></b
+                ><b style="color: #dc3545" *ngSwitchCase="2"
+                  ><i>Suspendido</i></b
+                ><b style="color: #ffc107" *ngSwitchCase="3"
+                  ><i>Retirado</i></b
+                ></b
               ></span
             >
           </div>
@@ -65,13 +70,13 @@
           Servicios
         </button>-->
         <button
-        mat-raised-button
-        color="success"
-        style="width: 100%; margin-top: 10px"
-        routerLink="./"
-      >
-       Información General
-      </button>
+          mat-raised-button
+          color="success"
+          style="width: 100%; margin-top: 10px"
+          routerLink="./"
+        >
+          Información General
+        </button>
 
         <button
           mat-raised-button
@@ -82,22 +87,20 @@
           Control de Ejercicio
         </button>
         <button
-        mat-raised-button
-        color="success"
-        style="width: 100%; margin-top: 10px"
-        routerLink="./proof-of-payment"
-      >
-       Comprobante de Pago
-      </button>
+          mat-raised-button
+          color="success"
+          style="width: 100%; margin-top: 10px"
+          routerLink="./proof-of-payment"
+        >
+          Comprobante de Pago
+        </button>
       </mat-card-content>
     </mat-card>
     <mat-card id="contenido">
-      <router-outlet>
+      <router-outlet> </router-outlet>
 
-      </router-outlet>
-      
-<!--<mat-card-content *ngIf="contentBusiness">
-       
+      <!--<mat-card-content *ngIf="contentBusiness">
+
         <app-info-business
           (onLoading)="ngOnInit()"
           [buss]="buss"
@@ -109,13 +112,13 @@
           [per]="per"
           *ngFor="let per of business"
         ></app-info-person>
-      
+
         <app-info-afiliation
           (onLoading)="ngOnInit()"
           [afi]="afi"
           *ngFor="let afi of business"
         ></app-info-afiliation>
-     
+
         <app-info-aditional
           (onLoading)="ngOnInit()"
           [adi]="adi"
@@ -123,9 +126,8 @@
         ></app-info-aditional>
       </mat-card-content> -->
       <ng-container *ngIf="contentServices">
-        <app-services
-        ></app-services>
- <!--       <app-services
+        <app-services></app-services>
+        <!--       <app-services
           [serBuss]="serBuss"
           *ngFor="let serBuss of business"
         ></app-services>-->

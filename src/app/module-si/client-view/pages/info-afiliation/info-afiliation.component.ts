@@ -24,7 +24,7 @@ export class InfoAfiliationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+
   }
 
   cols: number = 2;
@@ -44,7 +44,10 @@ export class InfoAfiliationComponent implements OnInit {
       bussCodeSend : [''],
       bussCodeRNP : [''],
       bussAfpUser : [''],
-      bussAfpPass : ['']
+      bussAfpPass : [''],
+      bussSimpleCode : [''],
+      bussDetractionsPass : [''],
+      bussSisClave : ['']
     })
   });
 
@@ -55,6 +58,9 @@ export class InfoAfiliationComponent implements OnInit {
     this.datosAfiliationForm.get('afiliation.bussCodeRNP')?.setValue(this.afi?.bussCodeRNP);
     this.datosAfiliationForm.get('afiliation.bussAfpUser')?.setValue(this.afi?.bussAfpUser);
     this.datosAfiliationForm.get('afiliation.bussAfpPass')?.setValue(this.afi?.bussAfpPass);
+    this.datosAfiliationForm.get('afiliation.bussSimpleCode')?.setValue(this.afi?.bussSimpleCode);
+    this.datosAfiliationForm.get('afiliation.bussDetractionsPass')?.setValue(this.afi?.bussDetractionsPass);
+    this.datosAfiliationForm.get('afiliation.bussSisClave')?.setValue(this.afi?.bussSisClave);
   }
 
   showEditAfiliacion(){

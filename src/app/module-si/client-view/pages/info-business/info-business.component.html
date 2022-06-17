@@ -1,10 +1,12 @@
 <mat-card
   class="datosNegocio"
   *ngIf="showBusiness"
-  style="padding: 5px; margin-bottom: 5px"
+  style="padding: 0px; margin-bottom: 5px"
 >
-  <mat-card-title-group>
-    <mat-card-title style="margin: 0px">Información del Negocio</mat-card-title>
+  <mat-card-title-group class="titleGroup">
+    <mat-card-title class="titleItem"
+      ><i>Información del Negocio</i></mat-card-title
+    >
     <mat-card-actions>
       <button mat-icon-button (click)="showEditBusiness()">
         <mat-icon>edit</mat-icon>
@@ -13,7 +15,7 @@
   </mat-card-title-group>
 
   <mat-divider></mat-divider>
-  <mat-card-content>
+  <mat-card-content style="padding: 8px">
     <mat-grid-list cols="3" rowHeight="4rem">
       <mat-grid-tile>
         <div>
@@ -33,7 +35,7 @@
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
-          <small>Direccion: </small>
+          <small>Dirección: </small>
           <b>{{ buss?.bussAddress }}</b>
         </div>
       </mat-grid-tile>
@@ -60,16 +62,36 @@
           >
         </div>
       </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>N° Corporativo(Principal): </small>
+          <b>{{ buss?.bussTel }}</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>N° Corporativo(2): </small>
+          <b>{{ buss?.bussTel2 }}</b>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>N° Corporativo(3): </small>
+          <b>{{ buss?.bussTel3 }}</b>
+        </div>
+      </mat-grid-tile>
     </mat-grid-list>
   </mat-card-content>
 </mat-card>
 <mat-card
   class="datosNegocioEdit"
   *ngIf="showBusinessEdit"
-  style="padding: 5px; margin-bottom: 5px"
+  style="padding: 0px; margin-bottom: 5px"
 >
-  <mat-card-title-group>
-    <mat-card-title style="margin: 0px">Información del Negocio</mat-card-title>
+  <mat-card-title-group style="padding-left: 8px">
+    <mat-card-title class="titleItem"
+      ><i>Información del Negocio</i></mat-card-title
+    >
     <mat-card-actions>
       <button mat-icon-button (click)="showEditBusiness()">
         <mat-icon>keyboard_arrow_up</mat-icon>
@@ -78,7 +100,7 @@
   </mat-card-title-group>
 
   <mat-divider></mat-divider>
-  <mat-card-content>
+  <mat-card-content style="padding: 8px">
     <form class="example-form" [formGroup]="datosBusinesForm">
       <mat-grid-list [cols]="cols" rowHeight="5rem" appearance="fillx">
         <div formGroupName="business">
@@ -105,7 +127,12 @@
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>RUC</mat-label>
-              <input matInput formControlName="bussRUC" />
+              <input
+                matInput
+                formControlName="bussRUC"
+                (keypress)="bh.validateFormat($event)"
+                maxlength="11"
+              />
               <mat-progress-spinner
                 *ngIf="datosBusinesForm.get('business.bussRUC')?.pending"
                 matSuffix
@@ -116,12 +143,20 @@
               <mat-error>
                 {{
                   datosBusinesForm.get("business.bussRUC")?.hasError("required")
-                    ? "El numero de RUC es requerido"
+                    ? "El número de RUC es requerido"
                     : datosBusinesForm
                         .get("business.bussRUC")
                         ?.hasError("existRuc")
-                    ? "El numero de RUC ya existe."
-                    : "Ingrese el numero de RUC correcto"
+                    ? "El número de RUC ya existe."
+                    : datosBusinesForm
+                        .get("business.bussRUC")
+                        ?.hasError("minlength")
+                    ? "El número de RUC debe tener minimo 11 caracteres."
+                    : datosBusinesForm
+                        .get("business.bussRUC")
+                        ?.hasError("maxlength")
+                    ? "El número de RUC debe tener maximo 11 caracteres."
+                    : "Ingrese el número de RUC correcto"
                 }}
               </mat-error>
             </mat-form-field>
@@ -145,8 +180,12 @@
           </mat-grid-tile>
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Numero de Archivador</mat-label>
-              <input matInput formControlName="bussFileNumber" />
+              <mat-label>Número de Archivador</mat-label>
+              <input
+                matInput
+                formControlName="bussFileNumber"
+                (keypress)="bh.validateFormat($event)"
+              />
               <mat-progress-spinner
                 *ngIf="datosBusinesForm.get('business.bussFileNumber')?.pending"
                 matSuffix
@@ -159,12 +198,12 @@
                   datosBusinesForm
                     .get("business.bussFileNumber")
                     ?.hasError("required")
-                    ? "El numero de Archivador es requerido"
+                    ? "El número de Archivador es requerido"
                     : datosBusinesForm
                         .get("business.bussFileNumber")
                         ?.hasError("existFileNumber")
-                    ? "El numero de Archivador ya existe."
-                    : "Ingrese el numero de Archivador correcto"
+                    ? "El número de Archivador ya existe."
+                    : "Ingrese el número de Archivador correcto"
                 }}
               </mat-error>
             </mat-form-field>
@@ -180,15 +219,103 @@
               <mat-error> EL tipo de Archivador es requerido. </mat-error>
             </mat-form-field>
           </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Número Corporativo Principal</mat-label>
+              <input
+                matInput
+                formControlName="bussTel"
+                (keypress)="bh.validateFormat($event)"
+                maxlength="9"
+              />
+              <mat-error>
+                {{
+                  datosBusinesForm.get("business.bussTel")?.hasError("required")
+                    ? "El número de celular es requerido"
+                    : datosBusinesForm
+                        .get("business.bussTel")
+                        ?.hasError("minlength")
+                    ? "El número de celular debe tener minimo 9 caracteres."
+                    : datosBusinesForm
+                        .get("business.bussTel")
+                        ?.hasError("maxlength")
+                    ? "El número de celular debe tener maximo 9 caracteres."
+                    : "Ingrese el número de celular correcto"
+                }}
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Número Corporativo 2</mat-label>
+              <input
+                matInput
+                formControlName="bussTel2"
+                (keypress)="bh.validateFormat($event)"
+                maxlength="9"
+              />
+              <mat-error>
+                {{
+                  datosBusinesForm
+                    .get("business.bussTel2")
+                    ?.hasError("required")
+                    ? "El número de celular es requerido"
+                    : datosBusinesForm
+                        .get("business.bussTel2")
+                        ?.hasError("minlength")
+                    ? "El número de celular debe tener minimo 9 caracteres."
+                    : datosBusinesForm
+                        .get("business.bussTel2")
+                        ?.hasError("maxlength")
+                    ? "El número de celular debe tener maximo 9 caracteres."
+                    : "Ingrese el número de celular correcto"
+                }}
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Número Corporativo 3</mat-label>
+              <input
+                matInput
+                formControlName="bussTel3"
+                (keypress)="bh.validateFormat($event)"
+                maxlength="9"
+              />
+              <mat-error>
+                {{
+                  datosBusinesForm
+                    .get("business.bussTel3")
+                    ?.hasError("required")
+                    ? "El número de celular es requerido"
+                    : datosBusinesForm
+                        .get("business.bussTel3")
+                        ?.hasError("minlength")
+                    ? "El número de celular debe tener minimo 9 caracteres."
+                    : datosBusinesForm
+                        .get("business.bussTel3")
+                        ?.hasError("maxlength")
+                    ? "El número de celular debe tener maximo 9 caracteres."
+                    : "Ingrese el número de celular correcto"
+                }}
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
         </div>
       </mat-grid-list>
     </form>
   </mat-card-content>
   <mat-divider></mat-divider>
   <mat-dialog-actions>
-    <div style="text-align: right; padding-top: 5px">
+    <div class="divActions">
       <button mat-button (click)="showEditBusiness()">Cancelar</button>
-      <button mat-button cdkFocusInitial type="submit" (click)="UpdBusiness()">
+      <button
+        mat-button
+        color="accent"
+        cdkFocusInitial
+        type="submit"
+        (click)="UpdBusiness()"
+      >
         Guardar
       </button>
     </div>

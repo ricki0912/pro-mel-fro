@@ -43,8 +43,7 @@ export class InfoAditionalComponent implements OnInit {
       bussDateStartedAct : ['',Validators.required],
       bussRegime : [''],
       bussKindBookAcc : [''],
-      bussTel : [''],
-      bussEmail : [''],
+      bussEmail : ['',{validators: [Validators.email]}],
       bussObservation : ['']
     })
   });
@@ -54,7 +53,6 @@ export class InfoAditionalComponent implements OnInit {
     this.datosAditionalForm.get('aditional.bussDateStartedAct')?.setValue(this.adi?.bussDateStartedAct);
     this.datosAditionalForm.get('aditional.bussRegime')?.setValue(this.adi?.bussRegime?.trim());
     this.datosAditionalForm.get('aditional.bussKindBookAcc')?.setValue(this.adi?.bussKindBookAcc?.trim());
-    this.datosAditionalForm.get('aditional.bussTel')?.setValue(this.adi?.bussTel);
     this.datosAditionalForm.get('aditional.bussEmail')?.setValue(this.adi?.bussEmail);
     this.datosAditionalForm.get('aditional.bussObservation')?.setValue(this.adi?.bussObservation);
   }
