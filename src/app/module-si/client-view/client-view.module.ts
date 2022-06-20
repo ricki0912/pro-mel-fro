@@ -38,6 +38,7 @@ import { ListBussPeriodsComponent } from './pages/list-buss-periods/list-buss-pe
 import { GeneralInformationComponent } from './pages/general-information/general-information.component';
 import { ProofOfPaymentComponent } from './pages/proof-of-payment/proof-of-payment.component';
 import { MatMenuModule} from '@angular/material/menu';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { MatMenuModule} from '@angular/material/menu';
     MatCheckboxModule,
     SatPopoverModule,
     MatListModule,
-    MatMenuModule
+    MatMenuModule,
+    ClipboardModule
   ],
   providers: [DatePipe]
 })

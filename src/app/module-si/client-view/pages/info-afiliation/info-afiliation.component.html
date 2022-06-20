@@ -20,54 +20,126 @@
         <div>
           <small>Usuario SUNAT: </small>
           <b>{{ afi?.bussSunatUser }}</b>
+          <button
+            mat-icon-button
+            cdkCopyToClipboard="{{ afi?.bussSunatUser }}"
+            matSuffix
+            color="primary"
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Clave Sol: </small>
-          <b>{{ afi?.bussSunatUser }}</b>
+          <b>{{ afi?.bussSunatPass }}</b>
+          <button
+            mat-icon-button
+            cdkCopyToClipboard="{{ afi?.bussSunatPass }}"
+            matSuffix
+            color="primary"
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Codigo de Envio: </small>
           <b>{{ afi?.bussCodeSend }}</b>
+          <button
+            mat-icon-button
+            cdkCopyToClipboard="{{ afi?.bussCodeSend }}"
+            matSuffix
+            color="primary"
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Codigo RNP: </small>
           <b>{{ afi?.bussCodeRNP }}</b>
+          <button
+            mat-icon-button
+            cdkCopyToClipboard="{{ afi?.bussCodeRNP }}"
+            matSuffix
+            color="primary"
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Usuario AFP NET: </small>
           <b>{{ afi?.bussAfpUser }}</b>
+          <button
+            mat-icon-button
+            cdkCopyToClipboard="{{ afi?.bussAfpUser }}"
+            matSuffix
+            color="primary"
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Clave AFP NET: </small>
           <b>{{ afi?.bussAfpPass }}</b>
+          <button
+            mat-icon-button
+            cdkCopyToClipboard="{{ afi?.bussAfpPass }}"
+            matSuffix
+            color="primary"
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Código Sencico: </small>
           <b>{{ afi?.bussSimpleCode }}</b>
+          <button
+            mat-icon-button
+            cdkCopyToClipboard="{{ afi?.bussSimpleCode }}"
+            matSuffix
+            color="primary"
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Clave Detracciones: </small>
           <b>{{ afi?.bussDetractionsPass }}</b>
+          <button
+            mat-icon-button
+            cdkCopyToClipboard="{{ afi?.bussDetractionsPass }}"
+            matSuffix
+            color="primary"
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>
         </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
           <small>Clave SIS: </small>
           <b>{{ afi?.bussSisClave }}</b>
+          <button
+            mat-icon-button
+            cdkCopyToClipboard="{{ afi?.bussSisClave }}"
+            matSuffix
+            color="primary"
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>
         </div>
       </mat-grid-tile>
     </mat-grid-list>

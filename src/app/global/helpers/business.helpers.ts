@@ -1,5 +1,6 @@
 
 export class BusinessHelpers{
+
   public validateFormat(event:any) {
     let key;
     if (event.type === 'paste') {
@@ -16,4 +17,5 @@ export class BusinessHelpers{
       }
     }
   }
+
 }

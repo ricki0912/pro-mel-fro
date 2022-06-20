@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { BusinessHelpers } from 'src/app/global/helpers/business.helpers';
 import { Bussines } from 'src/app/interfaces/bussines';
 import { BussinesService } from 'src/app/services/bussines.service';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
@@ -16,6 +17,7 @@ export class InfoAfiliationComponent implements OnInit {
   @Output() onLoading = new EventEmitter<Bussines>();
   showAfiliacion = true;
   showAfiliacionEdit = false;
+  bh: BusinessHelpers = new BusinessHelpers();
 
   constructor(
     private fb: FormBuilder,
