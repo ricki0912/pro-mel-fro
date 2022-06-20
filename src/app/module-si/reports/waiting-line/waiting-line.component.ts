@@ -15,6 +15,7 @@ import { Teller } from 'src/app/interfaces/teller';
 import { ParamsTicketMigration, TicketsMigrationComponent } from './pages/tickets-migration/tickets-migration.component';
 import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { AppointmentTempService } from 'src/app/services/appointment-temp.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-waiting-line',
@@ -44,6 +45,10 @@ export class WaitingLineComponent implements OnInit {
   dataSource = new MatTableDataSource<Appointment>();
   selection = new SelectionModel<Appointment>(true, []);
   
+  /*Parametros para buscar*/
+  dateStart:Date=new Date(new Date().getFullYear(), 0,1)
+  dateEnd:Date=new Date()
+
   constructor(
     
     
@@ -51,7 +56,9 @@ export class WaitingLineComponent implements OnInit {
     private appointmentTempService:AppointmentTempService,
     private dialog: MatDialog, 
     private showMessage:ShowMessageService,
-    private mainViewService:MainViewService
+    private mainViewService:MainViewService,
+    private datepipe: DatePipe,
+
   ) { }
 
   ngOnInit(): void {
@@ -101,7 +108,9 @@ export class WaitingLineComponent implements OnInit {
   
   //select search
   selectSearch(){
-    this.readAppointmentCRUD(this.hqId,this.selectedTeller, this.selectedCategory, this.selectedApptmState,'','')
+    let  dateStart = this.datepipe.transform(this.dateStart, 'yyyy/MM/dd') || '';
+    let dateEnd = this.datepipe.transform(this.dateEnd, 'yyyy/MM/dd') || '';
+    this.readAppointmentCRUD(this.hqId,this.selectedTeller, this.selectedCategory, this.selectedApptmState,dateStart,dateEnd)
   }
 
  /* filterTeller(tellId:number):TTellerJoinPerson{

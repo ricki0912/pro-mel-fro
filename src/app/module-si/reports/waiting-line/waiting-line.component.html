@@ -99,63 +99,67 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field> -->
-                        <mat-form-field appearance="legacy">
-                            <mat-label>Fecha Inicio</mat-label>
-                            <input matInput [matDatepicker]="picker1">
-                            <mat-hint>MM/DD/YYYY</mat-hint>
-                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                            <mat-datepicker #picker1></mat-datepicker>
-                        </mat-form-field>
+                        <form  (ngSubmit)="selectSearch()">
+                            <mat-form-field appearance="legacy">
+                                <mat-label>Fecha Inicio</mat-label>
+                                <input matInput [matDatepicker]="picker1" [(ngModel)]="dateStart" name="dateStart">
+                                <mat-hint>DD/MM/YYYY</mat-hint>
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+    
+                            <mat-form-field appearance="legacy">
+                                <mat-label>Fecha Fin</mat-label>
+                                <input matInput [matDatepicker]="picker2"  [(ngModel)]="dateEnd" name="dateEnd">
+                                <mat-hint>DD/MM/YYYY</mat-hint>
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+    
+                 
+    <!--
+                            <mat-form-field appearance="legacy">
+                                <mat-label>Estado</mat-label>
+                                <mat-select [(value)]="selectedApptmState" (selectionChange)="selectSearch()" >
+                                    <mat-option value="0" selected>
+                                        Todos
+                                    </mat-option>
+                                    <mat-option [value]="apptmState.apptmStateId" *ngFor="let apptmState of apptmStates">
+                                         {{apptmState.apptmStateName}} 
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+    
+                            <mat-form-field appearance="legacy">
+                                <mat-label>Ventanilla</mat-label>
+                                <mat-select [(value)]="selectedTeller" (selectionChange)="selectSearch()">
+                                    <mat-option value="0" selected>
+                                        Todos
+                                    </mat-option>
+                                    <mat-option [value]="teller.tellId" *ngFor="let teller of tellers">
+                                        {{teller.tellCode}} - {{teller.tellName}} 
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+    
+                            <mat-form-field appearance="legacy">
+                                <mat-label>Categoria</mat-label>
+                                <mat-select [(value)]="selectedCategory" (selectionChange)="selectSearch()">
+                                    <mat-option value="0" selected>
+                                        Todos
+                                    </mat-option>
+                                    <mat-option [value]="category.catId" *ngFor="let category of categories">
+                                        {{category.catNameLong}}
+                                    </mat-option>
+                                </mat-select>
+    
+                            </mat-form-field>-->
+                            <button mat-button type="submit">
+                                <mat-icon>search</mat-icon>Buscar
+                            </button>
+                        </form>
 
-                        <mat-form-field appearance="legacy">
-                            <mat-label>Fecha Fin</mat-label>
-                            <input matInput [matDatepicker]="picker2">
-                            <mat-hint>MM/DD/YYYY</mat-hint>
-                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2></mat-datepicker>
-                        </mat-form-field>
 
-             
-
-                        <mat-form-field appearance="legacy">
-                            <mat-label>Estado</mat-label>
-                            <mat-select [(value)]="selectedApptmState" (selectionChange)="selectSearch()">
-                                <mat-option value="0" selected>
-                                    Todos
-                                </mat-option>
-                                <mat-option [value]="apptmState.apptmStateId" *ngFor="let apptmState of apptmStates">
-                                     {{apptmState.apptmStateName}} 
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="legacy">
-                            <mat-label>Ventanilla</mat-label>
-                            <mat-select [(value)]="selectedTeller" (selectionChange)="selectSearch()">
-                                <mat-option value="0" selected>
-                                    Todos
-                                </mat-option>
-                                <mat-option [value]="teller.tellId" *ngFor="let teller of tellers">
-                                    {{teller.tellCode}} - {{teller.tellName}} 
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="legacy">
-                            <mat-label>Categoria</mat-label>
-                            <mat-select [(value)]="selectedCategory" (selectionChange)="selectSearch()">
-                                <mat-option value="0" selected>
-                                    Todos
-                                </mat-option>
-                                <mat-option [value]="category.catId" *ngFor="let category of categories">
-                                    {{category.catNameLong}}
-                                </mat-option>
-                            </mat-select>
-
-                        </mat-form-field>
-                        <button mat-button (click)="selectSearch()">
-                            <mat-icon>search</mat-icon>Buscar
-                        </button>
                         <mat-card *ngIf="isLoading" style="
                           display: flex;
                           justify-content: center;

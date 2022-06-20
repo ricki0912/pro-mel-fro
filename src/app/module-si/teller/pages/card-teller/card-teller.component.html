@@ -18,6 +18,7 @@
                     <mat-icon>person</mat-icon>
                     <span>Establecer usuario</span>
                 </button>
+              
                 <button mat-menu-item (click)="beforeUpdState()" *ngIf="teller.tellState==TTS.ACTIVO">
                     <mat-icon>pause</mat-icon>
                     <span>Poner en espera </span>
@@ -29,6 +30,11 @@
                 <button mat-menu-item (click)="openDialogUpd(teller)">
                     <mat-icon>edit</mat-icon>
                     <span>Editar</span>
+                </button>
+                <mat-divider></mat-divider>
+                <button mat-menu-item (click)="removeUser(teller.tellId || -1)">
+                    <mat-icon>close</mat-icon>
+                    <span>Retirar usuario</span>
                 </button>
                 <!--<button mat-menu-item (click)="openDialogUpd(teller)">
                       <mat-icon>edit</mat-icon>
@@ -56,7 +62,7 @@
                     </button>
                 </th>
             </tr>
-            <tr *ngFor="let category of categories; let i = index">
+            <tr [class.category-link-buss]="category.catLinkBus==CLB.YES" *ngFor="let category of categories; let i = index">
                 <td>{{i+1}}</td>
          
                 <td>{{category.catNameLong}}</td>

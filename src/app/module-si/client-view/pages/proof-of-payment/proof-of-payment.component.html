@@ -98,17 +98,17 @@
             </button>
             <button  mat-menu-item (click)="beforeSetTicket(element.payId, element)">
               <mat-icon>add</mat-icon>
-              <span>Agregar Boleta</span>
+              <span>Canjear Boleta</span>
             </button>
             <button  mat-menu-item (click)="beforeSetInvoice(element.payId, element)">
               <mat-icon>add</mat-icon>
-              <span>Agregar Factura</span>
+              <span>Canjear Factura</span>
             </button>
            
 
             <button mat-menu-item *ngIf="element.payIsCanceled==PKC.NO_CANCELED" (click)="beforeCancelPayment(element.payId, element)" >
               <mat-icon>close</mat-icon>
-              <span>Anular Boleta</span>
+              <span>Anular Recibo</span>
             </button>
           </mat-menu>
                 </td>

@@ -101,3 +101,7 @@ table {
 .message-error{
   color: red; font-size: 16px; text-align: right; padding: 0 12px 0 0; font-weight: bold;
 }
+
+.disabled-options{
+  pointer-events:none;
+}

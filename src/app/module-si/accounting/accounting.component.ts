@@ -121,7 +121,6 @@ selectSearch(){
  let  dateStart = this.datepipe.transform(this.dateStart, 'yyyy/MM/dd') || '';
  let dateEnd = this.datepipe.transform(this.dateEnd, 'yyyy/MM/dd') || '';
 
-  console.log("Parametros para buscar", dateStart, dateEnd, this.wordlike)
 
   this.readCRUD(this.hqId, dateStart, dateEnd, this.wordlike)
 }

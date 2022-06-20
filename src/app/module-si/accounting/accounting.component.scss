@@ -25,6 +25,10 @@
       cursor: pointer;
     }
   
+    .canceled .mat-cell{
+      color:rgba(0, 0, 0, 0.5);      
+    }
+
     .mat-row:hover .mat-cell {
       visibility: visible;
       background-color: rgba($color: #90caf9, $alpha: 0.3);

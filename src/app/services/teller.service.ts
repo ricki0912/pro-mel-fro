@@ -66,6 +66,10 @@ export class TellerService extends ParentService {
   public updUser(id:number, userId:number):Observable<InterfaceParamsResponse<Teller>>{
     return this.https.put<InterfaceParamsResponse<Teller>>(`${this.API_TELLER}/${id}/upd-user`, {userId});
   }
+
+  public removeUser(id:number):Observable<InterfaceParamsResponse<Teller>>{
+    return this.https.delete<InterfaceParamsResponse<Teller>>(`${this.API_TELLER}/${id}/remove-user`);
+  }
   /*many to many with table categories */
   public getCategories(id:number):Observable<InterfaceParamsResponse<Category>>{
     return this.https.get<InterfaceParamsResponse<Category>>(`${this.API_TELLER}/${id}/get-categories`);

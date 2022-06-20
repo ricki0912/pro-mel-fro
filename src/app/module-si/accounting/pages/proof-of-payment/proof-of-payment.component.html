@@ -267,7 +267,7 @@
   <button mat-button (click)="sendToWhatsApp()"><mat-icon>whatsapp</mat-icon> WhatsApp</button>
   <button mat-button (click)="retryPrint()"><mat-icon>print</mat-icon> Imprimir</button>
 </div>
-<div *ngIf="payment.payState!==PS.FILLED">
+<div *ngIf="payment.payState!==PS.FILLED" [class.disabled-options]="isLoadingEnd">
   <button mat-button mat-dialog-close>Cancelar</button>
   <button mat-button (click)="ok()" cdkFocusInitial><mat-icon>payment</mat-icon> Pagar</button>
 </div>

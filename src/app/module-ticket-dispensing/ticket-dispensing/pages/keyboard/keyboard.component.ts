@@ -6,6 +6,7 @@ import { Person } from 'src/app/interfaces/person';
 import { BussinesService } from 'src/app/services/bussines.service';
 import { HeadService } from '../head/head.service';
 import { ApiPeruService } from 'src/app/servicesx/api-peru.service'
+import { ApisPeruService } from 'src/app/servicesx/apisperu.service';
 
 @Component({
   selector: 'app-keyboard',
@@ -55,7 +56,7 @@ export class KeyboardComponent implements OnInit {
   constructor(
     private bussinesService: BussinesService,
     private headService:HeadService,
-    private apiPeruService:ApiPeruService
+    private apiPeruService:ApisPeruService
 
   ) {
   }
@@ -80,6 +81,13 @@ export class KeyboardComponent implements OnInit {
 
   }
   appendValue(value: number) {
+    if(this.categoryTree.catAuth == CATEGORY_TYPES_AUTH.ANYONE && this.value.length>=11){
+      return
+    }else if(this.categoryTree.catAuth==CATEGORY_TYPES_AUTH.DNI && this.value.length>=8){
+      return
+    }else if(this.categoryTree.catAuth==CATEGORY_TYPES_AUTH.RUC && this.value.length>=11){
+      return
+    }
     this.value += value
     this.beforeSearch() 
 
@@ -125,16 +133,17 @@ export class KeyboardComponent implements OnInit {
     if(this.value.length!=8){
       return;
     }
-    if (d.success) {
+    if (d.dni) {
       this.appointmentTemp={
         apptKindClient:APPOINTMENT_KIND_CLIENT.PERSON,
         
-        apptmNumberDocClient: d.data.numero,
-        apptmNameClient: this.nameOwn(d.data.nombre_completo)
+        apptmNumberDocClient: d.dni,
+        apptmNameClient: `${d.nombres} ${d.apellidoPaterno} ${d.apellidoMaterno}` //this.nameOwn(d.data.nombre_completo)
       }
 
       //this.bussines = d;
-      this.headService.setMessage(((d.data.sexo==="MASCULINO")?"Bienvenido ":"Bienvenida ")+this.nameOwn(d.data.nombres)+", seleccione en siguiente para generar una cita.")
+      //this.headService.setMessage(((d.data.sexo==="MASCULINO")?"Bienvenido ":"Bienvenida ")+this.nameOwn(d.data.nombres)+", seleccione en siguiente para generar una cita.")
+      this.headService.setMessage("Bienvenido(a) "+this.nameOwn(d.nombres)+", seleccione en siguiente para generar una cita.")
       //this.message = d.bussName || ''
       this.state=true;
     }
@@ -154,16 +163,16 @@ export class KeyboardComponent implements OnInit {
       return;
     }
     console.log("DENTRO DE BUSSINES SIN ENLACE A BUSSINES Y API EXTERNO",d)
-    if (d.success) {
+    if (d.ruc) {
       this.appointmentTemp={
         apptKindClient:APPOINTMENT_KIND_CLIENT.BUSINESS,
         //bussId:d.bussId,
-        apptmNumberDocClient: d.data.ruc,//d.bussRUC
-        apptmNameClient:d.data.nombre_o_razon_social
+        apptmNumberDocClient: d.ruc,//d.bussRUC
+        apptmNameClient:d.razonSocial
       }
 
       //this.bussines = d;
-      this.headService.setMessage("Bienvenido "+d.data.nombre_o_razon_social+", seleccione en siguiente para generar una cita.")
+      this.headService.setMessage("Bienvenido "+d.razonSocial+", seleccione en siguiente para generar una cita.")
       //this.message = d.bussName || ''
       this.state=true;
     }

@@ -15,3 +15,10 @@ export interface PaymentDetail extends ParentInterface{
 
 }
 
+export interface TPaymentDetail extends PaymentDetail {
+  pdsDebtTotal?:number,
+  pdsDebtRemaining?:number,
+  pdsSPName?:string
+
+
+}
