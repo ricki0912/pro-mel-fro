@@ -21,6 +21,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { ChronometerModule } from 'src/app/shared/components/chronometer/chronometer.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ChronometerModule } from 'src/app/shared/components/chronometer/chronom
     MatDialogModule,
     MatProgressSpinnerModule,
     TicketRoutingModule,
-    ChronometerModule
+    ChronometerModule,
+    MatPaginatorModule
   ]
 })
 export class TicketModule { }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { CategoryService } from 'src/app/services/category.service';
@@ -13,6 +13,7 @@ import { AppointmentTempService } from 'src/app/services/appointment-temp.servic
 import { AppointmentTemp, APPOINTMENT_STATE, ApptmState, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { MainViewService } from '../main-view/main-view.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-ticket',
@@ -39,6 +40,17 @@ export class TicketComponent implements OnInit {
   displayedColumns: string[] = ['select', 'position', 'ticket', 'teller', 'category', 'time'];
   dataSource = new MatTableDataSource<TAppointmentTemp>();
   selection = new SelectionModel<TAppointmentTemp>(true, []);
+
+
+  clickedRows = new Set<TAppointmentTemp>();
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+
+
+  }
   
   constructor(
     private categoryService: CategoryService,
@@ -170,5 +182,7 @@ export class TicketComponent implements OnInit {
       }
     })
   }
+
+
 
 }

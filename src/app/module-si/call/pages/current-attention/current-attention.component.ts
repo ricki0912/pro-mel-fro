@@ -81,8 +81,10 @@ export class CurrentAttentionComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: Payment) => {
       if (result) {
+        console.log("Payment", result)
         //this.transferCallToTeller(this.tAppointmentTemp?.apptmId || -1, result.tellId || -1)
-
+        if(this.tAppointmentTemp)
+        this.setDataFromPaymentInsideAppointment(result, this.tAppointmentTemp)
         /*const apptmIds:number[]= this.selection.selected.reduce(( p:number[], c:TAppointmentTemp)=>[...p, c.apptmId || -1], [])
         this.updateTeller(apptmIds, result.tellId || -1)*/
       }
@@ -239,7 +241,20 @@ export class CurrentAttentionComponent implements OnInit {
     this.waitingLineService.setTVAddTargetCall(appointmentTemp);
   }*/
 
+  private setDataFromPaymentInsideAppointment(p:Payment, ap:TAppointmentTemp,){
+    if(p.payClientName)
+      ap.apptmNameClient=p.payClientName
+    
+    if(p.payClientRucOrDni)
+      ap.apptmNumberDocClient=p.payClientRucOrDni
 
+    if(p.payClientEmail)
+      ap.apptmEmail=p.payClientEmail
+    
+    if(p.payClientTel)
+        ap.apptmTel=p.payClientTel
+
+  }
   
 
 

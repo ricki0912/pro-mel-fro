@@ -18,8 +18,11 @@ import { ListCategoryComponent } from './ticket-dispensing/pages/list-category/l
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { LoadingComponent } from './ticket-dispensing/pages/loading/loading.component';
 import { AlertComponent } from './ticket-dispensing/pages/alert/alert.component';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
+import { BottomMenuComponent } from './ticket-dispensing/pages/bottom-menu/bottom-menu.component'
 
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,7 @@ import { DatePipe } from '@angular/common'
     ListCategoryComponent,
     LoadingComponent,
     AlertComponent,
+    BottomMenuComponent,
   
   ],
   imports: [
@@ -41,7 +45,9 @@ import { DatePipe } from '@angular/common'
     MatIconModule,
     MatInputModule,
     FormsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatBottomSheetModule,
+    MatListModule
 
   ],
   providers: [DatePipe]

@@ -8,8 +8,9 @@
     <input matInput aria-label="State" placeholder="Busca un cliente" [matAutocomplete]="auto" [formControl]="stateCtrl"
       [(ngModel)]="value" class="example-right-align">
     <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let buss of bussinesObs | async" [value]="buss.bussName" [routerLink]="'./clients/'+buss.bussId">
+      <mat-option *ngFor="let buss of bussinesObs | async" [value]="buss.bussName" (keyup.enter)="navigatelClient(buss.bussId || -1)" [routerLink]="'./clients/'+buss.bussId">
         <!--<img class="example-option-img" aria-hidden [src]="buss.flag" height="25">-->
+        <span class="span-number">{{buss.bussFileNumber}}</span>
         <span>{{buss.bussName}}</span> |
         <small>RUC: {{buss.bussRUC}}</small>
       </mat-option>

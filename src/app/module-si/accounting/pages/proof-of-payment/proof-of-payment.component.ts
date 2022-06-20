@@ -278,14 +278,14 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
       this.printPDF(this.payment.payToken || '-1')
       this.isLoadingEnd=false
       this.messageError=''
-      this.messageSuccess="Pago Generado"
+      this.messageSuccess="Pago Generado. Imprimiendo, espere un momento."
 
       },
        error:(e)=>{
         console.log("addPayment", e)
 
       //this.messageError=e.error.message
-        
+      this.messageError="Surgio un error: "  
       this.messageError="Surgio un error: "+e.error.message.match(/(?<=<msg>)(.*)(?=<msg>)/s)[0]  
       this.messageSuccess=""
       this.isLoadingEnd=false

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionDialogInterface, TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
-import { Category, FlatTreeControlCategory } from 'src/app/interfaces/category';
+import { Category, CATEGORY_LINK_BUS, FlatTreeControlCategory } from 'src/app/interfaces/category';
 import { Teller, TELLER_TYPES_STATE } from 'src/app/interfaces/teller';
 import { User } from 'src/app/interfaces/user';
 import { FindCategoryComponent } from 'src/app/module-si/category/pages/find-category/find-category.component';
@@ -27,6 +27,7 @@ export class CardTellerComponent implements OnInit,ActionDialogInterface, CrudIn
   categories:Category[]=[];
 
   TTS=TELLER_TYPES_STATE
+  CLB=CATEGORY_LINK_BUS
   /*Tabla */
 
   /*Displayed */
@@ -154,10 +155,23 @@ openDialogdAddAndUpd(object: any): boolean {
     return true;
   }
 
-  updUser(id:number, userId:number){
+  private updUser(id:number, userId:number){
     this.tellerService.updUser(id,userId).subscribe({
       next:data=>{
         this.showMessage.success({message: data.msg})
+      },
+      error:error=>{
+        this.showMessage.error({message: error.error.message})
+      }
+    })
+  }
+  removeUser(id:number){
+    this.tellerService.removeUser(id).subscribe({
+      next:data=>{
+        this.showMessage.success({message: data.msg})
+        //set 
+        this.user=undefined
+        this.teller.userId=undefined
       },
       error:error=>{
         this.showMessage.error({message: error.error.message})
@@ -221,7 +235,7 @@ openDialogdAddAndUpd(object: any): boolean {
       this.updState(
         this.teller.tellId || -1,
          tellState,
-         ()=>{this.showMessage.success({message:"En espera. Puedes darte un respiro."});this.teller.tellState=tellState} 
+         ()=>{this.showMessage.success({message:"En espera. "});this.teller.tellState=tellState} 
         );
     }
     if(this.teller.tellState && this.teller.tellState==TELLER_TYPES_STATE.EN_ESPERA){
@@ -229,7 +243,7 @@ openDialogdAddAndUpd(object: any): boolean {
       this.updState(
         this.teller.tellId || -1, 
         tellState,
-        ()=>{this.showMessage.success({message:"En arranque. Listo para empezar el dia"});this.teller.tellState=tellState}
+        ()=>{this.showMessage.success({message:"En arranque."});this.teller.tellState=tellState}
       );
     }
   }

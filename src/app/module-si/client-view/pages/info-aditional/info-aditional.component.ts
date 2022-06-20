@@ -24,6 +24,7 @@ export class InfoAditionalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+  
   }
 
   cols: number = 2;

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule , DatePipe} from '@angular/common';
 
 import { WaitingLineRoutingModule } from './waiting-line-routing.module';
 import { WaitingLineComponent } from './waiting-line.component';
@@ -22,7 +22,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { ChronometerModule } from 'src/app/shared/components/chronometer/chronometer.module';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
+import {MatNativeDateModule, MAT_DATE_LOCALE} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -65,6 +65,8 @@ import { TicketsMigrationComponent } from './pages/tickets-migration/tickets-mig
     MatInputModule,
     MatToolbarModule,
     FormsModule, ReactiveFormsModule
-  ]
+  ],
+  providers:[  DatePipe,     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+
 })
 export class WaitingLineModule { }
