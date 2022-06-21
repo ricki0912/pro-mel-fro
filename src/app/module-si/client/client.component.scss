@@ -18,7 +18,7 @@
 .example-table-container {
   position: relative;
   min-height: 200px;
-  max-height: 330px;
+  max-height: 360px;
   overflow: auto;
 }
 
@@ -63,4 +63,19 @@ table {
   padding: 5px;
   color: white;
   background: #f44336;
+}
+
+//cambios
+.mat-paginator {
+  display: flex;
+  justify-content: left;
+}
+
+.mat-card-actions{
+  margin: 0px;
+  padding: 0px;
+}
+
+.mat-card-title{
+  margin: 0px;
 }
