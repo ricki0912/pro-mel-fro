@@ -11,8 +11,20 @@
     <mat-card-title-group>
       <mat-card-title>Lista de todos los clientes</mat-card-title>
       <mat-card-actions align="end">
-        <button mat-button>Like</button>
-        <button mat-button>SHARE</button>
+        <mat-form-field appearance="legacy">
+          <mat-label>Ventanilla</mat-label>
+          <mat-select
+            [(value)]="selectedTeller"
+            (selectionChange)="selectSearchBussTell()"
+          >
+            <mat-option value="0" selected>Todos</mat-option>
+            <mat-option *ngFor="let teller of tellers" [value]="teller.tellId">
+              {{ teller.tellCode }} - {{ teller.tellName }} ({{
+                teller.cantBusiness
+              }})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         <div
           style="
             z-index: 5;

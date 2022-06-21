@@ -4,7 +4,7 @@ import {MatTableDataSource} from '@angular/material/table';
 
 import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
 import { BussinesService } from 'src/app/services/bussines.service';
-import { Bussines } from 'src/app/interfaces/bussines';
+import { Bussines, TellerJoinUsers } from 'src/app/interfaces/bussines';
 
 import { MatDialog } from '@angular/material/dialog';
 import { EditClientComponent } from './pages/edit-client/edit-client.component';
@@ -23,8 +23,10 @@ import { MainViewService } from '../main-view/main-view.service';
 
 export class ClientComponent implements OnInit, CrudInterface, ActionDialogInterface{
   private hqId:number=0
+  selectedTeller: number = 0
 
   isLoading = true;
+  tellers: TellerJoinUsers[] = [];
 
   constructor(
     private bussinesService: BussinesService,
@@ -37,6 +39,7 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   ngOnInit(): void {
     this.readCRUD();
     this.listenRoute(o=>{})
+    this.readTeller(this.hqId);
 
   }
 
@@ -60,6 +63,7 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
+
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -159,7 +163,41 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   loadClientsView(o: Bussines){
     this.router.navigate([`si/${this.hqId}/clients/${o.bussId}`])
   }
+
+  private readTeller(hqId:number) {
+
+    this.bussinesService.getTellerJoinUsers(hqId).subscribe({
+      next: d => this.tellers = d.data  as TellerJoinUsers[]
+    })
+  }
+
+  selectSearchBussTell(){
+    this.readBusinessJoinTeller(this.selectedTeller);
+  }
+
+  readBusinessJoinTeller(tellId:number): boolean {
+    this.isLoading = true;
+    this.bussinesService.getBusinessJoinTeller(tellId).subscribe({
+      next: (r) => {
+        //console.log("Data dentro de ticket",r)
+        this.isLoading = false;
+        this.dataSource.data = r.data as Bussines[];
+        this.selection.clear();
+
+      },
+      error: () => {
+
+      }
+    });
+
+    return true
+  }
 }
+
+/*interface Animal {
+  name: string;
+  sound: string;
+}*/
 
 /*export interface PeriodicElement {
   name: string;
