@@ -19,7 +19,7 @@ export class AuthModuleSIInterceptor implements HttpInterceptor {
     
     const token = this.token.getToken();
 
-    console.log("MODULE SI INTERCPETOR", token)
+    //console.log("MODULE SI INTERCPETOR", token)
     if (token != null) {
       // for Spring Boot back-end
       authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token) });

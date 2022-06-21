@@ -20,11 +20,20 @@
         <div>
           <small>Usuario SUNAT: </small>
           <b>{{ afi?.bussSunatUser }}</b>
-          <button
+          <!--<button
             mat-icon-button
             cdkCopyToClipboard="{{ afi?.bussSunatUser }}"
             matSuffix
             color="primary"
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>-->
+          <button
+            mat-icon-button
+            matSuffix
+            color="primary"
+            (click)="beforeCopy( afi?.bussRUC +':USUARIO-SUNAT',afi?.bussSunatUser)"
+
           >
             <mat-icon class="iconCopy">file_copy</mat-icon>
           </button>
@@ -36,9 +45,10 @@
           <b>{{ afi?.bussSunatPass }}</b>
           <button
             mat-icon-button
-            cdkCopyToClipboard="{{ afi?.bussSunatPass }}"
+
             matSuffix
             color="primary"
+            (click)="beforeCopy( afi?.bussRUC +':CLAVE-SOL',afi?.bussSunatPass)"
           >
             <mat-icon class="iconCopy">file_copy</mat-icon>
           </button>
@@ -50,9 +60,10 @@
           <b>{{ afi?.bussCodeSend }}</b>
           <button
             mat-icon-button
-            cdkCopyToClipboard="{{ afi?.bussCodeSend }}"
             matSuffix
             color="primary"
+            (click)="beforeCopy( afi?.bussRUC +':CODIGO-DE-ENVIO',afi?.bussCodeSend)"
+
           >
             <mat-icon class="iconCopy">file_copy</mat-icon>
           </button>
@@ -64,9 +75,10 @@
           <b>{{ afi?.bussCodeRNP }}</b>
           <button
             mat-icon-button
-            cdkCopyToClipboard="{{ afi?.bussCodeRNP }}"
             matSuffix
             color="primary"
+            (click)="beforeCopy( afi?.bussRUC +':CODIGO-RNP',afi?.bussCodeRNP)"
+
           >
             <mat-icon class="iconCopy">file_copy</mat-icon>
           </button>
@@ -78,9 +90,10 @@
           <b>{{ afi?.bussAfpUser }}</b>
           <button
             mat-icon-button
-            cdkCopyToClipboard="{{ afi?.bussAfpUser }}"
             matSuffix
             color="primary"
+            (click)="beforeCopy( afi?.bussRUC +':USUARIO-AFP-NET',afi?.bussAfpUser)"
+
           >
             <mat-icon class="iconCopy">file_copy</mat-icon>
           </button>
@@ -92,9 +105,9 @@
           <b>{{ afi?.bussAfpPass }}</b>
           <button
             mat-icon-button
-            cdkCopyToClipboard="{{ afi?.bussAfpPass }}"
             matSuffix
             color="primary"
+            (click)="beforeCopy( afi?.bussRUC +':CLAVE-AFP-NET',afi?.bussAfpPass)"
           >
             <mat-icon class="iconCopy">file_copy</mat-icon>
           </button>
@@ -106,9 +119,10 @@
           <b>{{ afi?.bussSimpleCode }}</b>
           <button
             mat-icon-button
-            cdkCopyToClipboard="{{ afi?.bussSimpleCode }}"
             matSuffix
             color="primary"
+            (click)="beforeCopy( afi?.bussRUC +':CODIGO-SENCICO',afi?.bussSimpleCode)"
+
           >
             <mat-icon class="iconCopy">file_copy</mat-icon>
           </button>
@@ -120,9 +134,10 @@
           <b>{{ afi?.bussDetractionsPass }}</b>
           <button
             mat-icon-button
-            cdkCopyToClipboard="{{ afi?.bussDetractionsPass }}"
             matSuffix
             color="primary"
+            (click)="beforeCopy( afi?.bussRUC +':CLAVE-DETRACCIONES',afi?.bussDetractionsPass)"
+
           >
             <mat-icon class="iconCopy">file_copy</mat-icon>
           </button>
@@ -134,9 +149,10 @@
           <b>{{ afi?.bussSisClave }}</b>
           <button
             mat-icon-button
-            cdkCopyToClipboard="{{ afi?.bussSisClave }}"
             matSuffix
             color="primary"
+            (click)="beforeCopy( afi?.bussRUC +':CLAVE-SIS',afi?.bussSisClave)"
+
           >
             <mat-icon class="iconCopy">file_copy</mat-icon>
           </button>

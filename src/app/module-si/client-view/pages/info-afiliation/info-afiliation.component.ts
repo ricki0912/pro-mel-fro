@@ -5,6 +5,10 @@ import { BusinessHelpers } from 'src/app/global/helpers/business.helpers';
 import { Bussines } from 'src/app/interfaces/bussines';
 import { BussinesService } from 'src/app/services/bussines.service';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
+import { CopyService } from 'src/app/shared/services/copy/copy.service';
+
+
+
 
 @Component({
   selector: 'app-info-afiliation',
@@ -22,7 +26,10 @@ export class InfoAfiliationComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private businessSevice: BussinesService,
-    private showMessage: ShowMessageService
+    private showMessage: ShowMessageService,
+    private copyService:CopyService
+    
+    
   ) { }
 
   ngOnInit(): void {
@@ -94,6 +101,9 @@ export class InfoAfiliationComponent implements OnInit {
     return true;
   }
 
+  beforeCopy(keyName:string, copiedWord?:string){
+    this.copyService.copy(keyName, copiedWord)
+  }
 }
 
 interface GridResponsive {
