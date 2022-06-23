@@ -13,6 +13,10 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { MainViewService } from '../main-view/main-view.service';
+import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
+import { Teller } from 'src/app/interfaces/teller';
+import { FindTellerComponent } from '../teller/pages/find-teller/find-teller.component';
+import { AssignTellerComponent } from './pages/assign-teller/assign-teller.component';
 
 
 @Component({
@@ -27,18 +31,23 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
 
   isLoading = true;
   tellers: TellerJoinUsers[] = [];
+  teller?:Teller
 
   constructor(
     private bussinesService: BussinesService,
+    private tokenService: TokenStorageService,
     public dialogEditClient: MatDialog,
     private showMessage: ShowMessageService,
     private router: Router,
     private mainViewService:MainViewService
-  ) { }
+  ) {
+    this.selectedTeller= this. tokenService.getTeller()?.tellId || -1;
+  }
 
   ngOnInit(): void {
-    this.readCRUD();
-    this.listenRoute(o=>{})
+    //this.readCRUD();
+    this.selectSearchBussTell();
+    this.listenRoute(o=>{});
     this.readTeller(this.hqId);
 
   }
@@ -165,7 +174,6 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   }
 
   private readTeller(hqId:number) {
-
     this.bussinesService.getTellerJoinUsers(hqId).subscribe({
       next: d => this.tellers = d.data  as TellerJoinUsers[]
     })
@@ -186,11 +194,39 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
 
       },
       error: () => {
-
       }
     });
+    return true;
+  }
 
-    return true
+  openDialogSetTeller(){
+    const dialogRef = this.dialogEditClient.open(AssignTellerComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: null,
+        type: TYPES_ACTIONS_DIALOG.ADD,
+        hqId: this.hqId
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: TellerJoinUsers) => {
+      if (result) {
+        const bussIds:number[]= this.selection.selected.reduce(( p:number[], c:Bussines)=>[...p, c.bussId || -1], [])
+        this.updateBusinessTeller(bussIds, result.tellId || -1)
+      }
+    });
+  }
+
+  private updateBusinessTeller(bussIds:number[], tellId:number){
+    this.bussinesService.updateBusinessTellId(bussIds, tellId).subscribe({
+      next:d=>{
+        this.showMessage.success({message:d.msg});
+        this.ngOnInit();
+        this.selection.clear();
+      },
+      error:e=>{
+        this.showMessage.error({message:e.error.message,  action: ()=>this.updateBusinessTeller(bussIds, tellId)})
+      }
+    })
   }
 }
 

@@ -45,6 +45,39 @@
               "
             >
               <button
+                mat-mini-fab
+                [matMenuTriggerFor]="menup"
+                color="primary"
+                aria-label="Opciones"
+              >
+                <mat-icon>tune</mat-icon>
+              </button>
+              <mat-menu #menup="matMenu">
+                <button
+                  mat-menu-item
+                  (click)="openDialogSetTeller()"
+                  [disabled]="selection.selected.length < 1"
+                >
+                  <mat-icon>swap_horizontal_circle</mat-icon>
+                  Asignar Ventanilla
+                </button>
+                <button
+                  mat-menu-item
+                  [disabled]="selection.selected.length != 1"
+                >
+                  <mat-icon>traffic</mat-icon>
+                  <span>Cambiar Estado</span>
+                </button>
+              </mat-menu>
+            </mat-list-item>
+            <mat-list-item
+              style="
+                margin: 5px 0px 5px 0px;
+                display: flex;
+                justify-content: center;
+              "
+            >
+              <button
                 mat-button
                 (click)="openDialogAdd()"
                 mat-fab

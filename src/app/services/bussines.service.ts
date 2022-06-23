@@ -84,7 +84,7 @@ export class BussinesService extends ParentService implements CrudApiInterface{
     return this.https.post<InterfaceParamsResponse<DBusinessPeriod>>(`${this.API_DBUSINES_PERIODS}/addDBP`, object);
   }
 
-  /*public allDBusinesPeriods(bussId: number): Observable<Period[]> | null {
+  /**public allDBusinesPeriods(bussId: number): Observable<Period[]> | null {
     return this.https.get<Period[]>(`${this.API_BUSSINES}/${bussId}/periods`);
   }*/
 
@@ -98,5 +98,10 @@ export class BussinesService extends ParentService implements CrudApiInterface{
 
   public getBusinessJoinTeller(tellId:number): Observable<InterfaceParamsResponse<Bussines>>  {
     return this.https.get<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/getBusinessJoinTeller?tellId=${tellId}`);
+  }
+
+  public updateBusinessTellId(bussIds:number[], tellId:number):Observable<InterfaceParamsResponse<Bussines>>{
+    console.log(`${this.API_BUSSINES}/${bussIds}/updateTeller/`);
+    return this.https.put<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/${bussIds}/updTeller`,{tellId})
   }
 }
