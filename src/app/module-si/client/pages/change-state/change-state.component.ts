@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChangeStateComponent implements OnInit {
 
+  title = "Seleccionar Estado";
+
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  favoriteSeason: string = "";
+  seasons: string[] = ['Activo', 'Suspendido', 'Retirado'];
 
 }

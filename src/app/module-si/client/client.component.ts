@@ -17,6 +17,7 @@ import { TokenStorageService } from 'src/app/auth/services/token-storage.service
 import { Teller } from 'src/app/interfaces/teller';
 import { FindTellerComponent } from '../teller/pages/find-teller/find-teller.component';
 import { AssignTellerComponent } from './pages/assign-teller/assign-teller.component';
+import { ChangeStateComponent } from './pages/change-state/change-state.component';
 
 
 @Component({
@@ -228,6 +229,26 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
       }
     })
   }
+
+  openDialogChangeState(){
+    const dialogRef = this.dialogEditClient.open(ChangeStateComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: null,
+        type: TYPES_ACTIONS_DIALOG.ADD,
+        hqId: this.hqId
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: TellerJoinUsers) => {
+      if (result) {
+        //const bussIds:number[]= this.selection.selected.reduce(( p:number[], c:Bussines)=>[...p, c.bussId || -1], [])
+        //this.updateBusinessTeller(bussIds, result.tellId || -1)
+      }
+    });
+  }
+
+  /*favoriteSeason: string = "";
+  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];*/
 }
 
 /*interface Animal {
