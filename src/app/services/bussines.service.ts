@@ -101,7 +101,10 @@ export class BussinesService extends ParentService implements CrudApiInterface{
   }
 
   public updateBusinessTellId(bussIds:number[], tellId:number):Observable<InterfaceParamsResponse<Bussines>>{
-    console.log(`${this.API_BUSSINES}/${bussIds}/updateTeller/`);
     return this.https.put<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/${bussIds}/updTeller`,{tellId})
+  }
+
+  public updBusinessState(bussIds:number[], bussState:number):Observable<InterfaceParamsResponse<Bussines>>{
+    return this.https.put<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/${bussIds}/updStateBuss`,{bussState})
   }
 }

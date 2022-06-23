@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-change-state',
@@ -9,12 +10,35 @@ export class ChangeStateComponent implements OnInit {
 
   title = "Seleccionar Estado";
 
-  constructor() { }
+  constructor(
+    private dialogRef: MatDialogRef<ChangeStateComponent>
+  ) { }
 
   ngOnInit(): void {
   }
 
-  favoriteSeason: string = "";
-  seasons: string[] = ['Activo', 'Suspendido', 'Retirado'];
+  selectRadio: number = 0;
+  states: state[] = [
+    {name: 'Activo', value: 1},
+    {name: 'Suspendido', value: 2},
+    {name: 'Retirado', value: 3},
+  ];
+
+  onReturn = (state: number): void => this.dialogRef.close(state);
+
+  ok() {
+    const t=this.selectRadio;
+    //console.log(t);
+
+    if(t){
+      this.onReturn(t);
+    }
+  }
 
 }
+
+export interface state {
+  name: string;
+  value: number;
+}
+

@@ -234,17 +234,28 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     const dialogRef = this.dialogEditClient.open(ChangeStateComponent, {
       panelClass: 'dialog',
       data: {
-        row: null,
-        type: TYPES_ACTIONS_DIALOG.ADD,
-        hqId: this.hqId
+        row: null
       }
     });
-    dialogRef.afterClosed().subscribe((result: TellerJoinUsers) => {
+    dialogRef.afterClosed().subscribe((result: number) => {
       if (result) {
-        //const bussIds:number[]= this.selection.selected.reduce(( p:number[], c:Bussines)=>[...p, c.bussId || -1], [])
-        //this.updateBusinessTeller(bussIds, result.tellId || -1)
+        const bussIds:number[]= this.selection.selected.reduce(( p:number[], c:Bussines)=>[...p, c.bussId || -1], [])
+        this.updateBusinessState(bussIds, result || -1)
       }
     });
+  }
+
+  private updateBusinessState(bussIds:number[], state:number){
+    this.bussinesService.updBusinessState(bussIds, state).subscribe({
+      next:d=>{
+        this.showMessage.success({message:d.msg});
+        this.ngOnInit();
+        this.selection.clear();
+      },
+      error:e=>{
+        this.showMessage.error({message:e.error.message,  action: ()=>this.updateBusinessTeller(bussIds, state)})
+      }
+    })
   }
 
   /*favoriteSeason: string = "";
