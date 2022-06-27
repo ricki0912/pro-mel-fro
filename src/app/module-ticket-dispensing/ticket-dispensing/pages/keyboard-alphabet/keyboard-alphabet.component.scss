@@ -145,7 +145,7 @@ $label-h: 56px;
       display: block;
       text-align: center;
       line-height: 2;
-      margin-bottom: $label-h / -4;
+      margin-bottom: calc($label-h / -4);
       left: 0;
     }
   }
@@ -165,7 +165,7 @@ $label-h: 56px;
   @each $r in $rows {
     $sel: "";
     $count: length($r);
-    $rat: 1 / $count;
+    $rat: calc(1 / $count);
     // for each item in row
     @for $a from 0 through length($r) - 1 { 
       // make a label selector
