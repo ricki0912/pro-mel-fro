@@ -18,7 +18,7 @@
 .example-table-container {
   position: relative;
   min-height: 200px;
-  max-height: 330px;
+  max-height: 360px;
   overflow: auto;
 }
 
@@ -64,3 +64,40 @@ table {
   color: white;
   background: #f44336;
 }
+
+//cambios
+.mat-paginator {
+  display: flex;
+  justify-content: left;
+}
+
+.mat-card-actions{
+  margin: 0px;
+  padding: 0px;
+}
+
+.mat-card-title{
+  margin: 0px;
+}
+
+mat-form-field.mat-form-field {
+  font-size: 11px;
+}
+
+/* radio button*/
+.radioButton{
+  padding: 5px;
+}
+
+.example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+/* radio button*/
+

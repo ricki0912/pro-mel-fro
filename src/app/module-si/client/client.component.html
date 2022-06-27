@@ -10,7 +10,21 @@
   <mat-card class="example-card mat-elevation-z8">
     <mat-card-title-group>
       <mat-card-title>Lista de todos los clientes</mat-card-title>
-      <mat-card-actions>
+      <mat-card-actions align="end">
+        <mat-form-field appearance="legacy">
+          <mat-label>Ventanilla</mat-label>
+          <mat-select
+            [(value)]="selectedTeller"
+            (selectionChange)="selectSearchBussTell()"
+          >
+            <mat-option value="0" selected>Todos</mat-option>
+            <mat-option *ngFor="let teller of tellers" [value]="teller.tellId">
+              {{ teller.tellCode }} - {{ teller.tellName }} ({{
+                teller.cantBusiness
+              }})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         <div
           style="
             z-index: 5;
@@ -23,6 +37,65 @@
           "
         >
           <mat-list>
+            <mat-list-item
+              style="
+                margin: 5px 0px 5px 0px;
+                display: flex;
+                justify-content: center;
+              "
+            >
+              <button
+                mat-mini-fab
+                [matMenuTriggerFor]="menup"
+                color="primary"
+                aria-label="Opciones"
+              >
+                <mat-icon>tune</mat-icon>
+              </button>
+              <mat-menu #menup="matMenu">
+                <button
+                  mat-menu-item
+                  (click)="openDialogSetTeller()"
+                  [disabled]="selection.selected.length < 1"
+                >
+                  <mat-icon>swap_horizontal_circle</mat-icon>
+                  Asignar Ventanilla
+                </button>
+                <button
+                  mat-menu-item
+                  (click)="openDialogChangeState()"
+                  [disabled]="selection.selected.length < 1"
+                >
+                  <mat-icon>traffic</mat-icon>
+                  <span>Cambiar Estado</span>
+                </button>
+                <!--<button
+                  mat-menu-item
+                  [matMenuTriggerFor]="menuState"
+                  [disabled]="selection.selected.length < 1"
+                >
+                  <mat-icon>traffic</mat-icon>
+                  <span>Cambiar Estado</span>
+                </button>
+                <mat-menu #menuState="matMenu">
+                  <div class="radioButton">
+                    <mat-radio-group
+                      aria-labelledby="example-radio-group-label"
+                      class="example-radio-group"
+                      [(ngModel)]="favoriteSeason"
+                    >
+                      <mat-radio-button
+                        class="example-radio-button"
+                        *ngFor="let season of seasons"
+                        [value]="season"
+                      >
+                        {{ season }}
+                      </mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                </mat-menu>-->
+              </mat-menu>
+            </mat-list-item>
             <mat-list-item
               style="
                 margin: 5px 0px 5px 0px;

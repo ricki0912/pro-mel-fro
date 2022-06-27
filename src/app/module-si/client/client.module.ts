@@ -29,11 +29,16 @@ import { EditClientComponent } from './pages/edit-client/edit-client.component';
 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatListModule} from '@angular/material/list';
+import {MatMenuModule} from '@angular/material/menu';
+import { AssignTellerComponent } from './pages/assign-teller/assign-teller.component';
+import { ChangeStateComponent } from './pages/change-state/change-state.component';
 
 @NgModule({
   declarations: [
     ClientComponent,
-    EditClientComponent
+    EditClientComponent,
+    AssignTellerComponent,
+    ChangeStateComponent
   ],
   imports: [
     ClientRoutingModule,
@@ -68,7 +73,8 @@ import {MatListModule} from '@angular/material/list';
     FormsModule, ReactiveFormsModule,
     MatStepperModule,
     MatProgressSpinnerModule,
-    MatListModule
+    MatListModule,
+    MatMenuModule
   ],
   exports: [
     ClientComponent,

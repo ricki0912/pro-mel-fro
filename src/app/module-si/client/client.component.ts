@@ -4,7 +4,7 @@ import {MatTableDataSource} from '@angular/material/table';
 
 import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
 import { BussinesService } from 'src/app/services/bussines.service';
-import { Bussines } from 'src/app/interfaces/bussines';
+import { Bussines, TellerJoinUsers } from 'src/app/interfaces/bussines';
 
 import { MatDialog } from '@angular/material/dialog';
 import { EditClientComponent } from './pages/edit-client/edit-client.component';
@@ -13,6 +13,11 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { MainViewService } from '../main-view/main-view.service';
+import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
+import { Teller } from 'src/app/interfaces/teller';
+import { FindTellerComponent } from '../teller/pages/find-teller/find-teller.component';
+import { AssignTellerComponent } from './pages/assign-teller/assign-teller.component';
+import { ChangeStateComponent } from './pages/change-state/change-state.component';
 
 
 @Component({
@@ -23,20 +28,28 @@ import { MainViewService } from '../main-view/main-view.service';
 
 export class ClientComponent implements OnInit, CrudInterface, ActionDialogInterface{
   private hqId:number=0
+  selectedTeller: number = 0
 
   isLoading = true;
+  tellers: TellerJoinUsers[] = [];
+  teller?:Teller
 
   constructor(
     private bussinesService: BussinesService,
+    private tokenService: TokenStorageService,
     public dialogEditClient: MatDialog,
     private showMessage: ShowMessageService,
     private router: Router,
     private mainViewService:MainViewService
-  ) { }
+  ) {
+    this.selectedTeller= this. tokenService.getTeller()?.tellId || -1;
+  }
 
   ngOnInit(): void {
-    this.readCRUD();
-    this.listenRoute(o=>{})
+    //this.readCRUD();
+    this.selectSearchBussTell();
+    this.listenRoute(o=>{});
+    this.readTeller(this.hqId);
 
   }
 
@@ -60,6 +73,7 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
+
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -159,7 +173,99 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   loadClientsView(o: Bussines){
     this.router.navigate([`si/${this.hqId}/clients/${o.bussId}`])
   }
+
+  private readTeller(hqId:number) {
+    this.bussinesService.getTellerJoinUsers(hqId).subscribe({
+      next: d => this.tellers = d.data  as TellerJoinUsers[]
+    })
+  }
+
+  selectSearchBussTell(){
+    this.readBusinessJoinTeller(this.selectedTeller);
+  }
+
+  readBusinessJoinTeller(tellId:number): boolean {
+    this.isLoading = true;
+    this.bussinesService.getBusinessJoinTeller(tellId).subscribe({
+      next: (r) => {
+        //console.log("Data dentro de ticket",r)
+        this.isLoading = false;
+        this.dataSource.data = r.data as Bussines[];
+        this.selection.clear();
+
+      },
+      error: () => {
+      }
+    });
+    return true;
+  }
+
+  openDialogSetTeller(){
+    const dialogRef = this.dialogEditClient.open(AssignTellerComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: null,
+        type: TYPES_ACTIONS_DIALOG.ADD,
+        hqId: this.hqId
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: TellerJoinUsers) => {
+      if (result) {
+        const bussIds:number[]= this.selection.selected.reduce(( p:number[], c:Bussines)=>[...p, c.bussId || -1], [])
+        this.updateBusinessTeller(bussIds, result.tellId || -1)
+      }
+    });
+  }
+
+  private updateBusinessTeller(bussIds:number[], tellId:number){
+    this.bussinesService.updateBusinessTellId(bussIds, tellId).subscribe({
+      next:d=>{
+        this.showMessage.success({message:d.msg});
+        this.ngOnInit();
+        this.selection.clear();
+      },
+      error:e=>{
+        this.showMessage.error({message:e.error.message,  action: ()=>this.updateBusinessTeller(bussIds, tellId)})
+      }
+    })
+  }
+
+  openDialogChangeState(){
+    const dialogRef = this.dialogEditClient.open(ChangeStateComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: null
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: number) => {
+      if (result) {
+        const bussIds:number[]= this.selection.selected.reduce(( p:number[], c:Bussines)=>[...p, c.bussId || -1], [])
+        this.updateBusinessState(bussIds, result || -1)
+      }
+    });
+  }
+
+  private updateBusinessState(bussIds:number[], state:number){
+    this.bussinesService.updBusinessState(bussIds, state).subscribe({
+      next:d=>{
+        this.showMessage.success({message:d.msg});
+        this.ngOnInit();
+        this.selection.clear();
+      },
+      error:e=>{
+        this.showMessage.error({message:e.error.message,  action: ()=>this.updateBusinessTeller(bussIds, state)})
+      }
+    })
+  }
+
+  /*favoriteSeason: string = "";
+  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];*/
 }
+
+/*interface Animal {
+  name: string;
+  sound: string;
+}*/
 
 /*export interface PeriodicElement {
   name: string;

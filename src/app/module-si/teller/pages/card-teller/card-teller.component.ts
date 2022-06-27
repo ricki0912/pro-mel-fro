@@ -19,7 +19,7 @@ import { EditComponent } from '../edit/edit.component';
 })
 
 export class CardTellerComponent implements OnInit,ActionDialogInterface, CrudInterface  {
-  
+
   //hqId:number=0
 
   @Input() teller: Teller = { tellName: '' };
@@ -35,7 +35,7 @@ export class CardTellerComponent implements OnInit,ActionDialogInterface, CrudIn
   constructor(
     public dialog: MatDialog,
     public  tellerService:TellerService,
-    private showMessage: ShowMessageService, 
+    private showMessage: ShowMessageService,
     private userSevice:UserService,
     private mainViewService:MainViewService
 
@@ -56,7 +56,7 @@ export class CardTellerComponent implements OnInit,ActionDialogInterface, CrudIn
       c(this.hqId)
     })
   }*/
-  /*Dialogs */ 
+  /*Dialogs */
   openDialogSetUser(){
     const dialogRef = this.dialog.open(FindUserComponent, {
       panelClass: 'dialog',
@@ -105,8 +105,8 @@ export class CardTellerComponent implements OnInit,ActionDialogInterface, CrudIn
     });
     return false;
   }
-  
- 
+
+
 openDialogUpd(data: Teller): boolean {
   const dialogRef = this.dialog.open(EditComponent, {
     panelClass: 'dialog',
@@ -169,7 +169,7 @@ openDialogdAddAndUpd(object: any): boolean {
     this.tellerService.removeUser(id).subscribe({
       next:data=>{
         this.showMessage.success({message: data.msg})
-        //set 
+        //set
         this.user=undefined
         this.teller.userId=undefined
       },
@@ -186,7 +186,7 @@ openDialogdAddAndUpd(object: any): boolean {
         next: d=>{
           console.log(d)
           this.user=d.data as User
-        }, 
+        },
         error: e=>{
 
         }
@@ -198,7 +198,7 @@ openDialogdAddAndUpd(object: any): boolean {
       next: d=>{
         console.log("**GET-CATEGORIES**",d)
         this.categories=d.data as Category[]
-      }, 
+      },
       error:e=>{
 
       }
@@ -222,10 +222,10 @@ openDialogdAddAndUpd(object: any): boolean {
       next:d=>{
         this.showMessage.success({message:d.msg})
         this.categories=d.data as Category[]
-      }, 
+      },
       error:e=>{
         this.showMessage.error({message:e.error.message})
-      } 
+      }
     });
   }
 
@@ -235,30 +235,30 @@ openDialogdAddAndUpd(object: any): boolean {
       this.updState(
         this.teller.tellId || -1,
          tellState,
-         ()=>{this.showMessage.success({message:"En espera. "});this.teller.tellState=tellState} 
+         ()=>{this.showMessage.success({message:"En espera. "});this.teller.tellState=tellState}
         );
     }
     if(this.teller.tellState && this.teller.tellState==TELLER_TYPES_STATE.EN_ESPERA){
       const tellState=TELLER_TYPES_STATE.ACTIVO;/*Activo*/
       this.updState(
-        this.teller.tellId || -1, 
+        this.teller.tellId || -1,
         tellState,
         ()=>{this.showMessage.success({message:"En arranque."});this.teller.tellState=tellState}
       );
     }
   }
-  
+
   updState(id:number, tellState:number, f:()=>void){
     this.tellerService.updState(id, tellState).subscribe({
       next: d=>{
         f();
-      }, 
+      },
       error:e=>{
         this.showMessage.error({message:e.error.message})
       }
     })
 
-    
+
   }
   /*/*funcioenes de logica */
   getStateName(tellState:number):string{

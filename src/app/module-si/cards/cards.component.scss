@@ -32,7 +32,12 @@
   font-size: 15px;
   opacity: .85;
   white-space: nowrap;
-  
+
+  display: flex;
+  justify-content: left;
+}
+
+.mat-paginator {
   display: flex;
   justify-content: left;
 }

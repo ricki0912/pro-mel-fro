@@ -1,0 +1,46 @@
+<mat-toolbar color="primary" class="tollbar">
+  <mat-toolbar-row>
+    <button
+      mat-icon-button
+      mat-dialog-close
+      class="example-icon"
+      aria-label="Example icon-button with menu icon"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>{{ title }}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="dialog-body" style="width: 300px; min-width: 10px">
+  <mat-dialog-content class="mat-typography">
+    <mat-radio-group
+      aria-labelledby="example-radio-group-label"
+      class="example-radio-group"
+      [(ngModel)]="selectRadio"
+    >
+      <mat-radio-button
+        class="example-radio-button"
+        *ngFor="let st of states"
+        [value]="st.value"
+      >
+        {{ st.name }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button
+      mat-button
+      [mat-dialog-close]="true"
+      type="submit"
+      (click)="ok()"
+      [disabled]="!selectRadio"
+      cdkFocusInitial
+    >
+      Listo
+    </button>
+  </mat-dialog-actions>
+</div>

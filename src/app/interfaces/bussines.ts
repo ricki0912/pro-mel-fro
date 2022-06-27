@@ -40,5 +40,6 @@ export interface TellerJoinUsers {
   tellCode?: string;
   tellName?: string;
   name?: string;
+  hqId?: number;
   cantBusiness?: number;
 }

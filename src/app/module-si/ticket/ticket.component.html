@@ -1,57 +1,57 @@
-<mat-grid-list cols="1" rowHeight="30px" style="margin-top:10px ;">
-    <mat-grid-tile colspan="1" rowspan="1">
-        <div class="div-title">
-            <span>Linea de Espera</span>
-            <span>
-                <mat-icon>
-                    keyboard_arrow_right</mat-icon>
-            </span>
-            <span>Tickets </span>
-        </div>
-    </mat-grid-tile>
+<mat-grid-list cols="1" rowHeight="30px" style="margin-top: 10px">
+  <mat-grid-tile colspan="1" rowspan="1">
+    <div class="div-title">
+      <span>Linea de Espera</span>
+      <span>
+        <mat-icon> keyboard_arrow_right</mat-icon>
+      </span>
+      <span>Tickets </span>
+    </div>
+  </mat-grid-tile>
 </mat-grid-list>
 
 <mat-divider></mat-divider>
 
 <mat-grid-list cols="12" rowHeight="100%" appearance="fillx">
-    <mat-grid-tile colspan="12" rowspan="1">
-
-        <div style=" display: flex;
+  <mat-grid-tile colspan="12" rowspan="1">
+    <div
+      style="
+        display: flex;
         flex-direction: column;
         height: 100%;
         width: 100%;
-        justify-content: space-between;">
-
-
-            <mat-card class="example-card mat-elevation-z8">
-
-
-
-                <mat-card-title-group>
-                    <mat-card-subtitle> <b>Tickets en espera</b> </mat-card-subtitle>
-                    <mat-card-actions>
-                        <button mat-button (click)="selectSearch()">
-                            <mat-icon>refresh</mat-icon>Actualizar
-                        </button>
-                        <!--<button mat-button>
+        justify-content: space-between;
+      "
+    >
+      <mat-card class="example-card mat-elevation-z8">
+        <mat-card-title-group>
+          <mat-card-subtitle> <b>Tickets en espera</b> </mat-card-subtitle>
+          <mat-card-actions>
+            <button mat-button (click)="selectSearch()">
+              <mat-icon>refresh</mat-icon>Actualizar
+            </button>
+            <!--<button mat-button>
                             <mat-icon>pause</mat-icon>Espera
                         </button>--->
-                        <button mat-button (click)="openDialogChageTeller()" [disabled]="selection.selected.length==0">
-                            <mat-icon>swap_horiz</mat-icon>Transferir
-                        </button>
+            <button
+              mat-button
+              (click)="openDialogChageTeller()"
+              [disabled]="selection.selected.length == 0"
+            >
+              <mat-icon>swap_horiz</mat-icon>Transferir
+            </button>
 
-
-                        <!--
-                        <div style="z-index:5; 
+            <!--
+                        <div style="z-index:5;
               position : fixed;
-              display : flex; 
-              align-self : flex-end; 
+              display : flex;
+              align-self : flex-end;
               align-items: center;
-              
+
               bottom : 3px;
               right: 3px;
-              
-              
+
+
               ">
 
                             <mat-list style="">
@@ -85,16 +85,13 @@
 
 
                         </div>-->
+          </mat-card-actions>
+        </mat-card-title-group>
+        <mat-divider></mat-divider>
 
-
-                    </mat-card-actions>
-                </mat-card-title-group>
-                <mat-divider></mat-divider>
-
-
-                <mat-card-content>
-                    <div class="">
-                        <!--<mat-form-field appearance="fill">
+        <mat-card-content>
+          <div class="">
+            <!--<mat-form-field appearance="fill">
                             <mat-label>{{ empfilter.name }}</mat-label>
                             <mat-select [(value)]="empfilter.defaultValue"
                                 (selectionChange)="applyEmpFilter($event, empfilter)">
@@ -104,113 +101,146 @@
                             </mat-select>
                         </mat-form-field> -->
 
-                        <mat-form-field appearance="legacy">
-                            <mat-label>Estado</mat-label>
-                            <mat-select [(value)]="selectedApptmState" (selectionChange)="selectSearch()">
-                                <mat-option [value]="apptmState.apptmStateId" *ngFor="let apptmState of apptmStates">
-                                     {{apptmState.apptmStateName}} 
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
+            <mat-form-field appearance="legacy">
+              <mat-label>Estado</mat-label>
+              <mat-select
+                [(value)]="selectedApptmState"
+                (selectionChange)="selectSearch()"
+              >
+                <mat-option
+                  [value]="apptmState.apptmStateId"
+                  *ngFor="let apptmState of apptmStates"
+                >
+                  {{ apptmState.apptmStateName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-                        <mat-form-field appearance="legacy">
-                            <mat-label>Ventanilla</mat-label>
-                            <mat-select [(value)]="selectedTeller" (selectionChange)="selectSearch()">
-                                <mat-option value="0" selected>
-                                    Todos
-                                </mat-option>
-                                <mat-option [value]="teller.tellId" *ngFor="let teller of tellers">
-                                    {{teller.tellCode}} - {{teller.tellName}} ({{teller.callPending}})
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
+            <mat-form-field appearance="legacy">
+              <mat-label>Ventanilla</mat-label>
+              <mat-select
+                [(value)]="selectedTeller"
+                (selectionChange)="selectSearch()"
+              >
+                <mat-option value="0" selected> Todos </mat-option>
+                <mat-option
+                  [value]="teller.tellId"
+                  *ngFor="let teller of tellers"
+                >
+                  {{ teller.tellCode }} - {{ teller.tellName }} ({{
+                    teller.callPending
+                  }})
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-                        <mat-form-field appearance="legacy">
-                            <mat-label>Categoria</mat-label>
-                            <mat-select [(value)]="selectedCategory" (selectionChange)="selectSearch()">
-                                <mat-option value="0" selected>
-                                    Todos
-                                </mat-option>
-                                <mat-option [value]="category.catId" *ngFor="let category of categories">
-                                    {{category.catNameLong}}
-                                </mat-option>
-                            </mat-select>
-
-                        </mat-form-field>
-                        <mat-card *ngIf="isLoading" style="
-                          display: flex;
-                          justify-content: center;
-                          align-items: center;
-                        ">
-                            <mat-progress-spinner color="primary" mode="indeterminate">
-                            </mat-progress-spinner>
-                        </mat-card>
-                        <table mat-table [dataSource]="dataSource">
-
-                            <!-- Checkbox Column -->
-                            <ng-container matColumnDef="select">
-                                <th mat-header-cell *matHeaderCellDef>
-                                    <mat-checkbox (change)="$event ? masterToggle() : null"
-                                        [checked]="selection.hasValue() && isAllSelected()"
-                                        [indeterminate]="selection.hasValue() && !isAllSelected()"
-                                        [aria-label]="checkboxLabel()">
-                                    </mat-checkbox>
-                                </th>
-                                <td mat-cell *matCellDef="let row">
-                                    <mat-checkbox (click)="$event.stopPropagation()"
-                                        (change)="$event ? selection.toggle(row) : null"
-                                        [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-                                    </mat-checkbox>
-                                </td>
-                            </ng-container>
-
-                            <!-- Position Column -->
-                            <ng-container matColumnDef="position">
-                                <th mat-header-cell *matHeaderCellDef> No. </th>
-                                <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="ticket">
-                                <th mat-header-cell *matHeaderCellDef> Numero Ticket </th>
-                                <td mat-cell *matCellDef="let element"> {{joinCodeTicket(element)}} </td>
-                            </ng-container>
-
-                            <!-- Weight Column -->
-                            <ng-container matColumnDef="teller">
-                                <th mat-header-cell *matHeaderCellDef> Ventanilla </th>
-                                <td mat-cell *matCellDef="let element"> {{ element.teller.tellName}} </td>
-                            </ng-container>
-
-                            <!-- Name Column -->
-                            <ng-container matColumnDef="category">
-                                <th mat-header-cell *matHeaderCellDef> Categoria </th>
-                                <td mat-cell *matCellDef="let element"> {{element.category.catNameLong}} </td>
-                            </ng-container>
-
-
-                            <!-- Symbol Column -->
-                            <ng-container matColumnDef="time">
-                                <th mat-header-cell *matHeaderCellDef> Tiempo Espera </th>
-                                <td mat-cell *matCellDef="let element">
-                                    <app-chronometer [elapsedSeconds]="element.elapsedSeconds"></app-chronometer>
-                                </td>
-                            </ng-container>
-
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-                                (click)="selection.toggle(row)">
-                            </tr>
-                        </table>
-
-                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-                        aria-label="Select page of periodic elements">
-                      </mat-paginator>
-
-                    </div>
-                </mat-card-content>
-
-
+            <mat-form-field appearance="legacy">
+              <mat-label>Categoria</mat-label>
+              <mat-select
+                [(value)]="selectedCategory"
+                (selectionChange)="selectSearch()"
+              >
+                <mat-option value="0" selected> Todos </mat-option>
+                <mat-option
+                  [value]="category.catId"
+                  *ngFor="let category of categories"
+                >
+                  {{ category.catNameLong }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-card
+              *ngIf="isLoading"
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <mat-progress-spinner color="primary" mode="indeterminate">
+              </mat-progress-spinner>
             </mat-card>
-        </div>
-    </mat-grid-tile>
+            <table mat-table [dataSource]="dataSource">
+              <!-- Checkbox Column -->
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox
+                    (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    [aria-label]="checkboxLabel()"
+                  >
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)"
+                  >
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef>No.</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                  {{ i + 1 }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ticket">
+                <th mat-header-cell *matHeaderCellDef>Numero Ticket</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ joinCodeTicket(element) }}
+                </td>
+              </ng-container>
+
+              <!-- Weight Column -->
+              <ng-container matColumnDef="teller">
+                <th mat-header-cell *matHeaderCellDef>Ventanilla</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.teller.tellName }}
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef>Categoria</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.category.catNameLong }}
+                </td>
+              </ng-container>
+
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="time">
+                <th mat-header-cell *matHeaderCellDef>Tiempo Espera</th>
+                <td mat-cell *matCellDef="let element">
+                  <app-chronometer
+                    [elapsedSeconds]="element.elapsedSeconds"
+                  ></app-chronometer>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns"
+                (click)="selection.toggle(row)"
+              ></tr>
+            </table>
+
+            <mat-paginator
+              [pageSizeOptions]="[5, 10, 20]"
+              showFirstLastButtons
+              aria-label="Select page of periodic elements"
+            >
+            </mat-paginator>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-grid-tile>
 </mat-grid-list>
