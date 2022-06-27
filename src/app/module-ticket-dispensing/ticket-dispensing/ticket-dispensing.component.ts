@@ -17,6 +17,8 @@ import { WaitingLineService } from 'src/app/socket/waiting-line.service';
 import { ActivatedRoute } from '@angular/router';
 import { CardsService } from 'src/app/services/cards.service';
 import { Cards, CARDS_STATES } from 'src/app/interfaces/cards';
+import { TicketDispensingService } from './ticket-dispensing.service';
+import { ParamsTicketDispensing } from 'src/app/interfaces/params-ticket-dispensing';
 
 
 declare var electron: any;
@@ -68,13 +70,20 @@ export class TicketDispensingComponent implements OnInit {
     private headService: HeadService,
     private alertService: AlertService,
     private waitingLineService: WaitingLineService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private _ticketDispensingService:TicketDispensingService
   ) { }
 
   ngOnInit(): void {
     this.loadingService.hide()
     this.readCardsCrud()
     this.listenRoute(o => this.readCategoriesCRUD(o))
+    this._ticketDispensingService.onComeBack.subscribe(e=>{
+      this.back()
+    })
+    this._ticketDispensingService.onGoHome.subscribe(e=>{
+      this.home()
+    })
   }
 
   private listenRoute(c: (o: any) => void) {
@@ -143,6 +152,12 @@ export class TicketDispensingComponent implements OnInit {
     }
   }
 
+  onNextFindBusiness(){
+    console.log("Next FInd bussines")
+    this.history.push({type: COMPONENT_TYPES.FIND_BUSINESS, history:{}})
+    this.componentSelected = COMPONENT_TYPES.FIND_BUSINESS
+
+  }
 
 
   /* Controles de los tres opciones del teclado*/
@@ -172,7 +187,6 @@ export class TicketDispensingComponent implements OnInit {
 
 
   public back() {
-    console.log("*BACKWARDS*", this.history)
     if (this.history && this.history.length > 1) {
       this.history.splice(-1)
       if (this.history[this.history.length - 1].type == this.CT.CATEGORY) {
@@ -186,6 +200,10 @@ export class TicketDispensingComponent implements OnInit {
         this.categoriesTreeSelected = this.history[this.history.length - 1].history
         this.componentSelected = COMPONENT_TYPES.KEYBOARD
       }
+      if (this.history[this.history.length - 1].type == this.CT.FIND_BUSINESS) {
+        this.categoriesTreeSelected = this.history[this.history.length - 1].history
+        this.componentSelected = COMPONENT_TYPES.FIND_BUSINESS
+      }
     }
   }
 
@@ -193,9 +211,6 @@ export class TicketDispensingComponent implements OnInit {
     this.history.splice(1);
     this.componentSelected = COMPONENT_TYPES.CATEGORY
     this.headService.setMessage("Bienvenido, por favor seleccione un servicio.")
-
-
-
   }
 
 
@@ -265,11 +280,11 @@ export class TicketDispensingComponent implements OnInit {
       message: "Gracias por su preferencia. No olvide recoger su ticket y esperar su turno.",
       success: () => this.home()
     })
-    const t = {
+    const t :ParamsTicketDispensing = {
       dateTicket: this.dateFormat(d),
       numberTicket: this.joinCodeTicket(d),
-      tellerTicket: d.teller?.tellCode,/*ventanilla*/
-      phraseTicket: this.cards[Math.floor(Math.random() * this.cards.length)].cardPhrases,
+      tellerTicket: d.teller?.tellCode || '',/*ventanilla*/
+      phraseTicket: this.cards[Math.floor(Math.random() * this.cards.length)].cardPhrases || '',
       codeQrTicket: 'http://melendresauditores.com/'
     }
     try {
@@ -301,7 +316,8 @@ export enum COMPONENT_TYPES {
   KEYBOARD = 2,
   CATEGORY = 1,
   LOADING = 3,
-  ALERT = 4
+  ALERT = 4, 
+  FIND_BUSINESS=5
 }
 export interface History {
   type: COMPONENT_TYPES,

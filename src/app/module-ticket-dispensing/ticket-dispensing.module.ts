@@ -23,6 +23,16 @@ import { BottomMenuComponent } from './ticket-dispensing/pages/bottom-menu/botto
 
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatListModule} from '@angular/material/list';
+import { FindBusinessComponent } from './ticket-dispensing/pages/find-business/find-business.component';
+import { FindBusiness2Component } from './ticket-dispensing/pages/find-business2/find-business2.component';
+
+import { MatDialogModule } from '@angular/material/dialog';
+
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTableModule } from '@angular/material/table';
+import { KeyboardAlphabetComponent } from './ticket-dispensing/pages/keyboard-alphabet/keyboard-alphabet.component';
+import { ControlButtonsComponent } from './ticket-dispensing/pages/control-buttons/control-buttons.component';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -34,6 +44,10 @@ import {MatListModule} from '@angular/material/list';
     LoadingComponent,
     AlertComponent,
     BottomMenuComponent,
+    FindBusinessComponent,
+    KeyboardAlphabetComponent,
+    ControlButtonsComponent,
+    FindBusiness2Component
   
   ],
   imports: [
@@ -47,7 +61,11 @@ import {MatListModule} from '@angular/material/list';
     FormsModule,
     MatProgressSpinnerModule,
     MatBottomSheetModule,
-    MatListModule
+    MatListModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatTableModule,
+    ScrollingModule
 
   ],
   providers: [DatePipe]

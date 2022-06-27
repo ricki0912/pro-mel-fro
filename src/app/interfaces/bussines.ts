@@ -1,6 +1,7 @@
 import { ParentInterface } from "../global/parents/parent.interface";
 import { Person } from "./person";
 
+
 export interface Bussines extends ParentInterface{
   bussId ?: number,
   bussKind ?: string,

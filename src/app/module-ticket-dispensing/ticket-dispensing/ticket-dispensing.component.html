@@ -10,8 +10,17 @@
 <app-keyboard 
   (onReturnValue)="onAuth($event)" 
   [categoryTree]="categoryTree" 
+  (onFindBusiness)="onNextFindBusiness()"
+
   *ngIf="componentSelected==CT.KEYBOARD">
 </app-keyboard>
+
+<app-find-business
+  *ngIf="componentSelected==CT.FIND_BUSINESS"
+>
+  
+</app-find-business>
+
 
 <app-loading 
   *ngIf="componentSelected==CT.LOADING">
@@ -19,7 +28,7 @@
 </app-loading>
 
 
-<div class="footer fixed-bottom d-flex justify-content-around mb-3" *ngIf="componentSelected==CT.CATEGORY || componentSelected==CT.KEYBOARD ">
+<div class="footer fixed-bottom d-flex justify-content-around mb-3" *ngIf="componentSelected==CT.CATEGORY || componentSelected==CT.KEYBOARD || componentSelected==CT.FIND_BUSINESS">
   <div>
     <button mat-icon-button 
     (click)="back()"
@@ -43,5 +52,7 @@
   </div>
 </div>
 
+
 <app-alert >
+
 </app-alert>

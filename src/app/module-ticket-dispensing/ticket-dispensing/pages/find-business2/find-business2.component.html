@@ -1,0 +1,96 @@
+<mat-toolbar color="primary" class="tollbar">
+  <mat-toolbar-row>
+    <button mat-icon-button mat-dialog-close class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>{{title}}</span>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+
+
+<div class="dialog-body" style="margin-top: 0px; padding-top: 0px;">
+
+  <div class="row" >
+
+    <div class="col-4" style="background-color: rgba(235,235,235, 0.4) ;">
+
+      <mat-dialog-content class="mat-typography mt-2 pt-2 " style="height: 100%; border-right: 1px ;">
+        <input class="form-control form-control-lg mb-2" type="text" placeholder="Ej. Melendres" [value]="wordFiltered">
+
+        <mat-divider></mat-divider>
+
+        <mat-selection-list [multiple]="false">
+
+          <mat-list-option *ngFor="let item of businesFiltered;" [value]="item.bussId" [disableRipple]="true"
+            (selectedChange)="(setBusinessSelected(item))">
+            <div style="display:flex; justify-content:space-between;align-items:center">
+              <div style="display:flex;align-items:center">
+                <!--<mat-icon matListAvatar color="green" *ngIf="businessSelected==item">check</mat-icon>-->
+
+                <div style="display:flex; flex-direction:column">
+                  <div>
+                    <h3 class="option-title" [class.option-selected]="businessSelected==item" matLine> {{item.bussRUC}}
+                    </h3>
+                  </div>
+                  <div style="margin-top:-10px">
+                    <p matLine class="option-description">
+                      {{item.bussName}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div>
+
+                <!--<button mat-icon-button (click)="onEdit($event, item)">
+                    <mat-icon>edit</mat-icon>
+                  </button>-->
+              </div>
+            </div>
+          </mat-list-option>
+        </mat-selection-list>
+        <mat-card *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center">
+          <mat-progress-spinner color="primary" mode="indeterminate">
+          </mat-progress-spinner>
+        </mat-card>
+
+
+
+
+      </mat-dialog-content>
+     
+    </div>
+    <div class="col-8 d-flex flex-column  " >
+      <div class="row mb-auto p-2">
+        <!--<p class="text-center" style="font-size: 1.5rem;">Si no logras ubicar tu RUC, te sugerimos regresar y seleccionar uno de nuestros servicios de consulta. </p>-->
+        <p class="text-center" style="font-size: 1.5rem;">Digite una parte de su nombre o razón social. </p>
+      </div>
+
+      <div class="row mb-auto p-2">
+        <mat-divider></mat-divider>
+      </div>
+      <div class="row mb-auto p-2" >
+        <app-keyboard-alphabet class=""  (onReturnWord)="filter($event)" screenOut="none">
+
+        </app-keyboard-alphabet>
+      </div>
+      <div class="row p-2">
+        <mat-divider></mat-divider>
+        <mat-dialog-actions align="end">
+          <button mat-button mat-dialog-close>Cancelar</button>
+          <button mat-raised-button color="primary" [mat-dialog-close]="true" type="submit" (click)="ok()"
+            [disabled]="!businessSelected" cdkFocusInitial>Listo</button>
+        </mat-dialog-actions>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+</div>
