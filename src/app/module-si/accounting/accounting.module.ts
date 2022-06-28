@@ -48,6 +48,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { AddDescriptionComponent } from './pages/add-description/add-description.component';
 import { AddQuantityComponent } from './pages/add-quantity/add-quantity.component';
 
+import {MatRadioModule} from '@angular/material/radio';
 
 
 
@@ -89,6 +90,8 @@ import { AddQuantityComponent } from './pages/add-quantity/add-quantity.componen
     MatExpansionModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatCheckboxModule,
+    MatRadioModule
     
   ],
   providers:[  DatePipe,     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],

@@ -52,9 +52,15 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   /*payment*/
   payment:Payment
 
+  /*Es la forma de pago  */
+  PKD=PAYMENT_KIND_DOC
+  swapForDocPayment= PAYMENT_KIND_DOC.RECIBO
+
 
   messageError:string='';
   messageSuccess:string='';
+
+
 
   cols: number = 1;
   gridByBreakpoint: GridResponsive = {
@@ -262,6 +268,13 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
       this.messageError='En método de pago, verifique que el monto este correctamente asignado.'
       return;
     }
+    let swapForDocPaymentError=this.validateSwapForDocPayment();
+    if(swapForDocPaymentError){
+      this.messageError=swapForDocPaymentError
+      return;
+    }
+
+    
 
     console.log("BEFORE ADD PAYAMENT",this.payment)
     this.addPayment(this.payment)
@@ -371,6 +384,20 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
       }
     }
     return null;
+  }
+
+  private validateSwapForDocPayment(){
+    if(this.swapForDocPayment==this.PKD.RECIBO){
+      return null;
+    }
+    if(this.swapForDocPayment==this.PKD.BOLETA && !this.payment.payTicketSN){
+      
+      return `Si el recibo es canjeado por boleta, no olvide ingresar el número`
+    }
+    if(this.swapForDocPayment==this.PKD.FACTURA && !this.payment.payInvoiceSN){
+      return `Si el recibo es canjeado por factura, no olvide ingresar el número`
+    }
+    return null
   }
 }
 

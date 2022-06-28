@@ -94,6 +94,8 @@ export class KeyboardComponent implements OnInit {
   }
   goHome(){
     this._ticketDispensingService.goHome()
+    this._keyboardService.setValue(null)
+
   }
 
   loadMessage(){
