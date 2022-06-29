@@ -25,7 +25,7 @@ import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-co
   selector: 'app-list-buss-periods',
   templateUrl: './list-buss-periods.component.html',
   styleUrls: ['./list-buss-periods.component.scss']
-})    
+})
 export class ListBussPeriodsComponent implements OnInit {
 
   @Input() bp: Period = {};
@@ -48,13 +48,13 @@ export class ListBussPeriodsComponent implements OnInit {
     private appointmentTempService:AppointmentTempService,
 
     private tokenStorage: TokenStorageService,
-    private dialog:MatDialog, 
+    private dialog:MatDialog,
     private clientViewService:ClientViewService,
     private serviceService: ServicesService,
 
 
     //private services:ServicesProvided
-  ) { 
+  ) {
 
     this.currentUser=this.tokenStorage.getUser() as User
   }
@@ -81,7 +81,7 @@ export class ListBussPeriodsComponent implements OnInit {
   }
 
   //displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'debt', 'paid', 'state', 'LimitPayment', 'comment', 'actions'];
-  
+
 //  displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'state', 'LimitPayment', 'comment', 'actions'];
 displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment', 'actions'];
 
@@ -139,7 +139,7 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
 
   openDialogEmitProofOfPayment() {
 
-    
+
     const dialogRef = this.dialog.open(ProofOfPaymentComponent, {
       panelClass: 'dialog',
       maxWidth: '100vw',
@@ -199,7 +199,7 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
   updPd(el: TServicesProvided, pd: pd) {
     console.log("UPD PERIODOS ROW", pd)
     if (pd == null) { return; }
-    
+
     el.ppayId = Number(pd.period);
     el.spEditable=true;
     this.dataSource.data = this.dataSource.data;
@@ -229,13 +229,13 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
     sp.spCost = el.spCost;
     sp.spComment = el.spComment;
     sp.spId=el.spId
-    
+
     if(sp.spId && sp.spId>0){
       this.updServices(sp.spId, sp,indexRow)
     }else {
       this.addServices(sp, indexRow);
     }
-    
+
   }
 
   addServices(sp: TServicesProvided,indexRow:number): boolean{
@@ -272,13 +272,13 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
         this.dataSource.data[indexRow] = servPro[0]
         this.dataSource.data=this.dataSource.data
         this.loadingService.hide()
-      }, 
+      },
       error:e=>{
         this.loadingService.hide()
         this.showMessage.error({message:e.error.message})
       }
     })
-    
+
   }
 
   findSubPeriod(so: number){
@@ -313,14 +313,14 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
         this.servicesProvided=d.data as TServicesProvided[]
         this.dataSource.data=this.servicesProvided
         this.selection.clear();
-      }, 
+      },
      error:  e=>{
         this.showMessage.error({message: e.error.message})
       }
     })
   }
 
-  
+
 
   readCRUDCurrentAppointment(tellId:number){
     this.appointmentTempService.getAttentionPendingByTeller(tellId)
@@ -357,7 +357,7 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
         if (confirmado) {
           d();
         } else {
-          
+
         }
       });
   }
@@ -366,7 +366,7 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
       next: data=>{
         this.showMessage.success({message: data.msg});
         this.readServiceProvidedsByDBP(this.bp.dbp?.dbpId || -1);
-      }, 
+      },
       error: error=>{
         this.showMessage.error({message: error.error.message})
       }
@@ -374,8 +374,12 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
     return true;
   }
 
+  printReportPeriod(){
 
- 
+  }
+
+
+
 
   /*subperiod: SubPeriodo[] = [
     {value: '1', name: 'Enero'},
