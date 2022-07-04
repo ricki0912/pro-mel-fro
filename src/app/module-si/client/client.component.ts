@@ -32,7 +32,9 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
 
   isLoading = true;
   tellers: TellerJoinUsers[] = [];
-  teller?:Teller
+  teller?:Teller;
+
+  private clientTeller = new Map<number, string>();
 
   constructor(
     private bussinesService: BussinesService,
@@ -60,7 +62,7 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     })
   }
 
-  displayedColumns: string[] = ['select','nombres', 'ruc', 'numArchivador', 'representate', 'dni'];
+  displayedColumns: string[] = ['select','nombres', 'ruc', 'numArchivador', 'representate', 'dni', 'teller'];
   dataSource = new MatTableDataSource<Bussines>();
   selection = new SelectionModel<Bussines>(true, []);
 
@@ -72,6 +74,10 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  getClientTeller(id:number){
+    return this.clientTeller.get(id)
   }
 
 
@@ -176,7 +182,14 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
 
   private readTeller(hqId:number) {
     this.bussinesService.getTellerJoinUsers(hqId).subscribe({
-      next: d => this.tellers = d.data  as TellerJoinUsers[]
+      next: (d) => {
+        this.tellers = d.data  as TellerJoinUsers[];
+        this.clientTeller.clear();
+        this.tellers.forEach(element => {
+          this.clientTeller.set(element.tellId || -1, element.tellCode || "");
+        });
+
+      }
     })
   }
 
