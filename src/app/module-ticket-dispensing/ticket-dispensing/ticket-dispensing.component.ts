@@ -192,7 +192,7 @@ export class TicketDispensingComponent implements OnInit {
       if (this.history[this.history.length - 1].type == this.CT.CATEGORY) {
         this.categoriesTreeSelected = this.history[this.history.length - 1].history
         this.componentSelected = COMPONENT_TYPES.CATEGORY
-        this.headService.setMessage("Bienvenido, por favor seleccione un servicio.")
+        this.headService.setMessage("Seleccione un servicio.")
 
       }
 
@@ -210,7 +210,7 @@ export class TicketDispensingComponent implements OnInit {
   public home() {
     this.history.splice(1);
     this.componentSelected = COMPONENT_TYPES.CATEGORY
-    this.headService.setMessage("Bienvenido, por favor seleccione un servicio.")
+    this.headService.setMessage("Seleccione un servicio.")
   }
 
 
@@ -224,7 +224,7 @@ export class TicketDispensingComponent implements OnInit {
         this.categoriesTree = CategoryHelpers.convertTableToTree(r)
         this.categoriesTreeSelected = this.categoriesTree;
         this.history.push({ type: COMPONENT_TYPES.CATEGORY, history: this.categoriesTreeSelected })
-        this.headService.setMessage("Bienvenido, por favor seleccione un servicio.")
+        this.headService.setMessage("Seleccione un servicio.")
 
       },
       error: () => {
@@ -248,7 +248,7 @@ export class TicketDispensingComponent implements OnInit {
   private createAppointmentCRUD(object: AppointmentTemp): boolean {
     this.headService.setMessage('')
     this.componentSelected = COMPONENT_TYPES.LOADING
-    this.loadingMessage = 'Por favor espere. Estamos procesando tu solicitud.'
+    this.loadingMessage = 'Espere un momento, estamos procesando tu solicitud.'
     this.appointmentTempService.add(object).subscribe({
       next: d => {
         const data = d.data as AppointmentTemp[];

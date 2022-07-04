@@ -3,6 +3,7 @@ import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 import { SocketInterface } from '../global/parents/socket.interface';
 import { AppointmentTemp } from '../interfaces/appointment-temp';
+import { PrintServer } from '../interfaces/print-server';
 
 
 @Injectable({
@@ -42,6 +43,8 @@ export class WaitingLineService {
   }
 
   /*optimizado */
+ 
+
   public setSocketTV(hqId:number, s:SocketInterface<AppointmentTemp>):void{
     this.socket.emit('tv:set', {hqId:hqId,data:s});
   }
@@ -57,4 +60,24 @@ export class WaitingLineService {
   public getSocketWaitingLine(tellId:number):Observable<SocketInterface<AppointmentTemp>>{
     return this.socket.fromEvent<SocketInterface<AppointmentTemp>>('waiting-line:get:'+tellId)
   }
+
+  public setSocketPrintServer(hqId:number,token:string, s:SocketInterface<PrintServer>):void{
+    this.socket.emit('print-server:set', {hqId:hqId, token, data:s});
+  }
+
+  public getSocketPrintServer(hqId:number, token:string):Observable<SocketInterface<PrintServer>>{
+    return this.socket.fromEvent<SocketInterface<PrintServer>>('print-server:get:'+hqId+':'+token)
+  } 
+
+public disconnect(){
+  this.socket.disconnect();
+} 
+
+
+
+
+
+
+  
+
 }

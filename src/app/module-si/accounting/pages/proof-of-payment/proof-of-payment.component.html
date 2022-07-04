@@ -249,23 +249,23 @@
 
         <div class="card mb-2">
           <div class="card-header">
-            4. Canjear por Factura o Recibo
+            4. Canjear por Factura o Boleta de Venta
           </div>
           <div class="card-body">
             <div class="row">
 
-              <div class="col-md-6">
+              <div class="col-md-8">
                 <section class="example-section">
                   <!--<label class="example-margin">Align:</label> -->
                   <mat-radio-group [(ngModel)]="swapForDocPayment">
                     <mat-radio-button class="example-margin" [value]="PKD.RECIBO">Recibo</mat-radio-button>
-                    <mat-radio-button class="example-margin" [value]="PKD.BOLETA">Boleta</mat-radio-button>
+                    <mat-radio-button class="example-margin" [value]="PKD.BOLETA">Boleta de Venta</mat-radio-button>
                     <mat-radio-button class="example-margin" [value]="PKD.FACTURA">Factura</mat-radio-button>
                   </mat-radio-group>
                 </section>
               </div>
 
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <mat-form-field class="example-full-width" appearance="legacy" *ngIf="PKD.BOLETA==swapForDocPayment">
                   <mat-label>Número de boleta</mat-label>
                   <input matInput [(ngModel)]="payment.payTicketSN" />

@@ -41,8 +41,11 @@ export class FindBusinessComponent implements OnInit, OnDestroy {
     if(!this.wordFiltered){
       return
     }
-    let regex= new RegExp('.*'+value+'.*')
-    this.businesFiltered=this.business.filter(e=>regex.test((e.bussName || '').toLowerCase()))
+    let v=value.replace(/\s+/g, "")
+    v=v.toLowerCase()
+    let regex= new RegExp('.*'+v+'.*')
+    console.log(regex, "-valor-", v)
+    this.businesFiltered=this.business.filter(e=>regex.test((e.bussName || '').replace(/\s+/g, "").toLowerCase()))
     console.log(this.businesFiltered, this.business)
   }
 
@@ -73,7 +76,7 @@ export class FindBusinessComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.renderScreen()
     this.readCRUDBusiness()
-    this._headService.setMessage("Ingrese parte del nombre o razón social")
+    this._headService.setMessage("Ingrese parte de tu nombre o razón social")
   }
 
   ngOnDestroy(): void {

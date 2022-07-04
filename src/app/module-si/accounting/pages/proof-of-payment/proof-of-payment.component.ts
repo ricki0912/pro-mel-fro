@@ -26,6 +26,10 @@ import { Subscription } from 'rxjs';
 import { DPaymentPaymentMethod } from 'src/app/interfaces/d-payment-payment-method';
 import { PaymentMethodService } from 'src/app/services/payment-method.service';
 import { PaymentMethod, PAYMENT_METHOD_STATE } from 'src/app/interfaces/payment-method';
+import { WaitingLineService } from 'src/app/socket/waiting-line.service';
+import { SocketInterface, SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
+import { PrintServer,PRINT_SERVER_ANSWER_RESPONSE } from 'src/app/interfaces/print-server';
+import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
 @Component({
   selector: 'app-proof-of-payment',
   templateUrl: './proof-of-payment.component.html',
@@ -75,6 +79,9 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
 
 
   title = "Imprimir Comprobante "
+
+  timeWaitResponsePrintServer?: ReturnType<typeof setTimeout> = undefined
+
   
   constructor(
     public mediaObserver: MediaObserver,
@@ -91,7 +98,9 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     private showMessage: ShowMessageService,
     private loadingService:LoadingService,
     private dialogRef: MatDialogRef<ProofOfPaymentComponent>,
-    private paymentMethodService:PaymentMethodService
+    private paymentMethodService:PaymentMethodService,
+    private _waitingLineService:WaitingLineService,
+    private _currentUser:TokenStorageService
 
   ) { 
     this.payment={}
@@ -109,9 +118,17 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit(): void {
+    if(this._currentUser.getTeller()?.tellId
+     && this._currentUser.getHqId()){
+      this.getSocketPrintServer(this._currentUser.getHqId(), String(this._currentUser.getTeller()?.tellId)) 
+      this.setSocketPrintServer(this._currentUser.getHqId(), 'IMPRESORA 01', {action: SOCKET_ACTION.PRINTER_IS_ENABLE, data:{tellId:this._currentUser.getTeller()?.tellId}})
+
+      
+    }
     this.renderScreen()
     this.readCRUDPaymentMethods(PAYMENT_METHOD_STATE.ENABLE)
   }
+  
 
   
   updPdsQuantity(el: PaymentDetail, quantity: number) {
@@ -195,6 +212,8 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   
   ngOnDestroy(): void {
     this.mediaSub.unsubscribe();
+    //this._waitingLineService.disconnect()
+    //this.dialogRef.()
   }
 
   renderScreen = (): void => {
@@ -288,7 +307,9 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
       next: (d)=>{
       this.payment=d.data as Payment  
       console.log("addPayment", d)
-      this.printPDF(this.payment.payToken || '-1')
+      
+
+      this.print()
       this.isLoadingEnd=false
       this.messageError=''
       this.messageSuccess="Pago Generado. Imprimiendo, espere un momento."
@@ -399,6 +420,48 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     }
     return null
   }
+  
+  private print(){
+    let hqId=this._currentUser.getTeller()?.hqId;
+    let tellId=this._currentUser.getTeller()?.tellId
+    
+    let ps:SocketInterface<PrintServer> ={action:SOCKET_ACTION.SEND_PDF_LINK_TO_PRINTER, data: {psTitle:'Prueba', psCopies:2, psStateAnswer:PRINT_SERVER_ANSWER_RESPONSE.PRINT_PENDING,psUrl:environment.API_URL+"/v1/payments/"+this.payment.payToken+"/proof-of-payment",hqId:hqId, tellId: tellId }}
+    
+    this.setSocketPrintServer(this.payment.hqId || -1, "IMPRESORA 01", ps )
+    this.timeWaitResponsePrintServer=setTimeout(() => { 
+      this.printPDF(this.payment.payToken || '-1')
+   }, 3000); 
+  }
+
+  private setSocketPrintServer(hqId:number,token:string, s:SocketInterface<PrintServer>){
+    this._waitingLineService.setSocketPrintServer(hqId,token, s);  
+    
+  }
+
+  private getSocketPrintServer(hqId:number, token:string){
+    this._waitingLineService.getSocketPrintServer(hqId, token).subscribe({
+      next:d=>{
+        if(d.action==SOCKET_ACTION.PRINTER_READY_TO_PRINT){
+          console.log("Impresora en remoto, disponible para imprimir")
+        }else if(d.action==SOCKET_ACTION.RESPONSE_FROM_PRINT_SERVER){
+          if(this.timeWaitResponsePrintServer)
+          clearTimeout(this.timeWaitResponsePrintServer);
+          let ps: PrintServer=d.data as PrintServer
+          if(ps.psStateAnswer== PRINT_SERVER_ANSWER_RESPONSE.DOWNLOAD_ERROR || ps.psStateAnswer==PRINT_SERVER_ANSWER_RESPONSE.PRINT_ERROR){
+            this.messageSuccess=''
+            this.messageError=ps.psMessage || ''
+          }else {
+            this.messageSuccess=ps.psMessage || ''
+            this.messageError=''
+          }
+        }
+      },
+      error:d=>{
+        
+      }
+    })
+  }
+
 }
 
 interface GridResponsive {

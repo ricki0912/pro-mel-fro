@@ -43,6 +43,8 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
     private mainViewService: MainViewService
   ) {
     this.dataSource.data = [];
+    //this.categoriesTypesAuth.set(10 /*tellId*/,"V1" /*tellCode */)
+
     //this.dataSource.data = TREE_DATA;
 
   }
