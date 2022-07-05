@@ -302,6 +302,7 @@
   <button mat-button (click)="close()">Salir</button>
   <button mat-button (click)="openPDFNewWindow()"><mat-icon>picture_as_pdf</mat-icon>Ver</button> 
   <button mat-button (click)="sendToWhatsApp()"><mat-icon>whatsapp</mat-icon> WhatsApp</button>
+  <button mat-button (click)="printRemote()"><mat-icon>print</mat-icon> Remoto</button>
   <button mat-button (click)="retryPrint()"><mat-icon>print</mat-icon> Imprimir</button>
 </div>
 <div *ngIf="payment.payState!==PS.FILLED" [class.disabled-options]="isLoadingEnd">

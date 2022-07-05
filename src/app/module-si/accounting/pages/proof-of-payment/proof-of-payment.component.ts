@@ -312,7 +312,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
       this.print()
       this.isLoadingEnd=false
       this.messageError=''
-      this.messageSuccess="Pago Generado. Imprimiendo, espere un momento."
+      this.messageSuccess="Pago Generado. Seleccione una opción de impresión"
 
       },
        error:(e)=>{
@@ -343,7 +343,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   } 
   private printPDF(payToken:string){
     
-    this.messageSuccess="Pago Generado. Imprimiendo, espere un momento."
+    this.messageSuccess="Abriendo impresoras, espera un momento."
     this.messageError=""
 
     this.isLoadingEnd=true
@@ -422,6 +422,13 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   }
   
   private print(){
+
+  }
+
+  public printRemote(){
+
+    this.messageSuccess='Conectando con servidor de impresora remota. '
+    this.messageError=''
     let hqId=this._currentUser.getTeller()?.hqId;
     let tellId=this._currentUser.getTeller()?.tellId
     
@@ -429,7 +436,9 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     
     this.setSocketPrintServer(this.payment.hqId || -1, "IMPRESORA 01", ps )
     this.timeWaitResponsePrintServer=setTimeout(() => { 
-      this.printPDF(this.payment.payToken || '-1')
+      this.messageError='No hemos logrado recibir respuesta del servidor de impresora remota. Selecciona otro medio de impresión'
+      this.messageSuccess=''
+      //this.printPDF(this.payment.payToken || '-1')
    }, 3000); 
   }
 
