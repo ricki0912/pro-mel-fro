@@ -20,6 +20,7 @@ import {ProofOfPaymentComponent} from 'src/app/module-si/accounting/pages/proof-
 import { MatDialog } from '@angular/material/dialog';
 import { ClientViewService } from '../../client-view.service';
 import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
+import { CommentR } from '../inline-edit/inline-edit.component';
 
 @Component({
   selector: 'app-list-buss-periods',
@@ -213,10 +214,11 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
     this.dataSource.data = this.dataSource.data;
   }
 
-  update(el: TServicesProvided, comment: string) {
+  updComment(el: TServicesProvided, comment: CommentR) {
     if (comment == null) { return; }
     //el.comment = comment;
-    el.spComment = comment;
+    el.spComment = comment.value;
+    el.spCommentColourText=comment.spCommentColourText
     el.spEditable=true;
     this.dataSource.data = this.dataSource.data;
   }
@@ -228,16 +230,25 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
     sp.ppayId = el.ppayId;
     sp.spCost = el.spCost;
     sp.spComment = el.spComment;
+    sp.spCommentColourText=el.spCommentColourText
     sp.spId=el.spId
 
     if(sp.spId && sp.spId>0){
       this.updServices(sp.spId, sp,indexRow)
     }else {
+      
       this.addServices(sp, indexRow);
+
     }
 
   }
 
+  /*private function thereAreSameRegister():string {
+    
+    
+    return 
+  }
+*/
   addServices(sp: TServicesProvided,indexRow:number): boolean{
     this.loadingService.show();
 

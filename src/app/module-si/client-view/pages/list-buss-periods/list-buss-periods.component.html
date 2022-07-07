@@ -157,7 +157,7 @@
       <!-- Weight Column -->
 
       <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef>Monto</th>
+        <th mat-header-cell *matHeaderCellDef>Mensualidad</th>
         <td
           mat-cell
           *matCellDef="let element"
@@ -260,7 +260,8 @@
         <td
           mat-cell
           *matCellDef="let element"
-          [satPopoverAnchor]="p"
+          [satPopoverAnchor]="p" 
+          [style.color]=element.spCommentColourText
           (click)="p.open()"
         >
           <ng-container *ngIf="element.spComment">
@@ -274,9 +275,9 @@
             hasBackdrop
             xAlign="start"
             yAlign="start"
-            (closed)="update(element, $event)"
+            (closed)="updComment(element, $event)"
           >
-            <app-inline-edit [value]="element.spComment"></app-inline-edit>
+            <app-inline-edit [value]="element.spComment" [spCommentColourText]="element.spCommentColourText"></app-inline-edit>
           </sat-popover>
         </td>
       </ng-container>
