@@ -1,10 +1,18 @@
-<mat-card  class="mat-elevation-z0" style="padding: 5px; margin-bottom: 5px">
+<mat-card class="mat-elevation-z0" style="padding: 5px; margin-bottom: 5px">
   <mat-card-title-group>
     <mat-card-title style="margin: 0px"
       >Control de Ejercicio por Periodo</mat-card-title
     >
     <mat-card-actions>
       <mat-list-item style="display: flex; justify-content: right">
+        <button
+          style="margin: 0; padding-left: 8px; padding-right: 8px"
+          (click)="printReportAllPeriod()"
+          mat-button
+          class="demo-button"
+        >
+          <mat-icon> print </mat-icon>
+        </button>
         <button
           mat-button
           mat-mini-fab
@@ -19,19 +27,17 @@
   </mat-card-title-group>
   <mat-divider></mat-divider>
   <mat-card-content style="padding-top: 10px">
-    <mat-card class="mat-elevation-z0"
-    *ngIf="isLoading"
-    style="
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    "
-  >
-    <mat-progress-spinner color="primary" mode="indeterminate">
-    </mat-progress-spinner>
-  </mat-card>
-    <app-list-buss-periods class="example-accordion-item"
-      [bp]="bp" 
+    <mat-card
+      class="mat-elevation-z0"
+      *ngIf="isLoading"
+      style="display: flex; justify-content: center; align-items: center"
+    >
+      <mat-progress-spinner color="primary" mode="indeterminate">
+      </mat-progress-spinner>
+    </mat-card>
+    <app-list-buss-periods
+      class="example-accordion-item"
+      [bp]="bp"
       [serBuss]="serBuss"
       *ngFor="let bp of dBussPer"
     ></app-list-buss-periods>

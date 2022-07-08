@@ -9,6 +9,7 @@ import { FindPeriodComponent } from 'src/app/module-si/period/pages/find-period/
 import { BussinesService } from 'src/app/services/bussines.service';
 import { PeriodService } from 'src/app/services/period.service';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
+import { environment } from 'src/environments/environment';
 import { ClientViewService } from '../../client-view.service';
 
 
@@ -27,7 +28,7 @@ export class ServicesComponent implements OnInit, CrudInterface {
 
   dBussPer: Period[]=[];
 
-  constructor( 
+  constructor(
     private bussinesService: BussinesService,
     private periodService: PeriodService,
     public dialogSelect: MatDialog,
@@ -38,11 +39,11 @@ export class ServicesComponent implements OnInit, CrudInterface {
 
   ngOnInit(): void {
     this.listenSelectedBusiness(()=>this.readCRUD())
-    
+
   }
   private listenSelectedBusiness(o:()=>void){
     this.clientViewService.getSelectedBussines().subscribe((b:Bussines |null)=>{
-      
+
       if(b){
         this.serBuss=b;
         o();
@@ -57,7 +58,7 @@ export class ServicesComponent implements OnInit, CrudInterface {
     this.isLoading=true;
     let ids: number = this.serBuss?.bussId || -1;
     //console.log(ids);
-    
+
     this.bussinesService.allDBusinesPeriods(ids).subscribe({
       next: d=>{
         this.dBussPer=d.data as Period[];
@@ -100,7 +101,7 @@ export class ServicesComponent implements OnInit, CrudInterface {
     this.dbp.bussId = this.serBuss?.bussId;
     this.dbp.dbpState = 1;
     this.isLoading=true;
-    
+
     this.bussinesService.addDBusinessPeriod(this.dbp).subscribe({
       next: data => {
         //this.dBussPer.unshift(data.data as Period)
@@ -116,8 +117,9 @@ export class ServicesComponent implements OnInit, CrudInterface {
     return true;
   }
 
- 
-
+  printReportAllPeriod(){
+    window.open(environment.API_URL+"/v1/reports/all-periods/"+this.serBuss?.bussId);
+  }
 
 }
 

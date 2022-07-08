@@ -385,7 +385,6 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
   }
 
   printReportPeriod(){
-    console.log("datos", this.bp.prdsId, this.serBuss?.bussId);
     window.open(environment.API_URL+"/v1/reports/"+this.bp.prdsId+"/exercise-monitoring/"+this.serBuss?.bussId);
   }
 
