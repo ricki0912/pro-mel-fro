@@ -1,11 +1,11 @@
 <div class="row" style="width: 98%;">
-  <div class="col-8">
+  <div class="col-8 col-sm-9" >
     <p class="text-center" style="font-size: 1.5rem;">Si no logras ubicar tu RUC, te sugerimos regresar y seleccionar uno de nuestros servicios de consulta. </p>
     <app-keyboard-alphabet class=""  (onReturnWord)="filter($event)" screenOut="none">
 
     </app-keyboard-alphabet>
   </div>
-  <div class="col-4" style="background-color: rgba(235,235,235, 0.4)">
+  <div class="col-4 col-sm-3" style="background-color: rgba(235,235,235, 0.4)">
     <div class="mat-tyography mt-2 pt-2" style="height: 100%; border-right: 1px ;">
       <input class="form-control form-control-lg mb-2" type="text" placeholder="Ej. Melendres" [value]="wordFiltered">
       <mat-divider></mat-divider>
@@ -14,6 +14,7 @@
           <div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center">
             <mat-progress-spinner color="primary" mode="indeterminate">
             </mat-progress-spinner>
+            <span class="fs-2 text-center">Espere un momento, preparando para realizar busquedas.</span>  
           </div>
           <mat-list-option *ngFor="let item of businesFiltered;" [value]="item.bussId" [disableRipple]="true"
             (selectedChange)="(setBusinessSelected(item))">

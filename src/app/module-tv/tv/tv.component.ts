@@ -22,7 +22,7 @@ export class TVComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.serviceLoading.hide()
+    this.serviceLoading.stop()
     /**todo: refactor - unsuscribe */
     /*this.waitingLineService.getNewMessage().subscribe({
       next: (message:string)=>{

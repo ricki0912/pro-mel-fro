@@ -88,6 +88,7 @@ export class CurrentAttentionComponent implements OnInit {
         /*const apptmIds:number[]= this.selection.selected.reduce(( p:number[], c:TAppointmentTemp)=>[...p, c.apptmId || -1], [])
         this.updateTeller(apptmIds, result.tellId || -1)*/
       }
+      
     });
   }
   openDialogChageTeller() {

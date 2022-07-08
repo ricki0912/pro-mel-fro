@@ -22,6 +22,10 @@ const routes: Routes = [
     path:'ticket-dispensing/:hqId',
     loadChildren:()=>import('./module-ticket-dispensing/ticket-dispensing.module').then(m=>m.TicketDispensingModule)
   },
+  {
+    path: 'print-server/:hqId',
+    loadChildren:()=>import('./module-print-server/module-print-server.module').then(m=>m.ModulePrintServerModule)
+  }
   /*{
     path:'**',
     redirectTo: 'auth/login',

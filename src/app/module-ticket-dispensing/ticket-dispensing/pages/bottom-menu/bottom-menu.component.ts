@@ -27,6 +27,7 @@ export class BottomMenuComponent {
       codeQrTicket: 'http://melendresauditores.com/'
     }
     try {
+      
       electron.ipcRenderer.send('print-ticket', t)
 
     } catch (error) {
@@ -37,21 +38,16 @@ export class BottomMenuComponent {
 
   configServer(){
      try {
-      electron.ipcRenderer.send('create-server-config',{})
+      electron.ipcRenderer.send('create-server-config', {dateTicket:'25/04/231', numberTicket:'2 PARAMETRO', categoryTicket:'CATEGORIA'})
+
+      //electron.ipcRenderer.send('create-server-config',{})
 
     } catch (error) {
 
     }
   }
 
-  fullScreen(){
-    try {
-      electron.ipcRenderer.send('create-server-config',{})
-    } catch (error) {
-
-    }
-
-  }
+  
 
   refreshView(){
      try {
@@ -61,6 +57,29 @@ export class BottomMenuComponent {
     }
     
   }
+
+
+  /*imprimit(){
+
+    electron.ipcRenderer.send('print-ticket', {dateTicket:'25/04/231', numberTicket:'C201', tellerTicket:'C2', phraseTicket:'Frase fasdjf asldfj asdjf sadjf as kjhf ksdjhf kjadsfh ksaljfh kjsalhf  h kdshfksjadh kjshd kyhdkasjdh as kjsh kjfhksdf hsakdfh asjklfdh asklfdh klasjhf klasdhf kl kl flja', codeQrTicket:'facebook.comssss'})
+
+   }*/
+
+   openServerConfig(){
+
+    electron.ipcRenderer.send('create-server-config', {dateTicket:'25/04/231', numberTicket:'2 PARAMETRO', categoryTicket:'CATEGORIA'})
+
+   }
+
+   fullScreen(){
+
+    electron.ipcRenderer.send('full-screen', {dateTicket:'25/04/231', numberTicket:'2 PARAMETRO', categoryTicket:'CATEGORIA'})
+
+   }
+
+   printProofOfPayment(){
+    electron.ipcRenderer.send('print-proof-of-payment-pdf', {dateTicket:'25/04/231', numberTicket:'2 PARAMETRO', categoryTicket:'CATEGORIA'})
+   }
 
 
 

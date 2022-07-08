@@ -39,6 +39,8 @@ import { GeneralInformationComponent } from './pages/general-information/general
 import { ProofOfPaymentComponent } from './pages/proof-of-payment/proof-of-payment.component';
 import { MatMenuModule} from '@angular/material/menu';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+
 
 @NgModule({
   declarations: [
@@ -82,7 +84,8 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     SatPopoverModule,
     MatListModule,
     MatMenuModule,
-    ClipboardModule
+    ClipboardModule,
+    MatButtonToggleModule
   ],
   providers: [DatePipe]
 })

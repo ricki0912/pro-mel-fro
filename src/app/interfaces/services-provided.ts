@@ -17,6 +17,7 @@ export interface ServicesProvided extends ParentInterface {
   spComment?: string,
   spLimitPaymentDate?: string,
   spMaxPartToPay?: number
+  spCommentColourText?:string
 }
 
 export interface TServicesProvided extends ServicesProvided{

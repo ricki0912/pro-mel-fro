@@ -1,0 +1,31 @@
+<div class="card text-dark bg-light mb-2" style="">
+    <div class="card-body">
+        <div class="d-flex">
+            <div class="me-2">
+                <i class="bi bi-cloud-download-fill display-3"></i>
+            </div>
+            <div class="" style="width: 100%">
+                <div class="d-flex justify-content-between"> 
+                    <h5 class="card-title" >{{printServer?.psTitle}}</h5>
+                    <div>                            
+                        <span class="badge bg-primary">Pendiente</span>
+                    </div>
+                </div>
+                
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                </div>
+                <div class="d-flex justify-content-between"> 
+                    <p class="card-text">{{printServer?.psMessage}} </p>
+                    <div>                            
+                        <p class="card-text">10:50AM </p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+      
+    </div>
+    {{responsD | json}}
+    {{response | json}}
+</div>
