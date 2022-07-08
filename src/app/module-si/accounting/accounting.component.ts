@@ -69,7 +69,7 @@ export class AccountingComponent implements OnInit {
     })
   }
 
-  displayedColumns: string[] = ['select', 'bussId','position','payClientRucOrDni' ,'payClientName','name', 'weight', 'symbol','ticket','invoice', 'options'];
+  displayedColumns: string[] = ['select', 'bussId','position','payClientRucOrDni' ,'payClientName','name', 'weight', 'symbol','ticket','invoice', 'receipt-honorary','options'];
   dataSource = new MatTableDataSource<Payment>();
 
   selection = new SelectionModel<Payment>(true, []);
@@ -281,6 +281,37 @@ beforeSetInvoice(id:number, payment:Payment){
 }
 
 
+/* */
+
+beforeSetReceiptHonorary(id:number, payment:Payment){
+  this.openDialogTicketOrInvoice({value:payment.payReceiptHonorarySN, title:'Agregar Recibo por Honorarios | '+payment.paySerie+' - '+payment.payNumber, 
+      maxLength:20},
+      (value)=>{ payment.payReceiptHonorarySN=value;this.setReceiptHonorary(id, payment)})
+}
+
+
+ setReceiptHonorary(payId: number, payment:Payment): boolean {
+  this.loadingService.show()
+  this.paymentService.setReceiptHonorary(payId, payment).subscribe({
+    next: data=>{
+      this.showMessage.success({message: data.msg});
+      let p=data.data as Payment;
+      let indexRow=this.dataSource.data.findIndex(e=>e.payId==payId);
+      this.dataSource.data[indexRow] = p
+      this.selection.clear()
+      this.dataSource.data=this.dataSource.data
+      this.loadingService.hide()
+    }, 
+    error: error=>{
+      this.showMessage.error({message: error.error.message})
+      this.loadingService.hide()
+    }
+  })
+  return true;
+}
+
+
+/*open dialog */
 openDialogTicketOrInvoice(data:{},d:(value:string)=>void){
   this.dialogEditUser
     .open(DialogEditOneInputComponent, {

@@ -104,6 +104,10 @@
               <mat-icon>add</mat-icon>
               <span>Canjear Factura</span>
             </button>
+            <button  mat-menu-item (click)="beforeSetReceiptHonorary(element.payId, element)">
+              <mat-icon>add</mat-icon>
+              <span>Canjear R/H</span>
+            </button>
            
 
             <button mat-menu-item *ngIf="element.payIsCanceled==PKC.NO_CANCELED" (click)="beforeCancelPayment(element.payId, element)" >

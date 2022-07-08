@@ -47,6 +47,10 @@ export class PaymentService extends ParentService {
     return this.https.put<InterfaceParamsResponse<Payment>>(`${this.API_PAYMENT}/${payId}/invoice`, object);
   }
 
+  public setReceiptHonorary(payId:number, object: Payment): Observable<InterfaceParamsResponse<Payment>> {
+    return this.https.put<InterfaceParamsResponse<Payment>>(`${this.API_PAYMENT}/${payId}/receipt-honorary`, object);
+  }
+
 
   
   /*public proofPDF(object: Payment):any{
