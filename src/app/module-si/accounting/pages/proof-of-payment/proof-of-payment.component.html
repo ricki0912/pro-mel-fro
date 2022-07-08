@@ -261,6 +261,7 @@
                     <mat-radio-button class="example-margin" [value]="PKD.RECIBO">Recibo</mat-radio-button>
                     <mat-radio-button class="example-margin" [value]="PKD.BOLETA">Boleta de Venta</mat-radio-button>
                     <mat-radio-button class="example-margin" [value]="PKD.FACTURA">Factura</mat-radio-button>
+                    <mat-radio-button class="example-margin" [value]="PKD.RECIBO_HONORARIOS">R/H</mat-radio-button>
                   </mat-radio-group>
                 </section>
               </div>
@@ -275,6 +276,12 @@
                   <mat-label>Número de Factura</mat-label>
                   <input matInput [(ngModel)]="payment.payInvoiceSN" />
                   <mat-error> El número de factura es requerido. </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="legacy" *ngIf="PKD.RECIBO_HONORARIOS==swapForDocPayment">
+                  <mat-label>Recibo por Honorarios</mat-label>
+                  <input matInput [(ngModel)]="payment.payReceiptHonorarySN" />
+                  <mat-error> El número de recibo por honorarios es requerido. </mat-error>
                 </mat-form-field>
                 
               </div>

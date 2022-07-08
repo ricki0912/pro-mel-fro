@@ -149,6 +149,11 @@
                 <td mat-cell *matCellDef="let element">{{ element.payInvoiceSN}}</td>
               </ng-container>
 
+              <ng-container matColumnDef="receipt-honorary">
+                <th mat-header-cell *matHeaderCellDef>R/H</th>
+                <td mat-cell *matCellDef="let element">{{ element.payReceiptHonorarySN}}</td>
+              </ng-container>
+
               <ng-container matColumnDef="options">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let element">
@@ -173,7 +178,10 @@
                       <mat-icon>add</mat-icon>
                       <span>Canjear Factura</span>
                     </button>
-
+                    <button mat-menu-item (click)="beforeSetReceiptHonorary(element.payId, element)">
+                      <mat-icon>add</mat-icon>
+                      <span>Canjear R/H</span>
+                    </button>
 
                     <button mat-menu-item *ngIf="element.payIsCanceled==PKC.NO_CANCELED"
                       (click)="beforeCancelPayment(element.payId, element)">

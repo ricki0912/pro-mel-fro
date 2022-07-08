@@ -47,6 +47,7 @@ export interface Payment extends ParentInterface{
  
  payTicketSN?:string,
  payInvoiceSN?:string,
+ payReceiptHonorarySN?:string,
 
   paymentDetails?:PaymentDetail[],
   dPaymentPaymentMethods?:DPaymentPaymentMethod[]
@@ -57,7 +58,7 @@ export enum PAYMENT_STATE{
 }
 
 export enum PAYMENT_KIND_DOC{
-  RECIBO=1, BOLETA=2, FACTURA=3
+  RECIBO=1, BOLETA=2, FACTURA=3, RECIBO_HONORARIOS=4
 }
 
 export enum PAYMENT_KIND_CANCELED {
