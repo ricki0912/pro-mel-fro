@@ -20,6 +20,7 @@ import {ProofOfPaymentComponent} from 'src/app/module-si/accounting/pages/proof-
 import { MatDialog } from '@angular/material/dialog';
 import { ClientViewService } from '../../client-view.service';
 import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-list-buss-periods',
@@ -138,14 +139,12 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
 
 
   openDialogEmitProofOfPayment() {
-
-
     const dialogRef = this.dialog.open(ProofOfPaymentComponent, {
       panelClass: 'dialog',
       maxWidth: '100vw',
       maxHeight: '100vh',
-       height: '100%',
-       width: '100%',
+      height: '100%',
+      width: '100%',
       data: {
         row: null,
         appointmentTemp:this.appointmentTemp,
@@ -314,7 +313,7 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
         this.dataSource.data=this.servicesProvided
         this.selection.clear();
       },
-     error:  e=>{
+    error:  e=>{
         this.showMessage.error({message: e.error.message})
       }
     })
@@ -336,7 +335,7 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
 
 
   calcWidth(firstNumber?:number, totalNumber?:number):number{
-   return ((firstNumber|| 0)/( totalNumber ||0))*100
+    return ((firstNumber|| 0)/( totalNumber ||0))*100
   }
   getTotalToPay(){
     return this.selection.selected.map(t => t.spDebt).reduce((acc, value?:number) => (acc || 0) +(Number(value) || 0), 0);
@@ -361,7 +360,7 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
         }
       });
   }
-   deleteCRUD(id: number): boolean {
+  deleteCRUD(id: number): boolean {
     this.spService.del(id).subscribe({
       next: data=>{
         this.showMessage.success({message: data.msg});
@@ -375,7 +374,8 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
   }
 
   printReportPeriod(){
-
+    console.log("datos", this.bp.prdsId, this.serBuss?.bussId);
+    window.open(environment.API_URL+"/v1/reports/"+this.bp.prdsId+"/exercise-monitoring/"+this.serBuss?.bussId);
   }
 
 
