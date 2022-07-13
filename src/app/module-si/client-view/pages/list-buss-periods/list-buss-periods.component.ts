@@ -88,10 +88,10 @@ export class ListBussPeriodsComponent implements OnInit {
 displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment', 'actions'];
 
   //servicesProvided = [...ELEMENT_DATA];
-  servicesProvided:ServicesProvided[] = [];
+  servicesProvided:TServicesProvided[] = [];
 
-  dataSource = new MatTableDataSource<ServicesProvided>(this.servicesProvided);
-  selection = new SelectionModel<ServicesProvided>(true, []);
+  dataSource = new MatTableDataSource<TServicesProvided>(this.servicesProvided);
+  selection = new SelectionModel<TServicesProvided>(true, []);
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -222,7 +222,36 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
     this.dataSource.data = this.dataSource.data;
   }
 
+
+  /* */
+
+  wantAdd(message:string, d:()=>void){
+    this.dialog
+      .open(DialogConfirmationComponent, {
+        data: message,
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
+          d();
+        } else {
+
+        }
+      });
+  }
+
+  beforePrepareAdd(el:TServicesProvided, indexRow:number){
+    /*Primero vemos que no exista el registro */
+    let m=this.thereAreSameRegister(el)
+    if(m){
+      this.wantAdd(m, ()=>this.prepareAdd(el,indexRow))
+    }else {
+      this.prepareAdd(el, indexRow)
+    }
+  }
+
   prepareAdd(el: TServicesProvided,indexRow:number){
+     
     const sp: ServicesProvided = {};
     sp.dbpId = this.bp.dbp?.dbpId;
     sp.svId = el.svId;
@@ -231,6 +260,8 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
     sp.spComment = el.spComment;
     sp.spCommentColourText=el.spCommentColourText
     sp.spId=el.spId
+
+   
 
     if(sp.spId && sp.spId>0){
       this.updServices(sp.spId, sp,indexRow)
@@ -242,12 +273,21 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
 
   }
 
-  /*private function thereAreSameRegister():string {
 
+ 
+  private thereAreSameRegister(el:TServicesProvided):string | null {
+    
+    let e=this.dataSource.data.find(e=>(e.ppayId==el.ppayId && Number(e.spCost)==Number(el.spCost) && e.svId==el.svId && !(e.spEditable)))
 
-    return
+      if(e){
+        return "Al parecer existe un registro similar, ¿Está seguro que desea guardar de todas formas?"
+      }else {
+        return null
+      }
   }
-*/
+  
+
+
   addServices(sp: TServicesProvided,indexRow:number): boolean{
     this.loadingService.show();
 
