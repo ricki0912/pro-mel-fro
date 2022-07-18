@@ -277,10 +277,10 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
  
   private thereAreSameRegister(el:TServicesProvided):string | null {
     
-    let e=this.dataSource.data.find(e=>(e.ppayId==el.ppayId && Number(e.spCost)==Number(el.spCost) && e.svId==el.svId && !(e.spEditable)))
+    let e=this.dataSource.data.find(e=>(e.ppayId==el.ppayId && /*Number(e.spCost)==Number(el.spCost) &&*/ e.svId==el.svId && !(e.spEditable)))
 
       if(e){
-        return "Al parecer existe un registro similar, ¿Está seguro que desea guardar de todas formas?"
+        return "Al parecer existe un registro con un servicio y periodo similar, ¿Está seguro que desea guardar de todas formas?"
       }else {
         return null
       }
