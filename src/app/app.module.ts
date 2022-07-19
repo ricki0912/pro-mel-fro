@@ -28,6 +28,7 @@ import { DialogEditOneInputComponent } from './shared/components/dialog-edit-one
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 const config: SocketIoConfig = { url: environment.WLI_SOCKET_SERVER, options: {} };
 //const config: SocketIoConfig = { url: 'http://192.168.1.96:3000', options: {} };
@@ -54,7 +55,13 @@ const config: SocketIoConfig = { url: environment.WLI_SOCKET_SERVER, options: {}
         MatFormFieldModule,
         MatInputModule,
         FormsModule,
-        SocketIoModule.forRoot(config)
+        SocketIoModule.forRoot(config),
+        ServiceWorkerModule.register('ngsw-worker.js', {
+          enabled: environment.production,
+          // Register the ServiceWorker as soon as the application is stable
+          // or after 30 seconds (whichever comes first).
+          registrationStrategy: 'registerWhenStable:30000'
+        })
   ],
   providers: [MatSnackBar,
     {

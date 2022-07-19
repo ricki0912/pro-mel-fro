@@ -9,28 +9,40 @@ const USER_KEY = 'auth-user';
   providedIn: 'root'
 })
 export class TokenStorageService {
-  constructor() { }
+  w
+  constructor() {
+    if (window.matchMedia('(display-mode: standalone)').matches) {  
+      this.w=window.localStorage;
+    }else {
+      this.w=window.sessionStorage;
+    }
+    
+
+   }
 
   signOut(): void {
-    window.sessionStorage.clear();
+
+    /*Change localhostorate*/
+    //window.sessionStorage.clear();
+    this.w.clear();
   }
 
   public saveToken(token: string): void {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, token);
+    this.w.removeItem(TOKEN_KEY);
+    this.w.setItem(TOKEN_KEY, token);
   }
 
   public getToken(): string | null {
-    return window.sessionStorage.getItem(TOKEN_KEY);
+    return this.w.getItem(TOKEN_KEY);
   }
 
   public saveUser(user: any): void {
-    window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+    this.w.removeItem(USER_KEY);
+    this.w.setItem(USER_KEY, JSON.stringify(user));
   }
 
   public getUser(): User|null {
-    const user = window.sessionStorage.getItem(USER_KEY);
+    const user = this.w.getItem(USER_KEY);
     if (user) {
       return JSON.parse(user);
     }
