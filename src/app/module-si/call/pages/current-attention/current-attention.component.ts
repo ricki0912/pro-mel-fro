@@ -1,6 +1,8 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
+import { GlobalHelpers } from 'src/app/global/helpers/global.helpers';
 import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { SocketInterface, SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
 import { AppointmentTemp, APPOINTMENT_STATE, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
@@ -23,6 +25,8 @@ import { CommentCallComponent } from '../comment-call/comment-call.component';
 export class CurrentAttentionComponent implements OnInit {
   isLoading:boolean=false
   tAppointmentTemp:TAppointmentTemp | null=null//{elapsedSeconds:0, elapsedSecondsStartAttention:0, catCode:'',apptmNro:0}
+  currentTeller:Teller={tellName:'Ninguno'}
+
   @Input() selectedTApptm: TAppointmentTemp[]=[]
   @Input() selectedTeller: number=-1
 
@@ -35,17 +39,31 @@ export class CurrentAttentionComponent implements OnInit {
     private dialog:MatDialog, 
     private showMessage:ShowMessageService,
     private waitingLineService: WaitingLineService,
-    private fwlService:FloatingWaitingLineService
+    private fwlService:FloatingWaitingLineService,
+    private tokenService: TokenStorageService,
+
 
   ) { }
 
   ngOnInit(): void {
     this.getAttentionPendingByTeller(this.selectedTeller)
+    this.currentTeller=this.tokenService.getTeller() || {tellName:"Solicita que te asignen una ventanilla."}
+    this.selectedTeller=this.currentTeller.tellId || -1
     this.fwlService.hide()
+    this.getCurrentAttention()
+  } 
 
+  private getCurrentAttention(){
+      this.fwlService.getCurrentAttion().subscribe({
+        next:(d)=>{
+          this.tAppointmentTemp=d 
+        },
+        error:(e)=>{
+
+        }
+      })
   }
 
- 
 
  joinCodeTicket(element: TAppointmentTemp) {
     return element.catCode + String(element.apptmNro).padStart(2, '0')
@@ -96,7 +114,9 @@ export class CurrentAttentionComponent implements OnInit {
       panelClass: 'dialog',
       data: {
         row: null,
-        type: TYPES_ACTIONS_DIALOG.ADD
+        type: TYPES_ACTIONS_DIALOG.ADD,
+        hqId:this.currentTeller.hqId || -1
+
       }
     });
     dialogRef.afterClosed().subscribe((result: Teller) => {
@@ -136,12 +156,15 @@ export class CurrentAttentionComponent implements OnInit {
         this.isLoading=false
         const t=d.data as TAppointmentTemp[];
         if(t.length>0){
-          this.tAppointmentTemp=t[0]
+          //this.tAppointmentTemp=t[0]
+          this.fwlService.onCurrentAttention(t[0])
           this.fwlService.diminish()
           
           this.returnValue()
-          this.setSocketTV(this.tAppointmentTemp.hqId||-1, {action:SOCKET_ACTION.TV_ADD_TARGET_CALL, data: this.tAppointmentTemp})
+          this.setSocketTV(t[0].hqId||-1, {action:SOCKET_ACTION.TV_ADD_TARGET_CALL, data: this.tAppointmentTemp})
           //this.setTVAddTargetCall(this.tAppointmentTemp)
+        }else{
+          this.showMessage.success({message:'No tenemos más clientes en espera.'})
         }
         
       },
@@ -158,10 +181,13 @@ export class CurrentAttentionComponent implements OnInit {
         this.isLoading=false
         const t=d.data as TAppointmentTemp[];
         if(t.length>0){
-          this.tAppointmentTemp=t[0]
-          console.log(this.tAppointmentTemp)
+          //this.tAppointmentTemp=t[0]
+          this.fwlService.onCurrentAttention(t[0])
+
         }else{
-            this.tAppointmentTemp=null 
+            //this.tAppointmentTemp=null 
+            this.fwlService.onCurrentAttention(null)
+
         }
       }
     })
@@ -194,7 +220,8 @@ export class CurrentAttentionComponent implements OnInit {
         this.returnValue()
         const hqId=this.tAppointmentTemp?.hqId || -1
 
-        this.tAppointmentTemp=null
+        //this.tAppointmentTemp=null
+        this.fwlService.onCurrentAttention(null)
 
         this.setSocketTV(
           hqId,
@@ -210,7 +237,9 @@ export class CurrentAttentionComponent implements OnInit {
   public finalizeCall(apptmId:number, appointmentTemp:AppointmentTemp){
     this.appointmentTempService.finalizeCall(apptmId, appointmentTemp ).subscribe({
       next: d=>{
-        this.tAppointmentTemp=null
+        this.fwlService.onCurrentAttention(null)
+
+        //this.tAppointmentTemp=null
         console.log(d)
       }
     })
@@ -219,7 +248,9 @@ export class CurrentAttentionComponent implements OnInit {
   public transferCallToTeller(apptmId:number, tellId:number){
     this.appointmentTempService.transferCallToTeller(apptmId, tellId).subscribe({
       next:d=>{
-        this.tAppointmentTemp=null
+        //this.tAppointmentTemp=null
+        this.fwlService.onCurrentAttention(null)
+
         this.showMessage.success({message:d.msg})
         this.returnValue()
       },   error:e=>{
@@ -257,6 +288,7 @@ export class CurrentAttentionComponent implements OnInit {
 
   }
   
+  public subStringName=(s:string)=>GlobalHelpers.subString(s,30)
 
 
 }

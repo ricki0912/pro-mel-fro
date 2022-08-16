@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
+import { AppRouteReuseStrategy } from './app.route-reuse-strategy';
 import { ModuleSiGuard } from './core/guards/module-si.guard';
 import { PMS } from './core/permission/pms.enum';
 
@@ -25,7 +26,9 @@ const routes: Routes = [
   {
     path: 'print-server/:hqId',
     loadChildren:()=>import('./module-print-server/module-print-server.module').then(m=>m.ModulePrintServerModule)
-  }
+  },
+  { path: '**',   redirectTo: 'si', pathMatch: 'full' }, 
+
   /*{
     path:'**',
     redirectTo: 'auth/login',
@@ -37,6 +40,9 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers:[
+   
+  ]
 })
 export class AppRoutingModule { }

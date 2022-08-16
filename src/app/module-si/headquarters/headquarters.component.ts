@@ -24,7 +24,7 @@ export class HeadquartersComponent implements OnInit {
 
 
 
-  displayedColumns: string[] = ['select', 'position', 'name', 'RUC', 'address']
+  displayedColumns: string[] = ['select', 'position', 'name', 'RUC','tel', 'email', 'address']
   dataSource = new MatTableDataSource<Headquarter>();
   selection = new SelectionModel<Headquarter>(true, []);
 

@@ -106,6 +106,8 @@ export class FindCategoryComponent implements OnInit, OnDestroy {
       idParents: (node.idParents == null) ? [] : node.idParents,
       selected: false,
 
+      catState: (node.catState==null)?0:node.catState,
+
       level: level,
     };
   }

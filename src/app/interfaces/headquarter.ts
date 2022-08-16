@@ -5,4 +5,7 @@ export interface Headquarter extends ParentInterface{
   hqName: string, 
   hqRUC?:string,
   hqAddress?:string,
+
+  hqTel?:string,
+  hqEmail?:string
 }

@@ -16,8 +16,6 @@ export class ModuleSiGuard implements CanActivate, CanActivateChild, CanDeactiva
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    console.log("***can active***", route, state)
-    console.log("**Viedno dentro de route de can active*")
     return true;
   }
   canActivateChild(

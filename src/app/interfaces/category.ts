@@ -8,6 +8,10 @@ export enum CATEGORY_LINK_BUS{
   YES=1, NO=2
 }
 
+export enum CATEGORY_STATE{
+  ENABLE=1, DISABLE=2
+}
+
 export interface Category extends ParentInterface{
   catId?: number;
   catCode?: string;
@@ -19,6 +23,7 @@ export interface Category extends ParentInterface{
   catAuth?:number;
   catIdParent?:Number;
   hqId?:number;
+  catState?:number;
 }
   export interface CategoryTree extends Category{
   idParents?: number[];
@@ -37,11 +42,14 @@ export interface FlatTreeControlCategory {
   catAuth:number;
   catLinkBus:number;
 
-
-
   /*fin de atributos */
   selected:boolean;
+
+  /*statdo */
+  catState:number
+
   level: number;
+
 
 }
 

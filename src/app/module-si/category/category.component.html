@@ -105,6 +105,9 @@
             >
               <mat-icon>add</mat-icon>
             </button>
+            
+
+
             <button
               mat-icon-button
               [matMenuTriggerFor]="menu"
@@ -117,7 +120,16 @@
                 <mat-icon>edit</mat-icon>
                 <span>Editar</span>
               </button>
-
+              <button color="accent" *ngIf="data.catState==CS.DISABLE" mat-menu-item  (click)="updSate(data.catId, CS.ENABLE)" matTooltip="Deshabilitado">
+                <mat-icon>visibility</mat-icon>
+                <span>Activar</span>
+              </button>
+  
+              <button color="warn" *ngIf="data.catState==CS.ENABLE" mat-menu-item (click)="updSate(data.catId, CS.DISABLE)" matTooltip="Habilitado">
+                <mat-icon>visibility_off</mat-icon>
+                <span>Desactivar</span>
+              </button>
+              <mat-divider></mat-divider>
               <button mat-menu-item (click)="beforeDelete(data.catId)">
                 <mat-icon>delete</mat-icon>
                 <span>Eliminar</span>
@@ -132,7 +144,9 @@
       <tr
         mat-row
         *matRowDef="let row; columns: displayedColumns"
-        class="row-option"
+        class="row-option" 
+        [class.is-disabled]="row.catState == CS.DISABLE"
+
       ></tr>
     </table>
     <mat-card

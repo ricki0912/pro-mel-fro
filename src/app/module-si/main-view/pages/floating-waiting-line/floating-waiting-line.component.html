@@ -10,9 +10,20 @@
 <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger" [cdkConnectedOverlayOpen]="isOpen">
   <div class="example-list">
     <div class="control-now">
+      
+      <div *ngIf="tAppointmentTemp!=null" class="control-now" style="display: flex; justify-content: center;"><b>{{tAppointmentTemp.apptmNumberDocClient }} </b> <span>{{subStringName(tAppointmentTemp.apptmNameClient || '')}}</span></div>
+        
+      <!--<mat-form-field appearance="legacy">
+        <mat-label>Tickets en espera</mat-label>
+        <mat-select >
+          <mat-option></mat-option>
+          <mat-option value="option1">Option 1</mat-option>
+          <mat-option value="option2">Option 2</mat-option>
+          <mat-option value="option3">Option 3</mat-option>
+        </mat-select>
+      </mat-form-field>-->
 
-      <mat-icon>note</mat-icon><span><b>{{(tAppointmentTemp!=null)?joinCodeTicket(tAppointmentTemp):'- - -
-          -'}}</b></span>
+      <mat-icon>note</mat-icon><span><b>{{(tAppointmentTemp!=null)?joinCodeTicket(tAppointmentTemp):'- - - -'}}</b></span>
 
 
       <mat-icon>device_hub</mat-icon><span><b>{{(tAppointmentTemp!=null)?tAppointmentTemp.catCode:'- - - -'}}</b></span>

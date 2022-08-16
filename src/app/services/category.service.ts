@@ -60,4 +60,9 @@ export class CategoryService extends ParentService {
   }
 
 
+  public updState(catId:number, catState:number): Observable<InterfaceParamsResponse<Category>> {
+    return this.https.put<InterfaceParamsResponse<Category>>(`${this.API_CATEGORY}/${catId}/upd-state`, {catState} )
+  }
+
+
 }

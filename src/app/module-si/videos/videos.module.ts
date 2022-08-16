@@ -22,11 +22,27 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatTabsModule} from '@angular/material/tabs';
+import { TabVideosComponent } from './pages/tab-videos/tab-videos.component';
+import { TabSearchComponent } from './pages/tab-search/tab-search.component';
+import { TabTicketDispensingComponent } from './pages/tab-ticket-dispensing/tab-ticket-dispensing.component';
+import { PreviewVideoComponent } from './pages/preview-video/preview-video.component';
+
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { TabMainControlComponent } from './pages/tab-main-control/tab-main-control.component';
+import {MatSliderModule} from '@angular/material/slider';
+
 
 @NgModule({
   declarations: [
     VideosComponent,
-    EditVideoComponent
+    EditVideoComponent,
+    TabVideosComponent,
+    TabSearchComponent,
+    TabTicketDispensingComponent,
+    PreviewVideoComponent,
+    TabMainControlComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +64,11 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatSelectModule,
     MatMenuModule,
     MatProgressBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatTabsModule, 
+    ScrollingModule,
+    MatProgressSpinnerModule,
+    MatSliderModule
   ]
 })
 export class VideosModule { }

@@ -24,7 +24,7 @@ import { HeadquarterService } from 'src/app/services/headquarter.service';
 })
 export class EditComponent implements OnInit, OnDestroy {
 
-  cols: number = 1;
+  cols: number = 2;
 
   gridByBreakpoint: GridResponsive = {
     xl: 2,
@@ -51,7 +51,10 @@ export class EditComponent implements OnInit, OnDestroy {
       asyncValidators: this.validateCode.bind(this),
       updateOn: 'blur',
     }],
-    hqAddress:['', Validators.required]
+    hqAddress:['', Validators.required],
+    hqTel:['', Validators.required],
+    hqEmail:['', Validators.required],
+
     
   })
 
@@ -91,6 +94,10 @@ export class EditComponent implements OnInit, OnDestroy {
       this.headquarterForm.controls['hqName'].setValue(this.headquarterBeforeUpd.hqName)
       this.headquarterForm.controls['hqRUC'].setValue(this.headquarterBeforeUpd.hqRUC)
       this.headquarterForm.controls['hqAddress'].setValue(this.headquarterBeforeUpd.hqAddress)
+      this.headquarterForm.controls['hqTel'].setValue(this.headquarterBeforeUpd.hqTel)
+      this.headquarterForm.controls['hqEmail'].setValue(this.headquarterBeforeUpd.hqEmail)
+
+
     }
 
     if (TYPES_ACTIONS_DIALOG.ADD == this.paramsDialog.type) {

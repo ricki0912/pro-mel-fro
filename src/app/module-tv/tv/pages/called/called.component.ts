@@ -25,7 +25,7 @@ export class CalledComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.listenRoute(o=>{this.getAttentionNoPending(o,10); this.getSocketTV(o)})
+    this.listenRoute(o=>{this.getAttentionNoPending(o,5); this.getSocketTV(o)})
     
     this.soundAlertC.muted = true; 
 
@@ -94,7 +94,7 @@ export class CalledComponent implements OnInit {
   public addTargetCall(s:AppointmentTemp){
     console.log("ADD APPTM", s)
     this.soundAlertC.play()
-    if(this.tAppointmentTemps[10]){
+    if(this.tAppointmentTemps[5]){
       this.tAppointmentTemps.pop();
     }
     this.tAppointmentTemps.unshift(s as TAppointmentTemp)

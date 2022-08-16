@@ -2,7 +2,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { Category, CategoryTree, CATEGORY_LINK_BUS, CATEGORY_TYPES_AUTH, FlatTreeControlCategory } from 'src/app/interfaces/category';
+import { Category, CategoryTree, CATEGORY_LINK_BUS, CATEGORY_STATE, CATEGORY_TYPES_AUTH, FlatTreeControlCategory } from 'src/app/interfaces/category';
 import { ParentInterface } from 'src/app/global/parents/parent.interface';
 import { CategoryService } from 'src/app/services/category.service';
 import { LoadingService } from '../../shared/components/loading/loading.service';
@@ -35,6 +35,11 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
   .set(CATEGORY_LINK_BUS.YES, 'SI')
   .set(CATEGORY_LINK_BUS.NO,'NO')
 
+
+
+
+  public CS=CATEGORY_STATE
+
   constructor(
     public dialogEditUser: MatDialog,
     private categoryService: CategoryService,
@@ -60,6 +65,7 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
     return this.categoriesLinkClients.get(id)
   }
 
+
   private listenRoute(c:(o:any)=>void){
     this.mainViewService.getParams().subscribe(params=>{
       this.hqId = parseInt(params['hqId'] || 0)
@@ -84,6 +90,9 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
 
       idParents: (node.idParents == null) ? [] : node.idParents,
       selected: false,
+
+
+      catState: (node.catState==null)?0:node.catState,
 
       level: level,
     };
@@ -250,6 +259,19 @@ export class CategoryComponent implements OnInit, CrudInterface, ActionDialogInt
       }
     })
     return true;
+  }
+
+  updSate=(catId:number, catState:number)=>{
+    this.categoryService.updState(catId, catState).subscribe({
+      next:e=>{
+        this.showMessage.success({message: e.msg})
+        this.readCRUD(this.hqId);
+
+      }, error: e=>{
+        this.showMessage.error({message: e.error.message})
+      }
+    
+    })
   }
 
 }

@@ -17,6 +17,7 @@ import { WaitingLineService } from 'src/app/socket/waiting-line.service';
 import { SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
 import { MainViewService } from '../main-view/main-view.service';
 import { User } from 'src/app/interfaces/user';
+import { GlobalHelpers } from 'src/app/global/helpers/global.helpers';
 
 
 @Component({
@@ -103,13 +104,8 @@ export class CallComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.apptmId}`;
   }
   
-  substrNameClient(s:string){
-    let r=s
-    if(s && s.length>18){
-      r=s.substring(0,15)+'...'
-    }
-    return r
-  }
+  substrNameClient=(s:string)=> GlobalHelpers.subString(s,15)
+    
 
   //
   joinCodeTicket(element: AppointmentTemp) {

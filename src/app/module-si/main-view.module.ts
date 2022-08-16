@@ -31,6 +31,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MainViewRoutingModule } from './main-view-routing.module';
 import {MatSelectModule} from '@angular/material/select';
 
+import { RouteReuseStrategy } from '@angular/router';
 
 /**Cli */
 
@@ -45,6 +46,7 @@ import { AuthModuleSIInterceptor } from '../core/http/auth-module-si.interceptor
 import { CoreModule } from '../core/core.module';
 import { SelectHeadquarterComponent } from './main-view/pages/select-headquarter/select-headquarter.component';
 import { MainViewService } from './main-view/main-view.service';
+import { MainViewRouteReuseStrategy } from './main-view.route-reuse-strategy';
 
 
 @NgModule({
@@ -94,7 +96,10 @@ import { MainViewService } from './main-view/main-view.service';
       provide: HTTP_INTERCEPTORS, 
       useClass: AuthModuleSIInterceptor, 
       multi: true
-    }
+    },/*{
+      provide: RouteReuseStrategy, 
+      useClass:MainViewRouteReuseStrategy
+    }*/
 ],
 })
 export class MainViewModule { }

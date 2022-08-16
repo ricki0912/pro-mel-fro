@@ -70,6 +70,12 @@ export enum APPOINTMENT_KIND_CLIENT {
     PERSON=2
 }
 
+
+export enum APPOINTMENT_SEND_FROM {
+    TICKET_DISPENSING='Totem',
+    WEB='Web'
+}
+
 export interface ApptmState{
     apptmStateId:number,
     apptmStateName:string

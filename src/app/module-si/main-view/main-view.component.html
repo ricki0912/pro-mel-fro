@@ -5,6 +5,7 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false">
     <app-select-headquarter></app-select-headquarter>
+    
     <img class="avatar mat-elevation-z8" [src]="currentUser.img" routerLink="./profile" />
 
     <h4 class="name">{{currentUser.person.perName}}</h4>
@@ -100,10 +101,14 @@
 
 
      
-      <div class="example-spacer" style="">
-        <app-search-client></app-search-client>
-      </div>
+    
+      <app-search-client class="example-spacer"></app-search-client>
 
+      <button mat-icon-button routerLink="./">
+        <mat-icon>
+          home
+        </mat-icon>
+      </button>
       <!--<button matBadge="8" mat-icon-button matBadgeColor="warn" >
         <mat-icon>tablet</mat-icon>
       </button>-->

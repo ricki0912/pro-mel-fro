@@ -1,4 +1,4 @@
-<form style="min-width: 400px ; max-width: 800px; width: 100%">
+<form style="min-width: 100px ; max-width: 800px; width: 100%" >
 
   <button matPrefix mat-icon-button aria-label="Buscar" (click)="value=''">
     <mat-icon>search</mat-icon>
@@ -8,7 +8,7 @@
     <input matInput aria-label="State" placeholder="Busca un cliente" [matAutocomplete]="auto" [formControl]="stateCtrl"
       [(ngModel)]="value" class="example-right-align">
     <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let buss of bussinesObs | async" [value]="buss.bussName" (keyup.enter)="navigatelClient(buss.bussId || -1)" [routerLink]="'./clients/'+buss.bussId">
+      <mat-option *ngFor="let buss of bussinesObs | async" [value]="buss.bussName" (onSelectionChange)="navigatelClient($event,buss.bussId || -1)" [routerLink]="'./clients/'+buss.bussId">
         <!--<img class="example-option-img" aria-hidden [src]="buss.flag" height="25">-->
         <span class="span-number">{{buss.bussFileNumber}}</span>
         <span>{{buss.bussName}}</span> |
@@ -43,3 +43,24 @@
     </button>
   </mat-form-field>
 </form>-->
+<!--
+<form class="example-form">
+  <mat-form-field class="example-full-width">
+    <input #stateInput (keyup)="0" matInput placeholder="State" aria-label="State" [matAutocomplete]="auto" [formControl]="stateCtrl">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option (onSelectionChange)="stateInput.value !=undefined && onEnter($event)" *ngFor="let state of filteredStates | async" [value]="state.name">
+        <img style="vertical-align:middle;" aria-hidden src="{{state.flag}}" height="25" />
+        <span>{{ state.name }}</span> |
+        <small>Population: {{state.population}}</small>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <br />
+
+  <mat-slide-toggle
+    [checked]="stateCtrl.disabled"
+    (change)="stateCtrl.disabled ? stateCtrl.enable() : stateCtrl.disable()">
+    Disable Input?
+  </mat-slide-toggle>
+</form> --> 

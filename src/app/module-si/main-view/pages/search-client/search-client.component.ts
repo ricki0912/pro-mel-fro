@@ -43,7 +43,7 @@ export class SearchClientComponent implements OnInit {
       next: d=>this.bussines=d as Bussines[]
     });
   }
-  public navigatelClient(bussId:number){
+  public navigatelClient(event:any, bussId:number){
     console.log("Navegar a bussines a "+bussId)
   }
 }

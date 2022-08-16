@@ -1,0 +1,73 @@
+<form (ngSubmit)="beforeSearch()">
+    <mat-form-field appearance="standard" style="width: 80%;">
+        <mat-label>Buscar</mat-label>
+        <input [(ngModel)]="ybSearch" name="ybSearch"  matInput placeholder="Ingresa una palabra clave">
+      </mat-form-field>
+      <button mat-button type="submit" style="width: 20%;">
+        <mat-icon>search</mat-icon>Buscar
+      </button>
+    
+</form>
+
+  <div class="container">
+    
+    <mat-card *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center">
+      <mat-progress-spinner color="primary" mode="indeterminate">
+      </mat-progress-spinner>
+    </mat-card>
+
+    <div class="row  row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+      <div class="col" *ngFor="let item of ybResponse.items; let i=index;">
+        <div class="card h-100">
+          <div class="ratio ratio-4x3">
+            <img [src]="item.snippet.thumbnails.medium.url" alt="" class="embed-responsive-item enable-to-play" 
+            [matMenuTriggerFor]="menuImg" 
+            >
+            <mat-menu #menuImg="matMenu">
+              <button mat-menu-item  (click)="playVideoOnTV(item.id.videoId)">
+                  <mat-icon>play_arrow</mat-icon>
+                  <span>Reproducir en TV</span>
+              </button>
+              <button mat-menu-item  (click)="beforePlay(item.id.videoId, item)">
+                <mat-icon>play_arrow</mat-icon>
+                <span>Reproducir en Aqui</span>
+            </button>
+          </mat-menu>
+          
+            <!--<iframe [src]="getVideoSource(item.id.videoId)" frameborder="0" class="embed-responsive-item"></iframe>-->
+          </div>
+          <div class="card-footer">
+             <h5 class="card-title text-truncate">
+                {{item.snippet.title}}
+             </h5> 
+             <div class="d-flex justify-content-between">   
+                <button mat-button aria-label="Example icon-button with a menu"
+                (click)="beforeAddVideos(item)"
+                >
+                    <mat-icon>add</mat-icon>Agregar
+                </button>                                                    
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item  (click)="playVideoOnTV(item.id.videoId)">
+                        <mat-icon>play_arrow</mat-icon>
+                        <span>Reproducir en TV</span>
+                    </button>
+                    <button mat-menu-item  (click)="beforePlay(item.id.videoId, item)" >
+                      <mat-icon>play_arrow</mat-icon>
+                      <span>Reproducir en Aqui</span>
+                  </button>
+                </mat-menu>
+                
+            </div>
+             
+             
+          </div>
+  
+  
+        </div>
+      </div>
+    </div>
+  </div>
+

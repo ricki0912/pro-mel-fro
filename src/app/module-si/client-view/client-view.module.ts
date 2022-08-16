@@ -40,6 +40,8 @@ import { ProofOfPaymentComponent } from './pages/proof-of-payment/proof-of-payme
 import { MatMenuModule} from '@angular/material/menu';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { RouteReuseStrategy } from '@angular/router';
+import { ClientViewRouteReuseStrategy } from './client-view.route-reuse-strategy';
 
 
 @NgModule({
@@ -87,6 +89,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     ClipboardModule,
     MatButtonToggleModule
   ],
-  providers: [DatePipe]
+  providers: [
+    DatePipe,
+   
+  ]
 })
 export class ClientViewModule { }

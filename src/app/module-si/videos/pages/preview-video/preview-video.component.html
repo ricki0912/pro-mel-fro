@@ -1,0 +1,50 @@
+<mat-card class="mat-elevation-z0 outline" style="background-color: rgba(50,50,50,1); color: white; " *ngIf="previewVideo as pv">
+    <mat-card-header  >
+        <mat-card-title align="left" class="text-truncate">Reproductor</mat-card-title>
+
+        <mat-card-actions align="end" style="flex: 1 1 auto; padding: 0px; vertical-align: top;">
+            <p style="padding: 0%; margin: 0px; padding-right: 10px; "> <!--Último ingreso <br>2 dias--></p>
+
+            <!--<button mat-icon-button >
+                <mat-icon>{{true?'expand_less':'expand_more'}}</mat-icon>
+            </button>-->
+            <button mat-icon-button (click)="beforeClose()">
+                <mat-icon>close</mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <!--<button mat-menu-item (click)="beforeAdd(pv.videoFound)" *ngIf="pv.videoFound">
+                    <mat-icon>save</mat-icon>
+                    <span>Agregar</span>
+                </button>-->
+              
+                <button mat-menu-item (click)="playVideoOnTV(pv.videoId)" >
+                    <mat-icon>play_arrow</mat-icon>
+                    <span>Reproducir en TV </span>
+                </button>
+                <!--<button mat-menu-item (click)="addAndPlayVideoOnTV(pv.videoId, pv.videoFound)" *ngIf="pv.videoFound">
+                    <mat-icon>save</mat-icon>
+                    <span>Agregar y Reproducir</span>
+                </button> -->
+
+                <!--<button mat-menu-item (click)="openDialogUpd(teller)">
+                      <mat-icon>edit</mat-icon>
+                      <span>Editar</span>
+                    </button>-->
+            </mat-menu>
+
+            <!--<button mat-icon-button  (click)="teller.tellState = !teller.tellState" [attr.aria-label]="'Cambiar disponibilidad'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </mat-menu> </button>-->
+        </mat-card-actions>
+    </mat-card-header>
+
+    <mat-card-content *ngIf="true" >
+        <iframe class="lazy" allowfullscreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" [src]="getVideoSource(pv.videoId)" data-title="video_title" title="video_title" frameborder="0"></iframe>
+
+                    <!--<iframe [src]="getVideoSource('CQLsdm1ZYAw')" frameborder="0" class="embed-responsive-item"></iframe>-->
+    </mat-card-content>
+</mat-card>

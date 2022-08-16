@@ -9,5 +9,11 @@ export const environment = {
   X_API_PERU:'https://consulta.api-peru.com',
 
   X_APISPERU: 'https://dniruc.apisperu.com',
-  X_TOKEN_APISPERU: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InJpY2tpLjA5MTJAZ21haWwuY29tIn0.rA2lPgzp3lBMLdgdRhUt1XxbzZa5miaIKk5PZ5c_uUg'
+  X_TOKEN_APISPERU: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InJpY2tpLjA5MTJAZ21haWwuY29tIn0.rA2lPgzp3lBMLdgdRhUt1XxbzZa5miaIKk5PZ5c_uUg',
+
+  YOUTUBE:'https://www.googleapis.com/youtube/v3/search',
+  YOUTUBE_TOKEN: 'AIzaSyBBSy1_Qi6o5i8ZkdecHEkYpqs2CayrH40',
+  DOMAIN:'melendresauditores.com'
+
+
 };

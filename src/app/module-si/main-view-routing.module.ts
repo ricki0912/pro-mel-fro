@@ -3,12 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { ModuleSiGuard } from '../core/guards/module-si.guard';
 import { PMS } from '../core/permission/pms.enum';
 import { MainViewComponent } from './main-view/main-view.component';
-
+import { TokenStorageService } from '../auth/services/token-storage.service';
 const routes: Routes=[
   {
     path:'',
     pathMatch:'full',
-    redirectTo:'0'
+    redirectTo:String((new TokenStorageService).getHqId())
   },
   {
     path:':hqId',
@@ -18,7 +18,9 @@ const routes: Routes=[
       {
         path: '',
         //component: CategoryComponent
-        loadChildren: ()=>import('./dashboard/dashboard.module').then(m=>m.DashboardModule)
+        loadChildren: ()=>import('./call/call.module').then(m=>m.CallModule)
+
+        //loadChildren: ()=>import('./dashboard/dashboard.module').then(m=>m.DashboardModule)
       },
       {
         path: 'categories',

@@ -22,6 +22,7 @@ import { ClientViewService } from '../../client-view.service';
 import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
 import { environment } from 'src/environments/environment';
 import { CommentR } from '../inline-edit/inline-edit.component';
+import { FloatingWaitingLineService } from 'src/app/module-si/main-view/pages/floating-waiting-line/floating-waiting-line.service';
 
 @Component({
   selector: 'app-list-buss-periods',
@@ -39,7 +40,7 @@ export class ListBussPeriodsComponent implements OnInit {
 
   /*Variables adicionales */
   private business?:Bussines
-  private appointmentTemp?:AppointmentTemp
+  private appointmentTemp:AppointmentTemp | null=null
   constructor(
     private spService: ServicesProvidedService,
     private showMessage: ShowMessageService,
@@ -53,6 +54,7 @@ export class ListBussPeriodsComponent implements OnInit {
     private dialog:MatDialog,
     private clientViewService:ClientViewService,
     private serviceService: ServicesService,
+    private fwlService:FloatingWaitingLineService
 
 
     //private services:ServicesProvided
@@ -76,10 +78,11 @@ export class ListBussPeriodsComponent implements OnInit {
      */
 
 
-    const telleId=this.tokenStorage.getTeller()?.tellId
+   /* const telleId=this.tokenStorage.getTeller()?.tellId
 
     if(telleId)
-    this.readCRUDCurrentAppointment(telleId)
+    this.readCRUDCurrentAppointment(telleId)*/
+    this.getCurrentAttention()
   }
 
   //displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'debt', 'paid', 'state', 'LimitPayment', 'comment', 'actions'];
@@ -371,8 +374,19 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
   }
 
 
+  private getCurrentAttention(){
+    this.fwlService.getCurrentAttion().subscribe({
+      next:(d)=>{
+        this.appointmentTemp=d 
+        console.log(d)
+      },
+      error:(e)=>{
 
-  readCRUDCurrentAppointment(tellId:number){
+      }
+    })
+}
+
+  /*readCRUDCurrentAppointment(tellId:number){
     this.appointmentTempService.getAttentionPendingByTeller(tellId)
       .subscribe({
         next:d=>{
@@ -382,7 +396,7 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
           this.showMessage.error({message: e.error.message})
         }
       })
-  }
+  }*/
 
 
   calcWidth(firstNumber?:number, totalNumber?:number):number{

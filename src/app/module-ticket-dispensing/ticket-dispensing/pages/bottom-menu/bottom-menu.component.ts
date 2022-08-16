@@ -19,6 +19,8 @@ export class BottomMenuComponent {
   }
 
   public printTest(){
+    console.log("holaaa")
+
     const t :ParamsTicketDispensing = {
       dateTicket: "Fecha y Hora",
       numberTicket: "NT",

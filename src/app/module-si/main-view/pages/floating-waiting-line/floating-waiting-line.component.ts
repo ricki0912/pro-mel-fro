@@ -10,6 +10,8 @@ import { CommentCallComponent } from 'src/app/module-si/call/pages/comment-call/
 import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/interfaces/user';
+import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
+import { GlobalHelpers } from 'src/app/global/helpers/global.helpers';
 
 @Component({
   selector: 'app-floating-waiting-line',
@@ -33,7 +35,9 @@ export class FloatingWaitingLineComponent implements OnInit {
     private titleService: Title,
     private tokenService: TokenStorageService,
     private waitingLineService: WaitingLineService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private showMessage:ShowMessageService,
+
 
   ) {
     this.currentUser = this.tokenService.getUser() as User;
@@ -56,18 +60,35 @@ export class FloatingWaitingLineComponent implements OnInit {
         case FWLS_CONTROL.HIDE:
           this.isOpen = false
           break;
+        case FWLS_CONTROL.HIDE:
+          this.isOpen = true
+          break;
         case FWLS_CONTROL.INCREASE:
           this.nroCallPending++
           break;
       }
     })
 
+  
     this.getNroPending(APPOINTMENT_STATE.PENDING, this.selectedTeller || -1);
 
     this.getSocketWaitingLine(this.selectedTeller || -1)
     this.soundAlert.muted = true;
-
+    this.getCurrentAttention()
+    this.getAttentionPendingByTeller(this.selectedTeller)
+    
   }
+  
+  private getCurrentAttention(){
+    this.fwlService.getCurrentAttion().subscribe({
+      next:(d)=>{
+        this.tAppointmentTemp=d 
+      },
+      error:(e)=>{
+
+      }
+    })
+}
 
   joinCodeTicket(element: TAppointmentTemp) {
     return element.catCode + String(element.apptmNro).padStart(2, '0')
@@ -109,8 +130,9 @@ export class FloatingWaitingLineComponent implements OnInit {
         this.isLoading = false
         const t = d.data as TAppointmentTemp[];
         if (t.length > 0)
-          this.tAppointmentTemp = t[0]
-        console.log(this.tAppointmentTemp)
+          this.fwlService.onCurrentAttention(t[0])
+          //this.tAppointmentTemp = t[0]
+        
 
       }
     })
@@ -125,10 +147,14 @@ export class FloatingWaitingLineComponent implements OnInit {
         this.isLoading = false
         const t = d.data as TAppointmentTemp[];
         if (t.length > 0) {
-          this.tAppointmentTemp = t[0]
+          //this.tAppointmentTemp = t[0]
+          this.fwlService.onCurrentAttention(t[0])
           this.nroCallPending = -1
-          this.setSocketTV(this.tAppointmentTemp.hqId || -1, { action: SOCKET_ACTION.TV_ADD_TARGET_CALL, data: this.tAppointmentTemp })
+          this.setSocketTV(t[0].hqId || -1, { action: SOCKET_ACTION.TV_ADD_TARGET_CALL, data: this.tAppointmentTemp })
           //this.setTVAddTargetCall(this.tAppointmentTemp)
+        }else{
+          this.showMessage.success({message:'No tenemos más clientes en espera.'})
+
         }
 
       },
@@ -141,7 +167,9 @@ export class FloatingWaitingLineComponent implements OnInit {
   public finalizeCall(apptmId: number, appointmentTemp: AppointmentTemp) {
     this.appointmentTempService.finalizeCall(apptmId, appointmentTemp).subscribe({
       next: d => {
-        this.tAppointmentTemp = null
+        this.fwlService.onCurrentAttention(null)
+
+        //this.tAppointmentTemp = null
         console.log(d)
       }
     })
@@ -217,5 +245,7 @@ export class FloatingWaitingLineComponent implements OnInit {
 
   }
 
+
+  public subStringName=(s:string)=>GlobalHelpers.subString(s,50)
 
 }

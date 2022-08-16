@@ -1,0 +1,114 @@
+<div class="col-12" style="background-color: rgba(235,235,235, 0.4)">
+    <div class="mat-tyography mt-2 pt-2" style="height: 100%; border-right: 1px ;">
+      <form (ngSubmit)="beforeSearch()">
+        <mat-form-field appearance="standard" style="width: 80%;">
+            <mat-label>Buscar</mat-label>
+            <input [(ngModel)]="ybSearch" name="ybSearch"  matInput placeholder="Ingresa una palabra clave">
+          </mat-form-field>
+          <button mat-button type="submit" style="width: 20%;">
+            <mat-icon>search</mat-icon>Buscar
+          </button>
+        
+      </form>
+      <mat-divider></mat-divider>
+ 
+        <mat-selection-list [multiple]="false" style="">
+          <div *ngIf="" style="display: flex; justify-content: center; align-items: center">
+            <mat-progress-spinner color="primary" mode="indeterminate">
+            </mat-progress-spinner>
+            <span class="fs-2 text-center">Espere un momento, preparando para realizar busquedas.</span>  
+          </div>
+        
+          
+
+          <mat-list-option *ngFor="let item of videos" [value]="" [disableRipple]="true"
+            (selectedChange)="true">
+            <div style="display:flex; justify-content:space-between;align-items:center">
+              <div style="display:flex;align-items:center">
+                <img height="50px" [src]="item.vidImgLinkMedium" alt="" class="previ">
+                <!--<mat-icon matListAvatar color="green" *ngIf="businessSelected==item">check</mat-icon>-->
+  
+                <div style="display:flex; flex-direction:column">
+                  <div>
+                    <h4 class="option-title" [class.option-selected]="" matLine> {{item.vidChannelTitle}}
+                    </h4>
+                  </div>
+                  <div style="margin-top:-10px">
+                    <p matLine class="option-description">
+                      {{item.vidName}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button mat-icon-button [matMenuTriggerFor]="menu" >
+                  <mat-icon>play_arrow</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item  (click)="playVideoOnTV(item.vidLink ||'')">
+                      <mat-icon>play_arrow</mat-icon>
+                      <span>Reproducir en TV</span>
+                  </button>
+                  <button mat-menu-item  (click)="beforePlay(item.vidLink || '')">
+                    <mat-icon>play_arrow</mat-icon>
+                    <span>Reproducir en Aqui</span>
+                </button>
+              </mat-menu>
+              <button
+              mat-icon-button
+                  (click)="enableDisableVideos(item)"
+                  color="{{parseInt(item.vidState)== 1 ? 'accent' : 'warn' }}"
+                  matSuffix
+                  matTooltip="{{
+                    parseInt(item.vidState) == 1 ? 'Habilitado' : 'Deshabilitado'
+                  }}"
+                >
+                  <mat-icon>{{
+                    parseInt(item.vidState) == 1 ? "visibility" : "visibility_off"
+                  }}</mat-icon>
+                </button>
+                  <button
+                  mat-icon-button
+                  [matMenuTriggerFor]="menup"
+                  aria-label="Opciones"
+                >
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menup="matMenu">
+                  <button
+                    mat-menu-item
+
+                    (click)="delVideos(item)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                    Eliminar
+                  </button>
+             
+                </mat-menu>
+              
+                <!--<button mat-icon-button (click)="onEdit($event, item)">
+                    <mat-icon>edit</mat-icon>
+                  </button>-->
+              </div>
+            </div>
+          </mat-list-option>
+        </mat-selection-list>      
+      <div align="end">
+        <!--<button mat-button mat-dialog-close>Cancelar</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="true" type="submit" (click)="ok()"
+          [disabled]="!businessSelected" cdkFocusInitial>Confimar <mat-icon>accept</mat-icon></button> -->
+          <!--<button class="btn btn-danger" type="button" style="width: 50%;" (click)="goHome()">
+            <div style=" width: 100%;" class="d-flex justify-content-between align-items-center">
+              <span class="fs-2"> Ir a inicio</span>
+              <i style="font-size: calc(1em + 1vw);" class="bi bi-arrow-right-circle-fill"></i>
+            </div>
+          </button> -->
+   
+
+         
+      </div>
+   
+     
+      
+    </div>
+  </div>

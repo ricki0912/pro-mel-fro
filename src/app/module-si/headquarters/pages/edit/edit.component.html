@@ -1,67 +1,98 @@
 <mat-toolbar color="primary" class="tollbar">
-    <mat-toolbar-row>
-      <button mat-icon-button mat-dialog-close class="example-icon" aria-label="Example icon-button with menu icon">
-        <mat-icon>close</mat-icon>
-      </button>
-      <span class="example-spacer"></span>
-      <span>{{title}}</span>
-  
-    </mat-toolbar-row>
-  </mat-toolbar>
-  
-  
-  <div class="dialog-body">
-    <p>Agrega un <b>sede </b>  </p>
-    <!--<h2 mat-dialog-title>Install Angular</h2>-->
-  
-    <mat-dialog-content class="mat-typography">
-  
-      <form class="example-form" [formGroup]="headquarterForm">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Nombre</mat-label>
-          <input matInput formControlName="hqName">
-          <mat-progress-spinner *ngIf="headquarterForm.controls['hqName'].pending" matSuffix [mode]="'indeterminate'"
-            [diameter]="20">
-          </mat-progress-spinner>
-          <mat-error>
-            {{
-            (headquarterForm.controls['hqName'].hasError('required'))?
-            'El nombre es requerido':
-            (headquarterForm.controls['hqName'].hasError('existName'))?
-            'Ya existe un registro con este nombre':''
-            }}
-  
-  
-          </mat-error>
-        </mat-form-field>
-  
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>RUC</mat-label>
-          <input matInput type="text" formControlName="hqRUC">
-          <mat-error *ngIf="headquarterForm.controls['hqRUC'].hasError('required')">
-            El RUC es requerido
-          </mat-error>
-  
-        </mat-form-field>
+  <mat-toolbar-row>
+    <button mat-icon-button mat-dialog-close class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>{{title}}</span>
 
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Dirección</mat-label>
-          <input matInput type="text" formControlName="hqAddress">
-          <mat-error *ngIf="headquarterForm.controls['hqAddress'].hasError('required')">
-            La dirección es requerido
-          </mat-error>
-  
-        </mat-form-field>
-  
-      </form>
-  
-    
-  
-  
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>Cancelar</button>
-      <button mat-button [mat-dialog-close]="true" type="submit" (click)="addUpd()"
-        [disabled]="!headquarterForm.valid" cdkFocusInitial>Guardar</button>
-    </mat-dialog-actions>
-  </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<div class="dialog-body">
+  <p>Agrega un <b>sede</b>, recueda que estos datos datos figuraran en el recibo. Trata de agregarlos de forma correcta.
+  </p>
+  <!--<h2 mat-dialog-title>Install Angular</h2>-->
+
+  <mat-dialog-content class="mat-typography">
+
+    <form class="example-form" [formGroup]="headquarterForm">
+      <mat-grid-list [cols]="cols" rowHeight="5.5rem" appearance="fillx">
+        <mat-grid-tile>
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="hqName">
+            <mat-progress-spinner *ngIf="headquarterForm.controls['hqName'].pending" matSuffix [mode]="'indeterminate'"
+              [diameter]="20">
+            </mat-progress-spinner>
+            <mat-error>
+              {{
+              (headquarterForm.controls['hqName'].hasError('required'))?
+              'El nombre es requerido':
+              (headquarterForm.controls['hqName'].hasError('existName'))?
+              'Ya existe un registro con este nombre':''
+              }}
+
+
+            </mat-error>
+          </mat-form-field>
+
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>RUC</mat-label>
+            <input matInput type="text" formControlName="hqRUC">
+            <mat-error *ngIf="headquarterForm.controls['hqRUC'].hasError('required')">
+              El RUC es requerido
+            </mat-error>
+
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Número de teléfono</mat-label>
+            <input matInput type="text" formControlName="hqTel">
+            <mat-error *ngIf="headquarterForm.controls['hqTel'].hasError('required')">
+              El número de teléfono es requerido
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Correo electrónico</mat-label>
+            <input matInput type="text" formControlName="hqEmail">
+            <mat-error *ngIf="headquarterForm.controls['hqEmail'].hasError('required')">
+              La correo electrónico es requerido
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Dirección</mat-label>
+            <input matInput type="text" formControlName="hqAddress">
+            <mat-error *ngIf="headquarterForm.controls['hqAddress'].hasError('required')">
+              La dirección es requerido
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+
+    </form>
+
+
+
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button [mat-dialog-close]="true" type="submit" (click)="addUpd()" [disabled]="!headquarterForm.valid"
+      cdkFocusInitial>Guardar</button>
+  </mat-dialog-actions>
+</div>

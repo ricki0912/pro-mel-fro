@@ -1,25 +1,27 @@
-<mat-nav-list>
-    <a href="#" mat-list-item (click)="fullScreen()">
-      <span mat-line>Pantalla Completa</span>
-      <span mat-line>Presiona Ctrl + F</span>
-    </a>
-  
-    <a href="#" mat-list-item (click)="refreshView()">
-      <span mat-line>Refrescar Categorias</span>
-      <span mat-line>Presiona Ctrl + H</span>
-    </a>
-  
-    <a href="#" mat-list-item (click)="printTest()">
-      <span mat-line>Imprimir pagina de prueba</span>
-      <span mat-line>Verifique que la impresora esté como predeterminada y que tenga papel.</span>
-    </a>
-  
-    <a href="#" mat-list-item (click)="configServer()">
-      <span mat-line>Configurar servidor</span>
-      <span mat-line>Ctrl + G</span>
-    </a>
-    <!--<a href="#" mat-list-item (click)="openLink($event)">
-      <span mat-line>Salir</span>
-      <span mat-line>Ctrl + Q</span>
-    </a>-->
-  </mat-nav-list>
+<mat-action-list>
+
+
+  <button  mat-list-item (click)="fullScreen()">
+    <span mat-line>Pantalla Completa</span>
+    <span mat-line>Presiona Ctrl + F</span>
+  </button>
+
+  <button  mat-list-item (click)="refreshView()">
+    <span mat-line>Refrescar Categorias</span>
+    <span mat-line>Presiona Ctrl + H</span>
+  </button>
+
+  <button mat-list-item (click)="printTest()">
+    <span mat-line>Imprimir pagina de prueba</span>
+    <span mat-line>Verifique que la impresora esté como predeterminada y que tenga papel.</span>
+  </button>
+
+  <button mat-list-item (click)="configServer()">
+    <span mat-line>Configurar servidor</span>
+    <span mat-line>Ctrl + G</span>
+  </button>
+  <button mat-list-item >
+    <span mat-line></span>
+    <span mat-line></span>
+  </button>
+</mat-action-list>

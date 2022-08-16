@@ -1,13 +1,11 @@
 
 
 import { Component, OnInit } from '@angular/core';
-import { CrudInterface } from 'src/app/global/interfaces/crud.interface'
 import { CategoryService } from 'src/app/services/category.service';
-import { Category, CategoryTree, CATEGORY_TYPES_AUTH } from 'src/app/interfaces/category'
+import { Category, CategoryTree, CATEGORY_STATE, CATEGORY_TYPES_AUTH } from 'src/app/interfaces/category'
 import { CategoryHelpers } from 'src/app/global/helpers/category.helpers'
-import { ThisReceiver } from '@angular/compiler';
 import { AppointmentTempService } from 'src/app/services/appointment-temp.service';
-import { AppointmentTemp } from 'src/app/interfaces/appointment-temp';
+import { AppointmentTemp, APPOINTMENT_SEND_FROM } from 'src/app/interfaces/appointment-temp';
 import { LoadingService } from 'src/app/shared/components/loading/loading.service';
 import { DatePipe } from '@angular/common'
 import { HeadService } from './pages/head/head.service';
@@ -29,6 +27,8 @@ declare var electron: any;
   styleUrls: ['./ticket-dispensing.component.scss']
 })
 export class TicketDispensingComponent implements OnInit {
+
+  private apptmSendFrom:string
 
   /*Cards */
   private cards:Cards[]=[]
@@ -72,7 +72,9 @@ export class TicketDispensingComponent implements OnInit {
     private waitingLineService: WaitingLineService,
     private activatedRoute: ActivatedRoute,
     private _ticketDispensingService:TicketDispensingService
-  ) { }
+  ) { 
+    this.apptmSendFrom=(electron)?APPOINTMENT_SEND_FROM.TICKET_DISPENSING:APPOINTMENT_SEND_FROM.WEB;
+  }
 
   ngOnInit(): void {
     this.loadingService.hide()
@@ -121,7 +123,8 @@ export class TicketDispensingComponent implements OnInit {
       apptmNumberDocClient: e.apptmNumberDocClient,
       apptmNameClient:e.apptmNameClient,
       apptKindClient: e.apptKindClient,
-      bussId: e.bussId
+      bussId: e.bussId,
+      apptmSendFrom:this.apptmSendFrom
     }
     this.appointmentTemp = a;
     this.createAppointmentCRUD(a)
@@ -221,7 +224,9 @@ export class TicketDispensingComponent implements OnInit {
     this.categoryService.allByHQ(hqId).subscribe({
       complete: () => { },
       next: (r: Category[]) => {
-        this.categoriesTree = CategoryHelpers.convertTableToTree(r)
+
+
+        this.categoriesTree = CategoryHelpers.convertTableToTree(r.filter(e=>e.catState==CATEGORY_STATE.ENABLE));
         this.categoriesTreeSelected = this.categoriesTree;
         this.history.push({ type: COMPONENT_TYPES.CATEGORY, history: this.categoriesTreeSelected })
         this.headService.setMessage("Seleccione un servicio.")
@@ -310,6 +315,7 @@ export class TicketDispensingComponent implements OnInit {
     this.waitingLineService.setSocketLineWaiting(tellId, s)
 
   }
+
 }
 
 export enum COMPONENT_TYPES {

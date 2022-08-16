@@ -24,7 +24,7 @@ export class WaitingLineService {
   }*/
 
   /*sendAppointmentTemp */
-
+/*
   public setTVAddTargetCall(appointmentTemp:AppointmentTemp):void{
     this.socket.emit('tv:set:add-target-call', appointmentTemp);
   }
@@ -40,12 +40,12 @@ export class WaitingLineService {
 
   public getTVRefreshTargetCall():Observable<AppointmentTemp>{
     return this.socket.fromEvent<AppointmentTemp>('tv:get:refresh-target-call')
-  }
+  }*/
 
   /*optimizado */
  
 
-  public setSocketTV(hqId:number, s:SocketInterface<AppointmentTemp>):void{
+  public setSocketTV(hqId:number, s:SocketInterface<AppointmentTemp |string | number>):void{
     this.socket.emit('tv:set', {hqId:hqId,data:s});
   }
 
@@ -53,7 +53,7 @@ export class WaitingLineService {
     return this.socket.fromEvent<SocketInterface<AppointmentTemp>>('tv:get:'+hqId)
   }
 
-  public setSocketLineWaiting(tellId:number, s:SocketInterface<AppointmentTemp>):void{
+  public setSocketLineWaiting(tellId:number, s:SocketInterface<AppointmentTemp | string>):void{
     this.socket.emit('waiting-line:set', {tellId:tellId, data:s});
   }
 

@@ -20,7 +20,9 @@ import { DialogEditOneInputComponent } from 'src/app/shared/components/dialog-ed
 import { LoadingService } from 'src/app/shared/components/loading/loading.service';
 
 import { MainViewService } from '../main-view/main-view.service';
-
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
+import { GlobalHelpers } from 'src/app/global/helpers/global.helpers';
 
 @Component({
   selector: 'app-accounting',
@@ -33,7 +35,7 @@ export class AccountingComponent implements OnInit {
   isLoading = true;
   serBuss: Bussines | undefined;
   /*Parametros para buscar */
-  dateStart:Date=new Date(new Date().getFullYear(), 0,1)
+  dateStart:Date=new Date(new Date().getFullYear(), new Date().getMonth(),1)
   dateEnd:Date=new Date()
   wordlike:string=''
   
@@ -327,6 +329,74 @@ openDialogTicketOrInvoice(data:{},d:(value:string)=>void){
     });
 }
 
+
+/*Funciones adicionales */
+exportExcel(){
+  
+  let workbook = new Workbook();
+  let worksheet = workbook.addWorksheet("Hoja 01");
+
+  //CONVIRTIENDO NUESTRO ARREGLO A UN FORMATO LEGIBLE PARA EXCEL USANDO EXCELJS
+  worksheet.addRow(undefined);
+  for (let x1 of this.dataSource.data){
+      let x2=Object.keys(x1);
+
+      let temp=[]
+      temp.push(x1.bussId)
+      temp.push(x1.payDatePrint)
+      temp.push(x1.paySerie)
+      temp.push(x1.payNumber)
+
+      temp.push(x1.payClientRucOrDni)
+      temp.push(x1.payClientName)
+      temp.push(x1.payClientTel)
+      temp.push(x1.payClientEmail)
+
+      temp.push(x1.payTotal)
+
+      temp.push((x1.payIsCanceled==1)?'SI':'NO')
+
+      temp.push(x1.payTicketSN)
+      temp.push(x1.payInvoiceSN)
+      temp.push(x1.payReceiptHonorarySN)
+      temp.push(environment.API_URL+"/v1/payments/"+x1.payToken+"/proof-of-payment")
+
+      
+      /*for(let y of x1.){
+        temp.push(y)
+      }*/
+      worksheet.addRow(temp)
+  }
+  //NOMBRE DEL ARCHIVO RESULTANTE
+  let fname="Pagos";
+
+  //ASIGNACIÓN DE LA CABECERA DEL DOCUMENTO EXCEL DONDE CADA CAMPO DE LOS DATOS QUE EXPORTAREMOS SERA UNA COLUMNA
+  worksheet.columns = [
+      { header: 'CLIENTE', key: 'col1', width: 10},
+      { header: 'FECHA', key: 'col2', width: 30},
+      { header: 'SERIE', key: 'col3', width: 15},
+      { header: 'NÚMERO', key: 'col4', width: 20},
+      { header: 'RUC/DNI', key: 'col5', width: 20},
+      { header: 'NOMBRE/RAZÓN SOCIAL', key: 'col6', width: 50},
+      { header: 'TELÉFONO', key: 'col7', width: 20},
+      { header: 'CORREO', key: 'col8', width: 20},
+      { header: 'TOTAL', key: 'col9', width: 20},
+      { header: 'CANCELADO', key: 'col10', width: 20},
+      { header: 'BOLETA DE VENTA', key: 'col11', width: 20},
+      { header: 'FACTURA', key: 'col12', width: 20},
+      { header: 'R/H', key: 'col13', width: 20},
+      { header: 'BOLETA', key: 'col14', width: 30},
+  ]as any;
+
+  //PREPACION DEL ARCHIVO Y SU DESCARGA
+  workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, fname+'.xlsx');
+  });
+
+}
+
+public subStringName=(s:string)=>GlobalHelpers.subString(s,40);
 
 
 }
