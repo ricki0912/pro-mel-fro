@@ -32,6 +32,7 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { TabMainControlComponent } from './pages/tab-main-control/tab-main-control.component';
 import {MatSliderModule} from '@angular/material/slider';
+import { YouTubePlayerModule } from "@angular/youtube-player";
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import {MatSliderModule} from '@angular/material/slider';
     MatTabsModule, 
     ScrollingModule,
     MatProgressSpinnerModule,
-    MatSliderModule
+    MatSliderModule,
+    YouTubePlayerModule
   ]
 })
 export class VideosModule { }
