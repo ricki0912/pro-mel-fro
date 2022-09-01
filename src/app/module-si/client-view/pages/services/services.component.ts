@@ -8,6 +8,7 @@ import { Period } from 'src/app/interfaces/period';
 import { FindPeriodComponent } from 'src/app/module-si/period/pages/find-period/find-period.component';
 import { BussinesService } from 'src/app/services/bussines.service';
 import { PeriodService } from 'src/app/services/period.service';
+import { ServicesService } from 'src/app/services/services.service';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { environment } from 'src/environments/environment';
 import { ClientViewService } from '../../client-view.service';
@@ -31,13 +32,15 @@ export class ServicesComponent implements OnInit, CrudInterface {
   constructor(
     private bussinesService: BussinesService,
     private periodService: PeriodService,
+    private servicesService: ServicesService,
     public dialogSelect: MatDialog,
     private showMessage: ShowMessageService,
-    private clientViewService:ClientViewService
+    private clientViewService:ClientViewService,
 
   ) {  }
 
   ngOnInit(): void {
+    this.readServices()
     this.listenSelectedBusiness(()=>this.readCRUD())
 
   }
@@ -115,6 +118,14 @@ export class ServicesComponent implements OnInit, CrudInterface {
       }
     });
     return true;
+  }
+
+  readServices(){
+    this.servicesService.all()?.subscribe({
+      next:d=>{
+        this.clientViewService.onServices(d)//this.services = d;
+      }
+    })
   }
 
   printReportAllPeriod(){

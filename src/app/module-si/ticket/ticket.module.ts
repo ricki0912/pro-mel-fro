@@ -22,6 +22,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { ChronometerModule } from 'src/app/shared/components/chronometer/chronometer.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatChipsModule} from '@angular/material/chips';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatProgressSpinnerModule,
     TicketRoutingModule,
     ChronometerModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatChipsModule
   ]
 })
 export class TicketModule { }

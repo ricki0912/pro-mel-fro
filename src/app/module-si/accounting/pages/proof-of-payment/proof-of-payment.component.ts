@@ -30,6 +30,7 @@ import { WaitingLineService } from 'src/app/socket/waiting-line.service';
 import { SocketInterface, SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
 import { PrintServer,PRINT_SERVER_ANSWER_RESPONSE } from 'src/app/interfaces/print-server';
 import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
+import { User } from 'src/app/interfaces/user';
 @Component({
   selector: 'app-proof-of-payment',
   templateUrl: './proof-of-payment.component.html',
@@ -105,11 +106,14 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
   ) { 
     this.payment={}
     this.payment.paymentDetails=[]
+    
+
     if(this.paramsDialog.payLinkBuss){
       this.loadPreviewLinkBuss(
         this.paramsDialog.bussines,
         this.paramsDialog.servicesProvideds,
-        this.paramsDialog.appointmentTemp
+        this.paramsDialog.appointmentTemp,
+        this._currentUser.getHqId()
         )
     }else{
       this.loadPreviewWithoutBuss(
@@ -148,7 +152,7 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     el.pdsAmount=(el.pdsQuantity || 0)*el.pdsUnitPrice
     //this.dataSource.data = this.dataSource.data;
   }
-  private loadPreviewLinkBuss(buss:Bussines, sps:ServicesProvided[], a:AppointmentTemp){
+  private loadPreviewLinkBuss(buss:Bussines, sps:ServicesProvided[], a:AppointmentTemp, hqId:number){
     /*Datos cliente */
    
     this.payment.payClientRucOrDni=buss.bussRUC;
@@ -159,8 +163,9 @@ export class ProofOfPaymentComponent implements OnInit, OnDestroy {
     this.payment.bussId=buss.bussId;
 
 
-    this.payment.hqId=a.hqId;
-    this.payment.apptmId=a.apptmId
+    this.payment.hqId=(a)?a.hqId:hqId;
+    this.payment.apptmId=(a)?a.apptmId:undefined
+
     this.payment.payState=PAYMENT_STATE.PENDING
     this.payment.payKindDoc=PAYMENT_KIND_DOC.RECIBO
     /*Detalle */

@@ -96,8 +96,8 @@ export class BussinesService extends ParentService implements CrudApiInterface{
     return this.https.get<InterfaceParamsResponse<TellerJoinUsers>>(`${this.API_BUSSINES}/getCantTellerUsers?hqId=${hqId}`);
   }
 
-  public getBusinessJoinTeller(tellId:number): Observable<InterfaceParamsResponse<Bussines>>  {
-    return this.https.get<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/getBusinessJoinTeller?tellId=${tellId}`);
+  public getBusinessJoinTeller(tellId:number, bussState:number, q:string): Observable<InterfaceParamsResponse<Bussines>>  {
+    return this.https.get<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/getBusinessJoinTeller`,{params:{tellId,bussState,q}});
   }
 
   public updateBusinessTellId(bussIds:number[], tellId:number):Observable<InterfaceParamsResponse<Bussines>>{

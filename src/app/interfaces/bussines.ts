@@ -43,3 +43,8 @@ export interface TellerJoinUsers {
   hqId?: number;
   cantBusiness?: number;
 }
+
+export enum BUSSINES_STATE{
+   ENABLE=1,  SUSPENDED=2, RETIRED=3
+
+}

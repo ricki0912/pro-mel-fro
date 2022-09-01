@@ -1,4 +1,5 @@
 import { ParentInterface } from "../global/parents/parent.interface";
+import { PaymentMethod } from "./payment-method";
 
 export interface DPaymentPaymentMethod extends ParentInterface{
   dppmId?:number,
@@ -6,6 +7,7 @@ export interface DPaymentPaymentMethod extends ParentInterface{
   paymthdsId?:number, 
   dppmAmount?:number
   dppmDescription?:string
+  paymentMethod?:PaymentMethod
 }
 
 

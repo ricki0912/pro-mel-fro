@@ -43,8 +43,8 @@ export interface AppointmentTemp extends ParentInterface {
     /*atencion en ventanilla*/
     apptmState?: number, /*En espera=1, En atención=2, Atendido=3, 4=no atendido 5=cancelado*/
     apptmNroCalls?:number,
-    apptmDateStartAttention?:string,
-    apptmDateFinishAttention?:string
+    apptmDateStartAttention?:Date,
+    apptmDateFinishAttention?:Date
 
     apptmScoreClient?:string, 
     apptmCommentClient?:string,
@@ -57,6 +57,10 @@ export interface AppointmentTemp extends ParentInterface {
 
     teller?:Teller,
     category?:Category,
+
+    apptmEpochInWaiting?:number,
+    apptmEpochInAtention?:number,
+
 
 }
 

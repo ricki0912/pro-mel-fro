@@ -42,6 +42,10 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { RouteReuseStrategy } from '@angular/router';
 import { ClientViewRouteReuseStrategy } from './client-view.route-reuse-strategy';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { DetailServicesProvidedComponent } from './pages/detail-services-provided/detail-services-provided.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
 
 
 @NgModule({
@@ -58,6 +62,7 @@ import { ClientViewRouteReuseStrategy } from './client-view.route-reuse-strategy
     AddAmountComponent,
     ListBussPeriodsComponent,
     GeneralInformationComponent,
+    DetailServicesProvidedComponent,
     ProofOfPaymentComponent
   ],
   imports: [
@@ -87,7 +92,9 @@ import { ClientViewRouteReuseStrategy } from './client-view.route-reuse-strategy
     MatListModule,
     MatMenuModule,
     ClipboardModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    NgxMatSelectSearchModule,
+    MatToolbarModule
   ],
   providers: [
     DatePipe,

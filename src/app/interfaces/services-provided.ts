@@ -1,6 +1,7 @@
-import { ParentInterface } from "../global/parents/parent.interface";
+import {  ParentInterfaceWithDU } from "../global/parents/parent.interface";
+import { PaymentDetail } from "./payment-detail";
 
-export interface ServicesProvided extends ParentInterface {
+export interface ServicesProvided extends ParentInterfaceWithDU {
   spId?: number,
   dbpId?: number,
   svId?: number,
@@ -18,6 +19,7 @@ export interface ServicesProvided extends ParentInterface {
   spLimitPaymentDate?: string,
   spMaxPartToPay?: number
   spCommentColourText?:string
+  payment_details?:PaymentDetail[]
 }
 
 export interface TServicesProvided extends ServicesProvided{

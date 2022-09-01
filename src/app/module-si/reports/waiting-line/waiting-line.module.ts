@@ -32,6 +32,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { TicketsMigrationComponent } from './pages/tickets-migration/tickets-migration.component';
 
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -54,6 +55,7 @@ import { TicketsMigrationComponent } from './pages/tickets-migration/tickets-mig
     MatButtonModule, 
     MatCheckboxModule,
     MatTableModule, 
+    MatPaginatorModule,
     MatSelectModule,
     MatDialogModule,
     MatProgressSpinnerModule,

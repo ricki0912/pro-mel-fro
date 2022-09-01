@@ -209,4 +209,8 @@ export class MdServicesComponent implements OnInit, CrudInterface, ActionDialogI
     return true;
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 }

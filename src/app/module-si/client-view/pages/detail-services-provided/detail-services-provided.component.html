@@ -1,0 +1,218 @@
+<mat-toolbar color="primary" class="tollbar">
+  <mat-toolbar-row>
+    <button mat-icon-button mat-dialog-close class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>{{params.serviceProvided.spName}}</span>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="dialog-body" style="width: 600px; min-width: 10px;">
+
+  <mat-dialog-content >
+
+  <div class="row col-12">
+
+    
+   
+  </div>
+
+
+
+  <div class="row ">
+    <div class="col-sm-6 mt-1">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="h6">Servicio Prestado</h3>
+          <hr>
+          <strong>Servicio</strong>
+          <p>
+            {{params.serviceProvided.spName}}         
+           </p>
+
+          <strong>Mensualidad/Monto</strong>
+          <p>
+            {{params.serviceProvided.spCost| currency: "S/ " }}
+          </p>
+
+          <strong>Comentario</strong>
+          <p          
+          [style.color]=params.serviceProvided.spCommentColourText
+          >
+            {{params.serviceProvided.spComment}}
+          </p>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="col-sm-6 mt-1">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="h6">Pagos</h3>
+          <hr>
+
+
+          <ng-container *ngIf="(params.serviceProvided.spCost || 0) - (params.serviceProvided.spPaid || 0) > 0">
+            <small>Deuda</small>
+            <div class="progress">
+              <div class="progress-bar bg-danger" role="progressbar" [attr.style]="
+              'width:' + calcWidth(params.serviceProvided.spDebt, params.serviceProvided.spCost) + '%'
+            " aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                {{ params.serviceProvided.spDebt | currency: "S/." }}
+              </div>
+
+            </div>
+
+            <br>
+            <small>Pagado</small>
+            <div class=" progress">
+              
+              <div class="progress-bar bg-primary" role="progressbar" [attr.style]="
+              'width:' + calcWidth(params.serviceProvided.spPaid, params.serviceProvided.spCost) + '%'
+            " aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+                {{ params.serviceProvided.spPaid | currency: "S/." }}
+      
+              </div>
+            </div>
+          </ng-container>
+
+
+
+          <ng-container
+          *ngIf="params.serviceProvided.spCost && params.serviceProvided.spCost == params.serviceProvided.spPaid">
+    
+          <small>Completado</small>
+            <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar" [attr.style]="
+            'width:' + calcWidth(params.serviceProvided.spPaid, params.serviceProvided.spCost) + '%'
+          " aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+              {{ params.serviceProvided.spPaid | currency: "S/." }}
+    
+            </div>
+          </div>
+        </ng-container>
+        <br>
+        <strong>Pagos total</strong>
+        <p>
+          {{(_serviceProvided &&_serviceProvided.payment_details)?_serviceProvided.payment_details.length: '--'}}
+        </p>
+
+        
+  
+        </div><!--/panel-body-->
+    </div><!--/panel-->        
+  
+  
+    </div>
+
+
+    
+
+
+
+    <div class="col-sm-6 mt-1">
+      
+      <div class="card">
+        <div class="card-body">
+          <h3 class="h6">Información de creación</h3>
+          <hr>
+          <strong>Fecha de Creación</strong>
+          <p>
+            {{(params.serviceProvided.created_at)?formatDate(params.serviceProvided.created_at):'--/--/---- --:-- --'}}
+          </p>
+
+          <strong>Fecha de Modificación</strong>
+          <p>
+            {{(params.serviceProvided.updated_at)?formatDate(params.serviceProvided.updated_at):'--/--/---- --:-- --'}}
+
+          </p>
+        </div>
+
+
+        
+      </div>
+    </div>
+
+    <div class="col-sm-6 mt-1">
+      
+      <div class="card">
+        <div class="card-body">
+          <h3 class="h6">Creado por</h3>
+          <hr>
+          <strong>Creado por</strong>
+          <p>
+---------
+          </p>
+
+          <strong>Modificado por</strong>
+          <p>
+----------
+          </p>
+        </div>
+
+
+        
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row mt-1">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="h6">Recibos</h3>
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Concepto</th>
+                <th scope="col">T. Atención</th>
+                <th scope="col">Recibo</th>
+                <th scope="col">Monto (S/)</th>
+                <th scope="col">Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let pds of _serviceProvided?.payment_details, let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{pds.pdsDescription}}</td>
+                <td>
+                  <span *ngIf="pds.payment && pds.payment.apptmId">
+                    <a  (click)="openDetailAppointmentInNewWindow(pds.payment.apptmId )" class="text-decoration-underline" target="_blank">
+                    {{ (pds.payment && pds.payment.appointment)?joinCodeTicket(pds.payment.appointment):''}}
+                    </a>
+                   <i class="bi bi-box-arrow-up-right"></i> </span>
+
+                <td>
+                  <span *ngIf="pds.payment && pds.payment.payToken">
+                    
+                    <a  (click)="openDetailPaymentInNewWindow(pds.payment.payToken)" class="text-decoration-underline" target="_blank">{{pds.payment.paySerie}}-{{pds.payment.payNumber}} </a> <i class="bi bi-box-arrow-up-right"></i> 
+                  </span>
+
+                
+                  
+                </td>
+                <td>{{pds.pdsUnitPrice | currency:"S/"}}</td>
+                <td>{{(pds.payment && pds.payment.payDatePrint)?formatDate(pds.payment.payDatePrint):''}}</td>
+              </tr>
+
+
+
+            </tbody>
+          </table>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  </mat-dialog-content>
+</div>

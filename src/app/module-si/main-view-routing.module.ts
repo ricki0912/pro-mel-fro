@@ -42,6 +42,16 @@ const routes: Routes=[
         //component: ClientComponent
         loadChildren: ()=>import('./reports/waiting-line/waiting-line.module').then(m=>m.WaitingLineModule)
       },
+      {
+        path: 'reports/waiting-line/:apptmId',
+        //component: ClientComponent
+        loadChildren: ()=>import('./detail-appointment/detail-appointment.module').then(m=>m.DetailAppointmentModule)
+      },
+      {
+        path: 'reports/today',
+        //component: ClientComponent
+        loadChildren: ()=>import('./reports/today/today.module').then(m=>m.TodayModule)
+      },
       { path: 'clients/:bussId',
         //component: ClientComponent
         loadChildren: ()=>import('./client-view/client-view.module').then(m=>m.ClientViewModule)
@@ -104,6 +114,10 @@ const routes: Routes=[
       {
         path: 'accounting',
         loadChildren:()=>import('./accounting/accounting.module').then(m=>m.AccountingModule)
+      },
+      { path: 'accounting/:payToken',
+        //component: ClientComponent
+        loadChildren: ()=>import('./detail-payment/detail-payment.module').then(m=>m.DetailPaymentModule)
       },
 
       /*{

@@ -9,8 +9,8 @@
   <div fxLayout="row" fxLayoutGap="5px">
     <mat-card id="datos">
       <mat-card-content *ngFor="let a of business">
-        <div class="perfil">
-          <span class="number">{{ a.bussFileNumber }}</span>
+        <div class="perfil"  [class]="'buss-state-'+a.bussState">
+          <span class="number" >{{ a.bussFileNumber }}</span>
         </div>
         <div class="datosBusiness">
           <div>
@@ -61,6 +61,11 @@
                 ></b
               ></span
             >
+          </div>
+          <div>
+            <span  > 
+              {{teller.tellCode}} - {{ teller.tellName}}
+            </span>
           </div>
         </div>
         <mat-divider></mat-divider>

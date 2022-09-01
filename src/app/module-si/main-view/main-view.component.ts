@@ -112,8 +112,8 @@ export class MainViewComponent implements OnInit {
     },
     {isDisplay:false, name:'Reportes',routerLink:'./', icon:'pie_chart', permission:PMS.SI_REPORT_WAITING_LINE,
     subMenu: [
+      {name:'Hoy', routerLink:'./reports/today', permission: PMS.SI_REPORT_WAITING_LINE},
       {name:'Linea de espera', routerLink:'./reports/waiting-line', permission: PMS.SI_REPORT_WAITING_LINE},
-
     ]
   },
     {isDisplay:false, name:'Usuarios',routerLink:'./', icon:'people', permission:PMS.SI_USERS_SEE,

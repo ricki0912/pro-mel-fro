@@ -5,7 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
 import { Bussines, TellerJoinUsers } from 'src/app/interfaces/bussines';
+import { Teller } from 'src/app/interfaces/teller';
 import { BussinesService } from 'src/app/services/bussines.service';
+import { TellerService } from 'src/app/services/teller.service';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { AssignTellerComponent } from '../client/pages/assign-teller/assign-teller.component';
 import { MainViewService } from '../main-view/main-view.service';
@@ -23,6 +25,8 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
   contentBusiness = true;
   contentServices = false;
 
+  teller:Teller={tellName:'Sin ventanilla'}
+
 
   constructor(
     private location : Location,
@@ -31,7 +35,8 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
     private showMessage: ShowMessageService,
     private clientViewService: ClientViewService,
     public dialogEditClient: MatDialog,
-    private mainViewService:MainViewService
+    private mainViewService:MainViewService, 
+    private tellerService:TellerService
   ) { }
 
   ngOnInit(): void {
@@ -39,10 +44,15 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
       this.readCRUD(params['bussId']);
     })
     this.listenRoute(o=>{});
+    this.getTeller()
+
   }
+  
   ngOnDestroy(): void {
 
   }
+
+  
 
   private listenRoute(c:(o:any)=>void){
     this.mainViewService.getParams().subscribe(p=>{
@@ -67,6 +77,8 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
         this.business=data
         this.isLoading=false
         this.onSelectedBussines(this.business[0])
+        if(this.business[0].tellId)
+        this.findTeller(this.business[0].tellId)
       },
       error: e=>{
         this.showMessage.error({message: e.error.message})
@@ -74,6 +86,10 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
     })
     return true;
   }
+
+  findTeller=(tellId:number)=>{this.tellerService.find(tellId).subscribe({next:d=>this.clientViewService.onTeller(d)})}
+  getTeller=()=>{this.clientViewService.getTeller().subscribe({next:d=> {if(d){this.teller=d}} })}
+
 
   updateCRUD(object: any, id: string | number | null): boolean {
     throw new Error('Method not implemented.');
