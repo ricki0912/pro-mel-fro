@@ -1,4 +1,5 @@
 import { ParentInterface } from "../global/parents/parent.interface";
+import { Appointment } from "./appointment";
 import { DPaymentPaymentMethod } from "./d-payment-payment-method";
 
 import {PaymentDetail} from './payment-detail'
@@ -51,6 +52,8 @@ export interface Payment extends ParentInterface{
 
   paymentDetails?:PaymentDetail[],
   dPaymentPaymentMethods?:DPaymentPaymentMethod[]
+  appointment?:Appointment
+  
 }
 
 export enum PAYMENT_STATE{

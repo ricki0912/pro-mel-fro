@@ -23,6 +23,7 @@ import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-co
 import { environment } from 'src/environments/environment';
 import { CommentR } from '../inline-edit/inline-edit.component';
 import { FloatingWaitingLineService } from 'src/app/module-si/main-view/pages/floating-waiting-line/floating-waiting-line.service';
+import { DetailServicesProvidedComponent } from 'src/app/module-si/client-view/pages/detail-services-provided/detail-services-provided.component';
 
 @Component({
   selector: 'app-list-buss-periods',
@@ -35,32 +36,26 @@ export class ListBussPeriodsComponent implements OnInit {
   @Input() serBuss?:Bussines
   public services: Services[] = [];
   public periodPayments:PeriodPayment[]=[];
-  private currentUser: User;
 
 
   /*Variables adicionales */
   private business?:Bussines
-  private appointmentTemp:AppointmentTemp | null=null
+  public appointmentTemp:AppointmentTemp | null=null
   constructor(
     private spService: ServicesProvidedService,
     private showMessage: ShowMessageService,
     private loadingService:LoadingService,
-    private servicesService: ServicesService,
     private periodPaymentService: PeriodPaymentService,
-    private businessServices:BussinesService,
-    private appointmentTempService:AppointmentTempService,
 
     private tokenStorage: TokenStorageService,
     private dialog:MatDialog,
     private clientViewService:ClientViewService,
-    private serviceService: ServicesService,
     private fwlService:FloatingWaitingLineService
 
 
     //private services:ServicesProvided
   ) {
 
-    this.currentUser=this.tokenStorage.getUser() as User
   }
 
   private listenSelectedBusiness(o:()=>void){
@@ -69,8 +64,9 @@ export class ListBussPeriodsComponent implements OnInit {
         this.business=b;
     })
   }
+  
   ngOnInit(): void {
-    this.readServices();
+    this.clientViewService.getServices().subscribe((d:Services[] | null)=>{if(d)this.services=d});
     this.readPeriodPayments()
     this.readServiceProvidedsByDBP(this.bp.dbp?.dbpId || -1)
     this.listenSelectedBusiness(()=>{})
@@ -131,10 +127,11 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
       this.showMessage.error({message:'Seleccione más de un servicio.'})
       return;
     }
+    /*
     if(!this.appointmentTemp){
       this.showMessage.error({message:'Tiene que sacar su ticket de atención para poder realizar un pago.'})
       return;
-    }
+    }*/
 
 
     this.openDialogEmitProofOfPayment()
@@ -169,6 +166,7 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
       }
     });
   }
+  
   addData(){
     //const randomElementIndex = Math.floor(Math.random() * this.servicesProvided.length);
     //this.servicesProvided = [...this.servicesProvided, this.servicesProvided[randomElementIndex]];
@@ -227,6 +225,21 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
 
 
   /* */
+  seeDetailServicesProvided(sp:ServicesProvided){
+    this.dialog
+    .open(DetailServicesProvidedComponent, {
+      panelClass: 'dialog',
+      data: {
+        serviceProvided: sp,
+        services:this.services,
+        periodPayments: this.periodPayments
+      }
+    })
+    .afterClosed()
+    .subscribe((confirmado: Boolean) => {
+      
+    });
+  }
 
   wantAdd(message:string, d:()=>void){
     this.dialog
@@ -296,7 +309,6 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
 
     this.spService.addServicesProvided(sp).subscribe({
       next: data => {
-        console.log("response",data)
         this.showMessage.success({ message: data.msg });
         const servPro = data.data as ServicesProvided[];
 
@@ -343,13 +355,7 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
   }
 
 
-  readServices(){
-    this.servicesService.all()?.subscribe({
-      next:d=>{
-        this.services = d;
-      }
-    })
-  }
+  
   readPeriodPayments(){
     this.periodPaymentService.all().subscribe({
       next:d=>{
@@ -425,6 +431,7 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
         }
       });
   }
+
   deleteCRUD(id: number): boolean {
     this.spService.del(id).subscribe({
       next: data=>{
@@ -437,6 +444,8 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
     })
     return true;
   }
+
+
 
   printReportPeriod(){
     window.open(environment.API_URL+"/v1/reports/"+this.bp.prdsId+"/exercise-monitoring/"+this.serBuss?.bussId);

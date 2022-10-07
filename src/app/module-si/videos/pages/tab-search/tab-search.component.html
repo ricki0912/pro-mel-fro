@@ -17,9 +17,9 @@
     </mat-card>
 
     <div class="row  row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
-      <div class="col" *ngFor="let item of ybResponse.items; let i=index;">
+      <div class="col mb-2" *ngFor="let item of ybResponse.items; let i=index;">
         <div class="card h-100">
-          <div class="ratio ratio-4x3">
+          <div class="ratio ratio-16x9">
             <img [src]="item.snippet.thumbnails.medium.url" alt="" class="embed-responsive-item enable-to-play" 
             [matMenuTriggerFor]="menuImg" 
             >

@@ -65,8 +65,14 @@ table {
 
 .bg-danger {
   padding: 5px;
+  color: #ffffff;
+  background:#dc3545
+}
+
+.padding-state{
+  padding: 5px;
   color: white;
-  background: #f44336;
+  
 }
 
 //cambios
@@ -85,7 +91,7 @@ table {
 }
 
 mat-form-field.mat-form-field {
-  font-size: 11px;
+  //font-size: 11px;
 }
 
 /* radio button*/
@@ -105,3 +111,15 @@ mat-form-field.mat-form-field {
 }
 /* radio button*/
 
+/*HOLA*/
+.buss-state-1 {
+  background: #28a745;
+}
+
+.buss-state-2 {
+  background: #dc3545;
+}
+
+.buss-state-3 {
+  background: #ffc107;
+}

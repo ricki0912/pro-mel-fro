@@ -28,7 +28,7 @@
 
 
                 <mat-card-title-group>
-                    <mat-card-subtitle> <b>Tickets en espera</b> </mat-card-subtitle>
+                    <mat-card-subtitle> <b>Tickets Atendidos</b> </mat-card-subtitle>
                     <mat-card-actions>
                        
                         <button mat-button (click)="openDialogMigration()">
@@ -115,7 +115,10 @@
                                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                                 <mat-datepicker #picker2></mat-datepicker>
                             </mat-form-field>
+
     
+
+
                  
     <!--
                             <mat-form-field appearance="legacy">
@@ -195,13 +198,17 @@
 
                             <ng-container matColumnDef="ticket">
                                 <th mat-header-cell *matHeaderCellDef> Numero Ticket </th>
-                                <td mat-cell *matCellDef="let element"> {{joinCodeTicket(element)}} </td>
+                                <td mat-cell *matCellDef="let element"> 
+                                    <a [routerLink]="['./', element?.apptmId]">
+                                        {{joinCodeTicket(element)}}
+                                    </a>    
+                                </td>
                             </ng-container>
 
                             <!-- Weight Column -->
                             <ng-container matColumnDef="apptmDateTimePrint">
                                 <th mat-header-cell *matHeaderCellDef> Fecha y Hora </th>
-                                <td mat-cell *matCellDef="let element"> {{ element.apptmDateTimePrint}} </td>
+                                <td mat-cell *matCellDef="let element"> {{ formatDateAndHour(element.apptmDateTimePrint)}} </td>
                             </ng-container>
 
                             <ng-container matColumnDef="teller">
@@ -217,12 +224,23 @@
 
 
                             <!-- Symbol Column -->
+                            <ng-container matColumnDef="doc-name">
+                                <th mat-header-cell *matHeaderCellDef> Doc/Nombre </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element.apptmNumberDocClient}} /
+                                   {{subString(element.apptmNameClient)}}
+                                </td>
+                            </ng-container>
+
                             <ng-container matColumnDef="time">
                                 <th mat-header-cell *matHeaderCellDef> Tiempo Espera </th>
                                 <td mat-cell *matCellDef="let element">
-                                   {{element.apptmNameClient}}
+                                   {{convertSecondsToHHMMSS(element.apptmEpochInWaiting, element.apptmEpochInAtention)}}
+                                   <i class="bi bi-check-circle-fill text-success"></i>
+                                   
                                 </td>
                             </ng-container>
+
 
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"
@@ -230,7 +248,12 @@
                             </tr>
                         </table>
 
-
+                        <mat-paginator
+                        [pageSizeOptions]="[5, 10, 20]"
+                        showFirstLastButtons
+                        aria-label="Select page of periodic elements"
+                      >
+                      </mat-paginator>
 
                     </div>
                 </mat-card-content>

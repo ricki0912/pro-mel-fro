@@ -15,6 +15,11 @@ export class AppointmentService extends ParentService {
   constructor(private https:HttpClient) { 
     super()
   }
+
+  public find(apptmId:number):Observable<InterfaceParamsResponse<Appointment>>{
+    return this.https.get<InterfaceParamsResponse<Appointment>>(`${this.API_APPOINTMENT}/${apptmId}`);
+  }
+
   public getAllBy(hqId:number,tellId:number, catId:number, apptmState:number, dateStart:string, dateEnd:string ): Observable<InterfaceParamsResponse<Appointment>>  {
     return this.https.get<InterfaceParamsResponse<Appointment>>(`${this.API_APPOINTMENT}/get-all-by`,{params:{hqId,tellId,catId,apptmState,dateStart,dateEnd}});
   }

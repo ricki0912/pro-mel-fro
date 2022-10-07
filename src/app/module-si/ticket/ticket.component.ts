@@ -14,6 +14,7 @@ import { AppointmentTemp, APPOINTMENT_STATE, ApptmState, TAppointmentTemp } from
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { MainViewService } from '../main-view/main-view.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { GlobalHelpers } from 'src/app/global/helpers/global.helpers';
 
 @Component({
   selector: 'app-ticket',
@@ -26,10 +27,12 @@ export class TicketComponent implements OnInit {
   /*Combo box */
   categories: Category[] = [];
   tellers: TTellerJoinPerson[] = []
+  ATS=APPOINTMENT_STATE
 
   apptmStates:ApptmState[]=[
-    {apptmStateId:APPOINTMENT_STATE.PENDING, apptmStateName:"Pendiente"},
-    {apptmStateId:APPOINTMENT_STATE.CURRENT_ATTENTION, apptmStateName:"En atención"},
+    {apptmStateId:APPOINTMENT_STATE.PENDING, apptmStateName:"En Espera"},
+    {apptmStateId:APPOINTMENT_STATE.CURRENT_ATTENTION, apptmStateName:"En ventanilla"},
+    {apptmStateId:APPOINTMENT_STATE.ATTENDED, apptmStateName:"Atendido"},
   ]
 
   selectedCategory: number = 0
@@ -37,7 +40,7 @@ export class TicketComponent implements OnInit {
   selectedApptmState:number=APPOINTMENT_STATE.PENDING
 
 
-  displayedColumns: string[] = ['select', 'position', 'ticket', 'teller', 'category', 'time'];
+  displayedColumns: string[] = ['select', 'position','linkBuss', 'ticket','code_category' ,'teller', 'category', 'date_time', 'time'];
   dataSource = new MatTableDataSource<TAppointmentTemp>();
   selection = new SelectionModel<TAppointmentTemp>(true, []);
 
@@ -183,6 +186,7 @@ export class TicketComponent implements OnInit {
     })
   }
 
-
-
+  substrNameClient=(s:string)=> GlobalHelpers.subString(s,30)
+  formatDate=(date:Date)=>GlobalHelpers.formatDateAndHour(date)
+  convertSecondsToHHMMSS=(...s:string[])=>{ return GlobalHelpers.convertSecondsToHHMMSS(s.reduce((a,b)=>a+parseInt(b), 0))}
 }

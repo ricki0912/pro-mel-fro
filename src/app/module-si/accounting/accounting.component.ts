@@ -178,15 +178,8 @@ public openPDFNewWindow(p:Payment){
   if(p.payToken)
     window.open(environment.API_URL+"/v1/payments/"+p.payToken+"/proof-of-payment");
 } 
- dateFormat(d: string) {
-    let t = ''
-    if (d) {
 
-
-      t = this.datepipe.transform(new Date(d), 'dd/MM/yyyy hh:mm:ss a') || '';
-    }
-    return t;
-  }
+ dateFormat=(d: Date) =>GlobalHelpers.formatDateAndHour(d)
 
 
 
@@ -381,7 +374,7 @@ exportExcel(){
       { header: 'TELÉFONO', key: 'col7', width: 20},
       { header: 'CORREO', key: 'col8', width: 20},
       { header: 'TOTAL', key: 'col9', width: 20},
-      { header: 'CANCELADO', key: 'col10', width: 20},
+      { header: 'ANULADO', key: 'col10', width: 20},
       { header: 'BOLETA DE VENTA', key: 'col11', width: 20},
       { header: 'FACTURA', key: 'col12', width: 20},
       { header: 'R/H', key: 'col13', width: 20},

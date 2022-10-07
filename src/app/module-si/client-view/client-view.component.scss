@@ -37,7 +37,7 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: #dc3545;
+  //background-color: #dc3545;
   margin: auto;
   display: flex;
   box-shadow: 1px 2px 3px 3px rgba(0, 0, 0, 0.3);
@@ -109,5 +109,15 @@ mat-form-field.mat-form-field {
 
 
 
+.buss-state-1 {
+  background: #28a745;
+}
 
+.buss-state-2 {
+  background: #dc3545;
+}
+
+.buss-state-3 {
+  background: #ffc107;
+}
 

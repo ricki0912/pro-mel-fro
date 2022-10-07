@@ -43,8 +43,17 @@
     </mat-card-header>
 
     <mat-card-content *ngIf="true" >
-        <iframe class="lazy" allowfullscreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" [src]="getVideoSource(pv.videoId)" data-title="video_title" title="video_title" frameborder="0"></iframe>
+        <youtube-player #player style="background-color: black; " class="h_iframe" 
+        [videoId]="pv.videoId" 
+        suggestedQuality="highres" 
+    
+        [width]="272"
+        [height]="155"
+        >
+      </youtube-player>
 
+      <!-- <iframe class="lazy" allowfullscreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" [src]="getVideoSource(pv.videoId)" data-title="video_title" title="video_title" frameborder="0"></iframe>
+      -->
                     <!--<iframe [src]="getVideoSource('CQLsdm1ZYAw')" frameborder="0" class="embed-responsive-item"></iframe>-->
     </mat-card-content>
 </mat-card>

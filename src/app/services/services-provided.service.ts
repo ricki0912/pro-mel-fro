@@ -44,4 +44,8 @@ export class ServicesProvidedService extends ParentService implements CrudApiInt
   addServicesProvided(object: ServicesProvided):Observable<InterfaceParamsResponse<ServicesProvided>>{
     return this.https.post<InterfaceParamsResponse<ServicesProvided>>(`${this.API_SERVICES_PROVIDED}/addServicesProvided`, object);
   }
+
+  getPayments(spId:number):Observable<InterfaceParamsResponse<ServicesProvided>>{
+    return this.https.get<InterfaceParamsResponse<ServicesProvided>>(`${this.API_SERVICES_PROVIDED}/${spId}/payments`)
+  }
 }

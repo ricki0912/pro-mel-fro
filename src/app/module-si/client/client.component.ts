@@ -4,20 +4,21 @@ import {MatTableDataSource} from '@angular/material/table';
 
 import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
 import { BussinesService } from 'src/app/services/bussines.service';
-import { Bussines, TellerJoinUsers } from 'src/app/interfaces/bussines';
+import { Bussines, BUSSINES_STATE, TellerJoinUsers } from 'src/app/interfaces/bussines';
 
 import { MatDialog } from '@angular/material/dialog';
 import { EditClientComponent } from './pages/edit-client/edit-client.component';
 import { ActionDialogInterface, TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { MatPaginator } from '@angular/material/paginator';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MainViewService } from '../main-view/main-view.service';
 import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
 import { Teller } from 'src/app/interfaces/teller';
 import { FindTellerComponent } from '../teller/pages/find-teller/find-teller.component';
 import { AssignTellerComponent } from './pages/assign-teller/assign-teller.component';
 import { ChangeStateComponent } from './pages/change-state/change-state.component';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -27,12 +28,20 @@ import { ChangeStateComponent } from './pages/change-state/change-state.componen
 })
 
 export class ClientComponent implements OnInit, CrudInterface, ActionDialogInterface{
+  /* Params para buscar*/
+  ti: number = 0
+  bs:number = 0;
+  q:string=''
+  
+  /*Params sede */
   private hqId:number=0
-  selectedTeller: number = 0
+  
 
   isLoading = true;
   tellers: TellerJoinUsers[] = [];
   teller?:Teller;
+
+  BS=BUSSINES_STATE
 
   private clientTeller = new Map<number, string>();
 
@@ -42,17 +51,18 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     public dialogEditClient: MatDialog,
     private showMessage: ShowMessageService,
     private router: Router,
-    private mainViewService:MainViewService
+    private mainViewService:MainViewService, 
+    private route: ActivatedRoute
   ) {
-    this.selectedTeller= this. tokenService.getTeller()?.tellId || -1;
+    this.ti= this.tokenService.getTeller()?.tellId || -1;
   }
 
   ngOnInit(): void {
     //this.readCRUD();
-    this.selectSearchBussTell();
+    //this.selectSearchBussTell();
     this.listenRoute(o=>{});
     this.readTeller(this.hqId);
-
+    this.onListenParams()
   }
 
   private listenRoute(c:(o:any)=>void){
@@ -60,7 +70,28 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
       this.hqId=parseInt(p['hqId'] || 0)
       c(this.hqId)
     })
+
   }
+
+  private onListenParams=() => this.route.queryParamMap.subscribe((params:any) => {
+    let st=0,bs=0,q=''
+    if(params.params.ti){
+      this.ti=parseInt(params.params.ti)
+    }
+    
+    if(params.params.bs){
+      this.bs=parseInt(params.params.bs)
+    }
+    
+    if(params.params.q){
+      this.q=params.params.q as string
+    }
+
+    this.selectSearchBussTell()
+  }); // output: 
+
+  public setListenParams=() => this.router.navigate([], { queryParams: {ti:this.ti, bs:this.bs,q:this.q}, queryParamsHandling: 'merge' });  
+
 
   displayedColumns: string[] = ['select','nombres', 'ruc', 'numArchivador', 'representate', 'dni', 'teller'];
   dataSource = new MatTableDataSource<Bussines>();
@@ -194,18 +225,17 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   }
 
   selectSearchBussTell(){
-    this.readBusinessJoinTeller(this.selectedTeller);
+    this.readBusinessJoinTeller(this.ti,this.bs, this.q);
   }
 
-  readBusinessJoinTeller(tellId:number): boolean {
+  readBusinessJoinTeller(tellId:number, bussState:number, q:string): boolean {
     this.isLoading = true;
-    this.bussinesService.getBusinessJoinTeller(tellId).subscribe({
+    this.bussinesService.getBusinessJoinTeller(tellId, bussState, q).subscribe({
       next: (r) => {
         //console.log("Data dentro de ticket",r)
         this.isLoading = false;
         this.dataSource.data = r.data as Bussines[];
         this.selection.clear();
-
       },
       error: () => {
       }

@@ -1,7 +1,7 @@
 
 
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { Category } from 'src/app/interfaces/category';
@@ -16,6 +16,8 @@ import { ParamsTicketMigration, TicketsMigrationComponent } from './pages/ticket
 import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { AppointmentTempService } from 'src/app/services/appointment-temp.service';
 import { DatePipe } from '@angular/common';
+import { GlobalHelpers } from 'src/app/global/helpers/global.helpers';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-waiting-line',
@@ -41,12 +43,14 @@ export class WaitingLineComponent implements OnInit {
   selectedApptmState:number=0
 
 
-  displayedColumns: string[] = ['select', 'position', 'ticket', 'apptmDateTimePrint','teller', 'category', 'time'];
+  displayedColumns: string[] = ['select', 'position', 'ticket', 'apptmDateTimePrint','teller', 'category','doc-name' ,'time'];
   dataSource = new MatTableDataSource<Appointment>();
   selection = new SelectionModel<Appointment>(true, []);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   
   /*Parametros para buscar*/
-  dateStart:Date=new Date(new Date().getFullYear(), 0,1)
+  dateStart:Date=new Date(new Date().getFullYear(), new Date().getMonth(),1)
   dateEnd:Date=new Date()
 
   constructor(
@@ -61,6 +65,11 @@ export class WaitingLineComponent implements OnInit {
 
   ) { }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+
+
+  }
   ngOnInit(): void {
     //this.listenRoute(o=>this.readCategory(o))
     //this.listenRoute(o=>this.readTeller(o))
@@ -160,6 +169,8 @@ export class WaitingLineComponent implements OnInit {
     return true
   }
 
+  formatDateAndHour=(date:Date)=>GlobalHelpers.formatDateAndHour(date)
+  
   private migrateTickets(hqId:number, migrateToday:boolean){
     this.appointmentTempService.migrateTickets(hqId,migrateToday).subscribe({
       next:d=>{
@@ -171,4 +182,6 @@ export class WaitingLineComponent implements OnInit {
     })
   }
 
+  public subString=(s:string)=>GlobalHelpers.subString(s,40)
+  convertSecondsToHHMMSS=(...s:string[])=>{ return GlobalHelpers.convertSecondsToHHMMSS(s.reduce((a,b)=>a+parseInt(b), 0))}
 }

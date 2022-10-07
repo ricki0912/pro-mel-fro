@@ -18,6 +18,10 @@ export class PaymentService extends ParentService {
     super()
   }
 
+  public proofOfPaymentJson(payToken:string):Observable<InterfaceParamsResponse<any>>{
+    return this.https.get<InterfaceParamsResponse<any>>(`${this.API_PAYMENT}/${payToken}/proof-of-payment-json`)
+  }
+
   public all(bussId:number=0, hqId=0, dateStart:string='', dateEnd:string='', wordLike:string=''): Observable<InterfaceParamsResponse<Payment>> {
     return this.https.get<InterfaceParamsResponse<Payment>>(`${this.API_PAYMENT}` ,{params:{bussId,hqId, dateStart,dateEnd,wordLike}});
   }

@@ -1,4 +1,5 @@
 import { ParentInterface } from "../global/parents/parent.interface";
+import { Payment } from "./payment";
 
 
 export interface PaymentDetail extends ParentInterface{
@@ -12,6 +13,7 @@ export interface PaymentDetail extends ParentInterface{
   
   pdsUnitPrice?:number,
   pdsAmount?:number,
+  payment?:Payment /*Es pago en singular*/
 
 }
 

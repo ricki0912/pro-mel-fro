@@ -11,20 +11,9 @@
     <mat-card-title-group>
       <mat-card-title>Lista de todos los clientes</mat-card-title>
       <mat-card-actions align="end">
-        <mat-form-field appearance="legacy">
-          <mat-label>Ventanilla</mat-label>
-          <mat-select
-            [(value)]="selectedTeller"
-            (selectionChange)="selectSearchBussTell()"
-          >
-            <mat-option value="0" selected>Todos</mat-option>
-            <mat-option *ngFor="let teller of tellers" [value]="teller.tellId">
-              {{ teller.tellCode }} - {{ teller.tellName }} ({{
-                teller.cantBusiness
-              }})
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+
+
+
         <div
           style="
             z-index: 5;
@@ -120,6 +109,45 @@
     <mat-divider></mat-divider>
     <mat-card-content style="margin-top: 10px">
       <div class="example-table-container">
+
+        <form (ngSubmit)="setListenParams()">
+
+          <mat-form-field appearance="legacy">
+            <mat-label>Ventanilla</mat-label>
+            <mat-select
+              [(value)]="ti"
+              (selectionChange)="setListenParams()"
+            >
+              <mat-option value="0" selected>Todos</mat-option>
+              <mat-option *ngFor="let teller of tellers" [value]="teller.tellId">
+                {{ teller.tellCode }} - {{ teller.tellName }} ({{
+                  teller.cantBusiness
+                }})
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <mat-form-field appearance="legacy">
+            <mat-label>Estado</mat-label>
+            <mat-select [(value)]="bs" 
+                        (selectionChange)="setListenParams()"
+                        [class]="'buss-state-'+bs">
+              <mat-option [value]="0">Todos</mat-option>
+              <mat-option [value]="BS.ENABLE">Activo</mat-option>
+              <mat-option [value]="BS.SUSPENDED">Suspendido</mat-option>
+              <mat-option [value]="BS.RETIRED">Retirado</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="legacy">
+              <mat-label>Buscar</mat-label>
+              <input [(ngModel)]="q" name="q"  matInput placeholder="Ingresa una palabra clave">
+            </mat-form-field>
+            <button mat-button type="submit">
+              <mat-icon>search</mat-icon>Buscar
+            </button>
+          
+        </form>
         <table mat-table [dataSource]="dataSource">
           <!-- Checkbox Column -->
           <ng-container matColumnDef="select">
@@ -146,7 +174,7 @@
           <!-- Position Column -->
           <ng-container matColumnDef="nombres">
             <th mat-header-cell *matHeaderCellDef>Nombres y/o Razón Social</th>
-            <td mat-cell *matCellDef="let element">
+            <td mat-cell *matCellDef="let element"  (click)="loadClientsView(element)">
               {{ element.bussName }}
             </td>
           </ng-container>
@@ -162,7 +190,7 @@
           <ng-container matColumnDef="numArchivador">
             <th mat-header-cell *matHeaderCellDef>N° Archivador</th>
             <td mat-cell *matCellDef="let element">
-              <span class="bg-danger rounded-circle">{{
+              <span class="padding-state rounded-circle" [class]="'buss-state-'+element.bussState" >{{
                 element.bussFileNumber
               }}</span>
             </td>
@@ -194,7 +222,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr
             mat-row
-            (click)="loadClientsView(row)"
+           
             [class.demo-row-is-clicked]="clickedRows.has(row)"
             *matRowDef="let row; columns: displayedColumns"
           ></tr>

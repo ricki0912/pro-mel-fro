@@ -307,6 +307,7 @@ export class TicketDispensingComponent implements OnInit {
     }
     return t;
   }
+
   joinCodeTicket(element: AppointmentTemp) {
     return element.catCode + String(element.apptmNro).padStart(2, '0')
   }

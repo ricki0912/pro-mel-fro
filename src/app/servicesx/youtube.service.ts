@@ -12,10 +12,10 @@ export class YoutubeService {
   constructor(private https:HttpClient) { 
   }
   
-  search(q: string): Observable<any>{
+  search(q: string, pageToken?:string): Observable<any>{
     //https://www.googleapis.com/youtube/v3/search
     //part=snippet&maxResults=20&q=YOURKEYWORD&type=video&key=AIzaSyBBSy1_Qi6o5i8ZkdecHEkYpqs2CayrH40
     //https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=hola&type=video&key=AIzaSyBBSy1_Qi6o5i8ZkdecHEkYpqs2CayrH40
-    return this.https.get<any>(`${this.API_YOUTUBE}?part=snippet&maxResults=10&q=${q}&type=video&key=${this.API_YOUTUBE_TOKEN}`)
+    return this.https.get<any>(`${this.API_YOUTUBE}?part=snippet&maxResults=10&q=${q}${(pageToken)?'pageToken='+pageToken:''}&type=video&key=${this.API_YOUTUBE_TOKEN}`)
   }
 }

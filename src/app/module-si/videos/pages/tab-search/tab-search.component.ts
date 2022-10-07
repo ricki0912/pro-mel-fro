@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
 import { SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
@@ -23,18 +23,11 @@ export class TabSearchComponent implements OnInit {
   ybResponse:any={}
   isLoading:boolean=false;  
   
-
-  
-
   constructor(
     private youtubeService:YoutubeService,
     private messageSerice:ShowMessageService,
     private sanitizer:DomSanitizer, 
     private previewVideoService:PreviewVideoService, 
-    private _waitingLineService:WaitingLineService, 
-    private _tokenService:TokenStorageService,
-    private _videosService:VideosService,
-    private _showMessage:ShowMessageService,
     private _videosCService:VideosCService
 
     ) { 
@@ -50,10 +43,11 @@ export class TabSearchComponent implements OnInit {
       this.search(this.ybSearch)
   }
 
-  private search(q:string){
+  private search(q:string, pageToken?:string){
     this.isLoading=true
-    this.youtubeService.search(q).subscribe({
+    this.youtubeService.search(q, pageToken).subscribe({
       next:(d)=>{
+        console.log(d)
         this.ybResponse=d
         this.isLoading=false
       }, 
@@ -89,5 +83,14 @@ beforeAddVideos(ybItem:any){
 }
 
 
+@HostListener("window:scroll", ["$event"])
+onWindowScroll() {
+let pos = (document.documentElement.scrollTop || document.body.scrollTop) + document.documentElement.offsetHeight;
+let max = document.documentElement.scrollHeight;
+if(pos == max )   {
+  this.search(this.ybSearch, this.ybResponse.nextPageToken)
+    
+ }
+}
 
 }
