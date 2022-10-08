@@ -45,6 +45,7 @@ import { ClientViewRouteReuseStrategy } from './client-view.route-reuse-strategy
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { DetailServicesProvidedComponent } from './pages/detail-services-provided/detail-services-provided.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { LastAppointmentComponent } from './pages/last-appointment/last-appointment.component';
 
 
 
@@ -63,7 +64,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     ListBussPeriodsComponent,
     GeneralInformationComponent,
     DetailServicesProvidedComponent,
-    ProofOfPaymentComponent
+    ProofOfPaymentComponent,
+    LastAppointmentComponent
   ],
   imports: [
     CommonModule,

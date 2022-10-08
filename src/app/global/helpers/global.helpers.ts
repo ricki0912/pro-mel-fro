@@ -1,4 +1,5 @@
 import { DatePipe } from "@angular/common";
+import { Router } from "@angular/router";
 import { Category, CategoryTree } from "src/app/interfaces/category";
 import { Payment } from "src/app/interfaces/payment";
 import { environment } from "src/environments/environment";
@@ -58,8 +59,14 @@ export class GlobalHelpers{
   
     }
 
-    openInNewWindow=(url:string)=>{
+  
+    public static openInNewWindow(urls:string, router:Router){
+
+      const url = router.serializeUrl(
+        router.createUrlTree([urls])
+    );
       
+      window.open(url, '_blank');
     }
    
 

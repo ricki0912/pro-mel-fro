@@ -47,6 +47,13 @@ const routes: Routes=[
         //component: ClientComponent
         loadChildren: ()=>import('./detail-appointment/detail-appointment.module').then(m=>m.DetailAppointmentModule)
       },
+
+      {
+        path: 'reports/waiting-line-graph',
+        //component: ClientComponent
+        loadChildren: ()=>import('./reports/waiting-line-graph/waiting-line-graph.module').then(m=>m.WaitingLineGraphModule)
+      },
+
       {
         path: 'reports/today',
         //component: ClientComponent
@@ -119,6 +126,16 @@ const routes: Routes=[
         //component: ClientComponent
         loadChildren: ()=>import('./detail-payment/detail-payment.module').then(m=>m.DetailPaymentModule)
       },
+      { path: 'debts-and-paids',
+        //component: ClientComponent
+        loadChildren: ()=>import('./debts-and-paids/debts-and-paids.module').then(m=>m.DebtsAndPaidsModule)
+      },
+      { path: 'last-payment-by-client',
+      //component: ClientComponent
+      loadChildren: ()=>import('./last-payment-by-client/last-payment-by-client.module').then(m=>m.LastPaymentByClientModule)
+    },
+      
+      
 
       /*{
         path: 'prueba',

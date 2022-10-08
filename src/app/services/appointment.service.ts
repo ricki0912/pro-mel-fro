@@ -20,8 +20,8 @@ export class AppointmentService extends ParentService {
     return this.https.get<InterfaceParamsResponse<Appointment>>(`${this.API_APPOINTMENT}/${apptmId}`);
   }
 
-  public getAllBy(hqId:number,tellId:number, catId:number, apptmState:number, dateStart:string, dateEnd:string ): Observable<InterfaceParamsResponse<Appointment>>  {
-    return this.https.get<InterfaceParamsResponse<Appointment>>(`${this.API_APPOINTMENT}/get-all-by`,{params:{hqId,tellId,catId,apptmState,dateStart,dateEnd}});
+  public getAllBy(hqId:number,tellId:number, catId:number, apptmState:number, dateStart:string, dateEnd:string, bussId:number, limit:number ): Observable<InterfaceParamsResponse<Appointment>>  {
+    return this.https.get<InterfaceParamsResponse<Appointment>>(`${this.API_APPOINTMENT}/get-all-by`,{params:{hqId,tellId,catId,apptmState,dateStart,dateEnd,bussId, limit}});
   }
 
   public getTellers(hqId:number): Observable<InterfaceParamsResponse<Teller>>  {

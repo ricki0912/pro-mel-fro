@@ -1,3 +1,18 @@
+.div-title {
+  width: 100%;
+  text-align: left;
+  margin: 10px;
+
+  color: #000;
+  font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+  font-size: 15px;
+  opacity: .85;
+  white-space: nowrap;
+
+  display: flex;
+  justify-content: left;
+}
+
 .span-title {
   width: 100%;
   text-align: left;

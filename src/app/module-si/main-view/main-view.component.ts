@@ -107,6 +107,9 @@ export class MainViewComponent implements OnInit {
     {isDisplay:false, name:'Contabilidad',routerLink:'./', icon:'payment', permission:PMS.SI_REPORT_WAITING_LINE,
     subMenu: [
       {name:'Contabilidad', routerLink:'./accounting', permission: PMS.SI_SEE},
+      {name:'Deudas y Pagos', routerLink:'./debts-and-paids', permission: PMS.SI_SEE},
+      {name:'Último  Pago (DJM)', routerLink:'./last-payment-by-client', permission: PMS.SI_SEE},
+
 
     ]
     },
@@ -114,7 +117,11 @@ export class MainViewComponent implements OnInit {
     subMenu: [
       {name:'Hoy', routerLink:'./reports/today', permission: PMS.SI_REPORT_WAITING_LINE},
       {name:'Linea de espera', routerLink:'./reports/waiting-line', permission: PMS.SI_REPORT_WAITING_LINE},
+      {name:'Graficos de Linea', routerLink:'./reports/waiting-line-graph', permission: PMS.SI_REPORT_WAITING_LINE},
+
+
     ]
+
   },
     {isDisplay:false, name:'Usuarios',routerLink:'./', icon:'people', permission:PMS.SI_USERS_SEE,
       subMenu:[

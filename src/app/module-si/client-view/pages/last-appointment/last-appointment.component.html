@@ -1,0 +1,25 @@
+
+<div class="mt-2">
+	<div class="row">
+		<div class="col-md-10 offset-md-1 ">
+			<h5>Últimos tickets de atención</h5>
+			<ul class="timeline">
+				<li *ngFor="let a of appointments">
+                    <div>
+						<a target="_blank" (click)="openDetailAppointmentInNewWindow(a.apptmId || 0)" class="text-decoration-underline">
+                        {{a.catCode}}{{ a.apptmNro | number:'2.0' }}
+
+                    </a> | <b>{{(a.apptmDateTimePrint)?formatDate(a.apptmDateTimePrint):'-- / -- / ---- '}}</b>
+				</div>
+					
+					<!--<a href="#" class="float-right">21 March, 2014</a>-->
+					<p>
+                        {{a.apptmComment}}
+                    </p>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+</div>
+
