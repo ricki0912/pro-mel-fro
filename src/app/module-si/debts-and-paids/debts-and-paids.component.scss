@@ -1,0 +1,45 @@
+.div-title {
+    width: 100%;
+    text-align: left;
+    margin: 10px;
+
+    color: #000;
+    font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    opacity: .85;
+    white-space: nowrap;
+
+    display: flex;
+    justify-content: left;
+  }
+/*Tabla*/
+table {
+    width: 100%;
+  }
+  .example-card {
+    margin: 10px;
+  }
+
+  .mat-row:hover .mat-cell {
+    visibility: visible;
+    background-color: rgba($color: #90caf9, $alpha: 0.3);
+  }
+
+
+  .buss-state-1 {
+    background: #28a745;
+  }
+  
+  .buss-state-2 {
+    background: #dc3545;
+  }
+  
+  .buss-state-3 {
+    background: #ffc107;
+  }
+  
+  .padding-state{
+    padding: 5px;
+    color: white;
+    
+  }

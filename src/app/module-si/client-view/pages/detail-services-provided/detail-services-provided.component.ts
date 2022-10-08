@@ -50,7 +50,7 @@ export class DetailServicesProvidedComponent implements OnInit {
 
     const url = this.router.serializeUrl(
       this.router.createUrlTree([urls])
-    );
+  );
     
     window.open(url, '_blank');
   }

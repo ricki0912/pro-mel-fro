@@ -1,9 +1,19 @@
 <div class="windows">
-  <mat-grid-list cols="1" rowHeight="30px">
+
+
+  <mat-grid-list cols="1" rowHeight="30px" style="margin-top:10px ;">
     <mat-grid-tile colspan="1" rowspan="1">
-      <span class="span-title">Clientes</span>
+        <div class="div-title">
+            <span>Clientes</span>
+            <span>
+                <mat-icon>
+                    keyboard_arrow_right</mat-icon>
+            </span>
+            <span>{{business[0].bussName}} </span>
+        </div>
     </mat-grid-tile>
-  </mat-grid-list>
+</mat-grid-list>
+
   <mat-divider></mat-divider>
   <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   <div fxLayout="row" fxLayoutGap="5px">
@@ -110,6 +120,10 @@
         >
           Asignar Ventanilla
         </button>
+        
+
+        <mat-divider></mat-divider>
+        <app-last-appointment></app-last-appointment>
       </mat-card-content>
     </mat-card>
     <mat-card id="contenido">

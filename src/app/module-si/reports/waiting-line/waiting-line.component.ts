@@ -119,7 +119,7 @@ export class WaitingLineComponent implements OnInit {
   selectSearch(){
     let  dateStart = this.datepipe.transform(this.dateStart, 'yyyy/MM/dd') || '';
     let dateEnd = this.datepipe.transform(this.dateEnd, 'yyyy/MM/dd') || '';
-    this.readAppointmentCRUD(this.hqId,this.selectedTeller, this.selectedCategory, this.selectedApptmState,dateStart,dateEnd)
+    this.readAppointmentCRUD(this.hqId,this.selectedTeller, this.selectedCategory, this.selectedApptmState,dateStart,dateEnd,0,0)
   }
 
  /* filterTeller(tellId:number):TTellerJoinPerson{
@@ -151,9 +151,9 @@ export class WaitingLineComponent implements OnInit {
   }
 
   /*AÑos */
-  private readAppointmentCRUD(hqId:number,tellId:number, catId:number, apptmState:number, dateStart:string, dateEnd:string ): boolean {
+  private readAppointmentCRUD(hqId:number,tellId:number, catId:number, apptmState:number, dateStart:string, dateEnd:string, bussId:number, limit:number ): boolean {
     this.isLoading = true;
-    this.appointmentService.getAllBy(hqId,tellId, catId, apptmState,dateStart,dateEnd).subscribe({
+    this.appointmentService.getAllBy(hqId,tellId, catId, apptmState,dateStart,dateEnd, bussId, limit).subscribe({
       next: (r) => {
         console.log("Data dentro de ticket",r)
         this.isLoading = false;
