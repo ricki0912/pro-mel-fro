@@ -28,6 +28,15 @@
           </div>
           <div>
             <span class="bussRuc">{{ a.bussRUC }}</span>
+            <button
+            mat-icon-button
+
+            matSuffix
+            color="primary"
+            (click)="beforeCopy( a.bussRUC +':RUC',a.bussRUC )"
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>
           </div>
         </div>
         <div class="datosRepresentate">
@@ -39,6 +48,15 @@
           </div>
           <div>
             <span class="perNumberDoc">{{ a.person.perNumberDoc }}</span>
+            <button
+            mat-icon-button
+
+            matSuffix
+            color="primary"
+            (click)="beforeCopy( a.person.perNumberDoc +':NRO DOC',a.person.perNumberDoc )"
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>
           </div>
         </div>
         <mat-divider></mat-divider>
@@ -120,7 +138,24 @@
         >
           Asignar Ventanilla
         </button>
+
+        <button
+        mat-raised-button
+        (click)="openDialogSetTeller(a.bussId)"
+        color="success"
+        style="width: 100%; margin-top: 10px"
+        >
+          Cambiar Estado
+        </button>
         
+        <button
+        mat-raised-button
+        (click)="openDialogSetTeller(a.bussId)"
+        color="success"
+        style="width: 100%; margin-top: 10px"
+      >
+        Eliminar
+      </button>
 
         <mat-divider></mat-divider>
         <app-last-appointment></app-last-appointment>

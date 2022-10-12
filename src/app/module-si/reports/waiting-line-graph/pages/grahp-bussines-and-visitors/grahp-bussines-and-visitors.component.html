@@ -1,4 +1,9 @@
+<div #containerRef class="card-body">
+
 <ngx-charts-line-chart
+[view]="[containerRef.offsetWidth/1.02, 400]"
+  
+
   [view]="view"
   [scheme]="colorScheme"
   [legend]="legend"
@@ -10,8 +15,11 @@
   [yAxisLabel]="yAxisLabel"
   [timeline]="timeline"
   [results]="multi"
+  legendTitle="Leyenda"
   (select)="onSelect($event)"
   (activate)="onActivate($event)"
   (deactivate)="onDeactivate($event)"
+
   >
 </ngx-charts-line-chart>
+</div>

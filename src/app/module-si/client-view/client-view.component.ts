@@ -9,6 +9,7 @@ import { Teller } from 'src/app/interfaces/teller';
 import { BussinesService } from 'src/app/services/bussines.service';
 import { TellerService } from 'src/app/services/teller.service';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
+import { CopyService } from 'src/app/shared/services/copy/copy.service';
 import { AssignTellerComponent } from '../client/pages/assign-teller/assign-teller.component';
 import { MainViewService } from '../main-view/main-view.service';
 import { ClientViewService } from './client-view.service';
@@ -36,7 +37,9 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
     private clientViewService: ClientViewService,
     public dialogEditClient: MatDialog,
     private mainViewService:MainViewService, 
-    private tellerService:TellerService
+    private tellerService:TellerService,
+    private copyService:CopyService
+
   ) { }
 
   ngOnInit(): void {
@@ -90,6 +93,8 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
   findTeller=(tellId:number)=>{this.tellerService.find(tellId).subscribe({next:d=>this.clientViewService.onTeller(d)})}
   getTeller=()=>{this.clientViewService.getTeller().subscribe({next:d=> {if(d){this.teller=d}} })}
 
+  beforeCopy=(keyName:string, copiedWord?:string)=>this.copyService.copy(keyName, copiedWord)
+  
 
   updateCRUD(object: any, id: string | number | null): boolean {
     throw new Error('Method not implemented.');
