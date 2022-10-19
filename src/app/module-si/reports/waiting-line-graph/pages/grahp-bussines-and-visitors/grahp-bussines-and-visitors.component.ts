@@ -33,8 +33,8 @@ export class GrahpBussinesAndVisitorsComponent implements OnInit {
   yAxis: boolean = true;
   showYAxisLabel: boolean = true;
   showXAxisLabel: boolean = true;
-  xAxisLabel: string = 'Year';
-  yAxisLabel: string = 'Population';
+  xAxisLabel: string = '';
+  yAxisLabel: string = '';
   timeline: boolean = true;
 
   colorScheme :any= {
@@ -55,16 +55,23 @@ export class GrahpBussinesAndVisitorsComponent implements OnInit {
     console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
 
+  onResize(event:any) {
+    this.view = [event.target.innerWidth / 1.35, 400];
+}
+
   getData(){
     this.reportsServices.getAllBussinesAndVisitorsByDate().subscribe({
       next: d=>{
         console.log(d.data)
-        this.multi=d.data;
+        this.multi=d.data.results;
+        this.xAxisLabel=d.data.xAxisLabel;
+        this.yAxisLabel=d.data.yAxisLabel;
       }, 
       error: e=>{
       
       }
     })
   }
+ 
 
 }

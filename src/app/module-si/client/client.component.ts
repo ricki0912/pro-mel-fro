@@ -17,8 +17,11 @@ import { TokenStorageService } from 'src/app/auth/services/token-storage.service
 import { Teller } from 'src/app/interfaces/teller';
 import { FindTellerComponent } from '../teller/pages/find-teller/find-teller.component';
 import { AssignTellerComponent } from './pages/assign-teller/assign-teller.component';
-import { ChangeStateComponent } from './pages/change-state/change-state.component';
+import { BusinessState, ChangeStateComponent } from './pages/change-state/change-state.component';
 import { FormControl } from '@angular/forms';
+import { FileNumberComponent } from './pages/file-number/file-number.component';
+import { MatSort , Sort} from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 
 @Component({
@@ -52,7 +55,8 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     private showMessage: ShowMessageService,
     private router: Router,
     private mainViewService:MainViewService, 
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _liveAnnouncer: LiveAnnouncer
   ) {
     this.ti= this.tokenService.getTeller()?.tellId || -1;
   }
@@ -102,11 +106,26 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
 
   //para el paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
   }
 
+   /** Announce the change in sort state for assistive technology. */
+   announceSortChange(sortState: any) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
   getClientTeller(id:number){
     return this.clientTeller.get(id)
   }
@@ -280,23 +299,40 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
         row: null
       }
     });
-    dialogRef.afterClosed().subscribe((result: number) => {
-      if (result) {
+    dialogRef.afterClosed().subscribe((result: BusinessState) => {
+      if (result.bussState && result.bussStateDate) {
         const bussIds:number[]= this.selection.selected.reduce(( p:number[], c:Bussines)=>[...p, c.bussId || -1], [])
-        this.updateBusinessState(bussIds, result || -1)
+        this.updateBusinessState(bussIds, result.bussState, result.bussStateDate)
+      }
+    });
+
+    
+  }
+
+  openDialogFileNumber(){
+    const dialogRef = this.dialogEditClient.open(FileNumberComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: null
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: BusinessState) => {
+      if (result.bussState && result.bussStateDate) {
+        const bussIds:number[]= this.selection.selected.reduce(( p:number[], c:Bussines)=>[...p, c.bussId || -1], [])
+        this.updateBusinessState(bussIds, result.bussState, result.bussStateDate)
       }
     });
   }
 
-  private updateBusinessState(bussIds:number[], state:number){
-    this.bussinesService.updBusinessState(bussIds, state).subscribe({
+  private updateBusinessState(bussIds:number[], bussState:number, bussStateDate:Date){
+    this.bussinesService.updBusinessState(bussIds, bussState, bussStateDate).subscribe({
       next:d=>{
         this.showMessage.success({message:d.msg});
         this.ngOnInit();
         this.selection.clear();
       },
       error:e=>{
-        this.showMessage.error({message:e.error.message,  action: ()=>this.updateBusinessTeller(bussIds, state)})
+        this.showMessage.error({message:e.error.message,  action: ()=>this.updateBusinessState(bussIds, bussState, bussStateDate)})
       }
     })
   }

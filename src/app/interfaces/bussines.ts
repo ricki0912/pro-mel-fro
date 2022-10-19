@@ -20,7 +20,7 @@ export interface Bussines extends ParentInterface{
   bussDateMembership ?: Date,
   bussDateStartedAct ?: string,
   bussState ?: string,
-  bussStateDate ?: string,
+  bussStateDate ?: Date,
   bussFileKind ?: string,
   bussFileNumber ?: number,
   bussRegime ?: string,
@@ -33,6 +33,8 @@ export interface Bussines extends ParentInterface{
   tellId ?: number,
   perId ?: number,
   person: Person
+
+  bussComment?:string
 }
 
 export interface TellerJoinUsers {
@@ -48,3 +50,10 @@ export enum BUSSINES_STATE{
    ENABLE=1,  SUSPENDED=2, RETIRED=3
 
 }
+
+export enum BUSSINES_COLOR{
+  ENABLE='#28a745',
+  SUSPENDED='#dc3545',
+  RETIRED='#ffc107'
+}
+

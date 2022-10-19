@@ -35,7 +35,7 @@ export class SearchClientComponent implements OnInit {
 
   private _filterStates(value: string): Bussines[] {
     const filterValue = value.toLowerCase();
-    return this.bussines.filter(d => d.bussName?.toLowerCase().includes(filterValue) || d.bussRUC?.includes(filterValue));
+    return this.bussines.filter(d => d.bussName?.toLowerCase().includes(filterValue) || d.bussRUC?.includes(filterValue) || String(d.bussFileNumber)?.includes(filterValue));
   }
 
   private readBussines(){

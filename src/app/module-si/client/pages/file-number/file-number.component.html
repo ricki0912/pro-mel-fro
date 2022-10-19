@@ -1,0 +1,75 @@
+<mat-toolbar color="primary" class="tollbar">
+    <mat-toolbar-row>
+      <button
+        mat-icon-button
+        mat-dialog-close
+        class="example-icon"
+        aria-label="Example icon-button with menu icon"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <span class="example-spacer"></span>
+      <span>{{ title }}</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  
+  <div class="dialog-body" style="width: 600px; min-width: 10px">
+    <mat-dialog-content class="mat-typography">
+      
+   <!--
+      <section class="example-section">
+        <label class="example-margin">Estado de Número: </label>
+        <mat-radio-group [(ngModel)]="labelPosition">
+          <mat-radio-button class="example-margin" value="after">Todos</mat-radio-button>
+          <mat-radio-button class="example-margin" value="before">En Uso</mat-radio-button>
+          <mat-radio-button class="example-margin" value="before">Libre</mat-radio-button>
+
+        </mat-radio-group>
+
+
+      </section>
+      
+   <label class="example-margin">Desde :</label>
+
+      <mat-form-field appearance="standard">
+        
+        <input matInput [(ngModel)]="since">
+      </mat-form-field>
+
+      <label class="example-margin">Limite :</label>
+
+      <mat-form-field appearance="legacy">
+        
+        <mat-select 
+                    >
+          <mat-option [value]="50">50</mat-option>
+          <mat-option [value]="100">100</mat-option>
+          <mat-option [value]="500" >500</mat-option>
+          <mat-option [value]="1000">1000</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    -->
+      
+
+
+      <mat-chip-list>
+        <mat-chip [style.color]="getColorBussState(b.bussState)"   *ngFor="let b of business">{{b.bussFileNumber}}</mat-chip>
+      </mat-chip-list>
+
+    </mat-dialog-content>
+  
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Cancelar</button>
+      <!--<button
+        mat-button
+        [mat-dialog-close]="true"
+        type="submit"
+        (click)="ok()"
+        [disabled]="!selectRadio"
+        cdkFocusInitial
+      >
+        Listo
+      </button>-->
+    </mat-dialog-actions>
+  </div>

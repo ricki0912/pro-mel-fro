@@ -75,7 +75,7 @@
                             <mat-form-field appearance="legacy">
                                 <mat-label>Periodo</mat-label>
                                 <mat-select [(value)]="p" (selectionChange)="setListenParams()">
-
+                                    <mat-option [value]="0">Todos</mat-option>
                                     <mat-option [value]="p.prdsId" *ngFor="let p of periods">
                                         {{p.prdsNameShort}}
 

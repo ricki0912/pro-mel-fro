@@ -28,6 +28,15 @@
           </div>
           <div>
             <span class="bussRuc">{{ a.bussRUC }}</span>
+            <button
+            mat-icon-button
+
+            matSuffix
+            color="primary"
+            (click)="beforeCopy( a.bussRUC +':RUC',a.bussRUC )"
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>
           </div>
         </div>
         <div class="datosRepresentate">
@@ -39,7 +48,21 @@
           </div>
           <div>
             <span class="perNumberDoc">{{ a.person.perNumberDoc }}</span>
+            <button
+            mat-icon-button
+
+            matSuffix
+            color="primary"
+            (click)="beforeCopy( a.person.perNumberDoc +':NRO DOC',a.person.perNumberDoc )"
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>
           </div>
+        </div>
+        <div>
+          <span  > 
+            {{teller.tellCode}} - {{ teller.tellName}}
+          </span>
         </div>
         <mat-divider></mat-divider>
         <div class="datosFuncionamiento">
@@ -60,8 +83,8 @@
             >
           </div>
           <div>
-            <span
-              >Estado:
+            <span>
+              Estado:
               <b [ngSwitch]="a?.bussState"
                 ><b style="color: #28a745" *ngSwitchCase="1"><i>Activo</i></b
                 ><b style="color: #dc3545" *ngSwitchCase="2"
@@ -69,15 +92,43 @@
                 ><b style="color: #ffc107" *ngSwitchCase="3"
                   ><i>Retirado</i></b
                 ></b
-              ></span
+              >
+              <button  mat-icon-button (click)="openDialogChangeState(a.bussId || 0)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              </span
             >
           </div>
           <div>
+            <span
+              > 
+              <container-element [ngSwitch]="a.bussState">
+                <b *ngSwitchCase="1">Activo desde :</b>
+                <b *ngSwitchCase="2">Suspendido desde :</b>
+                <b *ngSwitchCase="3">Retirado desde :</b>
+
+                <i *ngSwitchDefault>(Click en el lapiz para actualizar el estado)</i>
+              </container-element>
+              
+              <b
+                ><i>{{ (a.bussStateDate)?formatDate(a.bussStateDate ):'' }}</i></b
+              ></span
+            >
+          </div>
+         
+          <mat-divider></mat-divider>
+
+          <div>
             <span  > 
-              {{teller.tellCode}} - {{ teller.tellName}}
+              {{(a.bussComment)?a.bussComment:'(Click en el lapiz para agregar un comentario.)'}}
+              <button  mat-icon-button (click)="openDialogCommentClient(a.bussId ||0, a.bussComment)">
+                  <mat-icon>edit</mat-icon>
+              </button>
+              
             </span>
           </div>
         </div>
+
         <mat-divider></mat-divider>
         <!--<button
           mat-raised-button
@@ -120,13 +171,24 @@
         >
           Asignar Ventanilla
         </button>
+
+       
         
+        <button
+        mat-raised-button
+        (click)="delBusiness(a.bussId||0)"
+        color="success"
+        style="width: 100%; margin-top: 10px"
+      >
+        Eliminar
+      </button>
 
         <mat-divider></mat-divider>
         <app-last-appointment></app-last-appointment>
       </mat-card-content>
     </mat-card>
     <mat-card id="contenido">
+
       <router-outlet> </router-outlet>
 
       <!--<mat-card-content *ngIf="contentBusiness">

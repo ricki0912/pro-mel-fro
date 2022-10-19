@@ -14,6 +14,8 @@ import { Period } from '../interfaces/period';
 })
 export class BussinesService extends ParentService implements CrudApiInterface{
   private API_ALL = `${this.HOST_API}/api/v1/bussines`
+  private API_DEL = `${this.HOST_API}/api/v1/business`
+
   private API_EXIST_RUC = `${this.HOST_API}/api/v1/business/exist-ruc`
   private API_EXIST_FILE_NUMBER = `${this.HOST_API}/api/v1/business/exist-fileNumber`
   private API_ADD_BUSINESS_WHIT_PERSON = `${this.HOST_API}/api/v1/business/add-business-with-person`
@@ -30,8 +32,9 @@ export class BussinesService extends ParentService implements CrudApiInterface{
   upd(id: string | number, object: ParentInterface): Observable<InterfaceParamsResponse<ParentInterface>> | Observable<ParentInterface> | null {
     throw new Error('Method not implemented.');
   }
-  del(id: string | number): Observable<InterfaceParamsResponse<ParentInterface>> | null {
-    throw new Error('Method not implemented.');
+  del(id: number): Observable<InterfaceParamsResponse<ParentInterface>> | null {
+    return this.https.delete<InterfaceParamsResponse<Bussines>>(`${this.API_DEL}/${id}`);
+
   }
   all(): Observable<Bussines[]> | null {
     return this.https.get<Bussines[]>(this.API_ALL);
@@ -39,6 +42,12 @@ export class BussinesService extends ParentService implements CrudApiInterface{
   allSummarized():Observable<Bussines[]> | null {
     return this.https.get<Bussines[]>(`${this.API_ALL}/all-summarized`);
   }
+
+  allFileNumbers():Observable<Bussines[]> | null {
+    return this.https.get<Bussines[]>(`${this.API_ALL}/all-file-numbers`);
+  }
+
+  
   find(id: string | number): Observable<ParentInterface> | null {
     throw new Error('Method not implemented.');
   }
@@ -50,6 +59,8 @@ export class BussinesService extends ParentService implements CrudApiInterface{
   existFileNumber(bussFileNumber:string):Observable<Bussines>{
     return this.https.post<Bussines>(`${this.API_EXIST_FILE_NUMBER}`,{bussFileNumber} )
   }
+
+  
 
   addBusinessWithPerson(object: Bussines):Observable<InterfaceParamsResponse<Bussines>>{
     return this.https.post<InterfaceParamsResponse<Bussines>>(`${this.API_ADD_BUSINESS_WHIT_PERSON}`, object);
@@ -104,7 +115,13 @@ export class BussinesService extends ParentService implements CrudApiInterface{
     return this.https.put<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/${bussIds}/updTeller`,{tellId})
   }
 
-  public updBusinessState(bussIds:number[], bussState:number):Observable<InterfaceParamsResponse<Bussines>>{
-    return this.https.put<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/${bussIds}/updStateBuss`,{bussState})
+  public updBusinessState(bussIds:number[], bussState:number, bussStateDate:Date):Observable<InterfaceParamsResponse<Bussines>>{
+    return this.https.put<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/${bussIds}/updStateBuss`,{bussState,bussStateDate })
+  }
+
+
+  /*Funciona añadida el 16/10/2022 */
+  public updBusinessComment(bussIds:number[], bussComment?:String):Observable<InterfaceParamsResponse<Bussines>>{
+    return this.https.put<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/${bussIds}/updCommentBuss`,{bussComment})
   }
 }

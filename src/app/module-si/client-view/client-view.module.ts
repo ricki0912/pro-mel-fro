@@ -46,6 +46,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { DetailServicesProvidedComponent } from './pages/detail-services-provided/detail-services-provided.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LastAppointmentComponent } from './pages/last-appointment/last-appointment.component';
+import { EditCommentClientComponent } from './pages/edit-comment-client/edit-comment-client.component';
 
 
 
@@ -65,7 +66,8 @@ import { LastAppointmentComponent } from './pages/last-appointment/last-appointm
     GeneralInformationComponent,
     DetailServicesProvidedComponent,
     ProofOfPaymentComponent,
-    LastAppointmentComponent
+    LastAppointmentComponent,
+    EditCommentClientComponent
   ],
   imports: [
     CommonModule,
