@@ -14,7 +14,12 @@
 </mat-toolbar>
 
 <div class="dialog-body" style="width: 300px; min-width: 10px">
+
+
   <mat-dialog-content class="mat-typography">
+  
+    <label class="label-sub-title">Estado</label>
+
     <mat-radio-group
       aria-labelledby="example-radio-group-label"
       class="example-radio-group"
@@ -28,6 +33,20 @@
         {{ st.name }}
       </mat-radio-button>
     </mat-radio-group>
+
+
+
+    <label class="label-sub-title">Fecha de cambio de estado</label>
+
+    <mat-form-field class="example-full-width" appearance="legacy">
+      <mat-label>Fecha de Ingreso al Estudio</mat-label>
+      <input matInput [matDatepicker]="picker1" [formControl]="date" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="picker1"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">

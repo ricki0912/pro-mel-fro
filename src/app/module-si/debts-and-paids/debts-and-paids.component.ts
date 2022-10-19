@@ -123,7 +123,6 @@ export class DebtsAndPaidsComponent implements OnInit {
     this.readPeriods();
     this.readPeriodsPayment()
     this.readServices()
-    this.onListenParams()
 
 
   
@@ -160,6 +159,9 @@ export class DebtsAndPaidsComponent implements OnInit {
       next:d=>{
         this.periods=d.data as Period[]
         this.p=this.periods[0].prdsId||0
+        //SE LLAMA AQUI PARA NO SOBRECARGAR 
+        this.onListenParams()
+
       }
     })
   }
@@ -218,7 +220,7 @@ export class DebtsAndPaidsComponent implements OnInit {
       this.q=params.params.q as string
     }
 
-    if(this.p)
+    //if(this.p)
       this.all(this.t,this.bs,this.p,this.s, this.pp,this.q)
   });  
 

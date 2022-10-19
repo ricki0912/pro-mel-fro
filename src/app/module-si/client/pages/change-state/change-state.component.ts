@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -9,6 +10,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class ChangeStateComponent implements OnInit {
 
   title = "Seleccionar Estado";
+  date = new FormControl(new Date());
 
   constructor(
     private dialogRef: MatDialogRef<ChangeStateComponent>
@@ -24,14 +26,15 @@ export class ChangeStateComponent implements OnInit {
     {name: 'Retirado', value: 3},
   ];
 
-  onReturn = (state: number): void => this.dialogRef.close(state);
+  onReturn = (bs: BusinessState): void => this.dialogRef.close(bs);
 
   ok() {
-    const t=this.selectRadio;
+    const bs: BusinessState={bussState:this.selectRadio, bussStateDate:this.date.value};
+    //const t=this.selectRadio;
     //console.log(t);
 
-    if(t){
-      this.onReturn(t);
+    if(bs.bussState &&  bs.bussStateDate){
+      this.onReturn(bs);
     }
   }
 
@@ -42,3 +45,7 @@ export interface state {
   value: number;
 }
 
+export interface BusinessState{
+  bussState:number,
+  bussStateDate:Date
+}

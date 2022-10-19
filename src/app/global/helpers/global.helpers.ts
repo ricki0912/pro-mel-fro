@@ -22,6 +22,14 @@ export class GlobalHelpers{
       }
       return t;
     }
+    static formatDate(date:Date){
+      let datepipe=new DatePipe('en-US');
+      let t = ''
+      if (date) {
+        t = datepipe.transform(new Date(date), 'dd/MM/yyyy') || '';
+      }
+      return t;
+    }
 
     static downloadProofOfPayment(p:Payment){
       if(p.payToken)

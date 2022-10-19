@@ -32,13 +32,17 @@ import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import { AssignTellerComponent } from './pages/assign-teller/assign-teller.component';
 import { ChangeStateComponent } from './pages/change-state/change-state.component';
+import { FileNumberComponent } from './pages/file-number/file-number.component';
+import {MatChipsModule} from '@angular/material/chips';
+
 
 @NgModule({
   declarations: [
     ClientComponent,
     EditClientComponent,
     AssignTellerComponent,
-    ChangeStateComponent
+    ChangeStateComponent,
+    FileNumberComponent
   ],
   imports: [
     ClientRoutingModule,
@@ -74,7 +78,8 @@ import { ChangeStateComponent } from './pages/change-state/change-state.componen
     MatStepperModule,
     MatProgressSpinnerModule,
     MatListModule,
-    MatMenuModule
+    MatMenuModule,
+    MatChipsModule
   ],
   exports: [
     ClientComponent,
