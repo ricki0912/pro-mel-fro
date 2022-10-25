@@ -91,6 +91,7 @@
               </mat-select>
               <mat-error> EL tipo de Archivador es requerido. </mat-error>
             </mat-form-field>
+              
           </mat-grid-tile>
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="outline">
@@ -121,6 +122,16 @@
                 }}
               </mat-error>
             </mat-form-field>
+            <button 
+              mat-icon-button         
+              matTooltip="Ver archivadores en uso"
+              type="button" 
+              (click)="openDialogFileNumber()"
+            >
+              <mat-icon>
+                visibility
+              </mat-icon>
+            </button>
           </mat-grid-tile>
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="outline">
@@ -167,6 +178,44 @@
               <mat-error> Asignar a una ventanilla es requerido. </mat-error>
             </mat-form-field>
           </mat-grid-tile>
+
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Estado</mat-label>
+              <mat-select formControlName="bussState">
+                <mat-option value="1">Activo</mat-option>
+                <mat-option value="2">Suspendido</mat-option>
+                <mat-option value="2">Retirado</mat-option>
+
+              </mat-select>
+              <mat-error> EL tipo de Archivador es requerido. </mat-error>
+            </mat-form-field>
+              
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Fecha de cambio de estado</mat-label>
+              <input
+                matInput
+                formControlName="bussStateDate"
+                [matDatepicker]="pickerStateDate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="pickerStateDate"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #pickerStateDate></mat-datepicker>
+              <mat-error>
+                La fecha de Cambio de Estado es requerido.
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          
+
+
+
+
         </div>
       </mat-grid-list>
       <h3>Datos del Representante Legal</h3>

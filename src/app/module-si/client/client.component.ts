@@ -317,10 +317,10 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
       }
     });
     dialogRef.afterClosed().subscribe((result: BusinessState) => {
-      if (result.bussState && result.bussStateDate) {
+      /*if (result.bussState && result.bussStateDate) {
         const bussIds:number[]= this.selection.selected.reduce(( p:number[], c:Bussines)=>[...p, c.bussId || -1], [])
         this.updateBusinessState(bussIds, result.bussState, result.bussStateDate)
-      }
+      }*/
     });
   }
 

@@ -47,6 +47,7 @@ import { DetailServicesProvidedComponent } from './pages/detail-services-provide
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LastAppointmentComponent } from './pages/last-appointment/last-appointment.component';
 import { EditCommentClientComponent } from './pages/edit-comment-client/edit-comment-client.component';
+import { PayInGroupComponent } from './pages/pay-in-group/pay-in-group.component';
 
 
 
@@ -67,7 +68,8 @@ import { EditCommentClientComponent } from './pages/edit-comment-client/edit-com
     DetailServicesProvidedComponent,
     ProofOfPaymentComponent,
     LastAppointmentComponent,
-    EditCommentClientComponent
+    EditCommentClientComponent,
+    PayInGroupComponent
   ],
   imports: [
     CommonModule,
