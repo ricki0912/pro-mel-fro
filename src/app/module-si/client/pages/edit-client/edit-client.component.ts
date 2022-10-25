@@ -4,13 +4,14 @@ import { map, Observable, Subscription } from 'rxjs';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Bussines, TellerJoinUsers } from 'src/app/interfaces/bussines';
 import { BussinesService } from 'src/app/services/bussines.service';
 import { Person } from 'src/app/interfaces/person';
 import { PersonService } from 'src/app/services/person.service';
 import { MainViewService } from 'src/app/module-si/main-view/main-view.service';
 import { BusinessHelpers } from 'src/app/global/helpers/business.helpers';
+import { FileNumberComponent } from '../file-number/file-number.component';
 
 @Component({
   selector: 'app-edit-client',
@@ -33,7 +34,9 @@ export class EditClientComponent implements OnInit, OnDestroy {
     //private showMessage: ShowMessageService, /*este servicio es para invocar los mensaje de alerta */
     @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: Bussines, type: number, idSede: number }, /**campturamos el usuario que se recibe com parametro cuando abrimos el modal */
     private dialogRef: MatDialogRef<EditClientComponent>,
-    private mainViewService:MainViewService
+    private mainViewService:MainViewService,
+    public dialog: MatDialog,
+
   ) { }
 
   ngOnInit(): void {
@@ -88,7 +91,12 @@ export class EditClientComponent implements OnInit, OnDestroy {
       }],
       bussDateStartedAct :[''],
       bussDateMembership :[''],
-      tellId : ['',Validators.required]
+      tellId : ['',Validators.required],
+
+      bussState :['1',Validators.required],
+      bussStateDate :[new Date(),Validators.required],
+
+
     }),
     person: this.fb.group({
 
@@ -126,6 +134,8 @@ export class EditClientComponent implements OnInit, OnDestroy {
       this.businessForm.get('person.perNumberDoc')?.setValue(this.businessBeforeUpd.person.perNumberDoc)
       this.businessForm.get('person.perName')?.setValue(this.businessBeforeUpd.person.perName)
       this.businessForm.get('person.perTel')?.setValue(this.businessBeforeUpd.person.perTel)
+    }else {
+      
     }
   }
 
@@ -209,6 +219,21 @@ export class EditClientComponent implements OnInit, OnDestroy {
     this.businessSevice.getTellerJoinUsers(hqId).subscribe({
       next: d => this.tellers = d.data  as TellerJoinUsers[]
     })
+  }
+
+  openDialogFileNumber(){
+    const dialogRef = this.dialog.open(FileNumberComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: null
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: any) => {
+     /* if (result.bussState && result.bussStateDate) {
+        const bussIds:number[]= this.selection.selected.reduce(( p:number[], c:Bussines)=>[...p, c.bussId || -1], [])
+        this.updateBusinessState(bussIds, result.bussState, result.bussStateDate)
+      }*/
+    });
   }
 }
 

@@ -115,6 +115,7 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${(row.spId || -1) + 1}`;
+
   }
 
   //FUNCIONES
@@ -409,6 +410,7 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
     return ((firstNumber|| 0)/( totalNumber ||0))*100
   }
   getTotalToPay(){
+    
     return this.selection.selected.map(t => t.spDebt).reduce((acc, value?:number) => (acc || 0) +(Number(value) || 0), 0);
 
   }
@@ -450,6 +452,8 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
   printReportPeriod(){
     window.open(environment.API_URL+"/v1/reports/"+this.bp.prdsId+"/exercise-monitoring/"+this.serBuss?.bussId);
   }
+
+
 
 
 

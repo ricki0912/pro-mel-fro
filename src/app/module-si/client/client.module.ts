@@ -34,6 +34,7 @@ import { AssignTellerComponent } from './pages/assign-teller/assign-teller.compo
 import { ChangeStateComponent } from './pages/change-state/change-state.component';
 import { FileNumberComponent } from './pages/file-number/file-number.component';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import {MatChipsModule} from '@angular/material/chips';
     EditClientComponent,
     AssignTellerComponent,
     ChangeStateComponent,
-    FileNumberComponent
+    FileNumberComponent,
+    
   ],
   imports: [
     ClientRoutingModule,
@@ -79,7 +81,9 @@ import {MatChipsModule} from '@angular/material/chips';
     MatProgressSpinnerModule,
     MatListModule,
     MatMenuModule,
-    MatChipsModule
+    MatChipsModule,
+
+    MatTooltipModule
   ],
   exports: [
     ClientComponent,
