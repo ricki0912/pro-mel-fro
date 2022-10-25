@@ -90,7 +90,7 @@ export class EditClientComponent implements OnInit, OnDestroy {
         updateOn: 'blur',
       }],
       bussDateStartedAct :[''],
-      bussDateMembership :[''],
+      bussDateMembership :[new Date()],
       tellId : ['',Validators.required],
 
       bussState :['1',Validators.required],
