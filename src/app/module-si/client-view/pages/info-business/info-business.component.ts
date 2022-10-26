@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { map, Observable, Subscription } from 'rxjs';
 import { Bussines } from 'src/app/interfaces/bussines';
 import { BussinesService } from 'src/app/services/bussines.service';
@@ -50,6 +50,7 @@ export class InfoBusinessComponent implements OnInit {
         updateOn: 'blur',
       }],
       bussAddress :[''],
+      bussStateDate: [''],
       bussFileKind : ['',Validators.required],
       bussFileNumber : ['', {
         validators: [Validators.required],
@@ -59,15 +60,20 @@ export class InfoBusinessComponent implements OnInit {
       bussState : ['',Validators.required],
       bussTel :['', {validators: [Validators.minLength(9), Validators.maxLength(9), Validators.pattern("[9]{1}[0-9]{8}")]}],
       bussTel2 :['', {validators: [Validators.minLength(9), Validators.maxLength(9), Validators.pattern("[9]{1}[0-9]{8}")]}],
-      bussTel3 :['', {validators: [Validators.minLength(9), Validators.maxLength(9), Validators.pattern("[9]{1}[0-9]{8}")]}]
-    })
+      bussTel3 :['', {validators: [Validators.minLength(9), Validators.maxLength(9), Validators.pattern("[9]{1}[0-9]{8}")]}], 
+    },
+    //{asyncValidators :customAsyncValidator()},
+    )
   });
 
+
+ 
   setTypeDialog() {
     this.datosBusinesForm.get('business.bussKind')?.setValue(this.buss?.bussKind);
     this.datosBusinesForm.get('business.bussName')?.setValue(this.buss?.bussName);
     this.datosBusinesForm.get('business.bussRUC')?.setValue(this.buss?.bussRUC);
     this.datosBusinesForm.get('business.bussAddress')?.setValue(this.buss?.bussAddress);
+    this.datosBusinesForm.get('business.bussStateDate')?.setValue(this.buss?.bussStateDate);
     this.datosBusinesForm.get('business.bussFileKind')?.setValue(this.buss?.bussFileKind?.trim());
     this.datosBusinesForm.get('business.bussFileNumber')?.setValue(this.buss?.bussFileNumber);
     this.datosBusinesForm.get('business.bussState')?.setValue(this.buss?.bussState?.trim());
@@ -75,6 +81,10 @@ export class InfoBusinessComponent implements OnInit {
     this.datosBusinesForm.get('business.bussTel2')?.setValue(this.buss?.bussTel2);
     this.datosBusinesForm.get('business.bussTel3')?.setValue(this.buss?.bussTel3);
   }
+
+  
+  
+
 
   showEditBusiness(){
     this.showBusiness = !this.showBusiness;

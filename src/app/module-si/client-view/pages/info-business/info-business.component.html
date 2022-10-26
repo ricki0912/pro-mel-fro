@@ -178,6 +178,39 @@
               <mat-error> EL tipo de Archivador es requerido. </mat-error>
             </mat-form-field>
           </mat-grid-tile>
+
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Fecha de Cambio de Estado</mat-label>
+              <input
+                matInput
+                formControlName="bussStateDate"
+                [matDatepicker]="pickerbussStateDate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="pickerbussStateDate"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #pickerbussStateDate></mat-datepicker>
+              <mat-error>
+                La fecha de Cambio de Estado es requerido.
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+
+
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Estado</mat-label>
+              <mat-select formControlName="bussState">
+                <mat-option value="1">Activo</mat-option>
+                <mat-option value="2">Suspendido</mat-option>
+                <mat-option value="3">Retirado</mat-option>
+              </mat-select>
+              <mat-error> EL tipo de Archivador es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Número de Archivador</mat-label>
@@ -208,17 +241,7 @@
               </mat-error>
             </mat-form-field>
           </mat-grid-tile>
-          <mat-grid-tile>
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Estado</mat-label>
-              <mat-select formControlName="bussState">
-                <mat-option value="1">Activo</mat-option>
-                <mat-option value="2">Suspendido</mat-option>
-                <mat-option value="3">Retirado</mat-option>
-              </mat-select>
-              <mat-error> EL tipo de Archivador es requerido. </mat-error>
-            </mat-form-field>
-          </mat-grid-tile>
+
           <mat-grid-tile>
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Número Corporativo Principal</mat-label>
