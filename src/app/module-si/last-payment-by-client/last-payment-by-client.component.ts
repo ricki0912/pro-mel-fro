@@ -62,7 +62,7 @@ export class LastPaymentByClientComponent implements OnInit {
 
 
 
-  displayedColumns: string[] = ['select', 'numArchivador','ticket','code_category' ,'teller', 'category', 'date_time', 'time', 'amount'];
+  displayedColumns: string[] = ['select', 'numArchivador','ticket','code_category' , 'category', 'date_time', 'time', 'amount'];
   dataSource = new MatTableDataSource<LastPayment>();
   selection = new SelectionModel<LastPayment>(true, []);
 
@@ -369,6 +369,6 @@ exportExcel(){
 
 }
 
-formatDate=(d:Date)=>GlobalHelpers.formatDateAndHour(d)
+formatDate=(d:Date)=>GlobalHelpers.formatDate(d)
 
 }
