@@ -48,6 +48,8 @@
                 formControlName="bussRUC"
                 (keypress)="bh.validateFormat($event)"
                 maxlength="11"
+                autocomplete="off" 
+
               />
               <mat-progress-spinner
                 *ngIf="businessForm.get('business.bussRUC')?.pending"
@@ -222,6 +224,7 @@
       </mat-grid-list>
       <h3>Datos del Representante Legal</h3>
       <mat-divider></mat-divider>
+      <b align="center" *ngIf="existDNI">Al parecer ya tiene otro negocio registrado, si realiza un cambio en unos de sus datos se aplicará de forma automática en los demas registros.</b>
       <mat-grid-list [cols]="cols" rowHeight="6rem" appearance="fillx">
         <div formGroupName="person">
           <mat-grid-tile>
@@ -242,6 +245,8 @@
                 formControlName="perNumberDoc"
                 (keypress)="bh.validateFormat($event)"
                 maxlength="8"
+                autocomplete="off" 
+
               />
               <mat-progress-spinner
                 *ngIf="businessForm.get('person.perNumberDoc')?.pending"
