@@ -43,7 +43,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { AddUnitPriceComponent } from './pages/add-unit-price/add-unit-price.component';
 
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+//import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+
+
 import {MatExpansionModule} from '@angular/material/expansion';
 import { AddDescriptionComponent } from './pages/add-description/add-description.component';
 import { AddQuantityComponent } from './pages/add-quantity/add-quantity.component';
@@ -89,12 +92,12 @@ import {MatRadioModule} from '@angular/material/radio';
     MatFormFieldModule,
     MatExpansionModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    MatMomentDateModule,
     MatCheckboxModule,
     MatRadioModule
     
   ],
-  providers:[  DatePipe,     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+  providers:[  DatePipe,     ],
 
 })
 export class AccountingModule { }

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 
 @Component({
   selector: 'app-change-state',
@@ -13,12 +14,33 @@ export class ChangeStateComponent implements OnInit {
   date = new FormControl(new Date());
 
   constructor(
-    private dialogRef: MatDialogRef<ChangeStateComponent>
+    private dialogRef: MatDialogRef<ChangeStateComponent>, 
+    @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: BusinessState, type: number },
+
   ) { }
 
   ngOnInit(): void {
+    this.setTypeDialog();
+
   }
 
+  setTypeDialog() {
+
+    /**verificamos que sera actualizar, de sera asi, mostramos los datos del usuario en cada campo */
+    if (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) {
+      if(this.paramsDialog.row.bussStateDate)
+        this.date.setValue(this.paramsDialog.row.bussStateDate)
+
+      if(this.paramsDialog.row.bussState)
+        this.selectRadio=this.paramsDialog.row.bussState
+      /*this.cardsBeforeUpd = this.paramsDialog.row;
+      this.title = this.cardsBeforeUpd.cardName || ''
+
+      this.cardsForm.get('cardName')?.setValue(this.cardsBeforeUpd.cardName)
+      this.cardsForm.get('cardPhrases')?.setValue(this.cardsBeforeUpd.cardPhrases)
+      this.cardsForm.get('cardState')?.setValue(this.cardsBeforeUpd.cardState?.trim())*/
+    }
+  }
   selectRadio: number = 0;
   states: state[] = [
     {name: 'Activo', value: 1},

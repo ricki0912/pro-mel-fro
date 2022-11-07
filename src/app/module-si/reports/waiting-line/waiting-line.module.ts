@@ -22,7 +22,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { ChronometerModule } from 'src/app/shared/components/chronometer/chronometer.module';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule, MAT_DATE_LOCALE} from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+
+
+//import {MatNativeDateModule, MAT_DATE_LOCALE} from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -62,13 +65,13 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     
     ChronometerModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    MatMomentDateModule,
     MatFormFieldModule,
     MatInputModule,
     MatToolbarModule,
     FormsModule, ReactiveFormsModule
   ],
-  providers:[  DatePipe,     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+  providers:[  DatePipe,     ],
 
 })
 export class WaitingLineModule { }

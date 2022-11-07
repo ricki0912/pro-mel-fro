@@ -40,7 +40,9 @@
       [bp]="bp"
       [serBuss]="serBuss"
       *ngFor="let bp of dBussPer"
-    ></app-list-buss-periods>
+      (servProvSelectionChange)="onServProByPeriod(bp.prdsNameShort || '', $event)"
+      (onDBusinesPeriod)="delDBusinessPeriod($event)"
+      ></app-list-buss-periods>
   </mat-card-content>
 </mat-card>
-<!--<app-pay-in-group></app-pay-in-group>-->
+<app-pay-in-group (reloadAllServices)="reloadAllServices($event)" [servProByPeriod]="_servicesByPeriod" ></app-pay-in-group>

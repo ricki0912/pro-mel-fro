@@ -10,6 +10,7 @@ style="
   bottom: 3px;
   right: 3px;
 "
+*ngIf="getTotalPay() as g"
 >
 <mat-list>
   <mat-list-item
@@ -19,7 +20,8 @@ style="
       justify-content: center;
     "
   >
-  <button mat-raised-button color="accent">Pagar S/ 0.00</button>
+  
+  <button mat-raised-button color="accent" (click)="prepareBeforeGenerateProof()">Pagar {{g | currency:'S/.'}}</button>
 
   </mat-list-item>
 </mat-list>

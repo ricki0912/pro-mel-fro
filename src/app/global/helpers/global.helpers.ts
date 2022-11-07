@@ -22,11 +22,11 @@ export class GlobalHelpers{
       }
       return t;
     }
-    static formatDate(date:Date){
+    static formatDate(date:Date, format:string='dd/MM/yyyy'){
       let datepipe=new DatePipe('en-US');
       let t = ''
       if (date) {
-        t = datepipe.transform(new Date(date), 'dd/MM/yyyy') || '';
+        t = datepipe.transform(new Date(date), format) || '';
       }
       return t;
     }

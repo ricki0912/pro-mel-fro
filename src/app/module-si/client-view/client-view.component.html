@@ -93,7 +93,7 @@
                   ><i>Retirado</i></b
                 ></b
               >
-              <button  mat-icon-button (click)="openDialogChangeState(a.bussId || 0)">
+              <button  mat-icon-button (click)="openDialogChangeState(a.bussId || 0, a.bussState, a.bussStateDate )">
                 <mat-icon>edit</mat-icon>
               </button>
               </span
@@ -191,7 +191,8 @@
 
       <router-outlet> </router-outlet>
 
-      <!--<mat-card-content *ngIf="contentBusiness">
+      <!--{{business[0] | json}}
+      <mat-card-content *ngIf="contentBusiness">
 
         <app-info-business
           (onLoading)="ngOnInit()"
@@ -227,4 +228,38 @@
     </mat-card>
   </div>
 </div>
+<!--
+Alpha Time Zone : {{business[0].bussStateDate| date:'short':'UTC +1'}}
+Australian Central Time : {{business[0].bussStateDate| date:'short':'UTC +9:30 / +10:30'}}
+Arabia Standard Time : {{business[0].bussStateDate| date:'short':'UTC +3'}}
+Central Standard Time : {{business[0].bussStateDate| date:'short':'UTC -6'}}
+China Standard Time : {{business[0].bussStateDate| date:'short':'UTC +8'}}
+Delta Time Zone : {{business[0].bussStateDate| date:'short':'UTC +4'}}
+Greenwich Mean Time : {{business[0].bussStateDate| date:'short':'UTC +0'}}
+Gulf Standard Time : {{business[0].bussStateDate| date:'short':'UTC +4'}}
+Hawaii Standard Time : {{business[0].bussStateDate| date:'short':'UTC -10'}}
+India Standard Time : {{business[0].bussStateDate| date:'short':'UTC +4'}}
 
+Peru Standard Time : {{business[0].bussStateDate| date:'short':'UTC -5'}}
+
+//////////////////////
+
+Alpha Time Zone : {{business[0].created_at| date:'short':'UTC +1'}}
+Australian Central Time : {{business[0].created_at| date:'short':'UTC +9:30 / +10:30'}}
+Arabia Standard Time : {{business[0].created_at| date:'short':'UTC +3'}}
+Central Standard Time : {{business[0].created_at| date:'short':'UTC -6'}}
+China Standard Time : {{business[0].created_at| date:'short':'UTC +8'}}
+Delta Time Zone : {{business[0].created_at| date:'short':'UTC +4'}}
+Greenwich Mean Time : {{business[0].created_at| date:'short':'UTC +0'}}
+Gulf Standard Time : {{business[0].created_at| date:'short':'UTC +4'}}
+Hawaii Standard Time : {{business[0].created_at| date:'short':'UTC -10'}}
+India Standard Time : {{business[0].created_at| date:'short':'UTC +4'}}
+
+Peru Standard Time : {{business[0].created_at| date:'short':'UTC -5'}}
+<mat-form-field>
+  <input matInput [matDatepicker]="datepicker" 
+  placeholder="Choose a date">
+  <mat-datepicker-toggle matSuffix [for]="datepicker">
+  </mat-datepicker-toggle>
+  <mat-datepicker #datepicker></mat-datepicker>
+</mat-form-field> -->

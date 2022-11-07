@@ -129,13 +129,16 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
   }
 
 
+ 
+
   
-  openDialogChangeState(bussId:number){
+  openDialogChangeState(bussId:number, bussState?:string, bussStateDate?:Date){
     const dialogRef = this.dialogEditClient.open(ChangeStateComponent, {
       panelClass: 'dialog',
       data: {
-        row: null
-      }
+        row: {bussState: Number(bussState),
+          bussStateDate: bussStateDate},
+        type: TYPES_ACTIONS_DIALOG.UPD      }
     });
     dialogRef.afterClosed().subscribe((result: BusinessState) => {
       if (result.bussState && result.bussStateDate) {
@@ -188,7 +191,12 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
   deleteCRUD(id: number): boolean {
     this.businessService.del(id)?.subscribe({
       next: data=>{
-        this.showMessage.success({message: data.msg});
+        if(data.res){
+          this.showMessage.success({message: data.msg});
+        }else{
+          this.showMessage.error({message: data.msg});
+        }
+        
       },
       error: error=>{
         this.showMessage.error({message: error.error.message})

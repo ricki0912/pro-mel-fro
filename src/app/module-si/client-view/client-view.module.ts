@@ -16,7 +16,8 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+//import { MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
@@ -48,7 +49,17 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { LastAppointmentComponent } from './pages/last-appointment/last-appointment.component';
 import { EditCommentClientComponent } from './pages/edit-comment-client/edit-comment-client.component';
 import { PayInGroupComponent } from './pages/pay-in-group/pay-in-group.component';
-
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  },
+};
 
 
 @NgModule({
@@ -86,7 +97,6 @@ import { PayInGroupComponent } from './pages/pay-in-group/pay-in-group.component
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule,
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
@@ -100,10 +110,12 @@ import { PayInGroupComponent } from './pages/pay-in-group/pay-in-group.component
     ClipboardModule,
     MatButtonToggleModule,
     NgxMatSelectSearchModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatMomentDateModule
   ],
   providers: [
     DatePipe,
+
    
   ]
 })

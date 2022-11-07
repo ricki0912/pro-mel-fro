@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -32,8 +32,25 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { RouteReuseStrategy } from '@angular/router';
 import { AppRouteReuseStrategy } from './app.route-reuse-strategy';
 
+
+import localeEsPe from '@angular/common/locales/es-PE'
+import { registerLocaleData } from '@angular/common';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+registerLocaleData(localeEsPe, 'es-PE')
+
 const config: SocketIoConfig = { url: environment.WLI_SOCKET_SERVER, options: {} };
 //const config: SocketIoConfig = { url: 'http://192.168.1.96:3000', options: {} };
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  },
+};
 
 @NgModule({
   declarations: [
@@ -70,7 +87,22 @@ const config: SocketIoConfig = { url: environment.WLI_SOCKET_SERVER, options: {}
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
       multi: true
-    }, ModuleSiGuard
+    }, ModuleSiGuard,
+    /*
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS}*/
+
+    {
+      provide:
+      LOCALE_ID, useValue:'es-PE'
+    },
+
+    
+    /*{
+      provide: DEFAULT_CURRENCY_CODE,
+      useValue: 'S/.',
+      multi:false
+      
+    },*/
 ],
   bootstrap: [AppComponent]
 })

@@ -35,10 +35,13 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   ti: number = 0
   bs:number = 0;
   q:string=''
+  ln:number=-1
   
   /*Params sede */
   private hqId:number=0
   
+
+  /*array numeros */
 
   isLoading = true;
   tellers: TellerJoinUsers[] = [];
@@ -86,15 +89,21 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     if(params.params.bs){
       this.bs=parseInt(params.params.bs)
     }
-    
+
+    if(params.params.ln){
+      this.ln=params.params.ln as number
+    }
+
+
     if(params.params.q){
       this.q=params.params.q as string
     }
 
+
     this.selectSearchBussTell()
   }); // output: 
 
-  public setListenParams=() => this.router.navigate([], { queryParams: {ti:this.ti, bs:this.bs,q:this.q}, queryParamsHandling: 'merge' });  
+  public setListenParams=() => this.router.navigate([], { queryParams: {ti:this.ti, bs:this.bs,q:this.q, ln:this.ln}, queryParamsHandling: 'merge' });  
 
 
   displayedColumns: string[] = ['select','nombres', 'ruc', 'numArchivador', 'representate', 'dni', 'teller'];
@@ -244,12 +253,12 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   }
 
   selectSearchBussTell(){
-    this.readBusinessJoinTeller(this.ti,this.bs, this.q);
+    this.readBusinessJoinTeller(this.ti,this.bs, this.ln,this.q);
   }
 
-  readBusinessJoinTeller(tellId:number, bussState:number, q:string): boolean {
+  readBusinessJoinTeller(tellId:number, bussState:number, lastDigit:number,q:string): boolean {
     this.isLoading = true;
-    this.bussinesService.getBusinessJoinTeller(tellId, bussState, q).subscribe({
+    this.bussinesService.getBusinessJoinTeller(tellId, bussState, lastDigit, q).subscribe({
       next: (r) => {
         //console.log("Data dentro de ticket",r)
         this.isLoading = false;

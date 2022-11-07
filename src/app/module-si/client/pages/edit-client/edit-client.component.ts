@@ -139,6 +139,15 @@ export class EditClientComponent implements OnInit, OnDestroy {
     }
   }
 
+  setPerson(person:Person){
+    this.businessForm.get('person.perKindDoc')?.setValue(person.perKindDoc)
+    //this.businessForm.get('person.perNumberDoc')?.setValue(person.perNumberDoc)
+    this.businessForm.get('person.perName')?.setValue(person.perName)
+    this.businessForm.get('person.perTel')?.setValue(person.perTel)
+    return null
+  }
+
+
 /**A TRAVES DE ESTE METODO SE DEVUELVE EL NEGOCIO A LA VENTANA ANTERIOR */
   onReturn = (business: Bussines): void => this.dialogRef.close(business);
 
@@ -148,15 +157,16 @@ export class EditClientComponent implements OnInit, OnDestroy {
     .pipe(
       map((business: Bussines) => {
         if (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) {
-          /*el usuario devuelto pod backend sera de null o vacio */
+          //el usuario devuelto pod backend sera de null o vacio 
           if (!business) {
+
             return null;
           }
-          /*en caso de ser update, verifica que el usuario devuelto sea diferente del actual */
+          //en caso de ser update, verifica que el usuario devuelto sea diferente del actual 
           if (this.businessBeforeUpd?.bussRUC != business.bussRUC) {
             return { existRuc: 'El numero de RUC esta en uso.' };
           }
-          /**si el usuario devuelto es igual al actual retorna null */
+          //si el usuario devuelto es igual al actual retorna null 
           return null
         }
         return (!business) ? null : { existRuc: 'El numero de RUC ya existe.' }
@@ -191,18 +201,19 @@ export class EditClientComponent implements OnInit, OnDestroy {
     .pipe(
       map((person: Person) => {
         if (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) {
-          /*el usuario devuelto por backend sera de null o vacio */
+          //el usuario devuelto por backend sera de null o vacio 
           if (!person) {
             return null;
           }
-          /*en caso de ser update, verifica que el usuario devuelto sea diferente del actual */
+          //en caso de ser update, verifica que el usuario devuelto sea diferente del actual 
           if (this.businessBeforeUpd?.person.perNumberDoc != person.perNumberDoc) {
-            return { existDni: 'El Numero de DNI ya esta en uso.' };
+            
+            return this.setPerson(person)//{ existDni: 'El Numero de DNI ya esta en uso.' };
           }
-          /**si el usuario devuelto es igual al actual retorna null */
+          //si el usuario devuelto es igual al actual retorna null 
           return null
         }
-        return (!person) ? null : { existDni: 'El Numero de DNI ya existe.' }
+        return (!person) ? null : this.setPerson(person)//{ existDni: 'El Numero de DNI ya existe.' }
       })
     )
   }

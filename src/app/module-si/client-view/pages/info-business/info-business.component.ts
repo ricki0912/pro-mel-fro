@@ -5,6 +5,8 @@ import { Bussines } from 'src/app/interfaces/bussines';
 import { BussinesService } from 'src/app/services/bussines.service';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { BusinessHelpers } from 'src/app/global/helpers/business.helpers'
+import { GlobalHelpers } from 'src/app/global/helpers/global.helpers';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-info-business',
@@ -74,6 +76,7 @@ export class InfoBusinessComponent implements OnInit {
     this.datosBusinesForm.get('business.bussRUC')?.setValue(this.buss?.bussRUC);
     this.datosBusinesForm.get('business.bussAddress')?.setValue(this.buss?.bussAddress);
     this.datosBusinesForm.get('business.bussStateDate')?.setValue(this.buss?.bussStateDate);
+
     this.datosBusinesForm.get('business.bussFileKind')?.setValue(this.buss?.bussFileKind?.trim());
     this.datosBusinesForm.get('business.bussFileNumber')?.setValue(this.buss?.bussFileNumber);
     this.datosBusinesForm.get('business.bussState')?.setValue(this.buss?.bussState?.trim());

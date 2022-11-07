@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Period } from 'src/app/interfaces/period';
 import { PeriodPayment } from 'src/app/interfaces/period-payment';
@@ -24,6 +24,7 @@ import { environment } from 'src/environments/environment';
 import { CommentR } from '../inline-edit/inline-edit.component';
 import { FloatingWaitingLineService } from 'src/app/module-si/main-view/pages/floating-waiting-line/floating-waiting-line.service';
 import { DetailServicesProvidedComponent } from 'src/app/module-si/client-view/pages/detail-services-provided/detail-services-provided.component';
+import { DBusinessPeriod } from 'src/app/interfaces/d-business-period';
 
 @Component({
   selector: 'app-list-buss-periods',
@@ -32,10 +33,16 @@ import { DetailServicesProvidedComponent } from 'src/app/module-si/client-view/p
 })
 export class ListBussPeriodsComponent implements OnInit {
 
+  @Output() servProvSelectionChange = new EventEmitter<TServicesProvided[]>();
+  @Output() onDBusinesPeriod = new EventEmitter<DBusinessPeriod>();
+
   @Input() bp: Period = {};
   @Input() serBuss?:Bussines
   public services: Services[] = [];
   public periodPayments:PeriodPayment[]=[];
+
+
+
 
 
   /*Variables adicionales */
@@ -410,11 +417,13 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
     return ((firstNumber|| 0)/( totalNumber ||0))*100
   }
   getTotalToPay(){
-    
+    /*mala practica */
+    this.servProvSelectionChange.emit(this.selection.selected)
+    /** */
+
     return this.selection.selected.map(t => t.spDebt).reduce((acc, value?:number) => (acc || 0) +(Number(value) || 0), 0);
 
   }
-
 
   beforeDelete(id:number){
     this.wantDelete(()=>this.deleteCRUD(id))
@@ -447,44 +456,13 @@ displayedColumns: string[] = ['select', 'service', 'period', 'amount', 'comment'
     return true;
   }
 
-
-
   printReportPeriod(){
     window.open(environment.API_URL+"/v1/reports/"+this.bp.prdsId+"/exercise-monitoring/"+this.serBuss?.bussId);
   }
 
+  delDBusinessPeriod=(bussId:number, prdsId:number)=>this.onDBusinesPeriod.emit({bussId:bussId, prdsId:prdsId})
 
-
-
-
-
-  /*subperiod: SubPeriodo[] = [
-    {value: '1', name: 'Enero'},
-    {value: '2', name: 'Febrero'},
-    {value: '3', name: 'Marzo'},
-    {value: '4', name: 'Abril'},
-    {value: '5', name: 'Mayo'},
-    {value: '6', name: 'Junio'},
-    {value: '7', name: 'Julio'},
-    {value: '8', name: 'Agosto'},
-    {value: '9', name: 'Setiembre'},
-    {value: '10', name: 'Octubre'},
-    {value: '11', name: 'Noviembre'},
-    {value: '12', name: 'Diciembre'},
-  ];
-*/
 }
-
-/*export interface PeriodicElement {
-  service: number;
-  period: number;
-  amount: number;
-  date: string;
-  voucher: string;
-  numVoucher: number;
-  state: string;
-  comment: string;
-}*/
 
 export interface sv {
   name : string;
@@ -493,18 +471,4 @@ export interface sv {
 export interface pd {
   period : string;
 }
-
-/*const ELEMENT_DATA: PeriodicElement[] = [
-  {service: 1, period: 1, amount: 1.00, date: '27/04/2022', voucher:'boleta', numVoucher: 1, state:'pagado', comment:'h'},
-  {service: 2, period: 3, amount: 4.00, date: '27/04/2022', voucher:'factura', numVoucher: 10, state:'pagado', comment:'h'},
-  {service: 3, period: 5, amount: 6.97, date: '27/04/2022',voucher:'boleta', numVoucher: 12, state:'Pendiente', comment:'h'},
-  {service: 4, period: 12, amount: 9.01, date: '27/04/2022', voucher:'boleta', numVoucher: 234, state:'pagado', comment:'h'},
-  {service: 5, period: 8, amount: 10.81, date: '27/04/2022', voucher:'ticket', numVoucher: 3, state:'pagado', comment:'h'},
-];*/
-
-/*interface SubPeriodo {
-value: string;
-name: string;
-}*/
-
 

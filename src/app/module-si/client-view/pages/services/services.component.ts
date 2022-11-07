@@ -5,10 +5,13 @@ import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
 import { Bussines } from 'src/app/interfaces/bussines';
 import { DBusinessPeriod } from 'src/app/interfaces/d-business-period';
 import { Period } from 'src/app/interfaces/period';
+import { Services } from 'src/app/interfaces/services';
+import { TServicesProvided } from 'src/app/interfaces/services-provided';
 import { FindPeriodComponent } from 'src/app/module-si/period/pages/find-period/find-period.component';
 import { BussinesService } from 'src/app/services/bussines.service';
 import { PeriodService } from 'src/app/services/period.service';
 import { ServicesService } from 'src/app/services/services.service';
+import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { environment } from 'src/environments/environment';
 import { ClientViewService } from '../../client-view.service';
@@ -21,6 +24,9 @@ import { ClientViewService } from '../../client-view.service';
 })
 export class ServicesComponent implements OnInit, CrudInterface {
 
+  //servicios por peridos
+  _servicesByPeriod:ServicesByPeriod[]=[]
+
   isLoading = true;
   //@Input() serBuss: Bussines | undefined;
   serBuss: Bussines | undefined;
@@ -29,11 +35,13 @@ export class ServicesComponent implements OnInit, CrudInterface {
 
   dBussPer: Period[]=[];
 
+  //_totalToPay:number=0.0
+
   constructor(
     private bussinesService: BussinesService,
     private periodService: PeriodService,
     private servicesService: ServicesService,
-    public dialogSelect: MatDialog,
+    public dialog: MatDialog,
     private showMessage: ShowMessageService,
     private clientViewService:ClientViewService,
 
@@ -83,7 +91,7 @@ export class ServicesComponent implements OnInit, CrudInterface {
 
   //FUNCIONES
   openDialogChoosePeriod() {
-    const dialogRef = this.dialogSelect.open(FindPeriodComponent, {
+    const dialogRef = this.dialog.open(FindPeriodComponent, {
       panelClass: 'dialog',
       data: {
         row: null,
@@ -132,9 +140,75 @@ export class ServicesComponent implements OnInit, CrudInterface {
     window.open(environment.API_URL+"/v1/reports/all-periods/"+this.serBuss?.bussId);
   }
 
+  onServProByPeriod(period:string, services:TServicesProvided[]){
+    let isbp=this._servicesByPeriod.findIndex(e=>e.period==period);
+    if(isbp<0){
+      this._servicesByPeriod.push({period, services})
+    }else{
+      this._servicesByPeriod[isbp]={period, services}
+    }
+    
+    //this._totalToPay=this._servicesByPeriod.reduce((a, b:ServicesByPeriod)=>a=a+b.services.reduce((d,e)=>d=Number(d)+Number(((e.spDebt)? e.spDebt:0.0)),0), 0.0)
+  }
+  reloadAllServices=(e:boolean)=>(e)?this.readCRUD():null
+
+
+
+  delDBusinessPeriod(dbp:DBusinessPeriod){
+
+    this.wantDeleteDBusinessPeriod(()=>this.deleteDBusinessPeriod(dbp))   
+  }
+ 
+
+  wantDeleteDBusinessPeriod(d:()=>void){
+    this.dialog
+      .open(DialogConfirmationComponent, {
+        data: `Esta seguro que desea Eliminar.`,
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
+          d();
+        } else {
+
+        }
+      });
+  }
+
+  deleteDBusinessPeriod(dbp:DBusinessPeriod): boolean {
+    if (dbp.bussId && dbp.prdsId) 
+    this.bussinesService.delDBusinesPeriods(dbp.bussId, dbp.prdsId).subscribe({
+      next: data=>{
+        if(data.res){
+          this.showMessage.success({message: data.msg});
+          let i=this.dBussPer.findIndex(e=> e.dbp?.bussId==dbp.bussId && e.dbp?.prdsId==dbp.prdsId)
+          this.dBussPer.splice(i,1);
+
+        }else {
+          this.showMessage.error({message: data.msg});
+        }
+      },
+      error: error=>{
+        this.showMessage.error({message: error.error.message})
+      }
+    })
+    return true;
+  }
+
+
+
+
+
+
+
+
+  
 }
 
-
+export interface ServicesByPeriod{
+  period:string,
+  services:TServicesProvided[]
+}
 
 
 

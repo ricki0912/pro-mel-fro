@@ -103,12 +103,17 @@ export class BussinesService extends ParentService implements CrudApiInterface{
     return this.https.get<InterfaceParamsResponse<Period[]>>(`${this.API_BUSSINES}/${bussId}/periods`);
   }
 
+  public delDBusinesPeriods(bussId:number, prdsId:number): Observable<InterfaceParamsResponse<Period[]>>  {
+    return this.https.delete<InterfaceParamsResponse<Period[]>>(`${this.API_BUSSINES}/${bussId}/periods/${prdsId}`);
+  }
+
+
   public getTellerJoinUsers(hqId:number):Observable<InterfaceParamsResponse<TellerJoinUsers>>{
     return this.https.get<InterfaceParamsResponse<TellerJoinUsers>>(`${this.API_BUSSINES}/getCantTellerUsers?hqId=${hqId}`);
   }
 
-  public getBusinessJoinTeller(tellId:number, bussState:number, q:string): Observable<InterfaceParamsResponse<Bussines>>  {
-    return this.https.get<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/getBusinessJoinTeller`,{params:{tellId,bussState,q}});
+  public getBusinessJoinTeller(tellId:number, bussState:number, lastDigit:number, q:string): Observable<InterfaceParamsResponse<Bussines>>  {
+    return this.https.get<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/getBusinessJoinTeller`,{params:{tellId,bussState, lastDigit,q}});
   }
 
   public updateBusinessTellId(bussIds:number[], tellId:number):Observable<InterfaceParamsResponse<Bussines>>{
