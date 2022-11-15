@@ -19,10 +19,12 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { GrahpBussinesAndVisitorsComponent } from './pages/grahp-bussines-and-visitors/grahp-bussines-and-visitors.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { GrahpPayAndTellerComponent } from './pages/grahp-pay-and-teller/grahp-pay-and-teller.component';
 @NgModule({
   declarations: [
     WaitingLineGraphComponent,
-    GrahpBussinesAndVisitorsComponent
+    GrahpBussinesAndVisitorsComponent,
+    GrahpPayAndTellerComponent
   ],
   imports: [
     CommonModule,
