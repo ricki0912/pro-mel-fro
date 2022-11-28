@@ -1,6 +1,8 @@
 export interface LastPayment {
     bussId: number;
     bussState: string;
+    bussStateDate:Date
+
     tellId: number;
     bussName: string;
     bussRUC: string;
@@ -18,4 +20,11 @@ export interface LastPayment {
     spCost: number;
     spDebt: number;
     spPaid: number;
-}
+
+    /*Se obtener todos los datos */
+    sumSpCost: number;
+    sumSpDebt: number;
+    sumSpPaid: number;
+    countSpDebt: number;
+    countSpPaid: number;
+    countTotal: number;}

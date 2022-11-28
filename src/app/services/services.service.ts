@@ -48,4 +48,8 @@ export class ServicesService extends ParentService implements CrudApiInterface{
   public enableDisableServices(id: number[]): Observable<InterfaceParamsResponse<Services>> {
     return this.https.delete<InterfaceParamsResponse<Services>>(`${this.API_SERVICES}/stateServices/${id}`);
   }
+
+  public reOrder(id: number[]): Observable<InterfaceParamsResponse<Services>> {
+    return this.https.put<InterfaceParamsResponse<Services>>(`${this.API_SERVICES}/${id}/re-order`,{});
+  }
 }

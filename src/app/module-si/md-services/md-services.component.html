@@ -46,6 +46,13 @@
               </button>
               <mat-menu #menup="matMenu">
                 <button
+                mat-menu-item
+                (click)="openDialogReOrder()"
+              >
+                <mat-icon>reorder</mat-icon>
+                Organizar Servicios
+              </button>
+                <button
                   mat-menu-item
                   (click)="delServices()"
                   [disabled]="selection.selected.length < 1"

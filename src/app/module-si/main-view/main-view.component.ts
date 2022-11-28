@@ -109,6 +109,7 @@ export class MainViewComponent implements OnInit {
       {name:'Contabilidad', routerLink:'./accounting', permission: PMS.SI_SEE},
       {name:'Deudas y Pagos', routerLink:'./debts-and-paids', permission: PMS.SI_SEE},
       {name:'Último  Pago (DJM)', routerLink:'./last-payment-by-client', permission: PMS.SI_SEE},
+      {name:'Debe desde (DJM)', routerLink:'./old-debt-by-client', permission: PMS.SI_SEE},
 
 
     ]

@@ -29,6 +29,11 @@ export class DebtsAndPaidsService extends ParentService {
 
   }
 
+  public getOldDebtByClient(tellId:number){
+    return this.https.get<InterfaceParamsResponse<LastPayment>>(`${this.API_DEBTS_AND_PAIDS}/old-debt-by-client` ,{params:{tellId}});
 
+  }
+
+  
 
 }

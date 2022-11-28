@@ -315,7 +315,7 @@ export class LastPaymentByClientComponent implements OnInit {
 exportExcel(){
   
   let workbook = new Workbook();
-  let worksheet = workbook.addWorksheet("Deudas y Pagos - Filtro");
+  let worksheet = workbook.addWorksheet("Último pago - Filtro");
 
   //CONVIRTIENDO NUESTRO ARREGLO A UN FORMATO LEGIBLE PARA EXCEL USANDO EXCELJS
   worksheet.addRow(undefined);
@@ -329,11 +329,24 @@ exportExcel(){
       temp.push(x1.bussFileNumber)
       temp.push(x1.bussRUC)
       temp.push(x1.bussName)
+
+      temp.push(x1.paySerie)
+      temp.push(x1.payNumber)
+
+      temp.push(x1.payDatePrint)
+      temp.push(x1.spName)
+
+
       temp.push(this.getNameBussState(parseInt(x1.bussState)))
+      temp.push(x1.bussStateDate)
+
       temp.push((x1.tellId)?this.findNameTeller(x1.tellId)?.tellName:null)
+      /*
       temp.push((x1.prdsId)?this.findNamePeriod(x1.prdsId)?.prdsNameShort:null)
       temp.push((x1.svId)?this.findNameService(x1.svId)?.svName:null)
       temp.push((x1.ppayId)?this.findNamePeriodPayment(x1.ppayId)?.ppayName:null)
+    */
+
       temp.push(x1.spCost)
       temp.push(x1.spPaid)
       temp.push(x1.spDebt)
@@ -345,20 +358,36 @@ exportExcel(){
   }
   //NOMBRE DEL ARCHIVO RESULTANTE
   let fname="Deudas y Pagos";
-
+  let keyCol=1
+  
+  
   //ASIGNACIÓN DE LA CABECERA DEL DOCUMENTO EXCEL DONDE CADA CAMPO DE LOS DATOS QUE EXPORTAREMOS SERA UNA COLUMNA
+  
+  
   worksheet.columns = [
-      { header: 'ARCHIVADOR', key: 'col1', width: 10},
-      { header: 'RUC', key: 'col2', width: 30},
-      { header: 'NOMBRE', key: 'col3', width: 15},
-      { header: 'ESTADO CLIENTE', key: 'col3', width: 15},
-      { header: 'VENTANILLA ['+((this.t)?(this.findNameTeller(this.t)?.tellName):'Todos')+']', key: 'col4', width: 20},
-      { header: 'PERIODO ['+((this.p)?this.findNamePeriod(this.p)?.prdsNameShort:'Todos')+']', key: 'col5', width: 20},
-      { header: 'SERVICIO ['+((this.s)?this.findNameService(this.s)?.svName:'Todos')+']', key: 'col6', width: 50},
-      { header: 'MES/SUBPERIODO ['+((this.pp)?this.findNamePeriodPayment(this.pp)?.ppayName:'Todos')+']', key: 'col7', width: 20},
-      { header: 'COSTO', key: 'col8', width: 20},
-      { header: 'PAGADO', key: 'col9', width: 20},
-      { header: 'DEUDA', key: 'col10', width: 20}
+      { header: 'ARCHIVADOR', key: 'col'+(keyCol++), width: 10},
+      { header: 'RUC', key: 'col'+(keyCol++), width: 30},
+      { header: 'NOMBRE', key: 'col'+(keyCol++), width: 15},
+
+      { header: 'SERIE', key: 'col'+(keyCol++), width: 15},
+      { header: 'NROE', key: 'col'+(keyCol++), width: 15},
+      { header: 'FECHA', key: 'col'+(keyCol++), width: 15},
+      { header: 'SERVICIO', key: 'col'+(keyCol++), width: 15},
+
+      { header: 'ESTADO CLIENTE', key: 'col'+(keyCol++), width: 15},
+      { header: 'CAMBIO DE ESTADO', key: 'col'+(keyCol++), width: 15},
+
+      { header: 'VENTANILLA ['+((this.t)?(this.findNameTeller(this.t)?.tellName):'Todos')+']', key: 'col'+(keyCol++), width: 20},
+      
+      
+      /*{ header: 'PERIODO ['+((this.p)?this.findNamePeriod(this.p)?.prdsNameShort:'Todos')+']', key: 'col'+(keyCol++), width: 20},
+      { header: 'SERVICIO ['+((this.s)?this.findNameService(this.s)?.svName:'Todos')+']', key: 'col'+(keyCol++), width: 50},
+      { header: 'MES/SUBPERIODO ['+((this.pp)?this.findNamePeriodPayment(this.pp)?.ppayName:'Todos')+']', key: 'col'+(keyCol++), width: 20},
+      */
+      
+      { header: 'COSTO', key: 'col'+(keyCol++), width: 20},
+      { header: 'PAGADO', key: 'col'+(keyCol++), width: 20},
+      { header: 'DEUDA', key: 'col'+(keyCol++), width: 20}
   ]as any;
 
   //PREPACION DEL ARCHIVO Y SU DESCARGA

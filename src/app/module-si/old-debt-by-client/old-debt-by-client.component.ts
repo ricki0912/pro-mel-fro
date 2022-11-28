@@ -1,3 +1,9 @@
+
+
+
+
+
+
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -10,7 +16,6 @@ import { ReplaySubject, Subject, take, takeUntil } from 'rxjs';
 import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
 import { GlobalHelpers } from 'src/app/global/helpers/global.helpers';
 import { BUSSINES_STATE } from 'src/app/interfaces/bussines';
-import { DebtsAndPaids } from 'src/app/interfaces/debts-and-paids';
 import { Period } from 'src/app/interfaces/period';
 import { PeriodPayment } from 'src/app/interfaces/period-payment';
 import { Services } from 'src/app/interfaces/services';
@@ -21,12 +26,13 @@ import { PeriodService } from 'src/app/services/period.service';
 import { ServicesService } from 'src/app/services/services.service';
 import { TellerService } from 'src/app/services/teller.service';
 import * as fs from 'file-saver';
+import { LastPayment } from 'src/app/interfaces/last-payment';
 @Component({
-  selector: 'app-debts-and-paids',
-  templateUrl: './debts-and-paids.component.html',
-  styleUrls: ['./debts-and-paids.component.scss']
+  selector: 'app-old-debt-by-client',
+  templateUrl: './old-debt-by-client.component.html',
+  styleUrls: ['./old-debt-by-client.component.scss']
 })
-export class DebtsAndPaidsComponent implements OnInit {
+export class OldDebtByClientComponent implements OnInit {
 
   /*Busqueda de servicio*/
   public listServCtrl: FormControl = new FormControl();
@@ -62,12 +68,12 @@ export class DebtsAndPaidsComponent implements OnInit {
 
 
 
-  displayedColumns: string[] = ['select', 'numArchivador','ticket','code_category' ,'teller', 'category', 'date_time', 'time', 'amount'];
-  dataSource = new MatTableDataSource<DebtsAndPaids>();
-  selection = new SelectionModel<DebtsAndPaids>(true, []);
+  displayedColumns: string[] = ['select', 'numArchivador','ticket','code_category' , 'time', 'amount'];
+  dataSource = new MatTableDataSource<LastPayment>();
+  selection = new SelectionModel<LastPayment>(true, []);
 
 
-  clickedRows = new Set<DebtsAndPaids>();
+  clickedRows = new Set<LastPayment>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -110,7 +116,7 @@ export class DebtsAndPaidsComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: DebtsAndPaids): string {
+  checkboxLabel(row?: LastPayment): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -123,6 +129,7 @@ export class DebtsAndPaidsComponent implements OnInit {
     this.readPeriods();
     this.readPeriodsPayment()
     this.readServices()
+    this.onListenParams()
 
 
   
@@ -133,10 +140,10 @@ export class DebtsAndPaidsComponent implements OnInit {
 /*Leer deudas y pagos*/
   all(tellId:number,bussState:number,prdsId:number,svId:number, ppayId:number,q:string){
     this.isLoading=true
-    this.debtsAndPaidsService.all(tellId,bussState,prdsId,svId, ppayId,q).subscribe({
+    this.debtsAndPaidsService.getOldDebtByClient(tellId).subscribe({
       next:(d)=>{
         
-        this.dataSource.data=d.data as DebtsAndPaids[]
+        this.dataSource.data=d.data as LastPayment[]
         this.isLoading=false
         /**Cuidado */
         this.loadDataMatSelectSearch()
@@ -159,9 +166,6 @@ export class DebtsAndPaidsComponent implements OnInit {
       next:d=>{
         this.periods=d.data as Period[]
         this.p=this.periods[0].prdsId||0
-        //SE LLAMA AQUI PARA NO SOBRECARGAR 
-        this.onListenParams()
-
       }
     })
   }
@@ -220,7 +224,7 @@ export class DebtsAndPaidsComponent implements OnInit {
       this.q=params.params.q as string
     }
 
-    //if(this.p)
+    if(this.p)
       this.all(this.t,this.bs,this.p,this.s, this.pp,this.q)
   });  
 
@@ -315,17 +319,16 @@ export class DebtsAndPaidsComponent implements OnInit {
 
   /*Funciones adicionales */
 exportExcel(){
-  
+  console.log("Data", this.dataSource.data)
+
+
   let workbook = new Workbook();
-  let worksheet = workbook.addWorksheet("Deudas y Pagos - Filtro");
+  let worksheet = workbook.addWorksheet("Hoja 01");
 
   //CONVIRTIENDO NUESTRO ARREGLO A UN FORMATO LEGIBLE PARA EXCEL USANDO EXCELJS
   worksheet.addRow(undefined);
   for (let x1 of this.dataSource.data){
       let x2=Object.keys(x1);
-
-
-      
 
       let temp=[]
       temp.push(x1.bussFileNumber)
@@ -333,13 +336,25 @@ exportExcel(){
       temp.push(x1.bussName)
       temp.push(this.getNameBussState(parseInt(x1.bussState)))
       temp.push(x1.bussStateDate)
+
       temp.push((x1.tellId)?this.findNameTeller(x1.tellId)?.tellName:null)
-      temp.push((x1.prdsId)?this.findNamePeriod(x1.prdsId)?.prdsNameShort:null)
-      temp.push((x1.svId)?this.findNameService(x1.svId)?.svName:null)
-      temp.push((x1.ppayId)?this.findNamePeriodPayment(x1.ppayId)?.ppayName:null)
-      temp.push(x1.spCost)
-      temp.push(x1.spPaid)
-      temp.push(x1.spDebt)
+
+      temp.push(x1.spName)
+
+
+
+
+
+      //temp.push((x1.prdsId)?this.findNamePeriod(x1.prdsId)?.prdsNameShort:null)
+      //temp.push((x1.svId)?this.findNameService(x1.svId)?.svName:null)
+      
+      //temp.push((x1.ppayId)?this.findNamePeriodPayment(x1.ppayId)?.ppayName:null)
+      
+      //temp.push(x1.spCost)
+      //temp.push(x1.spPaid)
+      //temp.push(x1.spDebt)
+
+      temp.push(x1.sumSpDebt)
 
       /*for(let y of x1.){
         temp.push(y)
@@ -347,23 +362,32 @@ exportExcel(){
       worksheet.addRow(temp)
   }
   //NOMBRE DEL ARCHIVO RESULTANTE
-  let fname="Deudas y Pagos";
+  let fname="Adeuda desde - Filtro";
+  let keyCol=1
 
   //ASIGNACIÓN DE LA CABECERA DEL DOCUMENTO EXCEL DONDE CADA CAMPO DE LOS DATOS QUE EXPORTAREMOS SERA UNA COLUMNA
   worksheet.columns = [
-      { header: 'ARCHIVADOR', key: 'col1', width: 10},
-      { header: 'RUC', key: 'col2', width: 30},
-      { header: 'NOMBRE', key: 'col3', width: 15},
-      { header: 'ESTADO CLIENTE', key: 'col3', width: 15},
-      { header: 'CAMBIO DE ESTADO', key: 'col3', width: 15},
-      { header: 'VENTANILLA ['+((this.t)?(this.findNameTeller(this.t)?.tellName):'Todos')+']', key: 'col4', width: 20},
-      { header: 'PERIODO ['+((this.p)?this.findNamePeriod(this.p)?.prdsNameShort:'Todos')+']', key: 'col5', width: 20},
-      { header: 'SERVICIO ['+((this.s)?this.findNameService(this.s)?.svName:'Todos')+']', key: 'col6', width: 50},
-      { header: 'MES/SUBPERIODO ['+((this.pp)?this.findNamePeriodPayment(this.pp)?.ppayName:'Todos')+']', key: 'col7', width: 20},
-      { header: 'COSTO', key: 'col8', width: 20},
-      { header: 'PAGADO', key: 'col9', width: 20},
-      { header: 'DEUDA', key: 'col10', width: 20}
+      { header: 'ARCHIVADOR', key: 'col'+(keyCol++), width: 10},
+      { header: 'RUC', key: 'col'+(keyCol++), width: 30},
+      { header: 'NOMBRE', key: 'col'+(keyCol++), width: 15},
+      
+      { header: 'ESTADO CLIENTE', key: 'col'+(keyCol++), width: 15},
+      { header: 'CAMBIO DE ESTADO', key: 'col'+(keyCol++), width: 15},
+      
+      { header: 'VENTANILLA ['+((this.t)?(this.findNameTeller(this.t)?.tellName):'Todos')+']', key: 'col'+(keyCol++), width: 20},
+      { header: 'SERVICIO', key: 'col'+(keyCol++), width: 20},
+      /*{ header: 'PERIODO ['+((this.p)?this.findNamePeriod(this.p)?.prdsNameShort:'Todos')+']', key: 'col'+(keyCol++), width: 20},
+      { header: 'SERVICIO ['+((this.s)?this.findNameService(this.s)?.svName:'Todos')+']', key: 'col'+(keyCol++), width: 50},
+      { header: 'MES/SUBPERIODO ['+((this.pp)?this.findNamePeriodPayment(this.pp)?.ppayName:'Todos')+']', key: 'col'+(keyCol++), width: 20},
+      
+
+      { header: 'COSTO', key: 'col'+(keyCol++), width: 20},
+      { header: 'PAGADO', key: 'col'+(keyCol++), width: 20},
+      { header: 'DEUDA', key: 'col'+(keyCol++)', width: 20}*/
+
+      {header: 'DEUDA TOTAL',  key: 'col'+(keyCol++), width: 20}
   ]as any;
+
 
   //PREPACION DEL ARCHIVO Y SU DESCARGA
   workbook.xlsx.writeBuffer().then((data) => {
@@ -372,5 +396,7 @@ exportExcel(){
   });
 
 }
+
+formatDate=(d:Date)=>GlobalHelpers.formatDate(d)
 
 }

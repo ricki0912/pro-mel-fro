@@ -1,0 +1,41 @@
+<mat-toolbar color="primary" class="tollbar">
+  <mat-toolbar-row>
+    <button mat-icon-button mat-dialog-close class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>{{ title }}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="dialog-body">
+  <p>
+    Ter permitira ordenar los servicios. Presiona sin soltar y arrastra hasta la posicion deseada y luego dé click en
+    "Guardar".
+
+  </p>
+
+    <!--<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let s of services" cdkDrag>
+          <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+          {{s.svName}}
+        </div>
+      </div>-->
+
+
+    <div cdkDropList [cdkDropListData]="services" class="example-list container" (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let s of services" cdkDrag>
+        {{s.svName}}
+      </div>
+    </div>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button cdkFocusInitial type="submit" (click)="reOrderBefore()">
+      Guardar
+    </button>
+
+  </mat-dialog-actions>
+</div>
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>

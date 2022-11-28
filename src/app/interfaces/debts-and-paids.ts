@@ -1,6 +1,7 @@
 export interface DebtsAndPaids {
     bussId: number;
     bussState: string;
+    bussStateDate:Date;
     tellId?: number;
     bussName: string;
     bussRUC: string;

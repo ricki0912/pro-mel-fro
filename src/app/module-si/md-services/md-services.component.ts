@@ -10,6 +10,7 @@ import { ServicesService } from 'src/app/services/services.service';
 import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { EditServiceComponent } from './pages/edit-service/edit-service.component';
+import { OrganizeServicesComponent } from './pages/organize-services/organize-services.component';
 
 @Component({
   selector: 'app-md-services',
@@ -101,6 +102,23 @@ export class MdServicesComponent implements OnInit, CrudInterface, ActionDialogI
       }
     })
     return true;
+  }
+
+  openDialogReOrder(): boolean {
+    const dialogRef = this.dialogEditService.open(OrganizeServicesComponent, {
+      panelClass: 'dialog',
+    
+      data: {
+        row: {},
+        type: TYPES_ACTIONS_DIALOG.ADD
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addServices(result);
+      }
+    });
+    return true
   }
 
   openDialogAdd(): boolean {

@@ -22,7 +22,9 @@ import { FormControl } from '@angular/forms';
 import { FileNumberComponent } from './pages/file-number/file-number.component';
 import { MatSort , Sort} from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { Workbook } from 'exceljs';
 
+import * as fs from 'file-saver';
 
 @Component({
   selector: 'app-client',
@@ -346,8 +348,122 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     })
   }
 
-  /*favoriteSeason: string = "";
-  seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];*/
+  private getNameBussState(bussState:number){
+    let n='';
+
+
+      switch (bussState) {
+          case BUSSINES_STATE.ENABLE:
+            n="Activo"
+          break;
+          case BUSSINES_STATE.RETIRED:
+              n="Retirado"
+              break;
+          case BUSSINES_STATE.SUSPENDED:
+              n="Suspendido"
+              break;
+          default:
+              n=""
+              break;
+      }
+      return n;
+
+  }
+
+  exportExcel(){
+  
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet("Clientes - Filtro");
+  
+    //CONVIRTIENDO NUESTRO ARREGLO A UN FORMATO LEGIBLE PARA EXCEL USANDO EXCELJS
+    worksheet.addRow(undefined);
+    for (let x1 of this.dataSource.data){
+        let x2=Object.keys(x1);
+  
+  
+        
+  
+        let temp=[]
+        temp.push(x1.bussFileNumber)
+        temp.push(x1.bussRUC)
+        temp.push(x1.bussName)
+        temp.push(x1.bussTel)
+
+        temp.push((x1.bussState)?this.getNameBussState(parseInt(x1.bussState)):null)
+        temp.push(x1.bussStateDate)
+
+        temp.push(x1.person.perName)
+        temp.push(x1.person.perNumberDoc)
+        temp.push(x1.person.perEmail)
+        
+
+        temp.push((x1.tellId)?this.getClientTeller(x1.tellId):null)        
+        temp.push((x1.tellId)?this.findNameTeller(x1.tellId)?.tellName:null)
+        
+
+        //temp.push(x1.person.perTel)
+        //temp.push(x1.person.perTel2)
+        //temp.push(x1.person.perTel3)
+        
+        /*temp.push(this.getNameBussState(parseInt(x1.bussState)))
+        temp.push((x1.tellId)?this.findNameTeller(x1.tellId)?.tellName:null)
+        temp.push((x1.prdsId)?this.findNamePeriod(x1.prdsId)?.prdsNameShort:null)
+        temp.push((x1.svId)?this.findNameService(x1.svId)?.svName:null)
+        temp.push((x1.ppayId)?this.findNamePeriodPayment(x1.ppayId)?.ppayName:null)
+        temp.push(x1.spCost)
+        temp.push(x1.spPaid)
+        temp.push(x1.spDebt)*/
+  
+        /*for(let y of x1.){
+          temp.push(y)
+        }*/
+        worksheet.addRow(temp)
+    }
+    //NOMBRE DEL ARCHIVO RESULTANTE
+    let temp=[]
+     
+    let fname="Clientes - Filtro";
+    let keyCol=1
+    //ASIGNACIÓN DE LA CABECERA DEL DOCUMENTO EXCEL DONDE CADA CAMPO DE LOS DATOS QUE EXPORTAREMOS SERA UNA COLUMNA
+    worksheet.columns = [
+        { header: 'ARCHIVADOR', key: 'col'+(keyCol++), width: 10},
+        { header: 'RUC', key: 'col'+(keyCol++), width: 30},
+        { header: 'NOMBRE', key: 'col'+(keyCol++), width: 15},
+        { header: 'TELÉFONO CORPORATIVO', key: 'col'+(keyCol++), width: 15},
+
+        { header: 'ESTADO CLIENTE', key: 'col'+(keyCol++), width: 15},
+        { header: 'CAMBIO DE ESTADO', key: 'col'+(keyCol++), width: 15},
+
+
+        { header: '[PERSONA] NOMBRE', key: 'col'+(keyCol++), width: 15},
+        { header: '[PERSONA] NRO DOCUMENTO', key: 'col'+(keyCol++), width: 15},
+        { header: '[PERSONA] EMAIL', key: 'col'+(keyCol++), width: 15},
+
+        { header: '[VENTANILLA] CÓDIGO', key: 'col'+(keyCol++), width: 15},
+        { header: '[VENTANILLA] NOMBRE', key: 'col'+(keyCol++), width: 15},
+        
+
+        
+        /*{ header: 'VENTANILLA ['+((this.t)?(this.findNameTeller(this.t)?.tellName):'Todos')+']', key: 'col'+(keyCol++), width: 20},
+        { header: 'PERIODO ['+((this.p)?this.findNamePeriod(this.p)?.prdsNameShort:'Todos')+']', key: 'col'+(keyCol++), width: 20},
+        { header: 'SERVICIO ['+((this.s)?this.findNameService(this.s)?.svName:'Todos')+']', key: 'col'+(keyCol++), width: 50},
+        { header: 'MES/SUBPERIODO ['+((this.pp)?this.findNamePeriodPayment(this.pp)?.ppayName:'Todos')+']', key: 'col'+(keyCol++), width: 20},
+        
+        { header: 'COSTO', key: 'col'+(keyCol++), width: 20},
+        { header: 'PAGADO', key: 'col'+(keyCol++), width: 20},
+        { header: 'DEUDA', key: 'col'+(keyCol++), width: 20}*/
+    ]as any;
+  
+    //PREPACION DEL ARCHIVO Y SU DESCARGA
+    workbook.xlsx.writeBuffer().then((data) => {
+        let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        fs.saveAs(blob, fname+'.xlsx');
+    });
+  
+  }
+  
+
+  findNameTeller=(tellId:number)=>this.tellers.find(e=>e.tellId==tellId)
 }
 
 /*interface Animal {

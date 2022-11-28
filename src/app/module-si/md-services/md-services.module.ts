@@ -23,11 +23,14 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { OrganizeServicesComponent } from './pages/organize-services/organize-services.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
     MdServicesComponent,
-    EditServiceComponent
+    EditServiceComponent,
+    OrganizeServicesComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +53,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    DragDropModule
   ]
 })
 export class MdServicesModule { }

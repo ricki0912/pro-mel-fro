@@ -133,7 +133,11 @@ const routes: Routes=[
       { path: 'last-payment-by-client',
       //component: ClientComponent
       loadChildren: ()=>import('./last-payment-by-client/last-payment-by-client.module').then(m=>m.LastPaymentByClientModule)
-    },
+      },
+      { path: 'old-debt-by-client',
+      //component: ClientComponent
+      loadChildren: ()=>import('./old-debt-by-client/old-debt-by-client.module').then(m=>m.OldDebtByClientModule)
+      },
       
       
 
