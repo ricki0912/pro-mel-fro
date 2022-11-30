@@ -362,7 +362,7 @@ exportExcel(){
       worksheet.addRow(temp)
   }
   //NOMBRE DEL ARCHIVO RESULTANTE
-  let fname="Adeuda desde - Filtro";
+  let fname="Debe desde - Filtro";
   let keyCol=1
 
   //ASIGNACIÓN DE LA CABECERA DEL DOCUMENTO EXCEL DONDE CADA CAMPO DE LOS DATOS QUE EXPORTAREMOS SERA UNA COLUMNA
