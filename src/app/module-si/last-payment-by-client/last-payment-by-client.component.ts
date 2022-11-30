@@ -357,7 +357,7 @@ exportExcel(){
       worksheet.addRow(temp)
   }
   //NOMBRE DEL ARCHIVO RESULTANTE
-  let fname="Deudas y Pagos";
+  let fname="Último pago - Filtro ";
   let keyCol=1
   
   
