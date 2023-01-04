@@ -1,4 +1,57 @@
-<ngx-charts-bar-vertical-stacked
+<div #containerRef class="card-body">
+  <mat-card-title-group>
+
+  
+
+
+
+<mat-card-content> 
+  <form  (ngSubmit)="selectSearch()">
+    <mat-form-field appearance="legacy">
+        <mat-label>Fecha Inicio</mat-label>
+        <input matInput [matDatepicker]="picker1" [(ngModel)]="dateStart" name="dateStart">
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="legacy">
+        <mat-label>Fecha Fin</mat-label>
+        <input matInput [matDatepicker]="picker2"  [(ngModel)]="dateEnd" name="dateEnd">
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+
+
+
+
+
+    <button mat-button type="submit">
+        <mat-icon>search</mat-icon>Buscar
+    </button>
+</form>
+
+</mat-card-content>
+<mat-card-actions align="end">
+  
+    <button mat-button (click)="exportExcel()" >
+      <mat-icon>save_alt</mat-icon>Exportar
+    </button>
+    
+  
+</mat-card-actions>
+
+</mat-card-title-group>
+
+<mat-divider></mat-divider>
+
+
+
+  <ngx-charts-bar-vertical-stacked
+  [view]="[containerRef.offsetWidth/1.02, 400]"
+
   [view]="view"
   [scheme]="colorScheme"
   [results]="multi"
@@ -14,3 +67,4 @@
   (select)="onSelect($event)"
 >
 </ngx-charts-bar-vertical-stacked>
+</div>

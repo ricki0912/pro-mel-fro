@@ -18,5 +18,9 @@ export class ReportsService extends ParentService{
   public getAllBussinesAndVisitorsByDate(): Observable<InterfaceParamsResponse<any>> {
     return this.https.get<InterfaceParamsResponse<any>>(`${this.API_REPORTS}/get-all-bussines-and-visitors-by-date`);
   }
+
+  public getPaymentsMethodsByTeller(dateStart:string, dateEnd:string): Observable<InterfaceParamsResponse<any>> {
+    return this.https.get<InterfaceParamsResponse<any>>(`${this.API_REPORTS}/get-payments-methods-by-teller`);
+  }
  
 }

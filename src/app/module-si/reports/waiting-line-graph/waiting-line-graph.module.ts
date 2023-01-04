@@ -20,6 +20,8 @@ import { GrahpBussinesAndVisitorsComponent } from './pages/grahp-bussines-and-vi
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { GrahpPayAndTellerComponent } from './pages/grahp-pay-and-teller/grahp-pay-and-teller.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 @NgModule({
   declarations: [
     WaitingLineGraphComponent,
@@ -45,6 +47,8 @@ import { GrahpPayAndTellerComponent } from './pages/grahp-pay-and-teller/grahp-p
     MatTabsModule, 
   
     NgxChartsModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
 
   ]
 })

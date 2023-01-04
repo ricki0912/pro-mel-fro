@@ -23,6 +23,7 @@ import { MainViewService } from '../main-view/main-view.service';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import { GlobalHelpers } from 'src/app/global/helpers/global.helpers';
+import { PMS } from 'src/app/core/permission/pms.enum';
 
 @Component({
   selector: 'app-accounting',
@@ -32,6 +33,7 @@ import { GlobalHelpers } from 'src/app/global/helpers/global.helpers';
 export class AccountingComponent implements OnInit {
 
   PKC=PAYMENT_KIND_CANCELED
+  PMS=PMS
   isLoading = true;
   serBuss: Bussines | undefined;
   /*Parametros para buscar */

@@ -29,6 +29,7 @@ import { DebtsAndPaidsComponent } from './debts-and-paids.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { CoreModule } from 'src/app/core/core.module';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatChipsModule,
     MatInputModule,
     FormsModule, ReactiveFormsModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    CoreModule
   ]
 })
 export class DebtsAndPaidsModule { }

@@ -38,6 +38,7 @@ import { ChangeStateComponent } from './pages/change-state/change-state.componen
 import { FileNumberComponent } from './pages/file-number/file-number.component';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { CoreModule } from 'src/app/core/core.module';
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatMenuModule,
     MatChipsModule,
 
-    MatTooltipModule
+    MatTooltipModule,
+    CoreModule
   ],
   exports: [
     ClientComponent,

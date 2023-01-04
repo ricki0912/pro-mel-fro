@@ -104,12 +104,12 @@ export class MainViewComponent implements OnInit {
       ]
     },
    
-    {isDisplay:false, name:'Contabilidad',routerLink:'./', icon:'payment', permission:PMS.SI_REPORT_WAITING_LINE,
+    {isDisplay:false, name:'Contabilidad',routerLink:'./', icon:'payment', permission:PMS.SI_ACCOUNTING_MODULE,
     subMenu: [
-      {name:'Contabilidad', routerLink:'./accounting', permission: PMS.SI_SEE},
-      {name:'Deudas y Pagos', routerLink:'./debts-and-paids', permission: PMS.SI_SEE},
-      {name:'Último  Pago (DJM)', routerLink:'./last-payment-by-client', permission: PMS.SI_SEE},
-      {name:'Debe desde (DJM)', routerLink:'./old-debt-by-client', permission: PMS.SI_SEE},
+      {name:'Contabilidad', routerLink:'./accounting', permission: PMS.SI_ACCOUNTING_SEE},
+      {name:'Deudas y Pagos', routerLink:'./debts-and-paids', permission: PMS.SI_DEBTS_AND_PAIDS_SEE},
+      {name:'Último  Pago (DJM)', routerLink:'./last-payment-by-client', permission: PMS.SI_LAST_PAYMENT_BY_CLIENT_SEE},
+      {name:'Debe desde (DJM)', routerLink:'./old-debt-by-client', permission: PMS.SI_OLD_DEBT_BY_CLIENT_SEE},
 
 
     ]

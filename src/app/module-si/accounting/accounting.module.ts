@@ -52,6 +52,7 @@ import { AddDescriptionComponent } from './pages/add-description/add-description
 import { AddQuantityComponent } from './pages/add-quantity/add-quantity.component';
 
 import {MatRadioModule} from '@angular/material/radio';
+import { CoreModule } from 'src/app/core/core.module';
 
 
 
@@ -94,7 +95,8 @@ import {MatRadioModule} from '@angular/material/radio';
     MatDatepickerModule,
     MatMomentDateModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    CoreModule
     
   ],
   providers:[  DatePipe,     ],

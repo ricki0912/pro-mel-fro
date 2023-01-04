@@ -25,6 +25,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Workbook } from 'exceljs';
 
 import * as fs from 'file-saver';
+import { PMS } from 'src/app/core/permission/pms.enum';
 
 @Component({
   selector: 'app-client',
@@ -50,6 +51,7 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   teller?:Teller;
 
   BS=BUSSINES_STATE
+  PMS=PMS
 
   private clientTeller = new Map<number, string>();
 

@@ -32,6 +32,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { CoreModule } from 'src/app/core/core.module';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     MatChipsModule,
     MatInputModule,
     FormsModule, ReactiveFormsModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    CoreModule
   ]
 })
 export class LastPaymentByClientModule { }

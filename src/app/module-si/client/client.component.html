@@ -15,10 +15,12 @@
       <mat-card-title>Lista de todos los clientes</mat-card-title>
       <mat-card-actions align="end">
        
-
-        <button mat-button (click)="exportExcel()">
-          <mat-icon>download</mat-icon> Descargar
-        </button>
+        
+          <button mat-button (click)="exportExcel()" *appPermission="PMS.SI_CLIENTS_XLS_DWL">
+            <mat-icon>download</mat-icon> Descargar
+          </button>
+        
+        
         <button mat-button (click)="openDialogFileNumber()">
           <mat-icon>file</mat-icon> Archivadores
         </button>

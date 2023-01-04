@@ -21,6 +21,7 @@ import { ServicesService } from 'src/app/services/services.service';
 import { TellerService } from 'src/app/services/teller.service';
 import * as fs from 'file-saver';
 import { LastPayment } from 'src/app/interfaces/last-payment';
+import { PMS } from 'src/app/core/permission/pms.enum';
 @Component({
   selector: 'app-last-payment-by-client',
   templateUrl: './last-payment-by-client.component.html',
@@ -52,6 +53,7 @@ export class LastPaymentByClientComponent implements OnInit {
   isLoading: boolean = false
 
   BS=BUSSINES_STATE
+  PMS=PMS
 
   t:number=0;
   bs:number = 0;

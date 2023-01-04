@@ -63,7 +63,7 @@ const routes: Routes=[
         //component: ClientComponent
         loadChildren: ()=>import('./client-view/client-view.module').then(m=>m.ClientViewModule)
       },
-      {
+      { 
         path: 'users',
         //component: ClientComponent
         loadChildren: ()=>import('./user/user.module').then(m=>m.UserModule)
@@ -120,7 +120,9 @@ const routes: Routes=[
       },
       {
         path: 'accounting',
-        loadChildren:()=>import('./accounting/accounting.module').then(m=>m.AccountingModule)
+        loadChildren:()=>import('./accounting/accounting.module').then(m=>m.AccountingModule),
+        canLoad:[ModuleSiGuard],
+        data:{permission: PMS.SI_ACCOUNTING_SEE}
       },
       { path: 'accounting/:payToken',
         //component: ClientComponent
@@ -128,15 +130,21 @@ const routes: Routes=[
       },
       { path: 'debts-and-paids',
         //component: ClientComponent
-        loadChildren: ()=>import('./debts-and-paids/debts-and-paids.module').then(m=>m.DebtsAndPaidsModule)
+        loadChildren: ()=>import('./debts-and-paids/debts-and-paids.module').then(m=>m.DebtsAndPaidsModule),
+        canLoad:[ModuleSiGuard],
+        data:{permission: PMS.SI_DEBTS_AND_PAIDS_SEE}
       },
       { path: 'last-payment-by-client',
       //component: ClientComponent
-      loadChildren: ()=>import('./last-payment-by-client/last-payment-by-client.module').then(m=>m.LastPaymentByClientModule)
+      loadChildren: ()=>import('./last-payment-by-client/last-payment-by-client.module').then(m=>m.LastPaymentByClientModule),
+      canLoad:[ModuleSiGuard],
+        data:{permission: PMS.SI_LAST_PAYMENT_BY_CLIENT_SEE}
       },
       { path: 'old-debt-by-client',
       //component: ClientComponent
-      loadChildren: ()=>import('./old-debt-by-client/old-debt-by-client.module').then(m=>m.OldDebtByClientModule)
+      loadChildren: ()=>import('./old-debt-by-client/old-debt-by-client.module').then(m=>m.OldDebtByClientModule),
+      canLoad:[ModuleSiGuard],
+      data:{permission: PMS.SI_OLD_DEBT_BY_CLIENT_SEE}
       },
       
       

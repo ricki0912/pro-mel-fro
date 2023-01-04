@@ -29,7 +29,7 @@
                         <!--<button mat-button>
                               <mat-icon>pause</mat-icon>Espera
                           </button>--->
-                        <button mat-button (click)="exportExcel()">
+                        <button mat-button (click)="exportExcel()" *appPermission="PMS.SI_OLD_DEBT_BY_CLIENT_XLS_DWL">
                             <mat-icon>download</mat-icon>Descargar
                         </button> 
 

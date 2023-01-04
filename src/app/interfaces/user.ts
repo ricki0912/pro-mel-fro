@@ -15,6 +15,6 @@ export interface User extends ParentInterface {
     permissions?:Permission[] | {} | []
     tellers?:Teller[]
     img?:string
-    
+    state:number
 
 }

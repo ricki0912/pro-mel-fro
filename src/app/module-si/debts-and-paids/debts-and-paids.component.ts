@@ -21,6 +21,7 @@ import { PeriodService } from 'src/app/services/period.service';
 import { ServicesService } from 'src/app/services/services.service';
 import { TellerService } from 'src/app/services/teller.service';
 import * as fs from 'file-saver';
+import { PMS } from 'src/app/core/permission/pms.enum';
 @Component({
   selector: 'app-debts-and-paids',
   templateUrl: './debts-and-paids.component.html',
@@ -52,6 +53,7 @@ export class DebtsAndPaidsComponent implements OnInit {
   isLoading: boolean = false
 
   BS=BUSSINES_STATE
+  PMS=PMS
 
   t:number=0;
   bs:number = 0;
