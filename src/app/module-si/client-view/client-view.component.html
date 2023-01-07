@@ -1,26 +1,23 @@
 <div class="windows">
-
-
-  <mat-grid-list cols="1" rowHeight="30px" style="margin-top:10px ;">
+  <mat-grid-list cols="1" rowHeight="30px" style="margin-top: 10px">
     <mat-grid-tile colspan="1" rowspan="1">
-        <div class="div-title">
-            <span>Clientes</span>
-            <span>
-                <mat-icon>
-                    keyboard_arrow_right</mat-icon>
-            </span>
-            <span>{{business[0].bussName}} </span>
-        </div>
+      <div class="div-title">
+        <span>Clientes</span>
+        <span>
+          <mat-icon> keyboard_arrow_right</mat-icon>
+        </span>
+        <span>{{ business[0].bussName }} </span>
+      </div>
     </mat-grid-tile>
-</mat-grid-list>
+  </mat-grid-list>
 
   <mat-divider></mat-divider>
   <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   <div fxLayout="row" fxLayoutGap="5px">
     <mat-card id="datos">
       <mat-card-content *ngFor="let a of business">
-        <div class="perfil"  [class]="'buss-state-'+a.bussState">
-          <span class="number" >{{ a.bussFileNumber }}</span>
+        <div class="perfil" [class]="'buss-state-' + a.bussState">
+          <span class="number">{{ a.bussFileNumber }}</span>
         </div>
         <div class="datosBusiness">
           <div>
@@ -29,14 +26,13 @@
           <div>
             <span class="bussRuc">{{ a.bussRUC }}</span>
             <button
-            mat-icon-button
-
-            matSuffix
-            color="primary"
-            (click)="beforeCopy( a.bussRUC +':RUC',a.bussRUC )"
-          >
-            <mat-icon class="iconCopy">file_copy</mat-icon>
-          </button>
+              mat-icon-button
+              matSuffix
+              color="primary"
+              (click)="beforeCopy(a.bussRUC + ':RUC', a.bussRUC)"
+            >
+              <mat-icon class="iconCopy">file_copy</mat-icon>
+            </button>
           </div>
         </div>
         <div class="datosRepresentate">
@@ -49,20 +45,22 @@
           <div>
             <span class="perNumberDoc">{{ a.person.perNumberDoc }}</span>
             <button
-            mat-icon-button
-
-            matSuffix
-            color="primary"
-            (click)="beforeCopy( a.person.perNumberDoc +':NRO DOC',a.person.perNumberDoc )"
-          >
-            <mat-icon class="iconCopy">file_copy</mat-icon>
-          </button>
+              mat-icon-button
+              matSuffix
+              color="primary"
+              (click)="
+                beforeCopy(
+                  a.person.perNumberDoc + ':NRO DOC',
+                  a.person.perNumberDoc
+                )
+              "
+            >
+              <mat-icon class="iconCopy">file_copy</mat-icon>
+            </button>
           </div>
         </div>
         <div>
-          <span  > 
-            {{teller.tellCode}} - {{ teller.tellName}}
-          </span>
+          <span> {{ teller.tellCode }} - {{ teller.tellName }} </span>
         </div>
         <mat-divider></mat-divider>
         <div class="datosFuncionamiento">
@@ -93,38 +91,55 @@
                   ><i>Retirado</i></b
                 ></b
               >
-              <button  mat-icon-button (click)="openDialogChangeState(a.bussId || 0, a.bussState, a.bussStateDate )">
+              <button
+                mat-icon-button
+                (click)="
+                  openDialogChangeState(
+                    a.bussId || 0,
+                    a.bussState,
+                    a.bussStateDate
+                  )
+                "
+              >
                 <mat-icon>edit</mat-icon>
               </button>
-              </span
-            >
+            </span>
           </div>
           <div>
-            <span
-              > 
+            <span>
               <container-element [ngSwitch]="a.bussState">
                 <b *ngSwitchCase="1">Activo desde :</b>
                 <b *ngSwitchCase="2">Suspendido desde :</b>
                 <b *ngSwitchCase="3">Retirado desde :</b>
 
-                <i *ngSwitchDefault>(Click en el lapiz para actualizar el estado)</i>
+                <i *ngSwitchDefault
+                  >(Click en el lapiz para actualizar el estado)</i
+                >
               </container-element>
-              
+
               <b
-                ><i>{{ (a.bussStateDate)?formatDate(a.bussStateDate ):'' }}</i></b
+                ><i>{{
+                  a.bussStateDate ? formatDate(a.bussStateDate) : ""
+                }}</i></b
               ></span
             >
           </div>
-         
+
           <mat-divider></mat-divider>
 
           <div>
-            <span  > 
-              {{(a.bussComment)?a.bussComment:'(Click en el lapiz para agregar un comentario.)'}}
-              <button  mat-icon-button (click)="openDialogCommentClient(a.bussId ||0, a.bussComment)">
-                  <mat-icon>edit</mat-icon>
+            <span>
+              {{
+                a.bussComment
+                  ? a.bussComment
+                  : "(Click en el lapiz para agregar un comentario.)"
+              }}
+              <button
+                mat-icon-button
+                (click)="openDialogCommentClient(a.bussId || 0, a.bussComment)"
+              >
+                <mat-icon>edit</mat-icon>
               </button>
-              
             </span>
           </div>
         </div>
@@ -171,24 +186,29 @@
         >
           Asignar Ventanilla
         </button>
-
-       
-        
         <button
-        mat-raised-button
-        (click)="delBusiness(a.bussId||0)"
-        color="success"
-        style="width: 100%; margin-top: 10px"
-      >
-        Eliminar
-      </button>
+          mat-raised-button
+          (click)="openDialogAnnualSumary()"
+          color="success"
+          style="width: 100%; margin-top: 10px"
+        >
+          Ventas Anual
+        </button>
+
+        <button
+          mat-raised-button
+          (click)="delBusiness(a.bussId || 0)"
+          color="success"
+          style="width: 100%; margin-top: 10px"
+        >
+          Eliminar
+        </button>
 
         <mat-divider></mat-divider>
         <app-last-appointment></app-last-appointment>
       </mat-card-content>
     </mat-card>
     <mat-card id="contenido">
-
       <router-outlet> </router-outlet>
 
       <!--{{business[0] | json}}
@@ -257,7 +277,7 @@ India Standard Time : {{business[0].created_at| date:'short':'UTC +4'}}
 
 Peru Standard Time : {{business[0].created_at| date:'short':'UTC -5'}}
 <mat-form-field>
-  <input matInput [matDatepicker]="datepicker" 
+  <input matInput [matDatepicker]="datepicker"
   placeholder="Choose a date">
   <mat-datepicker-toggle matSuffix [for]="datepicker">
   </mat-datepicker-toggle>

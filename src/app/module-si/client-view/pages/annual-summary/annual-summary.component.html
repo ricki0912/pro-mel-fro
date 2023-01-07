@@ -1,0 +1,106 @@
+<div style="min-width: 1100px">
+  <mat-toolbar color="primary" class="tollbar">
+    <mat-toolbar-row>
+      <button
+        mat-icon-button
+        mat-dialog-close
+        class="example-icon"
+        aria-label="Example icon-button with menu icon"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <span class="example-spacer"></span>
+      <span>{{ title }}</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="dialog-body" style="padding: 10px">
+    <mat-dialog-content
+      class="mat-typography"
+      style="max-height: initial; margin: 0px; padding: 5px"
+    >
+      <div class="w-100" style="display: flex">
+        <div
+          class="card shadow p-3 mb-3 bg-white rounded"
+          style="width: 50%; height: 100%; margin: 0px 5px 0px 0px"
+        >
+          <div class="card-header" style="background-color: white">
+            <app-list-periods></app-list-periods>
+          </div>
+          <app-table-edit></app-table-edit>
+          <div
+            class="alert alert-info"
+            role="alert"
+            style="margin: 5px 30px 5px 30px"
+          >
+            <div>
+              <b>NOTA:</b> Tiene planilla de tranajadores hasta el 2023.
+            </div>
+          </div>
+        </div>
+        <div
+          class="card mb-2 shadow p-3 mb-3 bg-white rounded"
+          style="width: 50%; height: 100%; margin: 0px"
+        >
+          <div class="card-header" style="background-color: white">
+            <app-list-periods></app-list-periods>
+          </div>
+          <app-table-edit></app-table-edit>
+          <div
+            class="alert alert-info"
+            role="alert"
+            *ngIf="showDescription"
+            style="
+              margin: 5px 30px 5px 30px;
+              display: flex;
+              align-items: center;
+              padding: 6px 16px 6px 16px;
+            "
+          >
+            <div style="width: 90%">
+              <b>NOTA:</b> Tiene planilla de tranajadores hasta el 2023.
+            </div>
+            <div style="width: 10%">
+              <button
+                mat-icon-button
+                matSuffix
+                matTooltip="Editar"
+                style="color: #ff6b01"
+                (click)="showEditDescription()"
+              >
+                <mat-icon style="font-size: 20px">edit</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div style="margin: 5px 30px 5px 30px" *ngIf="showDescriptionEdit">
+            <mat-form-field
+              class="example-full-width"
+              style="width: 100%; font-size: 12px"
+              appearance="fill"
+            >
+              <mat-label>Comentario</mat-label>
+              <textarea
+                matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="8"
+                maxLength="500"
+              ></textarea>
+              <mat-icon
+                matSuffix
+                color="primary"
+                (click)="showEditDescription()"
+                >save</mat-icon
+              >
+              <mat-hint align="end">/500</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="card shadow p-3 mb-3 bg-white rounded">
+        <app-annual-summary-graph></app-annual-summary-graph>
+      </div>
+    </mat-dialog-content>
+  </div>
+</div>

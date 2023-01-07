@@ -1,0 +1,66 @@
+<table mat-table [dataSource]="dataSource">
+  <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
+    <th mat-header-cell *matHeaderCellDef>
+      {{ col.label }}
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <div [ngSwitch]="col.type" *ngIf="!element.isEdit">
+        <div class="btn-edit" *ngSwitchCase="'isEdit'">
+          <button
+            mat-icon-button
+            (click)="element.isEdit = !element.isEdit"
+            matSuffix
+            matTooltip="Editar"
+            style="color: #ff6b01"
+          >
+            <mat-icon style="font-size: 20px">edit</mat-icon>
+          </button>
+        </div>
+        <span *ngSwitchCase="'date'">
+          {{ element[col.key] | date : "mediumDate" }}
+        </span>
+        <span *ngSwitchCase="'isMonth'">
+          {{ findMonth(element[col.key])?.name }}
+        </span>
+        <span *ngSwitchCase="'number'">
+          {{ element[col.key] | currency : "S/ " }}
+        </span>
+        <span *ngSwitchDefault>
+          {{ element[col.key] }}
+        </span>
+      </div>
+
+      <div [ngSwitch]="col.type" *ngIf="element.isEdit">
+        <div class="btn-edit" *ngSwitchCase="'isEdit'">
+          <button
+            mat-icon-button
+            (click)="element.isEdit = !element.isEdit"
+            matSuffix
+            matTooltip="Listo"
+            style="color: #28a745"
+          >
+            <mat-icon style="font-size: 20px">done_outline</mat-icon>
+          </button>
+        </div>
+        <mat-form-field class="form-input" *ngSwitchCase="'number'">
+          <input
+            type="number"
+            matInput
+            (ngModelChange)="element[col.key] = $event"
+            [ngModel]="element[col.key]"
+            step="0.01"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <span *ngSwitchCase="'isMonth'">
+          {{ findMonth(element[col.key])?.name }}
+        </span>
+        <mat-form-field class="form-input" *ngSwitchDefault>
+          <input [type]="col.type" matInput [(ngModel)]="element[col.key]" />
+        </mat-form-field>
+      </div>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
