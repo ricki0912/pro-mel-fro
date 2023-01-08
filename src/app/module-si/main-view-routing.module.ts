@@ -53,7 +53,17 @@ const routes: Routes=[
         //component: ClientComponent
         loadChildren: ()=>import('./reports/waiting-line-graph/waiting-line-graph.module').then(m=>m.WaitingLineGraphModule)
       },
+      {
+        path: 'reports/accounting-graph', 
+        loadChildren: ()=>import('./reports/accounting-graph/accounting-graph.module').then(m=>m.AccountingGraphModule)
+      },
 
+      {
+        path: 'reports/client-graph', 
+        loadChildren:()=>import('./reports/client-graph/client-graph.module').then(m=>m.ClientGraphModule)
+        //loadChildren: ()=>import('./reports/accounting-graph/accounting-graph.module').then(m=>m.AccountingGraphModule)
+      },
+      
       {
         path: 'reports/today',
         //component: ClientComponent
@@ -124,6 +134,8 @@ const routes: Routes=[
         canLoad:[ModuleSiGuard],
         data:{permission: PMS.SI_ACCOUNTING_SEE}
       },
+
+      
       { path: 'accounting/:payToken',
         //component: ClientComponent
         loadChildren: ()=>import('./detail-payment/detail-payment.module').then(m=>m.DetailPaymentModule)

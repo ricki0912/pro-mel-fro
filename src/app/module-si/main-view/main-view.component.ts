@@ -114,11 +114,14 @@ export class MainViewComponent implements OnInit {
 
     ]
     },
-    {isDisplay:false, name:'Reportes',routerLink:'./', icon:'pie_chart', permission:PMS.SI_REPORT_WAITING_LINE,
+
+    {isDisplay:false, name:'Reportes',routerLink:'./', icon:'pie_chart', permission:PMS.SI_REPORT_MODULE,
     subMenu: [
-      {name:'Hoy', routerLink:'./reports/today', permission: PMS.SI_REPORT_WAITING_LINE},
+      {name:'Hoy', routerLink:'./reports/today', permission: PMS.SI_SEE},
       {name:'Linea de espera', routerLink:'./reports/waiting-line', permission: PMS.SI_REPORT_WAITING_LINE},
-      {name:'Graficos de Linea', routerLink:'./reports/waiting-line-graph', permission: PMS.SI_REPORT_WAITING_LINE},
+      {name:'Gráficos - Linea', routerLink:'./reports/waiting-line-graph', permission: PMS.SI_REPORT_WAITING_LINE_GRAPH},
+      {name:'Gráficos - Contab.', routerLink:'./reports/accounting-graph', permission: PMS.SI_REPORT_ACCOUNTING_GRAPH},
+      {name:'Gráficos - Clientes', routerLink:'./reports/client-graph', permission: PMS.SI_REPORT_CLIENTS_GRAPH},
 
 
     ]
@@ -138,7 +141,7 @@ export class MainViewComponent implements OnInit {
 
       ]
     },
-    {isDisplay:false, name:'Sedes',routerLink:'./headquarters', icon:'place', permission:PMS.SI_USERS_SEE,
+    {isDisplay:false, name:'Sedes',routerLink:'./headquarters', icon:'place', permission:PMS.SI_HEADQUARTER_SEE,
     subMenu:[
 
     ]

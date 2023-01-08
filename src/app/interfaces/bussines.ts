@@ -46,6 +46,9 @@ export interface TellerJoinUsers {
   name?: string;
   hqId?: number;
   cantBusiness?: number;
+
+  tellState?: number;
+
 }
 
 export enum BUSSINES_STATE{

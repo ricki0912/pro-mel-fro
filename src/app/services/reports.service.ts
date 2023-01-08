@@ -20,7 +20,20 @@ export class ReportsService extends ParentService{
   }
 
   public getPaymentsMethodsByTeller(dateStart:string, dateEnd:string): Observable<InterfaceParamsResponse<any>> {
-    return this.https.get<InterfaceParamsResponse<any>>(`${this.API_REPORTS}/get-payments-methods-by-teller`);
+    return this.https.get<InterfaceParamsResponse<any>>(`${this.API_REPORTS}/get-payments-methods-by-teller`,{params: {dateStart, dateEnd}});
   }
+
+  public getBillingBalanceByMonth(): Observable<InterfaceParamsResponse<any>> {
+    return this.https.get<InterfaceParamsResponse<any>>(`${this.API_REPORTS}/get-billing-balance-by-month`);
+  }
+
+
+  getTicketsByMonth (): Observable<InterfaceParamsResponse<any>> {
+    return this.https.get<InterfaceParamsResponse<any>>(`${this.API_REPORTS}/get-tickets-by-month`);
+  }
+
+  getClientByState(): Observable<InterfaceParamsResponse<any>> {
+    return this.https.get<InterfaceParamsResponse<any>>(`${this.API_REPORTS}/get-client-by-state`);
+  } 
  
 }

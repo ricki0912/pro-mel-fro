@@ -35,6 +35,8 @@ export class FloatingWaitingLineService {
     this.onControl.emit(FWLS_CONTROL.SHOW)
   }
 
+  
+
 /*Metodos para actencion actual  */
 onCurrentAttention(t:TAppointmentTemp | null){
   this.currentAttentionTAppointment.next(t)

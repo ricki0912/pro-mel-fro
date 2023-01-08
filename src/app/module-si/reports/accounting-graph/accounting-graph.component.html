@@ -1,0 +1,53 @@
+<div class="windows">
+    <mat-grid-list cols="1" rowHeight="30px" style="margin-top: 10px">
+      <mat-grid-tile colspan="1" rowspan="1">
+        <div class="div-title">
+          <span>Reportes</span>
+          <span>
+            <mat-icon> keyboard_arrow_right</mat-icon>
+          </span>
+          <span>Contabilidad - Graficas</span>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <mat-divider></mat-divider>
+  
+    <mat-card class="example-card mat-elevation-z8">
+      <mat-card-title-group>
+        <mat-card-subtitle> <b>Graficas</b> </mat-card-subtitle>
+  
+        <mat-card-actions> </mat-card-actions>
+      </mat-card-title-group>
+      <mat-divider></mat-divider>
+  
+      <mat-tab-group mat-align-tabs="center">
+        
+  
+        <mat-tab label="Pagos por Ventanilla">
+          <app-grahp-pay-and-teller></app-grahp-pay-and-teller>
+        </mat-tab>
+
+        <mat-tab label="Pagos por Meses">
+          <app-graph-billing-balance-by-month></app-graph-billing-balance-by-month>
+        </mat-tab>
+
+        
+
+        <!--<mat-tab label="Buscar" style="z-index: -100"> jhgfjh </mat-tab>-->
+      </mat-tab-group>
+  
+      <div
+        style="
+          z-index: 5;
+          position: fixed;
+          display: flex;
+          align-self: flex-end;
+          align-items: center;
+  
+          bottom: 3px;
+          right: 3px;
+        "
+      ></div>
+    </mat-card>
+  </div>
+  

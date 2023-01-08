@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 
-import { WaitingLineGraphRoutingModule } from './waiting-line-graph-routing.module';
-import { WaitingLineGraphComponent } from './waiting-line-graph.component';
+import { AccountingGraphRoutingModule } from './accounting-graph-routing.module';
+import { AccountingGraphComponent } from './accounting-graph.component';
+
+
 
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
@@ -16,21 +18,24 @@ import {MatMenuModule} from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTabsModule} from '@angular/material/tabs';
-import { GrahpBussinesAndVisitorsComponent } from './pages/grahp-bussines-and-visitors/grahp-bussines-and-visitors.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { GrahpPayAndTellerComponent } from './pages/grahp-pay-and-teller/grahp-pay-and-teller.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { GraphTicketsByMonthComponent } from './pages/graph-tickets-by-month/graph-tickets-by-month.component';
+import { GraphBillingBalanceByMonthComponent } from './pages/graph-billing-balance-by-month/graph-billing-balance-by-month.component';
+
 @NgModule({
   declarations: [
-    WaitingLineGraphComponent,
-    GrahpBussinesAndVisitorsComponent,
-    GraphTicketsByMonthComponent,
+    AccountingGraphComponent,
+    GrahpPayAndTellerComponent,
+    GraphBillingBalanceByMonthComponent
   ],
   imports: [
     CommonModule,
-    WaitingLineGraphRoutingModule,
+    AccountingGraphRoutingModule,
+    CommonModule,
 
     MatDividerModule,
     MatCardModule,
@@ -49,7 +54,7 @@ import { GraphTicketsByMonthComponent } from './pages/graph-tickets-by-month/gra
     NgxChartsModule,
     MatDatepickerModule,
     MatMomentDateModule,
-
-  ], providers:[DatePipe]
+  ],
+  providers: [DatePipe]
 })
-export class WaitingLineGraphModule { }
+export class AccountingGraphModule { }

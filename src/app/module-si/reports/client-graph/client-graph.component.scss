@@ -1,0 +1,64 @@
+.span-title {
+    width: 100%;
+    text-align: left;
+    margin: 10px;
+  
+    color: #000;
+    font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    opacity: .85;
+    white-space: nowrap;
+  }
+  
+  .example-card {
+    margin: 10px;
+    max-width: 100%;
+  }
+  
+  .example-table-container {
+    position: relative;
+    min-height: 200px;
+    max-height: 330px;
+    overflow: auto;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  .mat-row .mat-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+  }
+  
+  .mat-row:hover .mat-cell {
+    visibility: visible;
+    background-color: rgba($color: #90caf9, $alpha: 0.3);
+  }
+  
+  .demo-row-is-clicked {
+    font-weight: bold;
+  }
+  
+  .div-title {
+    width: 100%;
+    text-align: left;
+    margin: 10px;
+  
+    color: #000;
+    font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    opacity: .85;
+    white-space: nowrap;
+  
+    display: flex;
+    justify-content: left;
+  }
+  
+  .mat-paginator {
+    display: flex;
+    justify-content: left;
+  }
+  /**/
+  

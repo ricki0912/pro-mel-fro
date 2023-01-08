@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
 import { AppointmentTemp, APPOINTMENT_STATE, TAppointmentTemp } from 'src/app/interfaces/appointment-temp';
@@ -19,6 +19,8 @@ import { GlobalHelpers } from 'src/app/global/helpers/global.helpers';
   styleUrls: ['./floating-waiting-line.component.scss']
 })
 export class FloatingWaitingLineComponent implements OnInit {
+  @Input() isFloating: boolean =true
+
   isLoading = false;
   isOpen = false;
   title: string = 'Melendres Auditores'
@@ -238,6 +240,8 @@ export class FloatingWaitingLineComponent implements OnInit {
     this.nroCallPending += 1
     this.setTitlePage(this.nroCallPending)
     this.soundAlert.play()
+
+    
   }
 
   private setSocketTV(hqId: number, s: SocketInterface<AppointmentTemp>) {

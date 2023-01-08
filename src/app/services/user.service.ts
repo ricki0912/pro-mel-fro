@@ -33,9 +33,12 @@ export class UserService extends ParentService implements CrudApiInterface{
      return this.https.post<User>(`${this.API_EXIST_EMAIL}`,{email} )
    }
 
-   changeState(id: number[], state:number){
-      //return this.https.post
+   changeState(id: number, state:number){
+    return this.https.put<InterfaceParamsResponse<User>>(`${this.API_USER}/${id}/change-state`, {state});
+
    }
+  
+
 
    add(object: User): Observable<InterfaceParamsResponse<ParentInterface>> | Observable<ParentInterface> | null {
    return null;

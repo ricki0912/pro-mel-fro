@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 
-import { WaitingLineGraphRoutingModule } from './waiting-line-graph-routing.module';
-import { WaitingLineGraphComponent } from './waiting-line-graph.component';
+import { ClientGraphRoutingModule } from './client-graph-routing.module';
+import { ClientGraphComponent } from './client-graph.component';
+import { GraphClientByStateComponent } from './pages/graph-client-by-state/graph-client-by-state.component';
+
+
 
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
@@ -16,21 +19,23 @@ import {MatMenuModule} from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTabsModule} from '@angular/material/tabs';
-import { GrahpBussinesAndVisitorsComponent } from './pages/grahp-bussines-and-visitors/grahp-bussines-and-visitors.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { GraphTicketsByMonthComponent } from './pages/graph-tickets-by-month/graph-tickets-by-month.component';
+
+
+
+
 @NgModule({
   declarations: [
-    WaitingLineGraphComponent,
-    GrahpBussinesAndVisitorsComponent,
-    GraphTicketsByMonthComponent,
+    ClientGraphComponent,
+    GraphClientByStateComponent
   ],
   imports: [
     CommonModule,
-    WaitingLineGraphRoutingModule,
+    ClientGraphRoutingModule,
 
     MatDividerModule,
     MatCardModule,
@@ -50,6 +55,8 @@ import { GraphTicketsByMonthComponent } from './pages/graph-tickets-by-month/gra
     MatDatepickerModule,
     MatMomentDateModule,
 
-  ], providers:[DatePipe]
+
+
+  ], providers: [DatePipe]
 })
-export class WaitingLineGraphModule { }
+export class ClientGraphModule { }

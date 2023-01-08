@@ -78,6 +78,7 @@
                       <mat-icon>password</mat-icon>
                       <span>Cambiar Contraseña</span>
                     </button>
+                    
                   </mat-menu>
                 </mat-list-item>
                 <mat-list-item
@@ -151,8 +152,25 @@
 
               <!-- Symbol Column -->
               <ng-container matColumnDef="symbol">
-                <th mat-header-cell *matHeaderCellDef>Roles</th>
-                <td mat-cell *matCellDef="let element">{{ element.role }}</td>
+                <th mat-header-cell *matHeaderCellDef>Estado</th>
+                <td mat-cell *matCellDef="let element">
+                  <button
+                  mat-icon-button
+                  (click)="
+                    changeState(element.id, element.state == 1 ? 2 : 1)
+                  "
+                  color="{{ element.state == 1 ? 'accent' : 'warn' }}"
+                  matSuffix
+                  matTooltip="{{
+                    element.state== 1 ? 'Habilitado' : 'Deshabilitado'
+                  }}"
+                >
+                  <mat-icon>{{
+                    element.state == 1 ? "visibility" : "visibility_off"
+                  }}</mat-icon>
+                </button>
+
+                </td>
               </ng-container>
 
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

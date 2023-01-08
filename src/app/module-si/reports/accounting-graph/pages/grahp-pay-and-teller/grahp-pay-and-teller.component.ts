@@ -1,7 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Workbook } from 'exceljs';
 import { ReportsService } from 'src/app/services/reports.service';
 import { multi } from './data-method-pay';
+import * as fs from 'file-saver';
 
 @Component({
   selector: 'app-grahp-pay-and-teller',
@@ -13,6 +15,7 @@ export class GrahpPayAndTellerComponent implements OnInit {
   dateEnd:Date=new Date()
 
 
+  data:any[]=[]
   multi: any[]=[];
   view: [number, number] = [700, 400];
 
@@ -49,7 +52,7 @@ export class GrahpPayAndTellerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.selectSearch()
+    this.selectSearch()
 
   }
 
@@ -81,6 +84,7 @@ export class GrahpPayAndTellerComponent implements OnInit {
         this.multi=d.data.results;
         this.xAxisLabel=d.data.xAxisLabel;
         this.yAxisLabel=d.data.yAxisLabel;
+        this.data=d.data.data;
       }, 
       error: e=>{
       
@@ -93,7 +97,45 @@ export class GrahpPayAndTellerComponent implements OnInit {
      //this.readCRUD(this.hqId, dateStart, dateEnd, this.wordlike)
 
   }
+
   exportExcel(){
-    
+   
+  let workbook = new Workbook();
+  let worksheet = workbook.addWorksheet("Hoja 01");
+
+  //CONVIRTIENDO NUESTRO ARREGLO A UN FORMATO LEGIBLE PARA EXCEL USANDO EXCELJS
+  worksheet.addRow(undefined);
+  for (let x1 of this.data){
+      let x2=Object.keys(x1);
+
+      let temp=[]
+      temp.push(x1.tellName)
+      temp.push(x1.paymthdsName)
+      temp.push(x1.total)
+
+      
+
+      
+      /*for(let y of x1.){
+        temp.push(y)
+      }*/
+      worksheet.addRow(temp)
+  }
+  //NOMBRE DEL ARCHIVO RESULTANTE
+  let fname="Pagos por Metodo y  ventanilla";
+
+  //ASIGNACIÓN DE LA CABECERA DEL DOCUMENTO EXCEL DONDE CADA CAMPO DE LOS DATOS QUE EXPORTAREMOS SERA UNA COLUMNA
+  worksheet.columns = [
+      { header: 'Ventanilla', key: 'col1', width: 10},
+      { header: 'Metodo de Pago', key: 'col2', width: 30},
+      { header: 'Total', key: 'col3', width: 15},
+      
+  ]as any;
+
+  //PREPACION DEL ARCHIVO Y SU DESCARGA
+  workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, fname+'.xlsx');
+  }); 
   }
 }

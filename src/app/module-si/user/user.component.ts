@@ -232,9 +232,21 @@ export class UserComponent implements OnInit, CrudInterface, ActionDialogInterfa
     return false;
   }
 
-  changeState(id: number[], state: number/*1=activo, 2=inactivo */) {
-
+  changeState(id: number, state: number/*1=activo, 2=inactivo */) {
+    this.userService.changeState(id, state).subscribe({
+      next: data=>{
+        this.showMessage.success({message: data.msg});
+        this.readCRUD();
+        this.selection.clear();
+        this.paginator._changePageSize(this.paginator.pageSize);
+      },
+      error: error=>{
+        this.showMessage.error({message: error.error.message})
+      }
+    })
+    return true; 
   }
+
 
   delete(id: number[]) {
 

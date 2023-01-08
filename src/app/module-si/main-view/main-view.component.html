@@ -153,6 +153,8 @@
       </div>
     </mat-toolbar>
     <!-- Add Content Here -->
+
+    <app-floating-waiting-line *ngIf="currentUser.tellers" [isFloating]="false"></app-floating-waiting-line>
     <router-outlet> </router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

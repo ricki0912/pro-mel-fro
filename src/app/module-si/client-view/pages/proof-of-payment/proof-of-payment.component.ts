@@ -57,7 +57,7 @@ export class ProofOfPaymentComponent implements OnInit {
     })
   }
 
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol','ticket','invoice', 'options'];
+  displayedColumns: string[] = ['select', 'position', 'name', 'symbol','ticket','invoice', 'receipt-honorary', 'options'];
   dataSource = new MatTableDataSource<Payment>();
 
   selection = new SelectionModel<Payment>(true, []);

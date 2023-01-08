@@ -44,6 +44,7 @@ import { FindUserComponent } from './pages/find-user/find-user.component';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { RolesComponent } from './pages/roles/roles.component';
 
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { RolesComponent } from './pages/roles/roles.component';
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTooltipModule
   ]
 })
 export class UserModule { }
