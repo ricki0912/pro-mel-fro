@@ -57,31 +57,37 @@ const COLUMNS_SCHEMA_NOT_EDIT = [
     key: 'ardMonth',
     type: 'isArdMonth',
     label: 'Meses',
+    placeholder:'Mes'
   },
   {
     key: 'ardTaxBase',
     type: 'isArdTaxBase',
     label: 'Base Imponible',
+    placeholder:'Base Imp.'
   },
   {
     key: 'ardTax',
     type: 'isArdTax',
     label: 'I.G.V',
+    placeholder:'I.G.V.'
   },
   {
     key: 'ardTotal',
     type: 'isArdTotal',
     label: 'Total',
+    placeholder:'Total'
   },
   {
     key: 'ardPlame',
     type: 'isArdPlame',
     label: 'Plame',
+    placeholder:'Plame'
   },
   {
     key: 'ardFee',
     type: 'isArdFee',
     label: 'Honorarios',
+    placeholder:'Hon.'
   }
 
 ];

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Bussines } from 'src/app/interfaces/bussines';
 import { Period } from 'src/app/interfaces/period';
 import { MainViewService } from 'src/app/module-si/main-view/main-view.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-annual-summary',
@@ -55,6 +56,10 @@ export class AnnualSummaryComponent implements OnInit {
       this.bussines={bussId:paramsDialog.bussId, person:{}}
     }
   }
+
+  public openPDFNewWindow(){
+    window.open(environment.API_URL+`/v1/reports/annual-summary?bussId=${this.bussines?.bussId}&prdsIdPrevious=${this.periodOfTablePreview?.prdsId}&prdsIdCurrent=${this.periodOfTableEdit?.prdsId}`);
+  } 
 
 
 

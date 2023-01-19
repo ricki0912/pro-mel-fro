@@ -1,3 +1,14 @@
+
+<ng-template #temEmptyInt>
+  <span class="borrador">
+    (0)
+  </span>
+</ng-template>
+<ng-template #temEmptyCurrency>
+  <span class="borrador">
+    (S/ 0.00)
+  </span>
+</ng-template>
 <table mat-table [dataSource]="dataSourceM">
     <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
       
@@ -38,29 +49,39 @@
             {{ findMonth(element[col.key])?.name }}
           </span>
   
-          <span *ngSwitchCase="'isArdTaxBase'">
-            {{ element[col.key] |  currency:"S/" }}
-          </span>
+          <ng-container *ngSwitchCase="'isArdTaxBase'">
+            <span *ngIf="element[col.key]!=null; else temEmptyCurrency" >
+              {{ element[col.key] |  currency:"S/" }}
+            </span>
+          </ng-container>
           
-          <span *ngSwitchCase="'isArdTax'">
-            {{ element[col.key] | currency:"S/" }}
-          </span>
+          <ng-container *ngSwitchCase="'isArdTax'">
+            <span *ngIf="element[col.key]!=null; else temEmptyCurrency" >
+              {{ element[col.key] |  currency:"S/" }}
+            </span>
+          </ng-container>
           
-          <span *ngSwitchCase="'isArdTotal'">
-            {{ element[col.key] | currency : "S/ " }}
-          </span>
+          <ng-container *ngSwitchCase="'isArdTotal'">
+            <span *ngIf="element[col.key]!=null; else temEmptyCurrency" >
+              {{ element[col.key] |  currency:"S/" }}
+            </span>
+          </ng-container>
   
-          <span *ngSwitchCase="'isArPlame'">
+          <ng-container *ngSwitchCase="'isArdPlame'">
+            <span *ngIf="element[col.key]!=null; else temEmptyInt" >
+              {{ element[col.key] }}
+            </span>
+          </ng-container>
+          
+          <ng-container *ngSwitchCase="'isArdFee'">
+            <span *ngIf="element[col.key]!=null; else temEmptyCurrency" >
+              {{ element[col.key] }}
+            </span>
+          </ng-container>
+          
+          <ng-container *ngSwitchDefault>
             {{ element[col.key] }}
-          </span>
-          
-          <span *ngSwitchCase="'isArdFee'">
-            {{ element[col.key]  | currency : "S/ " }}
-          </span>
-          
-          <span *ngSwitchDefault>
-            {{ element[col.key] ||defaultValue }}
-          </span>
+          </ng-container>
   
           <!--Fin es solo para mostrar datos sin editar-->
         </div>
@@ -84,6 +105,7 @@
               matInput
               (ngModelChange)="element[col.key] = $event"
               [ngModel]="element[col.key]"
+              [placeholder]="col.placeholder" 
               min="0"
               autocomplete="off"
             />
@@ -92,7 +114,7 @@
             {{ findMonth(element[col.key])?.name }}
           </span>
           <mat-form-field class="form-input" *ngSwitchDefault>
-            <input type="number" matInput step="0.01" min="0" [(ngModel)]="element[col.key]" autocomplete="off" />
+            <input type="number" matInput step="0.01" min="0" [placeholder]="col.placeholder" [(ngModel)]="element[col.key]" autocomplete="off" />
           </mat-form-field>
           <!--Mostrar datos para edicion-->
         </div>

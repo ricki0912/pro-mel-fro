@@ -64,17 +64,20 @@ export class TableEditComponent {
       });
 
     }
+
     this.annualResume={bussId:this.bussines?.bussId, prdsId:this.period?.prdsId,annualResumeDetails:aux}
+
 //    this.dataSource = aux;
     this.selectedTemplate=NAME_TEMPLATE.TABLE_REGISTER
   }
 
   getDataAnnualResume=(bussId:number, prdsId:number)=>{
+    console.log(bussId, '----- periodp',prdsId)
     this.selectedTemplate=NAME_TEMPLATE.LOADING
     this.annualResumeService.findBy(bussId, prdsId).subscribe({
       next: d =>{
-        this.annualResume=d.data as AnnualResume
 
+        this.annualResume=d.data as AnnualResume
         if(this.annualResume){
           this.selectedTemplate=NAME_TEMPLATE.TABLE_REGISTER
         }else{
@@ -93,8 +96,11 @@ export class TableEditComponent {
     });
   }
 
+  
+
   createUpdate(annualResume:AnnualResume){
-    console.log(annualResume)
+    
+    console.log("annual----",annualResume)
     this.annualResumeService.createUpdate(annualResume).subscribe({
       next: d=>{
         console.log("HOlaaaa", d)

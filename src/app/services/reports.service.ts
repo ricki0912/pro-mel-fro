@@ -35,5 +35,13 @@ export class ReportsService extends ParentService{
   getClientByState(): Observable<InterfaceParamsResponse<any>> {
     return this.https.get<InterfaceParamsResponse<any>>(`${this.API_REPORTS}/get-client-by-state`);
   } 
+
+  getAnnualResumeByMonth(bussId:number, prdsIdPrevious:number, prdsIdCurrent:number): Observable<InterfaceParamsResponse<any>> {
+    return this.https.get<InterfaceParamsResponse<any>>(`${this.API_REPORTS}/get-annual-resume-by-month`, {params:{bussId, prdsIdCurrent, prdsIdPrevious}});
+  } 
+
+  
+
+  
  
 }
