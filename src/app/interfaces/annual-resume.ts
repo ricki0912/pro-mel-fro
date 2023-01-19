@@ -8,7 +8,7 @@ export interface AnnualResume extends ParentInterface {
 
   prdsId?: number;
   bussId?: number;
-  annualResumeDtails?: AnnualResumeDetails[];
+  annualResumeDetails?: AnnualResumeDetails[];
 }
 
 export enum ANNUAL_RESUME_STATES {

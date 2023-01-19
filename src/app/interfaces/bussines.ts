@@ -36,7 +36,7 @@ export interface Bussines extends ParentInterface{
 
   bussComment?:string
 
-   created_at:Date
+   created_at?:Date
 }
 
 export interface TellerJoinUsers {

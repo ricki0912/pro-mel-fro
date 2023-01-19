@@ -145,6 +145,10 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
       maxHeight: '100vh',
       height: '100%',
       width: '100%',
+      data: {
+        hqId: this.hqId,
+        bussId:this.business[0].bussId
+      }
     });
   }
 

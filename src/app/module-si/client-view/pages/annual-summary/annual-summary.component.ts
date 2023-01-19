@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { Bussines } from 'src/app/interfaces/bussines';
+import { Period } from 'src/app/interfaces/period';
+import { MainViewService } from 'src/app/module-si/main-view/main-view.service';
 
 @Component({
   selector: 'app-annual-summary',
@@ -7,15 +12,51 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AnnualSummaryComponent implements OnInit {
   title = 'Ventas Anuales';
-  showDescription = true;
-  showDescriptionEdit = false;
+  
+  var2=true
 
-  constructor() {}
+  periodOfTableEdit?:Period=undefined;
+  periodOfTablePreview?:Period=undefined
+  bussines?:Bussines=undefined
 
-  ngOnInit(): void {}
+  constructor(
+    private activate: ActivatedRoute,
+    private mainViewService: MainViewService,
+    @Inject(MAT_DIALOG_DATA) public paramsDialog: { hqId: number, bussId: number, prdsIdEdit: number, prdsIdPreview:number},
+  ) {}
 
-  showEditDescription() {
-    this.showDescription = !this.showDescription;
-    this.showDescriptionEdit = !this.showDescriptionEdit;
+  ngOnInit(): void {
+    this.setParams(this.paramsDialog)
+
+    console.log(this.paramsDialog)
+    this.activate.params.subscribe((params) => {
+        console.log("Estoy dentro jejeje", params['bussId'])
+      //this.readCRUD(params['bussId']);
+    });
+
+    this.mainViewService.getParams().subscribe((p) => {
+      console.log("Esto dentro de params", p['bussId'])
+      
+      //this.hqId = parseInt(p['hqId'] || 0);
+      //c(this.hqId);
+    });
   }
+
+  setParams=(paramsDialog:{hqId:number, bussId:number, prdsIdEdit:number, prdsIdPreview:number})=>{
+    if(paramsDialog.prdsIdEdit){
+      this.periodOfTableEdit={prdsId: paramsDialog.prdsIdEdit}
+    }
+
+    if(paramsDialog.prdsIdPreview){
+      this.periodOfTablePreview={prdsId: paramsDialog.prdsIdPreview}
+
+    }
+    if(paramsDialog.bussId){
+      this.bussines={bussId:paramsDialog.bussId, person:{}}
+    }
+  }
+
+
+
+
 }

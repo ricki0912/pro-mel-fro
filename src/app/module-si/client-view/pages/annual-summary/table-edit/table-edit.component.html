@@ -1,66 +1,116 @@
-<table mat-table [dataSource]="dataSource">
-  <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
-    <th mat-header-cell *matHeaderCellDef>
-      {{ col.label }}
-    </th>
-    <td mat-cell *matCellDef="let element">
-      <div [ngSwitch]="col.type" *ngIf="!element.isEdit">
-        <div class="btn-edit" *ngSwitchCase="'isEdit'">
-          <button
-            mat-icon-button
-            (click)="element.isEdit = !element.isEdit"
-            matSuffix
-            matTooltip="Editar"
-            style="color: #ff6b01"
-          >
-            <mat-icon style="font-size: 20px">edit</mat-icon>
-          </button>
-        </div>
-        <span *ngSwitchCase="'date'">
-          {{ element[col.key] | date : "mediumDate" }}
-        </span>
-        <span *ngSwitchCase="'isMonth'">
-          {{ findMonth(element[col.key])?.name }}
-        </span>
-        <span *ngSwitchCase="'number'">
-          {{ element[col.key] | currency : "S/ " }}
-        </span>
-        <span *ngSwitchDefault>
-          {{ element[col.key] }}
-        </span>
-      </div>
+<ng-template #selectPeriod>
+  <div class="d-flex align-items-center flex-column">
+    <div class="p-2">
+      <span>
+        Seleeccióne un <b>periodo</b> para buscar registros.
+    </span> 
+  </div>
+    
+  </div>
+</ng-template>
 
-      <div [ngSwitch]="col.type" *ngIf="element.isEdit">
-        <div class="btn-edit" *ngSwitchCase="'isEdit'">
-          <button
-            mat-icon-button
-            (click)="element.isEdit = !element.isEdit"
-            matSuffix
-            matTooltip="Listo"
-            style="color: #28a745"
-          >
-            <mat-icon style="font-size: 20px">done_outline</mat-icon>
-          </button>
-        </div>
-        <mat-form-field class="form-input" *ngSwitchCase="'number'">
-          <input
-            type="number"
-            matInput
-            (ngModelChange)="element[col.key] = $event"
-            [ngModel]="element[col.key]"
-            step="0.01"
-            autocomplete="off"
-          />
-        </mat-form-field>
-        <span *ngSwitchCase="'isMonth'">
-          {{ findMonth(element[col.key])?.name }}
-        </span>
-        <mat-form-field class="form-input" *ngSwitchDefault>
-          <input [type]="col.type" matInput [(ngModel)]="element[col.key]" />
-        </mat-form-field>
-      </div>
-    </td>
+<ng-template #error>
+  <div class="d-flex align-items-center flex-column">
+    <div class="p-2">
+      <span>
+        <b>Upps!</b> Al parecer surgio un error.
+    </span> 
+  </div>
+    
+  </div>
+</ng-template>
+
+<ng-template #loading>
+  <div class="d-flex align-items-center flex-column">
+    <mat-spinner></mat-spinner>
+    <span>Cargando...</span>
+  </div>
+</ng-template>
+
+
+
+<ng-template #noHaveRegister>
+  <div class="d-flex align-items-center flex-column">
+    <div class="p-2">
+      <span>
+        Al parecer <b>no tiene registros </b> de este periodo para mostrar.
+    </span> 
+  </div>
+    
+  </div>
+</ng-template>
+
+
+
+
+<!--antes de eso se crea los templates para aplicar logica negoci de forma mas practica-->
+<ng-container [ngSwitch]="selectedTemplate">
+
+  <ng-container *ngSwitchCase="NT.SELECT_PERIOD">
+    <ng-container *ngTemplateOutlet="selectPeriod"></ng-container>
   </ng-container>
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-</table>
+
+  <ng-container *ngSwitchCase="NT.LOADING"> 
+    <ng-container *ngTemplateOutlet="loading"></ng-container>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="NT.TABLE_REGISTER"> 
+    <app-table-register
+    [dataSource]="annualResume?.annualResumeDetails || []"
+    [isEditable]="isEditable"
+    (onSave)="saveDetails($event)"
+    (onArDescription)="saveArDescription($event)"
+    ></app-table-register>
+    <!--<ng-container *ngTemplateOutlet="tableRegister"></ng-container>-->
+  </ng-container>
+
+  <ng-container *ngSwitchCase="NT.GENERATE_REGISTER"> 
+    <app-generate-register (onGenerateRegister)="generateRegister($event)"></app-generate-register>
+    <!--<ng-container *ngTemplateOutlet="generateRegister; context:this"></ng-container>-->
+  </ng-container>
+
+  <ng-container *ngSwitchCase="NT.NO_HAVE_REGISTER"> 
+    <ng-container *ngTemplateOutlet="noHaveRegister"></ng-container>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="NT.ERROR">
+    <ng-container *ngTemplateOutlet="error"></ng-container>
+  <ng-container>
+
+</ng-container>
+
+  
+<!--
+<ng-container *[ngTemplateOutlet]="selectedTemplate"></ng-container>
+<ng-container *ngIf="!period">
+  <ng-container *ngTemplateOutlet="selectPeriod"></ng-container>
+</ng-container>
+
+
+
+
+
+<ng-container *ngIf="!period">
+  <ng-container *ngIf="">
+
+  </ng-container>
+  <ng-container  *ngTemplateOutlet="generateRegister" ></ng-container>
+
+
+</ng-container>
+
+<ng-container >
+
+</ng-container>
+
+
+<ng-container *ngTemplateOutlet="tableRegister">
+
+</ng-container>
+
+<ng-container *ngTemplateOutlet="loading">
+
+</ng-container>-->
+
+
+

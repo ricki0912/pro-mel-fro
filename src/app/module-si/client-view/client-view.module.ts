@@ -55,6 +55,8 @@ import { ListBussPeriodsComponent } from './pages/list-buss-periods/list-buss-pe
 import { PayInGroupComponent } from './pages/pay-in-group/pay-in-group.component';
 import { ProofOfPaymentComponent } from './pages/proof-of-payment/proof-of-payment.component';
 import { ServicesComponent } from './pages/services/services.component';
+import { GenerateRegisterComponent } from './pages/annual-summary/generate-register/generate-register.component';
+import { TableRegisterComponent } from './pages/annual-summary/table-register/table-register.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -91,6 +93,8 @@ export const MY_DATE_FORMATS = {
     ListPeriodsComponent,
     TableEditComponent,
     AnnualSummaryGraphComponent,
+    GenerateRegisterComponent,
+    TableRegisterComponent,
   ],
   imports: [
     CommonModule,

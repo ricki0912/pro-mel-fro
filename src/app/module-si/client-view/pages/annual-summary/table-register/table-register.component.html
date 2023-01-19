@@ -1,0 +1,270 @@
+<table mat-table [dataSource]="dataSourceM">
+    <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
+      
+      <th mat-header-cell *matHeaderCellDef >
+        <ng-container [ngSwitch]="col.key">
+          <ng-container *ngSwitchCase="'isEdit'">
+            <button mat-fab color="primary"           
+              matTooltip="Guardar Todo"
+             aria-label="Example icon button with a home icon"
+             (click)="setSave()"
+             >
+              <mat-icon>save</mat-icon>
+            </button>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            {{ col.label }}
+          </ng-container>
+        </ng-container>
+      </th>
+  
+  
+      <td mat-cell *matCellDef="let element">
+        <div [ngSwitch]="col.type" *ngIf="!element.isEdit">
+          <!-- Para mostrar datos sin editar-->
+          <div class="btn-edit" *ngSwitchCase="'isEdit'">
+            <button
+              mat-icon-button
+              (click)="element.isEdit = !element.isEdit"
+              matSuffix
+              matTooltip="Editar"
+              style="color: #ff6b01"
+            >
+              <mat-icon style="font-size: 20px">edit</mat-icon>
+            </button>
+          </div>
+  
+          <span *ngSwitchCase="'isArdMonth'">
+            {{ findMonth(element[col.key])?.name }}
+          </span>
+  
+          <span *ngSwitchCase="'isArdTaxBase'">
+            {{ element[col.key] |  currency:"S/" }}
+          </span>
+          
+          <span *ngSwitchCase="'isArdTax'">
+            {{ element[col.key] | currency:"S/" }}
+          </span>
+          
+          <span *ngSwitchCase="'isArdTotal'">
+            {{ element[col.key] | currency : "S/ " }}
+          </span>
+  
+          <span *ngSwitchCase="'isArPlame'">
+            {{ element[col.key] }}
+          </span>
+          
+          <span *ngSwitchCase="'isArdFee'">
+            {{ element[col.key]  | currency : "S/ " }}
+          </span>
+          
+          <span *ngSwitchDefault>
+            {{ element[col.key] ||defaultValue }}
+          </span>
+  
+          <!--Fin es solo para mostrar datos sin editar-->
+        </div>
+  
+        <div [ngSwitch]="col.type" *ngIf="element.isEdit">
+          <!--Mostar datos para edicion -->
+          <div class="btn-edit" *ngSwitchCase="'isEdit'">
+            <button
+              mat-icon-button
+              (click)="element.isEdit = !element.isEdit"
+              matSuffix
+              matTooltip="Listo"
+              style="color: #28a745"
+            >
+              <mat-icon style="font-size: 20px">done_outline</mat-icon>
+            </button>
+          </div>
+          <mat-form-field class="form-input" *ngSwitchCase="'isArdPlame'">
+            <input
+              type="number"
+              matInput
+              (ngModelChange)="element[col.key] = $event"
+              [ngModel]="element[col.key]"
+              min="0"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <span *ngSwitchCase="'isArdMonth'">
+            {{ findMonth(element[col.key])?.name }}
+          </span>
+          <mat-form-field class="form-input" *ngSwitchDefault>
+            <input type="number" matInput step="0.01" min="0" [(ngModel)]="element[col.key]" autocomplete="off" />
+          </mat-form-field>
+          <!--Mostrar datos para edicion-->
+        </div>
+
+        
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    
+  </table>
+
+  <table mat-table [dataSource]="dataSourceA">
+    <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
+      
+      <th mat-header-cell *matHeaderCellDef >
+        <ng-container [ngSwitch]="col.key">
+          <ng-container *ngSwitchCase="'isEdit'">
+            <!--<button mat-fab color="primary"           
+              matTooltip="Guardar Todo"
+              aria-label="Example icon button with a home icon"
+              (click)="setSave()"
+             >
+              <mat-icon>save</mat-icon>
+            </button>-->
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            {{ col.label }}
+          </ng-container>
+        </ng-container>
+      </th>
+  
+  
+      <td mat-cell *matCellDef="let element">
+        <div [ngSwitch]="col.type" *ngIf="!element.isEdit">
+          <!-- Para mostrar datos sin editar-->
+          <div class="btn-edit" *ngSwitchCase="'isEdit'">
+            <button
+              mat-icon-button
+              (click)="element.isEdit = !element.isEdit"
+              matSuffix
+              matTooltip="Editar"
+              style="color: #ff6b01"
+            >
+              <mat-icon style="font-size: 20px">edit</mat-icon>
+            </button>
+          </div>
+  
+          <span *ngSwitchCase="'isArdMonth'">
+            {{ findMonth(element[col.key])?.name }}
+          </span>
+  
+          <span *ngSwitchCase="'isArdTaxBase'">
+            {{ element[col.key] |  currency:"S/" }}
+          </span>
+          
+          <span *ngSwitchCase="'isArdTax'">
+            {{ element[col.key] | currency:"S/" }}
+          </span>
+          
+          <span *ngSwitchCase="'isArdTotal'">
+            {{ element[col.key] | currency : "S/ " }}
+          </span>
+  
+          <span *ngSwitchCase="'isArPlame'">
+            {{ element[col.key] }}
+          </span>
+          
+          <span *ngSwitchCase="'isArdFee'">
+            {{ element[col.key]  | currency : "S/ " }}
+          </span>
+          
+          <span *ngSwitchDefault>
+            {{ element[col.key] ||defaultValue }}
+          </span>
+  
+          <!--Fin es solo para mostrar datos sin editar-->
+        </div>
+  
+        <div [ngSwitch]="col.type" *ngIf="element.isEdit">
+          <!--Mostar datos para edicion -->
+          <div class="btn-edit" *ngSwitchCase="'isEdit'">
+            <button
+              mat-icon-button
+              (click)="element.isEdit = !element.isEdit"
+              matSuffix
+              matTooltip="Listo"
+              style="color: #28a745"
+            >
+              <mat-icon style="font-size: 20px">done_outline</mat-icon>
+            </button>
+          </div>
+          <mat-form-field class="form-input" *ngSwitchCase="'isArdPlame'">
+            <input
+              type="number"
+              matInput
+              (ngModelChange)="element[col.key] = $event"
+              [ngModel]="element[col.key]"
+              min="0"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <span *ngSwitchCase="'isArdMonth'" >
+            {{ findMonth(element[col.key])?.name }}
+          </span>
+          <mat-form-field class="form-input" *ngSwitchDefault>
+            <input type="number" matInput step="0.01" min="0" [(ngModel)]="element[col.key]" autocomplete="off" />
+          </mat-form-field>
+          <!--Mostrar datos para edicion-->
+        </div>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    
+  </table>
+
+  <div
+  class="alert alert-info"
+  role="alert"
+  *ngIf="showDescription"
+  style="
+    margin: 5px 30px 5px 30px;
+    display: flex;
+    align-items: center;
+    padding: 6px 16px 6px 16px;
+  "
+>
+  <div style="width: 90%">
+    <b>NOTA:</b> {{arDescription}}
+  </div>
+  <div style="width: 10%">
+    <button
+      mat-icon-button
+      matSuffix
+      matTooltip="Editar"
+      style="color: #ff6b01"
+      (click)="showEditDescription()"
+    >
+      <mat-icon style="font-size: 20px">edit</mat-icon>
+    </button>
+  </div>
+</div>
+<div style="margin: 5px 30px 5px 30px" *ngIf="showDescriptionEdit">
+  <mat-form-field
+    class="example-full-width"
+    style="width: 100%; font-size: 12px"
+    appearance="fill"
+  >
+    <mat-label>Comentario</mat-label>
+    <textarea
+      matInput
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="8"
+      maxLength="500"
+      [(ngModel)]="arDescription"
+      >
+    ></textarea>
+    <button mat-icon-button matSuffix
+    color="primary"
+    (click)="showEditDescription()"
+
+    >
+      <mat-icon
+      
+      >save</mat-icon>
+    </button>
+    
+    <mat-hint align="end">{{arDescription.length}}/500</mat-hint>
+  </mat-form-field>
+</div>

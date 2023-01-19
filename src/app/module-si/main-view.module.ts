@@ -55,6 +55,7 @@ import { MainViewRouteReuseStrategy } from './main-view.route-reuse-strategy';
     SearchClientComponent,
     FloatingWaitingLineComponent,
     SelectHeadquarterComponent,
+    
   ],
   imports: [
     MainViewRoutingModule,
