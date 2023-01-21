@@ -58,6 +58,7 @@
     <app-table-register
     [dataSource]="annualResume?.annualResumeDetails || []"
     [isEditable]="isEditable"
+    [hasModified]="hasModified"
     (onSave)="saveDetails($event)"
     (onArDescription)="saveArDescription($event)"
     ></app-table-register>

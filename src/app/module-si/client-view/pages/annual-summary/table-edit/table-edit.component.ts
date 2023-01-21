@@ -4,6 +4,7 @@ import { AnnualResumeDetails } from 'src/app/interfaces/annual-resume-details';
 import { Bussines } from 'src/app/interfaces/bussines';
 import { Period } from 'src/app/interfaces/period';
 import { AnnualResumeService } from 'src/app/services/annual-resume.service';
+import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 @Component({
   selector: 'app-table-edit',
   templateUrl: './table-edit.component.html',
@@ -11,6 +12,8 @@ import { AnnualResumeService } from 'src/app/services/annual-resume.service';
 })
 export class TableEditComponent {
   private _period?:Period=undefined
+
+  hasModified:boolean=false
 
   @Input() isEditable:boolean=false
   @Input() bussines?:Bussines=undefined
@@ -35,7 +38,8 @@ export class TableEditComponent {
 
 
   constructor(
-    private annualResumeService:AnnualResumeService
+    private annualResumeService:AnnualResumeService,
+    private showMessageService:ShowMessageService
   ) {
    
   
@@ -69,15 +73,16 @@ export class TableEditComponent {
 
 //    this.dataSource = aux;
     this.selectedTemplate=NAME_TEMPLATE.TABLE_REGISTER
+    this.hasModified=true
   }
 
   getDataAnnualResume=(bussId:number, prdsId:number)=>{
-    console.log(bussId, '----- periodp',prdsId)
     this.selectedTemplate=NAME_TEMPLATE.LOADING
     this.annualResumeService.findBy(bussId, prdsId).subscribe({
       next: d =>{
 
         this.annualResume=d.data as AnnualResume
+        this.hasModified=false
         if(this.annualResume){
           this.selectedTemplate=NAME_TEMPLATE.TABLE_REGISTER
         }else{
@@ -100,12 +105,14 @@ export class TableEditComponent {
 
   createUpdate(annualResume:AnnualResume){
     
-    console.log("annual----",annualResume)
     this.annualResumeService.createUpdate(annualResume).subscribe({
       next: d=>{
-        console.log("HOlaaaa", d)
+        this.showMessageService.success({message:d.msg})
+        this.hasModified=!this.hasModified
       }, error:e=>{
-        console.log(e)
+        
+        this.showMessageService.error({message:"Upps! Al parecer surgio un error"+e.message.message,action:()=>this.createUpdate(annualResume)})
+  
       }
     })
   }

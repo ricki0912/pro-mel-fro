@@ -15,13 +15,7 @@
       <th mat-header-cell *matHeaderCellDef >
         <ng-container [ngSwitch]="col.key">
           <ng-container *ngSwitchCase="'isEdit'">
-            <button mat-fab color="primary"           
-              matTooltip="Guardar Todo"
-             aria-label="Example icon button with a home icon"
-             (click)="setSave()"
-             >
-              <mat-icon>save</mat-icon>
-            </button>
+          
           </ng-container>
           <ng-container *ngSwitchDefault>
             {{ col.label }}
@@ -91,7 +85,7 @@
           <div class="btn-edit" *ngSwitchCase="'isEdit'">
             <button
               mat-icon-button
-              (click)="element.isEdit = !element.isEdit"
+              (click)="saveRow(element)"
               matSuffix
               matTooltip="Listo"
               style="color: #28a745"
@@ -289,4 +283,42 @@
     
     <mat-hint align="end">{{arDescription.length}}/500</mat-hint>
   </mat-form-field>
+</div>
+
+
+
+<div
+style="
+  z-index: 5;
+  position: fixed;
+  display: flex;
+  align-self: flex-end;
+  align-items: center;
+
+  bottom: 3px;
+  right: 3px;
+"
+>
+<mat-list>
+  <mat-list-item
+    style="
+      margin: 5px 0px 5px 0px;
+      display: flex;
+      justify-content: center;
+    "
+  >
+    <button mat-raised-button            
+    matTooltip="Guardar Todo"
+  aria-label="Example icon button with a home icon"
+  class="save-button"
+  (click)="setSave()"
+  *ngIf="hasModified"
+  >
+    <mat-icon>save</mat-icon>
+    Guardar Cambios
+  </button>
+  <!--<button mat-raised-button color="accent" (click)="true">Guardar Cambios </button>-->
+
+  </mat-list-item>
+</mat-list>
 </div>
