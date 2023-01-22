@@ -39,6 +39,7 @@ import { FileNumberComponent } from './pages/file-number/file-number.component';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { CoreModule } from 'src/app/core/core.module';
+import { DownloadMyFormatDJComponent } from './pages/download-my-format-dj/download-my-format-dj.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { CoreModule } from 'src/app/core/core.module';
     AssignTellerComponent,
     ChangeStateComponent,
     FileNumberComponent,
+    DownloadMyFormatDJComponent,
     
   ],
   imports: [

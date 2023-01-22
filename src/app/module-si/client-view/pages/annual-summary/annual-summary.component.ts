@@ -58,7 +58,7 @@ export class AnnualSummaryComponent implements OnInit {
   }
 
   public openPDFNewWindow(){
-    window.open(environment.API_URL+`/v1/reports/annual-summary?bussId=${this.bussines?.bussId}&prdsIdPrevious=${this.periodOfTablePreview?.prdsId}&prdsIdCurrent=${this.periodOfTableEdit?.prdsId}`);
+    window.open(environment.API_URL+`/api/v1/reports/annual-summary?bussId=${this.bussines?.bussId}&prdsIdPrevious=${this.periodOfTablePreview?.prdsId}&prdsIdCurrent=${this.periodOfTableEdit?.prdsId}`);
   } 
 
 

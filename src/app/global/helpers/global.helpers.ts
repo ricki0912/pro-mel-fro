@@ -76,6 +76,40 @@ export class GlobalHelpers{
       
       window.open(url, '_blank');
     }
+
+    
+    public static monthBefore (){
+      let year=new Date().getFullYear()
+      let month=new Date().getMonth()+1
+      let day=1;
+      
+      if(month==1){
+        year-=1
+        month=12
+      }
+
+      return new Date(year, month-1,1)
+    }
+
+    public static openWindowWithPost(url:any, data:any) {
+      var form = document.createElement("form");
+      form.target = "_blank";
+      form.method = "POST";
+      form.action = url;
+      form.style.display = "none";
+    
+      for (var key in data) {
+          var input = document.createElement("input");
+          input.type = "hidden";
+          input.name = key;
+          input.value = data[key];
+          form.appendChild(input);
+      }
+    
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
+    }
    
 
 }
