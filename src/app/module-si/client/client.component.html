@@ -15,10 +15,16 @@
       <mat-card-title>Lista de todos los clientes</mat-card-title>
       <mat-card-actions align="end">
        
-        
-          <button mat-button (click)="exportExcel()" *appPermission="PMS.SI_CLIENTS_XLS_DWL">
-            <mat-icon>download</mat-icon> Descargar
+        <button mat-button [matMenuTriggerFor]="menuDownload">
+          <mat-icon>download</mat-icon> 
+          Descargar</button>
+        <mat-menu #menuDownload="matMenu">
+          <button mat-menu-item (click)="exportExcel()" *appPermission="PMS.SI_CLIENTS_XLS_DWL">
+            Archivo Excel
           </button>
+          <button mat-menu-item (click)="openDialogPreviewDownloadMyDJ()">Mi formato de DJ </button>
+        </mat-menu>
+          
         
         
         <button mat-button (click)="openDialogFileNumber()">

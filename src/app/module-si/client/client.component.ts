@@ -26,6 +26,7 @@ import { Workbook } from 'exceljs';
 
 import * as fs from 'file-saver';
 import { PMS } from 'src/app/core/permission/pms.enum';
+import { DownloadMyFormatDJComponent } from './pages/download-my-format-dj/download-my-format-dj.component';
 
 @Component({
   selector: 'app-client',
@@ -215,6 +216,23 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
   }
   openDialogdAddAndUpd(object: any): boolean {
     throw new Error('Method not implemented.');
+  }
+
+  openDialogPreviewDownloadMyDJ(): boolean {
+    const dialogRef = this.dialogEditClient.open(DownloadMyFormatDJComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: {},
+        type: TYPES_ACTIONS_DIALOG.ADD,
+        idSede: this.hqId
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addBusinessWithPerson(result);
+      }
+    });
+    return true
   }
 
   //FUNCIONES
