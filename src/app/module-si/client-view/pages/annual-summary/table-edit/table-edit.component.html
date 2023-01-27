@@ -57,6 +57,7 @@
   <ng-container *ngSwitchCase="NT.TABLE_REGISTER"> 
     <app-table-register
     [dataSource]="annualResume?.annualResumeDetails || []"
+    [arDescription]="annualResume?.arDescription"
     [isEditable]="isEditable"
     [hasModified]="hasModified"
     (onSave)="saveDetails($event)"

@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+}
+
+.demo-button-container {
+  padding-bottom: 16px;
+}
+
+.demo-button + .demo-button {
+  margin-left: 8px;
+}
+
+.borrador{
+  cursor: pointer;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+//acordion 

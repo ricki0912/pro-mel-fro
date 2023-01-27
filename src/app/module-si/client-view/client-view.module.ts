@@ -57,6 +57,7 @@ import { ProofOfPaymentComponent } from './pages/proof-of-payment/proof-of-payme
 import { ServicesComponent } from './pages/services/services.component';
 import { GenerateRegisterComponent } from './pages/annual-summary/generate-register/generate-register.component';
 import { TableRegisterComponent } from './pages/annual-summary/table-register/table-register.component';
+import { TasksCompletedComponent } from './pages/tasks-completed/tasks-completed.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -95,6 +96,7 @@ export const MY_DATE_FORMATS = {
     AnnualSummaryGraphComponent,
     GenerateRegisterComponent,
     TableRegisterComponent,
+    TasksCompletedComponent,
   ],
   imports: [
     CommonModule,

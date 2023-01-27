@@ -33,6 +33,12 @@
         (click)="startCallByTeller(selectedTeller)">Llamar
         siguiente</button>
 
+        <button mat-button [matMenuTriggerFor]="beforeMenu">Before</button>
+        <mat-menu #beforeMenu="matMenu" xPosition="before">
+          <button mat-menu-item *ngFor="let element of tAppointmentTemps">{{element.apptmNameClient}} </button>
+        </mat-menu>
+        
+
         <button mat-button
         *ngIf="tAppointmentTemp!=null"
          style="background-color: #007bff; color:white;"
@@ -41,7 +47,6 @@
         *ngIf="tAppointmentTemp!=null"
         style="background-color: #dc3545;; color:white; "
         (click)="openDialogAddComment()">Finalizar</button>
-
 
 
     </div>

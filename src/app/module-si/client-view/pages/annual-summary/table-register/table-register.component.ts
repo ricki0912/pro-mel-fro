@@ -9,8 +9,10 @@ import { AnnualResumeDetails } from 'src/app/interfaces/annual-resume-details';
 export class TableRegisterComponent {
   @Input() isEditable:boolean=false
   @Input() hasModified:boolean=false
+  @Input() arDescription:string|undefined=''
+
   dataSourceM: AnnualResumeDetails[] = [];
-   dataSourceA: AnnualResumeDetails[] = [];
+  dataSourceA: AnnualResumeDetails[] = [];
 
   
    
@@ -18,14 +20,25 @@ export class TableRegisterComponent {
    //
    private _dataSourceMOld: AnnualResumeDetails[] = [];
    private _dataSourceAOld: AnnualResumeDetails[] = [];
+   calculationTotal:AnnualResumeDetails|any={ardMonth:0, ardTaxBase:0, ardTax:0, ardTotal:0, ardPlame:0, ardFee:0 }
 
-
-   arDescription:string=''
    
    @Output() onSave = new EventEmitter<AnnualResumeDetails[]>();
-   public setSave = ()=> this.onSave.emit([ ...this.dataSourceM, ...this.dataSourceA])
-    @Output() onArDescription=new EventEmitter<string>()
-    public setArDescription=()=>this.onArDescription.emit(this.arDescription)
+   public setSave = ()=> {
+    this.hasModified=false
+    this.onSave.emit([ ...this.dataSourceM, ...this.dataSourceA])
+  }
+  
+   @Output() onArDescription=new EventEmitter<string>()
+  
+  public setArDescription=()=>
+  {
+
+    this.onArDescription.emit(this.arDescription)
+    this.showEditDescription()
+    this.hasModified=true
+
+  }
 
 
  
@@ -33,7 +46,7 @@ export class TableRegisterComponent {
     this.dataSourceM = val.filter(e=>((e.ardMonth || 0)>=1 && (e.ardMonth ||0)<=12));
     this.dataSourceA=val.filter(e=>(e.ardMonth ||0) >=13 )
     
-
+    this._calculateTotal()
     /*this._dataSourceAOld=val.filter(e=>(e.ardMonth ||0) >=13 )
     this._dataSourceMOld=val.filter(e=>((e.ardMonth || 0)>=1 && (e.ardMonth ||0)<=12));*/
   /*  if(this.bussines?.bussId && this._period?.prdsId){
@@ -64,6 +77,18 @@ export class TableRegisterComponent {
   saveRow(element:any){
     element.isEdit = !element.isEdit
     this.hasModified=true
+    
+    if(element.ardTotal){
+      element.ardTaxBase=(element.ardTotal/1.18)
+      element.ardTax=(element.ardTaxBase*0.18)
+
+    }else{
+      element.ardTaxBase=null
+      element.ardTax=null        
+    }
+    this._calculateTotal()
+    this.dataSourceA[0].ardTotal=this.calculationTotal.ardTotal;
+
     /*let indexMOld=this._dataSourceMOld.findIndex(e=>e.ardMonth==element.ardMonth);
     
     let selectedRowOld=this._dataSourceMOld[indexMOld];
@@ -79,6 +104,15 @@ export class TableRegisterComponent {
     
 
     
+  }
+
+  private  _calculateTotal(){
+    this.calculationTotal.ardTaxBase=this.dataSourceM.reduce((e, b)=>e+(Number(b.ardTaxBase) || 0), 0)
+    this.calculationTotal.ardTax=this.dataSourceM.reduce((e, b)=>e+(Number(b.ardTax) || 0), 0)
+    this.calculationTotal.ardTotal=this.dataSourceM.reduce((e, b)=>e+(Number(b.ardTotal) || 0), 0)
+    this.calculationTotal.ardFee=this.dataSourceM.reduce((e, b)=>e+(Number(b.ardFee) || 0), 0)
+
+
   }
 
 
@@ -183,8 +217,8 @@ const COLUMNS_SCHEMA_NOT_EDIT = [
   {
     key: 'ardFee',
     type: 'isArdFee',
-    label: 'Honorarios',
-    placeholder:'Hon.'
+    label: 'Hon.',
+    placeholder:'Honorario'
   }
 
 ];
@@ -205,8 +239,7 @@ const MONTHS: Month[] = [
   { id: 10, name: 'OCTUBRE', bold:false, editable:true },
   { id: 11, name: 'NOVIEMBRE', bold:false, editable:true },
   { id: 12, name: 'DICIEMBRE', bold:false, editable:true },
-  { id: 13, name: 'TOTAL', bold:true, editable:false },
-  { id: 14, name: 'BALANCE ANUAL', bold:false, editable:true },
+  { id: 13, name: 'BALANCE ANUAL', bold:true, editable:false },
 ];
 interface Month {
   id: number;

@@ -14,17 +14,17 @@ export class AnnualSummaryGraphComponent {
 
   @Input() public set bussId(v:number| undefined){
     this._bussId=v
-    this.before();
+    this.beforeLoad();
   } 
 
   @Input() public set prdsIdPrevious(v: number | undefined){
     this._prdsIdPrevious=v;
-    this.before();
+    this.beforeLoad();
   }
 
   @Input() public set prdsIdCurrent(v:number| undefined){
     this._prdsIdCurrent=v
-    this.before();
+    this.beforeLoad();
   }
 
   multi: any[] = [];
@@ -66,7 +66,7 @@ export class AnnualSummaryGraphComponent {
   }
   ngOnInit(): void {
   }
-private before(){
+public beforeLoad(){
  if(this._bussId && this._prdsIdPrevious && this._prdsIdCurrent){
   this.getData(this._bussId, this._prdsIdPrevious, this._prdsIdCurrent);
  }else {

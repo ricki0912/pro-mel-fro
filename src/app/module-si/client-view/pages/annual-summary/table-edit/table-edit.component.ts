@@ -57,12 +57,13 @@ export class TableEditComponent {
 
   public generateRegister(v:boolean){
     const aux = [];
-    for (let i = 1; i <= 14; i++) {
+    for (let i = 1; i <= 13; i++) {
+      
       aux.push({
         ardMonth: i,
         ardTaxBase: undefined,
         ardTax: undefined,
-        ardTotal: 0.00,
+        ardTotal: undefined,
         ardPlame: undefined,
         ardFee: undefined,
       });
@@ -108,9 +109,10 @@ export class TableEditComponent {
     this.annualResumeService.createUpdate(annualResume).subscribe({
       next: d=>{
         this.showMessageService.success({message:d.msg})
-        this.hasModified=!this.hasModified
+        this.hasModified=false
+        //this.hasModified=false
       }, error:e=>{
-        
+        this.hasModified=true
         this.showMessageService.error({message:"Upps! Al parecer surgio un error"+e.message.message,action:()=>this.createUpdate(annualResume)})
   
       }
@@ -129,7 +131,12 @@ export class TableEditComponent {
     //console.log(v)
   }
   saveArDescription(s:string){
-    if(this.annualResume?.arDescription) this.annualResume.arDescription=s
+    
+    if(this.annualResume) {
+      console.log("table edit save")
+      this.annualResume.arDescription=s
+    }
+    
   }
 
 }

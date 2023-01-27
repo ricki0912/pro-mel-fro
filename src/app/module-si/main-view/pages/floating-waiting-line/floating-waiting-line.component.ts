@@ -28,7 +28,9 @@ export class FloatingWaitingLineComponent implements OnInit {
   soundAlert = new Audio('assets/sounds/sound03s.mp3')
   private currentUser: User;
   tAppointmentTemp: TAppointmentTemp | null = null
+  tAppointmentTemps: TAppointmentTemp[] = []
 
+  selectedCategory=0
 
   selectedTeller: number = -1
   constructor(
@@ -46,6 +48,7 @@ export class FloatingWaitingLineComponent implements OnInit {
     if (this.currentUser.tellers) {
       for (let e of this.currentUser.tellers) {
         this.selectedTeller = e.tellId || -1
+        console.log("HOlaaaa")
       }
     }
   }
@@ -77,9 +80,22 @@ export class FloatingWaitingLineComponent implements OnInit {
     this.getSocketWaitingLine(this.selectedTeller || -1)
     this.soundAlert.muted = true;
     this.getCurrentAttention()
+    this.getTAppointmentTemps()
     this.getAttentionPendingByTeller(this.selectedTeller)
+    this.selectSearch()
     
   }
+
+  private getTAppointmentTemps(){
+    this.fwlService.getTAppointmentTemps().subscribe({
+      next:(d)=>{
+        this.tAppointmentTemps=d 
+      },
+      error:(e)=>{
+
+      }
+    })
+}
   
   private getCurrentAttention(){
     this.fwlService.getCurrentAttion().subscribe({
@@ -103,6 +119,7 @@ export class FloatingWaitingLineComponent implements OnInit {
     if (this.currentUser && this.isOpen) {
       this.tAppointmentTemp = null
       this.getAttentionPendingByTeller(this.selectedTeller)
+      console.log("Holassssss")
     }
   }
 
@@ -187,7 +204,6 @@ export class FloatingWaitingLineComponent implements OnInit {
         this.nroCallPending = data[0].nroTotal
         this.setTitlePage(this.nroCallPending)
         this.soundAlert.muted = false;
-
       }
     })
     //this.appointmentTempService.getNroTotal(APPOINTMENT_STATE.PENDING);
@@ -220,6 +236,32 @@ export class FloatingWaitingLineComponent implements OnInit {
       this.titleService.setTitle('(' + nroCallPending + ') ' + this.title)
     }
   }
+
+
+  private readAppointmentTempCRUD(hqId:number,tellId:number, catId:number,apptmState:number): boolean {
+    this.isLoading = true;
+    this.appointmentTempService.getAllBy(hqId,tellId, catId,apptmState).subscribe({
+      next: (r) => {
+        console.log("read ticket ", r)
+        let data=r.data as TAppointmentTemp[]
+        this.fwlService.onTAppointmentTemps(data)
+        //this.isLoading = false;
+        //this.dataSource.data = r.data as TAppointmentTemp[]
+        //this.selection.clear() 
+
+      },
+      error: () => {
+        
+      }
+    });
+
+    return true
+  }
+  private selectSearch(){
+    this.readAppointmentTempCRUD(this.tokenService.getHqId() ,this.tokenService.getTeller()?.tellId || -1, this.selectedCategory, APPOINTMENT_STATE.PENDING)
+    //if(this.currentTeller.tellId) this.readTeller(this.currentTeller.tellId)
+  }
+
   getSocketWaitingLine(tellId: number) {
 
     this.waitingLineService.getSocketWaitingLine(tellId).subscribe({
@@ -228,6 +270,7 @@ export class FloatingWaitingLineComponent implements OnInit {
         switch (action) {
           case SOCKET_ACTION.WAITING_LINE_ADD_APPOINTMENT:
             this.showNotification()
+            this.selectSearch()
             break;
           default:
             break;
@@ -235,6 +278,7 @@ export class FloatingWaitingLineComponent implements OnInit {
       }
     })
   }
+
 
   private showNotification() {
     this.nroCallPending += 1

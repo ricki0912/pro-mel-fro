@@ -1,4 +1,5 @@
 <div #containerRef class="card-body">
+  <button mat-button (click)="beforeLoad()"> <mat-icon>refresh</mat-icon>Refrescar Gráfico</button>
   <ngx-charts-line-chart
     [view]="[containerRef.offsetWidth / 1.02, 500]"
     [scheme]="colorScheme"

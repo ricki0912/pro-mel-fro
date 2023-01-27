@@ -11,6 +11,8 @@ export class FloatingWaitingLineService {
 
   private currentAttentionTAppointment = new BehaviorSubject<TAppointmentTemp | null>(null);
 
+  private tAppointmentTemps=new BehaviorSubject<TAppointmentTemp[]>([]);
+
   constructor() {   
   }
 
@@ -43,6 +45,14 @@ onCurrentAttention(t:TAppointmentTemp | null){
 }
 getCurrentAttion(){
  return this.currentAttentionTAppointment
+}
+
+/*Metodo para listar los tickets pendientes de atencion */
+onTAppointmentTemps(t:TAppointmentTemp[]){
+  this.tAppointmentTemps.next(t)
+}
+getTAppointmentTemps(){
+ return this.tAppointmentTemps
 }
 
 }

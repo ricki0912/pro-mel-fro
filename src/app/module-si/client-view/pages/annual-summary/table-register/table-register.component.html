@@ -57,7 +57,7 @@
           
           <ng-container *ngSwitchCase="'isArdTotal'">
             <span *ngIf="element[col.key]!=null; else temEmptyCurrency" >
-              {{ element[col.key] |  currency:"S/" }}
+             <b> {{ element[col.key] |  currency:"S/" }}</b>
             </span>
           </ng-container>
   
@@ -69,7 +69,8 @@
           
           <ng-container *ngSwitchCase="'isArdFee'">
             <span *ngIf="element[col.key]!=null; else temEmptyCurrency" >
-              {{ element[col.key] }}
+              <b>              {{ element[col.key] | currency:"S/" }}
+              </b>
             </span>
           </ng-container>
           
@@ -107,20 +108,54 @@
           <span *ngSwitchCase="'isArdMonth'">
             {{ findMonth(element[col.key])?.name }}
           </span>
+          <ng-container *ngSwitchCase="'isArdTaxBase'">
+            <span *ngIf="element[col.key]!=null; else temEmptyCurrency" >
+              {{ element[col.key] |  currency:"S/" }}
+            </span>
+          </ng-container>
+          
+          <ng-container *ngSwitchCase="'isArdTax'">
+            <span *ngIf="element[col.key]!=null; else temEmptyCurrency" >
+              {{ element[col.key] |  currency:"S/" }}
+            </span>
+          </ng-container>
+          
+
           <mat-form-field class="form-input" *ngSwitchDefault>
             <input type="number" matInput step="0.01" min="0" [placeholder]="col.placeholder" [(ngModel)]="element[col.key]" autocomplete="off" />
           </mat-form-field>
           <!--Mostrar datos para edicion-->
         </div>
 
-        
       </td>
+      <td mat-footer-cell *matFooterCellDef> 
+        
+        <b [ngSwitch]="col.type">
+          <ng-container *ngSwitchCase="'isArdMonth'">
+          TOTAL
+          </ng-container>
+          
+          <ng-container *ngSwitchCase="'isArdPlame'">
+            -
+          </ng-container>
+          <ng-container *ngSwitchCase="'isEdit'">
+            
+          </ng-container>
+         
+          <ng-container *ngSwitchDefault>
+          {{ calculationTotal[col.key] | currency:"S/"}}
+          </ng-container>
+        </b>
+      </td>
+
     </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    
+    <tr mat-footer-row *matFooterRowDef="displayedColumns" class="example-first-footer-row"></tr>
+
   </table>
+ 
 
   <table mat-table [dataSource]="dataSourceA">
     <ng-container [matColumnDef]="col.key" *ngFor="let col of columnsSchema">
@@ -128,13 +163,7 @@
       <th mat-header-cell *matHeaderCellDef >
         <ng-container [ngSwitch]="col.key">
           <ng-container *ngSwitchCase="'isEdit'">
-            <!--<button mat-fab color="primary"           
-              matTooltip="Guardar Todo"
-              aria-label="Example icon button with a home icon"
-              (click)="setSave()"
-             >
-              <mat-icon>save</mat-icon>
-            </button>-->
+          
           </ng-container>
           <ng-container *ngSwitchDefault>
             {{ col.label }}
@@ -162,29 +191,40 @@
             {{ findMonth(element[col.key])?.name }}
           </span>
   
-          <span *ngSwitchCase="'isArdTaxBase'">
-            {{ element[col.key] |  currency:"S/" }}
-          </span>
+          <ng-container *ngSwitchCase="'isArdTaxBase'">
+            <span *ngIf="element[col.key]!=null; else temEmptyCurrency" >
+              {{ element[col.key] |  currency:"S/" }}
+            </span>
+          </ng-container>
           
-          <span *ngSwitchCase="'isArdTax'">
-            {{ element[col.key] | currency:"S/" }}
-          </span>
+          <ng-container *ngSwitchCase="'isArdTax'">
+            <span *ngIf="element[col.key]!=null; else temEmptyCurrency" >
+              {{ element[col.key] |  currency:"S/" }}
+            </span>
+          </ng-container>
           
-          <span *ngSwitchCase="'isArdTotal'">
-            {{ element[col.key] | currency : "S/ " }}
-          </span>
+          <ng-container *ngSwitchCase="'isArdTotal'">
+            <span *ngIf="element[col.key]!=null; else temEmptyCurrency" >
+             <b> {{ element[col.key] |  currency:"S/" }}</b>
+            </span>
+          </ng-container>
   
-          <span *ngSwitchCase="'isArPlame'">
+          <ng-container *ngSwitchCase="'isArdPlame'">
+            <span *ngIf="element[col.key]!=null; else temEmptyInt" >
+              {{ element[col.key] }}
+            </span>
+          </ng-container>
+          
+          <ng-container *ngSwitchCase="'isArdFee'">
+            <span *ngIf="element[col.key]!=null; else temEmptyCurrency" >
+              <b>              {{ element[col.key] | currency:"S/" }}
+              </b>
+            </span>
+          </ng-container>
+          
+          <ng-container *ngSwitchDefault>
             {{ element[col.key] }}
-          </span>
-          
-          <span *ngSwitchCase="'isArdFee'">
-            {{ element[col.key]  | currency : "S/ " }}
-          </span>
-          
-          <span *ngSwitchDefault>
-            {{ element[col.key] ||defaultValue }}
-          </span>
+          </ng-container>
   
           <!--Fin es solo para mostrar datos sin editar-->
         </div>
@@ -194,7 +234,7 @@
           <div class="btn-edit" *ngSwitchCase="'isEdit'">
             <button
               mat-icon-button
-              (click)="element.isEdit = !element.isEdit"
+              (click)="saveRow(element)"
               matSuffix
               matTooltip="Listo"
               style="color: #28a745"
@@ -202,28 +242,46 @@
               <mat-icon style="font-size: 20px">done_outline</mat-icon>
             </button>
           </div>
-          <mat-form-field class="form-input" *ngSwitchCase="'isArdPlame'">
-            <input
-              type="number"
-              matInput
-              (ngModelChange)="element[col.key] = $event"
-              [ngModel]="element[col.key]"
-              min="0"
-              autocomplete="off"
-            />
-          </mat-form-field>
-          <span *ngSwitchCase="'isArdMonth'" >
+          <ng-container *ngSwitchCase="'isArdPlame'">
+            <!--<mat-form-field class="form-input" >
+              <input
+                  type="number"
+                  matInput
+                  (ngModelChange)="element[col.key] = $event"
+                  [ngModel]="element[col.key]"
+                  [placeholder]="col.placeholder" 
+                  min="0"
+                  autocomplete="off"
+                />
+              </mat-form-field>-->
+              -
+          </ng-container>
+          <span *ngSwitchCase="'isArdMonth'">
             {{ findMonth(element[col.key])?.name }}
           </span>
+          <ng-container *ngSwitchCase="'isArdTaxBase'">
+            <span *ngIf="element[col.key]!=null; else temEmptyCurrency" >
+              {{ element[col.key] |  currency:"S/" }}
+            </span>
+          </ng-container>
+          
+          <ng-container *ngSwitchCase="'isArdTax'">
+            <span *ngIf="element[col.key]!=null; else temEmptyCurrency" >
+              {{ element[col.key] |  currency:"S/" }}
+            </span>
+          </ng-container>
+          
+
           <mat-form-field class="form-input" *ngSwitchDefault>
-            <input type="number" matInput step="0.01" min="0" [(ngModel)]="element[col.key]" autocomplete="off" />
+            <input type="number" matInput step="0.01" min="0" [placeholder]="col.placeholder" [(ngModel)]="element[col.key]" autocomplete="off" />
           </mat-form-field>
           <!--Mostrar datos para edicion-->
         </div>
+
+        
       </td>
     </ng-container>
   
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     
   </table>
@@ -273,7 +331,7 @@
     ></textarea>
     <button mat-icon-button matSuffix
     color="primary"
-    (click)="showEditDescription()"
+    (click)="setArDescription()"
 
     >
       <mat-icon
@@ -281,7 +339,7 @@
       >save</mat-icon>
     </button>
     
-    <mat-hint align="end">{{arDescription.length}}/500</mat-hint>
+    <mat-hint align="end">{{arDescription?.length || 0}}/500</mat-hint>
   </mat-form-field>
 </div>
 
