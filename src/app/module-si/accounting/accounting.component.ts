@@ -333,28 +333,30 @@ exportExcel(){
 
   //CONVIRTIENDO NUESTRO ARREGLO A UN FORMATO LEGIBLE PARA EXCEL USANDO EXCELJS
   worksheet.addRow(undefined);
+  let index=0;
   for (let x1 of this.dataSource.data){
+      index++
       let x2=Object.keys(x1);
-
       let temp=[]
+      temp.push(index)
       temp.push(x1.bussId)
-      temp.push(x1.payDatePrint)
+      temp.push(GlobalHelpers.formatDate((x1.payDatePrint|| new Date()), 'yyyy-MM-dd'))
       temp.push(x1.paySerie)
       temp.push(x1.payNumber)
 
       temp.push(x1.payClientRucOrDni)
-      temp.push(x1.payClientName)
-      temp.push(x1.payClientTel)
+      /*temp.push(x1.payClientName)
+      temp.push(x1.payClientTel)*/
       temp.push(x1.payClientEmail)
 
-      temp.push(x1.payTotal)
+      temp.push(Number(x1.payTotal))
 
       temp.push((x1.payIsCanceled==1)?'SI':'NO')
 
       temp.push(x1.payTicketSN)
       temp.push(x1.payInvoiceSN)
       temp.push(x1.payReceiptHonorarySN)
-      temp.push(environment.API_URL+"/v1/payments/"+x1.payToken+"/proof-of-payment")
+      /*temp.push(environment.API_URL+"/v1/payments/"+x1.payToken+"/proof-of-payment")*/
 
       
       /*for(let y of x1.){
@@ -367,20 +369,21 @@ exportExcel(){
 
   //ASIGNACIÓN DE LA CABECERA DEL DOCUMENTO EXCEL DONDE CADA CAMPO DE LOS DATOS QUE EXPORTAREMOS SERA UNA COLUMNA
   worksheet.columns = [
-      { header: 'CLIENTE', key: 'col1', width: 10},
-      { header: 'FECHA', key: 'col2', width: 30},
-      { header: 'SERIE', key: 'col3', width: 15},
-      { header: 'NÚMERO', key: 'col4', width: 20},
-      { header: 'RUC/DNI', key: 'col5', width: 20},
-      { header: 'NOMBRE/RAZÓN SOCIAL', key: 'col6', width: 50},
-      { header: 'TELÉFONO', key: 'col7', width: 20},
-      { header: 'CORREO', key: 'col8', width: 20},
-      { header: 'TOTAL', key: 'col9', width: 20},
-      { header: 'ANULADO', key: 'col10', width: 20},
-      { header: 'BOLETA DE VENTA', key: 'col11', width: 20},
-      { header: 'FACTURA', key: 'col12', width: 20},
-      { header: 'R/H', key: 'col13', width: 20},
-      { header: 'BOLETA', key: 'col14', width: 30},
+      { header: 'NRO', key: 'col1', width: 10},
+      { header: 'CLIENTE', key: 'col2', width: 10},
+      { header: 'FECHA', key: 'col3', width: 30},
+      { header: 'SERIE', key: 'col4', width: 15},
+      { header: 'NÚMERO', key: 'col5', width: 20},
+      { header: 'RUC/DNI', key: 'col6', width: 20},
+      { header: 'NOMBRE/RAZÓN SOCIAL', key: 'col7', width: 50},
+      /**{ header: 'TELÉFONO', key: 'col7', width: 20},
+      { header: 'CORREO', key: 'col8', width: 20},**/
+      { header: 'TOTAL', key: 'col8', width: 20},
+      { header: 'ANULADO', key: 'col9', width: 20},
+      { header: 'BOLETA DE VENTA', key: 'col10', width: 20},
+      { header: 'FACTURA', key: 'col11', width: 20},
+      { header: 'R/H', key: 'col12', width: 20},
+      /*{ header: 'BOLETA', key: 'col14', width: 30},*/
   ]as any;
 
   //PREPACION DEL ARCHIVO Y SU DESCARGA

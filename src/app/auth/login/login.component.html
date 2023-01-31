@@ -1,49 +1,57 @@
-<mat-card>
-  <h1>MELENDRES AUDITORES</h1>
-  <h2>Iniciar Sesión</h2>
-  <form [formGroup]="loginForm">
-    <mat-form-field appearance="fill">
-      <mat-label>Usuario</mat-label>
-      <input
-        matInput
-        formControlName="email"
-        placeholder="Ej: usuario@gmail.com"
-        value=""
-        autocomplete="off" 
-      />
-      <mat-icon mat-icon-button matSuffix class="mat-icon-rtl-mirror"
-        >person</mat-icon
-      >
-      <mat-error> El email es requerido </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Constraseña</mat-label>
-      <input
-        matInput
-        formControlName="password"
-        [type]="hide ? 'password' : 'text'"
-      />
+  <mat-card>
+    <h2 style="color: rgba(56, 56, 56, 1)" >INICIAR SESIÓN</h2>
 
-      <button
-        mat-icon-button
-        matSuffix
-        (click)="hide = !hide"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hide"
+    <img   mat-card-md-image class="avatar" src="/assets/img/log-fire.jpeg" alt="image">
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+      <mat-form-field appearance="outline">
+        <mat-label>Usuario</mat-label>
+        <input
+          matInput
+          formControlName="email"
+          placeholder="Ej: usuario@gmail.com"
+          value=""
+          autocomplete="off" 
+        />
+        <mat-icon mat-icon-button matSuffix class="mat-icon-rtl-mirror"
+          >person</mat-icon
+        >
+        <mat-error> El email es requerido </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Constraseña</mat-label>
+        <input
+          matInput
+          formControlName="password"
+          [type]="hide ? 'password' : 'text'"
+          (keyup.enter)="onSubmit(loginForm.value)" 
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        <mat-error> La contraseña es requerido. </mat-error>
+      </mat-form-field>
+      <!--<button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!loginForm.valid || submitted"
       >
-        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
-      </button>
-      <mat-error> La contraseña es requerido. </mat-error>
-    </mat-form-field>
-    <button
+        Ingresar
+      </button>-->
+  
+      <button
       mat-raised-button
       color="primary"
-      (click)="onSubmit(loginForm.value)"
       type="submit"
-      [disabled]="!loginForm.valid || submitted"
-      (keyup.enter)="onSubmit(loginForm.value)"
     >
       Ingresar
     </button>
-  </form>
-</mat-card>
+    </form>
+  </mat-card>

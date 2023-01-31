@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListBussPeriodsComponent } from './list-buss-periods.component';
+import { ListBussPeriodsComponent } from './list-tasks-completed.component';
 
 describe('ListBussPeriodsComponent', () => {
   let component: ListBussPeriodsComponent;

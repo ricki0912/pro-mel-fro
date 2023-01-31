@@ -48,7 +48,7 @@ export class GrahpPayAndTellerComponent implements OnInit {
 
 
   ) {
-    Object.assign(this, { multi })
+    /*Object.assign(this, { multi })*/
   }
 
   ngOnInit(): void {
@@ -111,7 +111,7 @@ export class GrahpPayAndTellerComponent implements OnInit {
       let temp=[]
       temp.push(x1.tellName)
       temp.push(x1.paymthdsName)
-      temp.push(x1.total)
+      temp.push(Number(x1.total))
 
       
 

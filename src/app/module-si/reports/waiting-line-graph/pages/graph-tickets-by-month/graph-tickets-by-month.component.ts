@@ -38,7 +38,7 @@ export class GraphTicketsByMonthComponent implements OnInit {
     private datepipe: DatePipe,
 
   ) {
-    Object.assign(this, { multi })
+   /* Object.assign(this, { multi })*/
   }
 
  onSelect(data:any): void {

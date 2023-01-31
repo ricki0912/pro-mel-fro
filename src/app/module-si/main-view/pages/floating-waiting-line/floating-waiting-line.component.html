@@ -26,16 +26,21 @@
           {{(tAppointmentTemp==null)?'- - - -':''}}
         </b></span>
 
-
+    <!--
       <button mat-button 
         *ngIf="tAppointmentTemp==null && isLoading==false"
         style="background-color: green; color:white;"
         (click)="startCallByTeller(selectedTeller)">Llamar
         siguiente</button>
-
-        <button mat-button [matMenuTriggerFor]="beforeMenu">Before</button>
+      -->
+        <button mat-button [matMenuTriggerFor]="beforeMenu"
+        *ngIf="tAppointmentTemp==null && isLoading==false"
+        style="background-color: green; color:white;"
+        >Llamar Siguiente</button>
         <mat-menu #beforeMenu="matMenu" xPosition="before">
-          <button mat-menu-item *ngFor="let element of tAppointmentTemps">{{element.apptmNameClient}} </button>
+          <button mat-menu-item *ngFor="let element of tAppointmentTemps"  (click)="startCallByTeller(selectedTeller, element.apptmId)">
+            <b> {{element.catCode }}{{element.apptmNro | number:'2.0'}} </b> | {{element.apptmNumberDocClient}} / {{element.apptmNameClient}} 
+          </button>
         </mat-menu>
         
 
@@ -57,7 +62,7 @@
 <!-- This button triggers the overlay and is it's origin -->
 <ng-container *ngIf="isFloating">
     
-  <button [matBadge]="nroCallPending" [matBadgeHidden]="nroCallPending==0" mat-icon-button matBadgeColor="warn"
+  <button [matBadge]="tAppointmentTemps.length" [matBadgeHidden]="tAppointmentTemps.length==0" mat-icon-button matBadgeColor="warn"
   (click)="beforeCall()" type="button" cdkOverlayOrigin #trigger="cdkOverlayOrigin">
   <mat-icon>tablet</mat-icon>
   </button>
@@ -75,9 +80,9 @@
 </ng-container>
 
 
-<ng-container *ngIf="!isFloating">
-  <div class="example-list">
-
+<ng-container *ngIf="!isFloating && (tAppointmentTemps.length>0 || tAppointmentTemp) " >
+  <!--[style.background-color]=" 'rgba('+colorBackground.r+', '+colorBackground.g+', '+colorBackground.b+', '+colorBackground.a+')'"-->
+  <div class="example-list" >
   <ng-container *ngTemplateOutlet="modelTemplate">
 
   </ng-container>

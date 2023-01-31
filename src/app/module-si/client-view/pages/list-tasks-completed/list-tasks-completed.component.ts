@@ -27,11 +27,11 @@ import { DetailServicesProvidedComponent } from 'src/app/module-si/client-view/p
 import { DBusinessPeriod } from 'src/app/interfaces/d-business-period';
 
 @Component({
-  selector: 'app-list-buss-periods',
-  templateUrl: './list-buss-periods.component.html',
-  styleUrls: ['./list-buss-periods.component.scss']
+  selector: 'app-list-tasks-completed',
+  templateUrl: './list-tasks-completed.component.html',
+  styleUrls: ['./list-tasks-completed.component.scss']
 })
-export class ListBussPeriodsComponent implements OnInit {
+export class ListTasksCompletedComponent implements OnInit {
 
   @Output() servProvSelectionChange = new EventEmitter<TServicesProvided[]>();
   @Output() onDBusinesPeriod = new EventEmitter<DBusinessPeriod>();

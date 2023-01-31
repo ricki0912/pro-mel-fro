@@ -39,8 +39,10 @@ export class LoginComponent implements OnInit {
     private loadingService: LoadingService,
     private router:Router,
 
-  ) { }
-
+  ) {
+    document.body.style.backgroundColor = "#FFE2E2";
+   }
+   
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
@@ -48,6 +50,9 @@ export class LoginComponent implements OnInit {
       this.reloadPage();
     }
     this.loadingService.stop();
+  }
+  ngOnDestroy(){
+    document.body.style.backgroundColor = "none";
   }
 
   onSubmit(o: User): void {
@@ -62,7 +67,7 @@ export class LoginComponent implements OnInit {
         this.isLoggedIn = true;
         this.reloadPage();
 
-        this.loadingService.hide();
+        this.loadingService.stop();
         this.submitted=false
 
       },

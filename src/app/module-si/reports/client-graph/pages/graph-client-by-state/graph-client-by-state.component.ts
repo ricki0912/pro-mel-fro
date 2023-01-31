@@ -31,7 +31,7 @@ export class GraphClientByStateComponent implements OnInit {
     private reportsServices:ReportsService,
     private datepipe: DatePipe,
   ) {
-    Object.assign(this, { single });
+    /*Object.assign(this, { single });*/
   }
 
   onSelect(data:any): void {

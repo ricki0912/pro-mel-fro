@@ -36,14 +36,14 @@
         <mat-progress-spinner color="primary" mode="indeterminate">
         </mat-progress-spinner>
       </mat-card>
-      <app-list-buss-periods
+      <app-list-tasks-completed
         class="example-accordion-item"
         [bp]="bp"
         [serBuss]="serBuss"
         *ngFor="let bp of dBussPer"
         (servProvSelectionChange)="onServProByPeriod(bp.prdsNameShort || '', $event)"
         (onDBusinesPeriod)="delDBusinessPeriod($event)"
-        ></app-list-buss-periods>
+        ></app-list-tasks-completed>
     </mat-card-content>
   </mat-card>
   <app-pay-in-group (reloadAllServices)="reloadAllServices($event)" [servProByPeriod]="_servicesByPeriod" ></app-pay-in-group>

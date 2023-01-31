@@ -71,7 +71,7 @@ export class PayInGroupComponent implements OnInit {
         appointmentTemp:this.appointmentTemp,
         payLinkBuss:true,
         bussines: this.business,
-        servicesProvideds: this.servProByPeriod.reduce((a:TServicesProvided[],b)=>([...a,...b.services]),[]),
+        servicesProvideds: this.servProByPeriod.reduce((a:TServicesProvided[],b)=>([...b.services, ...a]),[]),
         type: 1
       }
     });

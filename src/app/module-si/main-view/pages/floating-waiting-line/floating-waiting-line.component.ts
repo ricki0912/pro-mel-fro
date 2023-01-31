@@ -33,6 +33,8 @@ export class FloatingWaitingLineComponent implements OnInit {
   selectedCategory=0
 
   selectedTeller: number = -1
+
+  colorBackground:{r:number, g:number, b:number, a:number}={r:0,g:255,b:0,a:0.4}
   constructor(
     private fwlService: FloatingWaitingLineService,
     private appointmentTempService: AppointmentTempService,
@@ -171,6 +173,8 @@ export class FloatingWaitingLineComponent implements OnInit {
           this.nroCallPending = -1
           this.setSocketTV(t[0].hqId || -1, { action: SOCKET_ACTION.TV_ADD_TARGET_CALL, data: this.tAppointmentTemp })
           //this.setTVAddTargetCall(this.tAppointmentTemp)
+          this.selectSearch()
+
         }else{
           this.showMessage.success({message:'No tenemos más clientes en espera.'})
 
@@ -237,7 +241,7 @@ export class FloatingWaitingLineComponent implements OnInit {
     }
   }
 
-
+/*
   private readAppointmentTempCRUD(hqId:number,tellId:number, catId:number,apptmState:number): boolean {
     this.isLoading = true;
     this.appointmentTempService.getAllBy(hqId,tellId, catId,apptmState).subscribe({
@@ -256,9 +260,10 @@ export class FloatingWaitingLineComponent implements OnInit {
     });
 
     return true
-  }
+  }*/
   private selectSearch(){
-    this.readAppointmentTempCRUD(this.tokenService.getHqId() ,this.tokenService.getTeller()?.tellId || -1, this.selectedCategory, APPOINTMENT_STATE.PENDING)
+    this.fwlService.readAppointmentTempsPendingOfMyTeller({})
+    //this.readAppointmentTempCRUD(this.tokenService.getHqId() ,this.tokenService.getTeller()?.tellId || -1, this.selectedCategory, APPOINTMENT_STATE.PENDING)
     //if(this.currentTeller.tellId) this.readTeller(this.currentTeller.tellId)
   }
 

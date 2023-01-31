@@ -18,6 +18,7 @@ import { SOCKET_ACTION } from 'src/app/global/parents/socket.interface';
 import { MainViewService } from '../main-view/main-view.service';
 import { User } from 'src/app/interfaces/user';
 import { GlobalHelpers } from 'src/app/global/helpers/global.helpers';
+import { FloatingWaitingLineService } from '../main-view/pages/floating-waiting-line/floating-waiting-line.service';
 
 
 @Component({
@@ -53,7 +54,8 @@ export class CallComponent implements OnInit {
     private showMessage:ShowMessageService,
     private tokenService: TokenStorageService,
     private waitingLineService:WaitingLineService,
-    private mainViewService:MainViewService
+    private mainViewService:MainViewService, 
+    private fwlService: FloatingWaitingLineService
 
 
   ) {
@@ -64,11 +66,12 @@ export class CallComponent implements OnInit {
 
   ngOnInit(): void {
     //this.readCategory();
-    this.getSocketWaitingLine()
+    //this.getSocketWaitingLine()
     //this.readAppointmentTempCRUD(0,0);
-    this.selectSearch()
+    //this.selectSearch()
     //this.listenRoute(()=>this.selectSearch())
-    
+    this.getTAppointmentTemps()
+
     if(this.currentTeller.tellId)
       this.readTeller(this.currentTeller.tellId)
   }
@@ -131,7 +134,8 @@ export class CallComponent implements OnInit {
   } 
   //select search
   selectSearch(){
-    this.readAppointmentTempCRUD(this.currentTeller.hqId || -1,this.selectedTeller, this.selectedCategory, APPOINTMENT_STATE.PENDING)
+    this.fwlService.readAppointmentTempsPendingOfMyTeller({})
+    //this.readAppointmentTempCRUD(this.currentTeller.hqId || -1,this.selectedTeller, this.selectedCategory, APPOINTMENT_STATE.PENDING)
     if(this.currentTeller.tellId) this.readTeller(this.currentTeller.tellId)
   }
 /*
@@ -175,7 +179,7 @@ export class CallComponent implements OnInit {
     }
     return ''
   }
-
+/*
   readAppointmentTempCRUD(hqId:number,tellId:number, catId:number,apptmState:number): boolean {
     this.isLoading = true;
     this.appointmentTempService.getAllBy(hqId,tellId, catId,apptmState).subscribe({
@@ -191,7 +195,7 @@ export class CallComponent implements OnInit {
     });
 
     return true
-  }
+  }*/
 
   private updateTeller(apptmIds:number[], tellId:number){
     this.appointmentTempService.updateTeller(apptmIds, tellId).subscribe({
@@ -205,7 +209,7 @@ export class CallComponent implements OnInit {
     })
   }
 
-
+/*
   getSocketWaitingLine(){
     this.waitingLineService.getSocketWaitingLine(this.selectedTeller).subscribe({
       next:d=>{
@@ -223,7 +227,7 @@ export class CallComponent implements OnInit {
         }
       }
     })
-  }
+  }*/
 
 
 
@@ -267,6 +271,17 @@ export class CallComponent implements OnInit {
       }
     })
   }
+
+  private getTAppointmentTemps(){
+    this.fwlService.getTAppointmentTemps().subscribe({
+      next:(d)=>{
+        this.dataSource.data=d 
+      },
+      error:(e)=>{
+
+      }
+    })
+}
 
 
 }

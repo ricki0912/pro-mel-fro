@@ -1,0 +1,65 @@
+<div class="card p-1 mb-1 " >
+  <div class="d-flex justify-content-between">
+    <div class="d-flex flex-row align-items-center">
+      <div class="ms-1 c-details">
+        <mat-checkbox><h6 class="mb-0">PDT</h6></mat-checkbox> <br><span>Ricardo Solis</span>
+      </div>
+    </div>
+    <div>
+      <div class="badge"> <span>Design</span>   </div>
+      <button color="accent" mat-icon-button matTooltip="Editar" aria-label="Des" (click)="openDialogUpd(card)">
+        <mat-icon>save</mat-icon>
+      </button>
+    </div>
+
+  </div>
+  <div class="mt-0" >
+
+    <mat-form-field
+    class="example-full-width"
+    style="width: 100%; font-size: 12px"
+    appearance="fill"
+  >
+    <mat-label>Comentario</mat-label>
+    <textarea
+      matInput
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="8"
+      maxLength="500"
+      >
+    </textarea>
+    <!--
+    <button mat-icon-button matSuffix
+    color="primary"
+    (click)="true"
+
+    >
+      <mat-icon
+      
+      >save</mat-icon>
+    </button>-->
+    
+    <!--<mat-hint align="end">g/500</mat-hint>-->
+  </mat-form-field>
+    <!--<p>jholjkljl k</p>
+    <div class="mt-0">
+      <button color="accent" mat-icon-button matTooltip="Editar" aria-label="Des" (click)="openDialogUpd(card)">
+        <mat-icon>check</mat-icon>
+      </button>
+      <button mat-icon-button color="accent" matTooltip="Eliminar" aria-label="Des" (click)="delCards(card)">
+        <mat-icon>save</mat-icon>
+      </button>
+      <button mat-icon-button (click)="enableDisableCards(card)"
+        color="{{ card.cardState?.trim() == '1' ? 'accent' : 'warn' }}" matSuffix matTooltip="{{
+          card.cardState?.trim() == '1' ? 'Habilitado' : 'Deshabilitado'
+        }}">
+        <mat-icon>{{
+          card.cardState?.trim() == "1" ? "visibility" : "visibility_off"
+          }}</mat-icon>
+      </button>
+    </div>-->
+  </div>
+</div>
+
