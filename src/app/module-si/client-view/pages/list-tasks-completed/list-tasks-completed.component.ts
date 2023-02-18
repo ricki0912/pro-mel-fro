@@ -25,6 +25,9 @@ import { CommentR } from '../inline-edit/inline-edit.component';
 import { FloatingWaitingLineService } from 'src/app/module-si/main-view/pages/floating-waiting-line/floating-waiting-line.service';
 import { DetailServicesProvidedComponent } from 'src/app/module-si/client-view/pages/detail-services-provided/detail-services-provided.component';
 import { DBusinessPeriod } from 'src/app/interfaces/d-business-period';
+import { DoneByMonthService } from 'src/app/services/done-by-month.service';
+import { DoneByMonth } from 'src/app/interfaces/done-by-month';
+import { Task as TaskH} from 'src/app/interfaces/task';
 
 @Component({
   selector: 'app-list-tasks-completed',
@@ -44,6 +47,12 @@ export class ListTasksCompletedComponent implements OnInit {
 
 
 
+  public dbms: DoneByMonth[]=[]
+  public tasks:TaskH[]=[]
+  public users: User[]=[]
+
+
+
 
   /*Variables adicionales */
   private business?:Bussines
@@ -57,13 +66,34 @@ export class ListTasksCompletedComponent implements OnInit {
     private tokenStorage: TokenStorageService,
     private dialog:MatDialog,
     private clientViewService:ClientViewService,
-    private fwlService:FloatingWaitingLineService
-
+    private fwlService:FloatingWaitingLineService,
 
     //private services:ServicesProvided
+    private doneByMonthService:DoneByMonthService
+
   ) {
 
   }
+
+
+  
+  private getAllDoneByMonth(dbpId:number){
+      this.doneByMonthService.allByDBussPeriod({dbpId}).subscribe({
+        next: e=>{
+          console.log("Como me perdi los años", e)
+          this.dbms=e.data.dbms as DoneByMonth[]; 
+          this.tasks=e.data.tasks as TaskH[]
+          this.users=e.data.users as User[]
+        }
+      });
+  }
+
+
+
+
+
+
+
 
   private listenSelectedBusiness(o:()=>void){
     this.clientViewService.getSelectedBussines().subscribe((b:Bussines | null)=>{
@@ -73,6 +103,13 @@ export class ListTasksCompletedComponent implements OnInit {
   }
   
   ngOnInit(): void {
+
+    if(this.bp.dbp?.dbpId){
+      this.getAllDoneByMonth(this.bp.dbp?.dbpId)
+    }
+    
+
+
     this.clientViewService.getServices().subscribe((d:Services[] | null)=>{if(d)this.services=d});
     this.readPeriodPayments()
     this.readServiceProvidedsByDBP(this.bp.dbp?.dbpId || -1)

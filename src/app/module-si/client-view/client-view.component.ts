@@ -19,6 +19,7 @@ import {
 } from '../client/pages/change-state/change-state.component';
 import { MainViewService } from '../main-view/main-view.service';
 import { ClientViewService } from './client-view.service';
+import { AddTaskByClientComponent } from './pages/add-task-by-client/add-task-by-client.component';
 import { AnnualSummaryComponent } from './pages/annual-summary/annual-summary.component';
 import {
   BusinessComment,
@@ -148,6 +149,16 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
       data: {
         hqId: this.hqId,
         bussId:this.business[0].bussId
+      }
+    });
+  }
+
+  openDialogAddTaskByClient(){
+    const dialogRef = this.dialogEditClient.open(AddTaskByClientComponent, {
+      panelClass: 'dialog',
+   
+      data: {
+        business:this.business[0]
       }
     });
   }

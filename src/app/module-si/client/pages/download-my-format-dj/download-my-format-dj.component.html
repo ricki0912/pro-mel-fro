@@ -21,22 +21,18 @@
     </p>
     <mat-dialog-content class="mat-typography">
       <form (ngSubmit)="true">
-<!--
+
         <mat-form-field appearance="legacy">
           <mat-label>Ventanilla</mat-label>
           <mat-select
-            [(value)]="ti"
-            (selectionChange)="setListenParams()"
+            [(value)]="tellId"
           >
-            <mat-option value="0" selected>Todos</mat-option>
             <mat-option *ngFor="let teller of tellers" [value]="teller.tellId">
-              {{ teller.tellCode }} - {{ teller.tellName }} ({{
-                teller.tellName
-              }})
+              {{ teller.tellCode }} - {{ teller.tellName }} 
             </mat-option>
           </mat-select>
         </mat-form-field>
-      -->
+      
       <mat-form-field appearance="legacy">
         <mat-label>Estado</mat-label>
         <mat-select [(value)]="bussState" 

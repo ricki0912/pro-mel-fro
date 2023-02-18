@@ -4,7 +4,9 @@ import { TokenStorageService } from 'src/app/auth/services/token-storage.service
 import { GlobalHelpers } from 'src/app/global/helpers/global.helpers';
 import { BUSSINES_COLOR, BUSSINES_STATE } from 'src/app/interfaces/bussines';
 import { Period } from 'src/app/interfaces/period';
+import { Teller } from 'src/app/interfaces/teller';
 import { PeriodService } from 'src/app/services/period.service';
+import { TellerService } from 'src/app/services/teller.service';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
 import { environment } from 'src/environments/environment';
 
@@ -28,18 +30,22 @@ export class DownloadMyFormatDJComponent {
 
   public periods: Period[] = [];
 
+  public tellers: Teller[]=[]
+
   title = 'Formato de Declaración Jurada';
   constructor(
     private dialogRef: MatDialogRef<DownloadMyFormatDJComponent>,
     private periodService: PeriodService,
     private showMessage: ShowMessageService,
-    private tokenStorage: TokenStorageService
+    private tokenStorage: TokenStorageService, 
+    private tellerService:TellerService
   ) {
     this.tellId = this.tokenStorage.getTeller()?.tellId;
   }
 
   ngOnInit(): void {
     this.getDataPeriods();
+    this.getDataTellers()
   }
 
   getColorBussState(bussState?: string) {
@@ -73,7 +79,18 @@ export class DownloadMyFormatDJComponent {
     );
   }
 
-  getDataPeriods(): boolean {
+  private getDataTellers(){
+    this.tellerService.all().subscribe({
+      next: e=>{
+        this.tellers=e
+      }, 
+      error:e=>{
+
+      }
+    })
+  }
+
+  private getDataPeriods(): boolean {
     this.loading = true;
     this.periodService.all().subscribe({
       next: (data) => {

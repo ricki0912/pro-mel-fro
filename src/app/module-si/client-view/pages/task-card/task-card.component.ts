@@ -2,12 +2,18 @@
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { TokenStorageService } from 'src/app/auth/services/token-storage.service';
 import { ActionDialogInterface, TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
 import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
 import { Cards } from 'src/app/interfaces/cards';
+import { DDoneByMonthTasks, D_DONE_BY_MONTH_TASKS_RECTIFIED, D_DONE_BY_MONTH_TASKS_STATE } from 'src/app/interfaces/d_done_by_month_tasks';
+import { Task as TaskH,TASK_ELSE_ALTERNATIVE,TASK_RECTIFY,TASK_TYPE_INPUT } from 'src/app/interfaces/task';
+import { User } from 'src/app/interfaces/user';
 import { CardsService } from 'src/app/services/cards.service';
 import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
+
+import {FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-task-card',
@@ -15,93 +21,94 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
   styleUrls: ['./task-card.component.scss']
 })
 export class TaskCardComponent {
+   private _users:User[]=[]
+  @Input() set users(v:User[]){
+    this._users=v
+  }
+  @Input() dDoneByMonthTask:DDoneByMonthTasks={ddbmtState:D_DONE_BY_MONTH_TASKS_STATE.CREATED_FIRST_TIME}
+  
+  
 
- @Input() card: Cards = {};
-  @Output() onDel = new EventEmitter<Cards>();
+  TASK_TYPE_INPUT=TASK_TYPE_INPUT
+  D_DONE_BY_MONTH_TASKS_STATE= D_DONE_BY_MONTH_TASKS_STATE  
+  TASK_ELSE_ALTERNATIVE=TASK_ELSE_ALTERNATIVE
+  TASK_RECTIFY=TASK_RECTIFY
+  D_DONE_BY_MONTH_TASKS_RECTIFIED=D_DONE_BY_MONTH_TASKS_RECTIFIED
+
+
+  arrayMain:Option[]=[]
   constructor(
+    private tokenService:TokenStorageService
+  ){ 
+    
+  }
+  changeIsDone(){
+    this.dDoneByMonthTask.ddbmtDoneBy=(this.dDoneByMonthTask.ddbmtIsDoneTask)?this.tokenService.getUser()?.id:undefined  
+    this.dDoneByMonthTask.ddbmtState=(this.dDoneByMonthTask.ddbmtIsDoneTask)?D_DONE_BY_MONTH_TASKS_STATE.PENDING_TO_SAVE:D_DONE_BY_MONTH_TASKS_STATE.PENDING
+  }  
+  
+  getUser=(userId:number)=>this._users.find(e=>e.id==userId)
+
+
+
+  @Input() card: Cards = {};
+  @Output() onDel = new EventEmitter<Cards>();
+  /*constructor(
     public dialogEditCard: MatDialog,
     public cardsService: CardsService,
     private showMessage: ShowMessageService
-  ) { }
+  ) { }*/
 
   ngOnInit(): void {
+    this.prepareArrayOfOptions()
   }
 
-  openDialogAdd(object: any): boolean {
-    throw new Error('Method not implemented.');
+  private prepareArrayOfOptions(){
+    let options = this.getArrayOfOptions(this.dDoneByMonthTask.task?.tsksOptionsValue, this.dDoneByMonthTask.task?.tsksOptionsSplit)
+    let optionsSelected=this.getArrayOfOptions(this.dDoneByMonthTask.ddbmtOptionsByComa, this.dDoneByMonthTask.task?.tsksOptionsSplit)
+
+    this.arrayMain = options.map(e=>{
+      let optionSelected=optionsSelected.find(a=>e==a)
+      let isSelected=(e==optionSelected)?true:false
+      let option:Option={value:e, selected:isSelected }
+      return option
+    })
+
   }
-  openDialogUpd(data: Cards): boolean {
+
+  public setOption(o:Option){
+    let optionsSelected=this.arrayMain.filter(e=>e.selected)
+    let optionsValues=optionsSelected.map(e=>e.value)
+    let optionsConcated=optionsValues.join(this.dDoneByMonthTask.task?.tsksOptionsSplit)
     
-    return false;
-  }
-  openDialogdAddAndUpd(object: any): boolean {
-    throw new Error('Method not implemented.');
+    this.dDoneByMonthTask.ddbmtOptionsByComa=optionsConcated
   }
 
-  createCRUD(object: any): boolean {
-    throw new Error('Method not implemented.');
-  }
-  readCRUD(): boolean {
-    throw new Error('Method not implemented.');
-  }
-  updateCRUD(object: Cards): boolean {
-    this.cardsService.updCards(object).subscribe({
-      next: data=>{
-        const cards=data.data as Cards[]
-        this.card=cards[0];
-        this.showMessage.success({message: data.msg})
-      },
-      error: error=>{
-        this.showMessage.error({message: error.error.message, action:()=>this.updateCRUD(object)})
+  getArrayOfOptions(tsksOptionsValue:string | undefined, tsksOptionsSplit:string | undefined){
+      if(tsksOptionsValue && tsksOptionsSplit){
+        return this.generateArrayOptions(tsksOptionsValue, tsksOptionsSplit)
       }
-    })
-
-    return true;
-  }
-  deleteCRUD(id: number[]): boolean {
-    this.cardsService.delCards(id).subscribe({
-      next: data=>{
-        this.showMessage.success({message: data.msg});
-        this.onDel.emit(this.card);
-      },
-      error: error=>{
-        this.showMessage.error({message: error.error.message})
-      }
-    })
-    return true;
+      return []
   }
 
-  delCards(data: Cards){
-    let ids: number[] = [data.cardId || -1];
-    this.wantDelete(()=>this.deleteCRUD(ids))
+  private generateArrayOptions(options:string, separator:string){
+    console.log(options, separator)
+    return options.split(separator)
   }
 
-  wantDelete(d:()=>void){
-    this.dialogEditCard
-      .open(DialogConfirmationComponent, {
-        data: `Esta seguro que desea Eliminar.`,
-      })
-      .afterClosed()
-      .subscribe((confirmado: Boolean) => {
-        if (confirmado) {
-          d();
-        } else {
-
-        }
-      });
+  //
+  rectify(){
+    this.dDoneByMonthTask.ddbmtRectified=D_DONE_BY_MONTH_TASKS_RECTIFIED.PENDING_TO_SAVE
+    //this.dDoneByMonthTask.ddbmtState=D_DONE_BY_MONTH_TASKS_STATE.PENDING_TO_RECTIFY
   }
 
-  enableDisableCards(state: Cards):boolean{
-    let ids: number[] = [state.cardId || -1];
-    this.cardsService.enableDisableCards(ids).subscribe({
-      next: data=>{
-        this.showMessage.success({message: data.msg});
-        this.onDel.emit(this.card);
-      },
-      error: error=>{
-        this.showMessage.error({message: error.error.message})
-      }
-    })
-    return true;
+  doSomethingElse(s:D_DONE_BY_MONTH_TASKS_STATE.PENDING_NOT_DONE){
+    this.dDoneByMonthTask.ddbmtState=s
+    
   }
+
+}
+interface  Option{
+  value:string,
+  selected:boolean
 }

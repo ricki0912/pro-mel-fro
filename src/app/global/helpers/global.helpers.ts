@@ -86,6 +86,8 @@ export class GlobalHelpers{
       if(month==1){
         year-=1
         month=12
+      }else {
+        month--
       }
 
       return new Date(year, month-1,1)

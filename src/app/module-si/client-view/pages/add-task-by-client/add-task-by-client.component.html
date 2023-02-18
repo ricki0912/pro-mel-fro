@@ -1,0 +1,175 @@
+<ng-template #noHaveRegister>
+  <div class="d-flex align-items-center flex-column">
+    <div class="p-2">
+      <span>
+        Al parecer <b>no tiene registros </b> de este periodo y mes para mostrar.
+    </span> 
+  </div>
+    
+  </div>
+</ng-template>
+
+<mat-toolbar color="primary" class="tollbar">
+  <mat-toolbar-row>
+    <button
+      mat-icon-button
+      mat-dialog-close
+      class="example-icon"
+      aria-label="Example icon-button with menu icon"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>{{ title }} | {{bussines.bussName}}</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="dialog-body" style="width: 800px; min-width: 10px">
+
+  <p>
+    Registra el seguimiento de Declaración Mensual y Anual
+  </p>
+  <div>
+
+    <mat-grid-list cols="3" rowHeight="3rem">
+      <mat-grid-tile>
+        <div>
+          <small>Tipo de Regimen: </small>
+          <b [ngSwitch]="bussines.bussRegime"
+            ><b *ngSwitchCase="1">Especial</b><b *ngSwitchCase="2">General</b
+            ><b *ngSwitchCase="3">MYPE Tributario</b></b
+          >
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Estado: </small>
+
+
+          <b [ngSwitch]="bussines.bussState"
+          ><b style="color: #28a745" *ngSwitchCase="1"><i>Activo</i></b
+          ><b style="color: #dc3545" *ngSwitchCase="2"
+            ><i>Suspendido</i></b
+          ><b style="color: #ffc107" *ngSwitchCase="3"
+            ><i>Retirado</i></b
+          ></b>          
+          
+        </div>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <div>
+          <span>
+            <container-element [ngSwitch]="bussines.bussState">
+              <b *ngSwitchCase="1">Activo desde : </b>
+              <b *ngSwitchCase="2">Suspendido desde : </b>
+              <b *ngSwitchCase="3">Retirado desde : </b>
+
+              <i *ngSwitchDefault
+                >(Click en el lapiz para actualizar el estado)</i
+              >
+            </container-element>
+
+            
+              <i>{{
+                bussines.bussStateDate | date:'fullDate'
+              }}</i>
+            </span
+          >
+        </div>
+      </mat-grid-tile>
+  
+      
+    </mat-grid-list>
+
+
+  </div>
+ 
+  <mat-divider></mat-divider>
+  <mat-dialog-content class="mat-typography">
+    <form (ngSubmit)="true">
+<!--
+      <mat-form-field appearance="legacy">
+        <mat-label>Ventanilla</mat-label>
+        <mat-select
+          [(value)]="ti"
+          (selectionChange)="setListenParams()"
+        >
+          <mat-option value="0" selected>Todos</mat-option>
+          <mat-option *ngFor="let teller of tellers" [value]="teller.tellId">
+            {{ teller.tellCode }} - {{ teller.tellName }} ({{
+              teller.tellName
+            }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    -->
+    <!--<mat-form-field appearance="legacy">
+      <mat-label>Estado</mat-label>
+      <mat-select [(value)]="bussState" 
+                  [class]="'buss-state-'+bussState">
+        <mat-option [value]="0">Todos</mat-option>
+        <mat-option [value]="BS.ENABLE">Activo</mat-option>
+        <mat-option [value]="BS.SUSPENDED">Suspendido</mat-option>
+        <mat-option [value]="BS.RETIRED">Retirado</mat-option>
+      </mat-select>
+    </mat-form-field>-->
+
+    <mat-form-field appearance="legacy">
+      <mat-label>Periodo</mat-label>
+      <mat-select
+        [(value)]="prdsId"
+        (selectionChange)="getDoneByMonths()"
+        >
+        <mat-option *ngFor="let period of periods" [value]="period.prdsId">
+          {{ period.prdsNameShort }} 
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="legacy">
+        <mat-label>Mes</mat-label>
+        <mat-select [(value)]="month" (selectionChange)="getDoneByMonths()">
+          <mat-option [value]="element.id" *ngFor="let element of MONTHS" > {{element.name}}</mat-option>  
+        </mat-select>
+      </mat-form-field>
+    </form>
+
+    <app-group-of-task-card
+      *ngIf="dbm" 
+      [doneByMonth]="dbm" 
+      [column]='4' 
+      [users]="users"
+      ></app-group-of-task-card>
+    <!--<div class="row">
+      <app-task-card class="col-4" *ngFor="let a of tasks" [task]="a" ></app-task-card>
+    </div>-->
+
+    
+
+
+
+ 
+  </mat-dialog-content>
+
+
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Cancelar</button>
+
+      <button
+        mat-button
+        
+        type="submit"
+        (click)="beforeAddUpd()"
+        [disabled]="false"
+        cdkFocusInitial
+      >
+        Guardar
+      </button>
+    </mat-dialog-actions>
+
+
+
+    
+</div>
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>

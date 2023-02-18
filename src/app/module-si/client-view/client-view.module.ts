@@ -60,7 +60,8 @@ import { TableRegisterComponent } from './pages/annual-summary/table-register/ta
 import { TasksCompletedComponent } from './pages/tasks-completed/tasks-completed.component';
 import {ListTasksCompletedComponent} from './pages/list-tasks-completed/list-tasks-completed.component';
 import { TaskCardComponent } from './pages/task-card/task-card.component';
-import { GroupOfTaskCardComponent } from './pages/group-of-task-card/group-of-task-card.component'
+import { GroupOfTaskCardComponent } from './pages/group-of-task-card/group-of-task-card.component';
+import { AddTaskByClientComponent } from './pages/add-task-by-client/add-task-by-client.component'
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -102,7 +103,8 @@ export const MY_DATE_FORMATS = {
     TasksCompletedComponent,
     ListTasksCompletedComponent,
     TaskCardComponent,
-    GroupOfTaskCardComponent
+    GroupOfTaskCardComponent,
+    AddTaskByClientComponent
   ],
   imports: [
     CommonModule,

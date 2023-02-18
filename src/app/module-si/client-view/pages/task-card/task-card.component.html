@@ -1,48 +1,198 @@
-<div class="card p-1 mb-1 " >
+<div class="card p-1 mb-1 ">
   <div class="d-flex justify-content-between">
     <div class="d-flex flex-row align-items-center">
       <div class="ms-1 c-details">
-        <mat-checkbox><h6 class="mb-0">PDT</h6></mat-checkbox> <br><span>Ricardo Solis</span>
+
+        <mat-checkbox [(ngModel)]="dDoneByMonthTask.ddbmtIsDoneTask" (ngModelChange)="changeIsDone()"
+          [disabled]="dDoneByMonthTask.ddbmtState==D_DONE_BY_MONTH_TASKS_STATE.CLOSED || dDoneByMonthTask.ddbmtState==D_DONE_BY_MONTH_TASKS_STATE.NOT_DONE">
+          {{dDoneByMonthTask.task?.tsksName}}
+        </mat-checkbox>
+        <br>
+        <span>{{(dDoneByMonthTask.ddbmtDoneBy)?'Hecho: '+getUser(dDoneByMonthTask.ddbmtDoneBy)?.person?.perName:''}}</span>
+        
+        <ng-container *ngIf="dDoneByMonthTask.ddbmtRectifiedBy">
+          <br>
+          <span > Rect: {{(dDoneByMonthTask.ddbmtRectifiedBy)?getUser(dDoneByMonthTask.ddbmtRectifiedBy)?.person?.perName:''}}</span>
+        </ng-container>
+        
+
       </div>
     </div>
     <div>
-      <div class="badge"> <span>Design</span>   </div>
-      <button color="accent" mat-icon-button matTooltip="Editar" aria-label="Des" (click)="openDialogUpd(card)">
-        <mat-icon>save</mat-icon>
+  
+      <!--<div class="badge"> 
+          <span *ngIf="dDoneByMonthTask.ddbmtState==D_DONE_BY_MONTH_TASKS_STATE.CLOSED 
+          || dDoneByMonthTask.ddbmtState==D_DONE_BY_MONTH_TASKS_STATE.NOT_DONE ">Hecho</span> 
+        </div>-->
+      <button mat-icon-button matTooltip="" aria-label="Des" [matMenuTriggerFor]="menuOptions">
+        <mat-icon>more_vert</mat-icon>
       </button>
+      <mat-menu #menuOptions="matMenu" xPosition="before">
+
+        <button mat-menu-item (click)="doSomethingElse(D_DONE_BY_MONTH_TASKS_STATE.PENDING_NOT_DONE)"
+          *ngIf="!dDoneByMonthTask.ddbmtIsDoneTask && 
+          dDoneByMonthTask.task?.tsksElseAlternative==TASK_ELSE_ALTERNATIVE.NO_HAVE_PLAME">
+          <mat-icon>person</mat-icon>
+          <span>No tiene</span>
+        </button>
+
+        <button mat-menu-item (click)="doSomethingElse(D_DONE_BY_MONTH_TASKS_STATE.PENDING_NOT_DONE)"
+          *ngIf="!dDoneByMonthTask.ddbmtIsDoneTask && dDoneByMonthTask.task?.tsksElseAlternative==TASK_ELSE_ALTERNATIVE.NO_SEND_LIBRO">
+          <mat-icon>person</mat-icon>
+          <span>No envia</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="rectify()"
+          *ngIf="dDoneByMonthTask.ddbmtState==D_DONE_BY_MONTH_TASKS_STATE.CLOSED && dDoneByMonthTask.task?.tsksRectify==TASK_RECTIFY.YES">
+          <mat-icon>person</mat-icon>
+          <span>Rectificar</span>
+        </button>
+
+        <!--  <button mat-menu-item (click)="beforeUpdState()" *ngIf="teller.tellState==TTS.ACTIVO">
+            <mat-icon>pause</mat-icon>
+            <span>Poner en espera </span>
+        </button>
+        <button mat-menu-item (click)="beforeUpdState()" *ngIf="teller.tellState==TTS.EN_ESPERA">
+            <mat-icon>play_arrow</mat-icon>
+            <span>Poner en activo </span>
+        </button>
+        <button mat-menu-item (click)="openDialogUpd(teller)">
+            <mat-icon>edit</mat-icon>
+            <span>Editar</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="removeUser(teller.tellId || -1)">
+            <mat-icon>close</mat-icon>
+            <span>Retirar usuario</span>
+        </button> -->
+        <!--<button mat-menu-item (click)="openDialogUpd(teller)">
+              <mat-icon>edit</mat-icon>
+              <span>Editar</span>
+            </button>-->
+
+      </mat-menu>
     </div>
 
   </div>
-  <div class="mt-0" >
+  <div class="mt-0" *ngIf="dDoneByMonthTask.ddbmtState==D_DONE_BY_MONTH_TASKS_STATE.PENDING_NOT_DONE ||
+                     dDoneByMonthTask.ddbmtState==D_DONE_BY_MONTH_TASKS_STATE.NOT_DONE">
+    <div class="d-flex align-items-center flex-column">
+      <div class="p-2">
+        <span>
+          <b> <i [ngSwitch]="dDoneByMonthTask.task?.tsksElseAlternative" >
+            <ng-container *ngSwitchCase="TASK_ELSE_ALTERNATIVE.NO_HAVE_PLAME">
+              (No tiene)
+            </ng-container>
+            <ng-container *ngSwitchCase="TASK_ELSE_ALTERNATIVE.NO_SEND_LIBRO">
+              (No envia)
+            </ng-container>
+          </i></b>
+        </span>
+      </div>
+    </div>
+  </div>
 
-    <mat-form-field
-    class="example-full-width"
-    style="width: 100%; font-size: 12px"
-    appearance="fill"
-  >
-    <mat-label>Comentario</mat-label>
-    <textarea
-      matInput
-      cdkTextareaAutosize
-      #autosize="cdkTextareaAutosize"
-      cdkAutosizeMinRows="1"
-      cdkAutosizeMaxRows="8"
-      maxLength="500"
-      >
-    </textarea>
-    <!--
-    <button mat-icon-button matSuffix
-    color="primary"
-    (click)="true"
+  <div class="mt-0" *ngIf="dDoneByMonthTask.ddbmtIsDoneTask">
+    <ng-container [ngSwitch]="dDoneByMonthTask.task?.tsksTypeInput">
+      <ng-container *ngIf="dDoneByMonthTask.ddbmtState==D_DONE_BY_MONTH_TASKS_STATE.PENDING_TO_SAVE
+                            || dDoneByMonthTask.ddbmtRectified==D_DONE_BY_MONTH_TASKS_RECTIFIED.PENDING_TO_SAVE ">
 
-    >
-      <mat-icon
+        <ng-container *ngSwitchCase="TASK_TYPE_INPUT.NUMBER">
+          <mat-form-field class="form-input" appearance="fill">
+            <input type="number" matInput step="1" min="0"
+              [placeholder]="dDoneByMonthTask.task?.tsksLabelInput || 'Ingrese un valor'"
+              [(ngModel)]="dDoneByMonthTask.ddbmtCant" autocomplete="off" />
+          </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="TASK_TYPE_INPUT.DECIMAL">
+          <mat-form-field class="form-input" appearance="fill">
+            <input type="number" matInput step="0.01" min="0"
+              [placeholder]="dDoneByMonthTask.task?.tsksLabelInput || 'Ingrese un valor'"
+              [(ngModel)]="dDoneByMonthTask.ddbmtAmount" autocomplete="off" />
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngSwitchCase="TASK_TYPE_INPUT.ARRAY_OF_OPTIONS">
+          <section class="example-section">
+            <h4><b>Selecciona:</b></h4>
+            <p *ngFor="let e of arrayMain"><mat-checkbox [(ngModel)]="e.selected"
+                (change)="setOption(e)">{{e.value}}</mat-checkbox></p>
+          </section>
+
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          <mat-form-field class="example-full-width" style="width: 100%; font-size: 12px" appearance="fill">
+            <mat-label>Comentario</mat-label>
+            <textarea [(ngModel)]="dDoneByMonthTask.ddbmtShortComment" matInput cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="8" maxLength="100">
+          </textarea>
+            <!--
+          <button mat-icon-button matSuffix
+          color="primary"
+          (click)="true"
       
-      >save</mat-icon>
-    </button>-->
-    
-    <!--<mat-hint align="end">g/500</mat-hint>-->
-  </mat-form-field>
+          >
+            <mat-icon
+            
+            >save</mat-icon>
+          </button>-->
+
+            <!--<mat-hint align="end">g/500</mat-hint>-->
+          </mat-form-field>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="dDoneByMonthTask.ddbmtState==D_DONE_BY_MONTH_TASKS_STATE.CLOSED">
+
+        <ng-container *ngSwitchCase="TASK_TYPE_INPUT.NUMBER">
+
+          <p>{{dDoneByMonthTask.ddbmtCant}}</p>
+          <!--<mat-form-field class="form-input"  appearance="fill" >
+            <input type="number" matInput step="1" min="0" [placeholder]="dDoneByMonthTask.task?.tsksLabelInput || 'Ingrese un valor'" [(ngModel)]="dDoneByMonthTask.ddbmtCant" autocomplete="off" />
+          </mat-form-field>-->
+        </ng-container>
+
+        <ng-container *ngSwitchCase="TASK_TYPE_INPUT.DECIMAL">
+          <p>{{dDoneByMonthTask.ddbmtAmount}}</p>
+
+          <!--          <mat-form-field class="form-input" appearance="fill">
+            <input type="number" matInput step="0.01" min="0" [placeholder]="dDoneByMonthTask.task?.tsksLabelInput || 'Ingrese un valor'" [(ngModel)]="dDoneByMonthTask.ddbmtAmount" autocomplete="off" />
+          </mat-form-field>-->
+        </ng-container>
+        <ng-container *ngSwitchCase="TASK_TYPE_INPUT.ARRAY_OF_OPTIONS">
+          <p>{{dDoneByMonthTask.ddbmtOptionsByComa}}</p>
+          <!--<section class="example-section" >
+            <h4><b>Selecciona:</b></h4>
+            <p *ngFor="let e of arrayMain" ><mat-checkbox [(ngModel)]="e.selected" (change)="setOption(e)" >{{e.value}}</mat-checkbox></p>
+          </section>-->
+
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          <mat-form-field class="example-full-width" style="width: 100%; font-size: 12px" appearance="fill">
+            <mat-label>Comentario</mat-label>
+            <textarea [(ngModel)]="dDoneByMonthTask.ddbmtShortComment" matInput cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="8" maxLength="100">
+          </textarea>
+            <!--
+          <button mat-icon-button matSuffix
+          color="primary"
+          (click)="true"
+      
+          >
+            <mat-icon
+            
+            >save</mat-icon>
+          </button>-->
+
+            <!--<mat-hint align="end">g/500</mat-hint>-->
+          </mat-form-field>
+        </ng-container>
+      </ng-container>
+
+    </ng-container>
+
+
     <!--<p>jholjkljl k</p>
     <div class="mt-0">
       <button color="accent" mat-icon-button matTooltip="Editar" aria-label="Des" (click)="openDialogUpd(card)">
@@ -61,5 +211,6 @@
       </button>
     </div>-->
   </div>
-</div>
 
+
+</div>

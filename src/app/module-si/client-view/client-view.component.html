@@ -161,15 +161,27 @@
         >
           Información General
         </button>
-        <!--<button
-        mat-raised-button
-        color="success"
-        style="width: 100%; margin-top: 10px"
-        routerLink="./tasks-completed"
-      >
-      Tareas Completadas
+        
+        <button
+          mat-raised-button
+          color="success"
+          style="width: 100%; margin-top: 10px"
+          (click)="openDialogAddTaskByClient()"
+        >
+        Realizar Seguimiento
 
-      </button>-->
+        </button>
+
+
+        <button
+          mat-raised-button
+          color="success"
+          style="width: 100%; margin-top: 10px"
+          routerLink="./tasks-completed"
+        >
+        Seguimiento
+
+        </button>
         <button
           mat-raised-button
           color="success"
