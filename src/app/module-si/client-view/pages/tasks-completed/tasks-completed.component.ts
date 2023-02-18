@@ -1,12 +1,9 @@
-
-import { Component, Input, OnInit} from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
-import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
 import { Bussines } from 'src/app/interfaces/bussines';
 import { DBusinessPeriod } from 'src/app/interfaces/d-business-period';
 import { Period } from 'src/app/interfaces/period';
-import { Services } from 'src/app/interfaces/services';
 import { TServicesProvided } from 'src/app/interfaces/services-provided';
 import { FindPeriodComponent } from 'src/app/module-si/period/pages/find-period/find-period.component';
 import { BussinesService } from 'src/app/services/bussines.service';
@@ -17,26 +14,22 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
 import { environment } from 'src/environments/environment';
 import { ClientViewService } from '../../client-view.service';
 
-
 @Component({
   selector: 'app-tasks-completed',
   templateUrl: './tasks-completed.component.html',
-  styleUrls: ['./tasks-completed.component.scss']
+  styleUrls: ['./tasks-completed.component.scss'],
 })
 export class TasksCompletedComponent {
-
-
-
   //servicios por peridos
-  _servicesByPeriod:ServicesByPeriod[]=[]
+  _servicesByPeriod: ServicesByPeriod[] = [];
 
   isLoading = true;
   //@Input() serBuss: Bussines | undefined;
   serBuss: Bussines | undefined;
   panelOpenState = false;
-  dbp : DBusinessPeriod = {};
+  dbp: DBusinessPeriod = {};
 
-  dBussPer: Period[]=[];
+  dBussPer: Period[] = [];
 
   //_totalToPay:number=0.0
 
@@ -46,43 +39,42 @@ export class TasksCompletedComponent {
     private servicesService: ServicesService,
     public dialog: MatDialog,
     private showMessage: ShowMessageService,
-    private clientViewService:ClientViewService,
-
-  ) {  }
+    private clientViewService: ClientViewService
+  ) {}
 
   ngOnInit(): void {
-    this.readServices()
-    this.listenSelectedBusiness(()=>this.readCRUD())
-
+    this.readServices();
+    this.listenSelectedBusiness(() => this.readCRUD());
   }
-  private listenSelectedBusiness(o:()=>void){
-    this.clientViewService.getSelectedBussines().subscribe((b:Bussines |null)=>{
-
-      if(b){
-        this.serBuss=b;
-        o();
-      }
-    })
+  private listenSelectedBusiness(o: () => void) {
+    this.clientViewService
+      .getSelectedBussines()
+      .subscribe((b: Bussines | null) => {
+        if (b) {
+          this.serBuss = b;
+          o();
+        }
+      });
   }
 
   createCRUD(object: any): boolean {
     throw new Error('Method not implemented.');
   }
   readCRUD(): boolean {
-    this.isLoading=true;
+    this.isLoading = true;
     let ids: number = this.serBuss?.bussId || -1;
     //console.log(ids);
 
     this.bussinesService.allDBusinesPeriods(ids).subscribe({
-      next: d=>{
-        this.dBussPer=d.data as Period[];
-        console.log("Periodos", d.data);
-        this.isLoading=false
+      next: (d) => {
+        this.dBussPer = d.data as Period[];
+        console.log('Periodos', d.data);
+        this.isLoading = false;
       },
-      error: e=>{
-        this.showMessage.error({message: e.error.message})
-      }
-    })
+      error: (e) => {
+        this.showMessage.error({ message: e.error.message });
+      },
+    });
     return true;
   }
   updateCRUD(object: any, id: string | number | null): boolean {
@@ -99,12 +91,12 @@ export class TasksCompletedComponent {
       data: {
         row: null,
         type: TYPES_ACTIONS_DIALOG.ADD,
-        hqId: 0
-      }
+        hqId: 0,
+      },
     });
     dialogRef.afterClosed().subscribe((result: Period) => {
       if (result) {
-        console.log("Seleccionare Periodo",result);
+        console.log('Seleccionare Periodo', result);
         this.addBusinessPeriod(result);
       }
     });
@@ -114,56 +106,57 @@ export class TasksCompletedComponent {
     this.dbp.prdsId = bp.prdsId;
     this.dbp.bussId = this.serBuss?.bussId;
     this.dbp.dbpState = 1;
-    this.isLoading=true;
+    this.isLoading = true;
 
     this.bussinesService.addDBusinessPeriod(this.dbp).subscribe({
-      next: data => {
+      next: (data) => {
         //this.dBussPer.unshift(data.data as Period)
-        this.isLoading=false;
-        this.readCRUD()
+        this.isLoading = false;
+        this.readCRUD();
         this.showMessage.success({ message: data.msg });
       },
-      error: error => {
-        this.showMessage.error({ message: error.error.message, action: () => this.addBusinessPeriod(this.dbp) })
-        this.isLoading=false
-      }
+      error: (error) => {
+        this.showMessage.error({
+          message: error.error.message,
+          action: () => this.addBusinessPeriod(this.dbp),
+        });
+        this.isLoading = false;
+      },
     });
     return true;
   }
 
-  readServices(){
+  readServices() {
     this.servicesService.all()?.subscribe({
-      next:d=>{
-        this.clientViewService.onServices(d)//this.services = d;
-      }
-    })
+      next: (d) => {
+        this.clientViewService.onServices(d); //this.services = d;
+      },
+    });
   }
 
-  printReportAllPeriod(){
-    window.open(environment.API_URL+"/v1/reports/all-periods/"+this.serBuss?.bussId);
+  printReportTasks() {
+    window.open(
+      environment.API_URL + `/v1/reports/tasks?bussId=${this.serBuss?.bussId}`
+    );
   }
 
-  onServProByPeriod(period:string, services:TServicesProvided[]){
-    let isbp=this._servicesByPeriod.findIndex(e=>e.period==period);
-    if(isbp<0){
-      this._servicesByPeriod.push({period, services})
-    }else{
-      this._servicesByPeriod[isbp]={period, services}
+  onServProByPeriod(period: string, services: TServicesProvided[]) {
+    let isbp = this._servicesByPeriod.findIndex((e) => e.period == period);
+    if (isbp < 0) {
+      this._servicesByPeriod.push({ period, services });
+    } else {
+      this._servicesByPeriod[isbp] = { period, services };
     }
-    
+
     //this._totalToPay=this._servicesByPeriod.reduce((a, b:ServicesByPeriod)=>a=a+b.services.reduce((d,e)=>d=Number(d)+Number(((e.spDebt)? e.spDebt:0.0)),0), 0.0)
   }
-  reloadAllServices=(e:boolean)=>(e)?this.readCRUD():null
+  reloadAllServices = (e: boolean) => (e ? this.readCRUD() : null);
 
-
-
-  delDBusinessPeriod(dbp:DBusinessPeriod){
-
-    this.wantDeleteDBusinessPeriod(()=>this.deleteDBusinessPeriod(dbp))   
+  delDBusinessPeriod(dbp: DBusinessPeriod) {
+    this.wantDeleteDBusinessPeriod(() => this.deleteDBusinessPeriod(dbp));
   }
- 
 
-  wantDeleteDBusinessPeriod(d:()=>void){
+  wantDeleteDBusinessPeriod(d: () => void) {
     this.dialog
       .open(DialogConfirmationComponent, {
         data: `Esta seguro que desea Eliminar.`,
@@ -173,45 +166,36 @@ export class TasksCompletedComponent {
         if (confirmado) {
           d();
         } else {
-
         }
       });
   }
 
-  deleteDBusinessPeriod(dbp:DBusinessPeriod): boolean {
-    if (dbp.bussId && dbp.prdsId) 
-    this.bussinesService.delDBusinesPeriods(dbp.bussId, dbp.prdsId).subscribe({
-      next: data=>{
-        if(data.res){
-          this.showMessage.success({message: data.msg});
-          let i=this.dBussPer.findIndex(e=> e.dbp?.bussId==dbp.bussId && e.dbp?.prdsId==dbp.prdsId)
-          this.dBussPer.splice(i,1);
-
-        }else {
-          this.showMessage.error({message: data.msg});
-        }
-      },
-      error: error=>{
-        this.showMessage.error({message: error.error.message})
-      }
-    })
+  deleteDBusinessPeriod(dbp: DBusinessPeriod): boolean {
+    if (dbp.bussId && dbp.prdsId)
+      this.bussinesService
+        .delDBusinesPeriods(dbp.bussId, dbp.prdsId)
+        .subscribe({
+          next: (data) => {
+            if (data.res) {
+              this.showMessage.success({ message: data.msg });
+              let i = this.dBussPer.findIndex(
+                (e) =>
+                  e.dbp?.bussId == dbp.bussId && e.dbp?.prdsId == dbp.prdsId
+              );
+              this.dBussPer.splice(i, 1);
+            } else {
+              this.showMessage.error({ message: data.msg });
+            }
+          },
+          error: (error) => {
+            this.showMessage.error({ message: error.error.message });
+          },
+        });
     return true;
   }
-
-
-
-
-
-
-
-
-  
 }
 
-export interface ServicesByPeriod{
-  period:string,
-  services:TServicesProvided[]
+export interface ServicesByPeriod {
+  period: string;
+  services: TServicesProvided[];
 }
-
-
-
