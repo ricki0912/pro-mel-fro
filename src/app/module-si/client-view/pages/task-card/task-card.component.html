@@ -16,8 +16,6 @@
           <br>
           <span > Rect: {{(dDoneByMonthTask.ddbmtRectifiedBy)?getUser(dDoneByMonthTask.ddbmtRectifiedBy)?.person?.perName:''}} <em>({{dDoneByMonthTask.ddbmtRectifiedAt | date:'short'}})</em> </span>
         </ng-container>
-        
-
       </div>
     </div>
     <div>
@@ -26,6 +24,7 @@
           <span *ngIf="dDoneByMonthTask.ddbmtState==D_DONE_BY_MONTH_TASKS_STATE.CLOSED 
           || dDoneByMonthTask.ddbmtState==D_DONE_BY_MONTH_TASKS_STATE.NOT_DONE ">Hecho</span> 
         </div>-->
+        
       <button mat-icon-button matTooltip="" aria-label="Des" [matMenuTriggerFor]="menuOptions">
         <mat-icon>more_vert</mat-icon>
       </button>

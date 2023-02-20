@@ -161,7 +161,7 @@
         
         type="submit"
         (click)="beforeAddUpd()"
-        [disabled]="false"
+        [disabled]="!prdsId || !month"
         cdkFocusInitial
       >
         Guardar

@@ -55,10 +55,11 @@
                 [matMenuTriggerFor]="menup"
                 color="primary"
                 aria-label="Opciones"
+                
               >
                 <mat-icon>tune</mat-icon>
               </button>
-              <mat-menu #menup="matMenu">
+              <mat-menu #menup="matMenu" yPosition="above">
                 <button
                   mat-menu-item
                   (click)="openDialogSetTeller()"
@@ -67,14 +68,14 @@
                   <mat-icon>swap_horizontal_circle</mat-icon>
                   Asignar Ventanilla
                 </button>
-                <button
+                <!--<button
                   mat-menu-item
                   (click)="openDialogChangeState()"
                   [disabled]="selection.selected.length < 1"
                 >
                   <mat-icon>traffic</mat-icon>
                   <span>Cambiar Estado</span>
-                </button>
+                </button>-->
                 <!--<button
                   mat-menu-item
                   [matMenuTriggerFor]="menuState"
