@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.interface';
+import { DialogConfirmationComponent } from 'src/app/shared/components/dialog-confirmation/dialog-confirmation.component';
 
 @Component({
   selector: 'app-change-state',
@@ -10,12 +11,17 @@ import { TYPES_ACTIONS_DIALOG } from 'src/app/global/interfaces/action-dialog.in
 })
 export class ChangeStateComponent implements OnInit {
 
+  private  _todayDate=new Date()
+  maxDate=new Date()
+  minDate= new Date(this._todayDate.getFullYear()-10, 0,1)
   title = "Seleccionar Estado";
   date = new FormControl(new Date());
 
   constructor(
     private dialogRef: MatDialogRef<ChangeStateComponent>, 
     @Inject(MAT_DIALOG_DATA) public paramsDialog: { row: BusinessState, type: number },
+    public dialog: MatDialog,
+
 
   ) { }
 
@@ -28,8 +34,12 @@ export class ChangeStateComponent implements OnInit {
 
     /**verificamos que sera actualizar, de sera asi, mostramos los datos del usuario en cada campo */
     if (TYPES_ACTIONS_DIALOG.UPD == this.paramsDialog.type) {
-      if(this.paramsDialog.row.bussStateDate)
+      if(this.paramsDialog.row.bussStateDate){
         this.date.setValue(this.paramsDialog.row.bussStateDate)
+        this.minDate=this.paramsDialog.row.bussStateDate
+      }
+        
+      
 
       if(this.paramsDialog.row.bussState)
         this.selectRadio=this.paramsDialog.row.bussState
@@ -49,6 +59,29 @@ export class ChangeStateComponent implements OnInit {
   ];
 
   onReturn = (bs: BusinessState): void => this.dialogRef.close(bs);
+
+
+
+  beforeOK() {
+    this.wantSave(() => this.ok());
+  }
+
+  wantSave(d: () => void) {
+    
+
+    this.dialog
+      .open(DialogConfirmationComponent, {
+        data: `¿Confirma que los datos ingresados son correctos?.`,
+      })
+      .afterClosed()
+      .subscribe((confirmado: Boolean) => {
+        if (confirmado) {
+          d();
+        } else {
+        }
+      });
+  }
+
 
   ok() {
     const bs: BusinessState={bussState:this.selectRadio, bussStateDate:this.date.value};

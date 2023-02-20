@@ -47,7 +47,7 @@ export class AddTaskByClientComponent {
 
   public periods: Period[] = [];
 
-  title = 'Seguimiento';
+  title = 'Registro de Declaraciones';
   constructor(
     private dialogRef: MatDialogRef<AddTaskByClientComponent>,
     private periodService: PeriodService,

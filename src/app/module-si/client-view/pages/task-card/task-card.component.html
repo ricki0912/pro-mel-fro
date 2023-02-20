@@ -8,11 +8,13 @@
           {{dDoneByMonthTask.task?.tsksName}}
         </mat-checkbox>
         <br>
-        <span>{{(dDoneByMonthTask.ddbmtDoneBy)?'Hecho: '+getUser(dDoneByMonthTask.ddbmtDoneBy)?.person?.perName:''}}</span>
+        <ng-container *ngIf="dDoneByMonthTask.ddbmtDoneBy" >
+          <span>{{(dDoneByMonthTask.ddbmtDoneBy)?'Hecho: '+getUser(dDoneByMonthTask.ddbmtDoneBy)?.person?.perName:''}} <em>({{dDoneByMonthTask.ddbmtDoneAt | date:'short'}})</em>  </span>
+        </ng-container>
         
         <ng-container *ngIf="dDoneByMonthTask.ddbmtRectifiedBy">
           <br>
-          <span > Rect: {{(dDoneByMonthTask.ddbmtRectifiedBy)?getUser(dDoneByMonthTask.ddbmtRectifiedBy)?.person?.perName:''}}</span>
+          <span > Rect: {{(dDoneByMonthTask.ddbmtRectifiedBy)?getUser(dDoneByMonthTask.ddbmtRectifiedBy)?.person?.perName:''}} <em>({{dDoneByMonthTask.ddbmtRectifiedAt | date:'short'}})</em> </span>
         </ng-container>
         
 
@@ -146,21 +148,21 @@
 
         <ng-container *ngSwitchCase="TASK_TYPE_INPUT.NUMBER">
 
-          <p>{{dDoneByMonthTask.ddbmtCant}}</p>
+          <p><b>{{dDoneByMonthTask.task?.tsksLabelSpan}}</b> {{dDoneByMonthTask.ddbmtCant}} </p>
           <!--<mat-form-field class="form-input"  appearance="fill" >
             <input type="number" matInput step="1" min="0" [placeholder]="dDoneByMonthTask.task?.tsksLabelInput || 'Ingrese un valor'" [(ngModel)]="dDoneByMonthTask.ddbmtCant" autocomplete="off" />
           </mat-form-field>-->
         </ng-container>
 
         <ng-container *ngSwitchCase="TASK_TYPE_INPUT.DECIMAL">
-          <p>{{dDoneByMonthTask.ddbmtAmount}}</p>
+          <p><b>{{dDoneByMonthTask.task?.tsksLabelSpan}}</b>{{dDoneByMonthTask.ddbmtAmount}} </p>
 
           <!--          <mat-form-field class="form-input" appearance="fill">
             <input type="number" matInput step="0.01" min="0" [placeholder]="dDoneByMonthTask.task?.tsksLabelInput || 'Ingrese un valor'" [(ngModel)]="dDoneByMonthTask.ddbmtAmount" autocomplete="off" />
           </mat-form-field>-->
         </ng-container>
         <ng-container *ngSwitchCase="TASK_TYPE_INPUT.ARRAY_OF_OPTIONS">
-          <p>{{dDoneByMonthTask.ddbmtOptionsByComa}}</p>
+          <p><b>{{dDoneByMonthTask.task?.tsksLabelSpan}}</b>{{dDoneByMonthTask.ddbmtOptionsByComa}}</p>
           <!--<section class="example-section" >
             <h4><b>Selecciona:</b></h4>
             <p *ngFor="let e of arrayMain" ><mat-checkbox [(ngModel)]="e.selected" (change)="setOption(e)" >{{e.value}}</mat-checkbox></p>
@@ -169,24 +171,8 @@
         </ng-container>
 
         <ng-container *ngSwitchDefault>
-          <mat-form-field class="example-full-width" style="width: 100%; font-size: 12px" appearance="fill">
-            <mat-label>Comentario</mat-label>
-            <textarea [(ngModel)]="dDoneByMonthTask.ddbmtShortComment" matInput cdkTextareaAutosize
-              #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="8" maxLength="100">
-          </textarea>
-            <!--
-          <button mat-icon-button matSuffix
-          color="primary"
-          (click)="true"
-      
-          >
-            <mat-icon
-            
-            >save</mat-icon>
-          </button>-->
-
-            <!--<mat-hint align="end">g/500</mat-hint>-->
-          </mat-form-field>
+          <p><b>{{dDoneByMonthTask.task?.tsksLabelSpan}}</b>{{dDoneByMonthTask.ddbmtOptionsByComa}} </p>
+          
         </ng-container>
       </ng-container>
 

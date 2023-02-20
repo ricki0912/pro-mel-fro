@@ -166,26 +166,6 @@
           mat-raised-button
           color="success"
           style="width: 100%; margin-top: 10px"
-          (click)="openDialogAddTaskByClient()"
-        >
-        Realizar Seguimiento
-
-        </button>
-
-
-        <button
-          mat-raised-button
-          color="success"
-          style="width: 100%; margin-top: 10px"
-          routerLink="./tasks-completed"
-        >
-        Seguimiento
-
-        </button>
-        <button
-          mat-raised-button
-          color="success"
-          style="width: 100%; margin-top: 10px"
           routerLink="./services-provided"
         >
         Control de Ejercicio
@@ -207,6 +187,32 @@
         >
           Asignar Ventanilla
         </button>
+
+
+
+        <button
+          mat-raised-button
+          color="success"
+          style="width: 100%; margin-top: 10px"
+          (click)="openDialogAddTaskByClient()"
+        >
+        Registrar Decl. General
+
+        </button>
+
+
+        <button
+          mat-raised-button
+          color="success"
+          style="width: 100%; margin-top: 10px"
+          routerLink="./tasks-completed"
+        >
+       Seguimiento Decl. General
+
+        </button>
+
+
+
         <button
           mat-raised-button
           (click)="openDialogAnnualSumary()"

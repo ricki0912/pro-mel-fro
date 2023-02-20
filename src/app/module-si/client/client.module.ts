@@ -40,6 +40,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { CoreModule } from 'src/app/core/core.module';
 import { DownloadMyFormatDJComponent } from './pages/download-my-format-dj/download-my-format-dj.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 @NgModule({
@@ -88,6 +89,8 @@ import { DownloadMyFormatDJComponent } from './pages/download-my-format-dj/downl
     MatListModule,
     MatMenuModule,
     MatChipsModule,
+
+    MatTabsModule,
 
     MatTooltipModule,
     CoreModule

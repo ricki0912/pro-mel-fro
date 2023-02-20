@@ -8,6 +8,7 @@ export interface Task extends ParentInterface {
 
   tsksTypeInput?:number,
   tsksLabelInput?:string, 
+  tsksLabelSpan?:string,
 
   tsksOptionsValue?:string,
   tsksOptionsSplit?:string,
