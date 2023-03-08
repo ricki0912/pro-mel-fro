@@ -1,0 +1,42 @@
+.more-info{
+    display: none;
+
+    border: solid 1px #ccc;
+    border-radius: 5px;
+    background: #fff;
+    //text-align: center;
+    padding: 10px;
+    margin: 15px;
+    right:  0%;
+    bottom: 0%;
+    width: 300px;
+}
+
+.mini-info:hover{
+    cursor: pointer;
+
+}
+.mini-info:hover + .more-info{
+    display: block;
+}
+
+/*.more-info:hover{
+    display: block;
+}*/
+
+
+
+.info{
+    position: relative;
+}
+
+.mini-info, .more-info{
+    position: absolute;
+}
+
+
+.more-info{
+    z-index: 10;
+}
+
+

@@ -92,6 +92,11 @@ export class MainViewComponent implements OnInit {
 
       ]
     },
+    {isDisplay:false, name:'Declaraciones',routerLink:'./statements', icon:'library_books', permission:PMS.SI_STATEMENTS_MODULE,
+      subMenu: [
+
+      ]
+    },
     {isDisplay:false, name:'Linea de Espera',routerLink:'./', icon:'tablet', permission:PMS.SI_SEE,
       subMenu:[
         {name:'Atencion', routerLink:'./calls', permission: PMS.SI_CALLS_SEE},

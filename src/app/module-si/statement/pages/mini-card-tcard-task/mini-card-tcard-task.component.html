@@ -1,0 +1,45 @@
+<div class="info">
+    <div class="d-flex justify-content-center mini-info" >
+        <ng-container [ngSwitch]="dDoneByMonthTask?.ddbmtState">
+            <!-- the same view can be shown in more than one case -->
+            <ng-container *ngSwitchCase="D_DONE_BY_MONTH_TASKS_STATE.CLOSED">
+                <i class="bi bi-check-square text-success text-bold" style='font-size:20px;'> </i> 
+            </ng-container>
+            <ng-container *ngSwitchCase="D_DONE_BY_MONTH_TASKS_STATE.NOT_DONE">
+                <i class="bi bi-square text-secondary text-bold"  style='font-size:20px;'> </i>
+            </ng-container>
+            
+            <ng-container *ngSwitchDefault>
+                <i>(Pendiente)</i>
+            </ng-container>
+          </ng-container>
+        
+          <ng-container [ngSwitch]="dDoneByMonthTask?.ddbmtRectified">
+            <!-- the same view can be shown in more than one case -->
+            <ng-container *ngSwitchCase="D_DONE_BY_MONTH_TASKS_RECTIFIED.RECTIFIED">
+               <b class="text-primary" style="font-size: 20px;"> R</b>
+                <!--<i class="bi bi-check-square text-primary text-bold ml-1 mr-1" style='font-size:20px;'> </i>-->
+            </ng-container>
+            
+            <ng-container *ngSwitchDefault>
+            </ng-container>
+          </ng-container>
+    </div>
+    <div class="more-info">
+        <app-task-card *ngIf="dDoneByMonthTask" [dDoneByMonthTask]="dDoneByMonthTask" [users]="users" >
+
+        </app-task-card>
+    </div>
+</div>
+
+  <!--
+<i class="bi bi-square text-secondary" style='font-size:20px;'> </i> 
+<i class="bi bi-check-square text-success" style='font-size:20px;'> </i>
+<i class="bi bi-check-square text-primary" style='font-size:20px;'> </i>
+-->
+
+
+<!--<div class="form-check form-check-inline">
+    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [ngModel]="dDoneByMonthTask?.ddbmtIsDoneTask">
+    <label class="form-check-label" for="inlineCheckbox1"></label>
+</div>-->
