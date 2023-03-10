@@ -67,7 +67,8 @@ import {ClientViewModule } from 'src/app/module-si/client-view/client-view.modul
     MatMomentDateModule,
     MatInputModule,
     ClientViewModule,
-    MatMenuModule
+    MatMenuModule,
+
   ],
   providers:[  DatePipe,     ],
 
