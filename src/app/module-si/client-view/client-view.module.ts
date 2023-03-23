@@ -141,6 +141,7 @@ export const MY_DATE_FORMATS = {
     MatTooltipModule,
     NgxChartsModule,
   ],
+  exports: [TaskCardComponent], 
   providers: [DatePipe],
 })
 export class ClientViewModule {}

@@ -73,6 +73,10 @@ const routes: Routes=[
         //component: ClientComponent
         loadChildren: ()=>import('./client-view/client-view.module').then(m=>m.ClientViewModule)
       },
+      {
+        path: 'statements', 
+        loadChildren:()=>import('./statement/statement.module').then(m=>m.StatementModule)
+      },
       { 
         path: 'users',
         //component: ClientComponent

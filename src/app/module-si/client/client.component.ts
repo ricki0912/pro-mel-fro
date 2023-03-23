@@ -235,6 +235,24 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     return true
   }
 
+
+  openDialog(): boolean {
+    const dialogRef = this.dialogEditClient.open(DownloadMyFormatDJComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: {},
+        type: TYPES_ACTIONS_DIALOG.ADD,
+        idSede: this.hqId
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addBusinessWithPerson(result);
+      }
+    });
+    return true
+  }
+
   //FUNCIONES
   addBusinessWithPerson(business: Bussines): boolean {
     this.bussinesService.addBusinessWithPerson(business).subscribe({
