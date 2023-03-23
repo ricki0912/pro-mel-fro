@@ -1,12 +1,11 @@
 <div class="windows">
-  <mat-grid-list cols="1" rowHeight="30px" style="margin-top:10px ;">
+  <mat-grid-list cols="1" rowHeight="30px" style="margin-top: 10px">
     <mat-grid-tile colspan="1" rowspan="1">
-        <div class="div-title">
-            <span >Clientes</span>
-           
-        </div>
+      <div class="div-title">
+        <span>Clientes</span>
+      </div>
     </mat-grid-tile>
-</mat-grid-list>
+  </mat-grid-list>
 
   <mat-divider></mat-divider>
 
@@ -14,19 +13,23 @@
     <mat-card-title-group>
       <mat-card-title>Lista de todos los clientes</mat-card-title>
       <mat-card-actions align="end">
-       
         <button mat-button [matMenuTriggerFor]="menuDownload">
-          <mat-icon>download</mat-icon> 
-          Descargar</button>
+          <mat-icon>download</mat-icon>
+          Descargar
+        </button>
         <mat-menu #menuDownload="matMenu">
-          <button mat-menu-item (click)="exportExcel()" *appPermission="PMS.SI_CLIENTS_XLS_DWL">
+          <button
+            mat-menu-item
+            (click)="exportExcel()"
+            *appPermission="PMS.SI_CLIENTS_XLS_DWL"
+          >
             Archivo Excel
           </button>
-          <button mat-menu-item (click)="openDialogPreviewDownloadMyDJ()">Mi formato de DJ </button>
+          <button mat-menu-item (click)="openDialogPreviewDownloadMyDJ()">
+            Mi formato de DJ
+          </button>
         </mat-menu>
-          
-        
-        
+
         <button mat-button (click)="openDialogFileNumber()">
           <mat-icon>file</mat-icon> Archivadores
         </button>
@@ -55,7 +58,6 @@
                 [matMenuTriggerFor]="menup"
                 color="primary"
                 aria-label="Opciones"
-                
               >
                 <mat-icon>tune</mat-icon>
               </button>
@@ -127,29 +129,29 @@
     <mat-divider></mat-divider>
     <mat-card-content style="margin-top: 10px">
       <div class="example-table-container">
-
         <form (ngSubmit)="setListenParams()">
-
           <mat-form-field appearance="legacy">
             <mat-label>Ventanilla</mat-label>
-            <mat-select
-              [(value)]="ti"
-              (selectionChange)="setListenParams()"
-            >
+            <mat-select [(value)]="ti" (selectionChange)="setListenParams()">
               <mat-option value="0" selected>Todos</mat-option>
-              <mat-option *ngFor="let teller of tellers" [value]="teller.tellId">
+              <mat-option
+                *ngFor="let teller of tellers"
+                [value]="teller.tellId"
+              >
                 {{ teller.tellCode }} - {{ teller.tellName }} ({{
                   teller.cantBusiness
                 }})
               </mat-option>
             </mat-select>
           </mat-form-field>
-  
+
           <mat-form-field appearance="legacy">
             <mat-label>Estado</mat-label>
-            <mat-select [(value)]="bs" 
-                        (selectionChange)="setListenParams()"
-                        [class]="'buss-state-'+bs">
+            <mat-select
+              [(value)]="bs"
+              (selectionChange)="setListenParams()"
+              [class]="'buss-state-' + bs"
+            >
               <mat-option [value]="0">Todos</mat-option>
               <mat-option [value]="BS.ENABLE">Activo</mat-option>
               <mat-option [value]="BS.SUSPENDED">Suspendido</mat-option>
@@ -159,9 +161,7 @@
 
           <mat-form-field appearance="legacy">
             <mat-label>Último Dígito</mat-label>
-            <mat-select [(value)]="ln" 
-                        (selectionChange)="setListenParams()"
-                        >
+            <mat-select [(value)]="ln" (selectionChange)="setListenParams()">
               <mat-option value="-1">Todos</mat-option>
               <mat-option value="0">0</mat-option>
               <mat-option value="1">1</mat-option>
@@ -173,21 +173,28 @@
               <mat-option value="7">7</mat-option>
               <mat-option value="8">8</mat-option>
               <mat-option value="9">9</mat-option>
-            
-              
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="legacy">
-              <mat-label>Buscar</mat-label>
-              <input [(ngModel)]="q" name="q"  matInput placeholder="Ingresa una palabra clave">
-            </mat-form-field>
-            <button mat-button type="submit">
-              <mat-icon>search</mat-icon>Buscar
-            </button>
-          
+            <mat-label>Buscar</mat-label>
+            <input
+              [(ngModel)]="q"
+              name="q"
+              matInput
+              placeholder="Ingresa una palabra clave"
+            />
+          </mat-form-field>
+          <button mat-button type="submit">
+            <mat-icon>search</mat-icon>Buscar
+          </button>
         </form>
-        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          matSort
+          (matSortChange)="announceSortChange($event)"
+        >
           <!-- Checkbox Column -->
           <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
@@ -212,8 +219,19 @@
 
           <!-- Position Column -->
           <ng-container matColumnDef="nombres">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Ordenamiento por Nombre/Razon Social">Nombres y/o Razón Social</th>
-            <td mat-cell *matCellDef="let element"  (click)="loadClientsView(element)">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Ordenamiento por Nombre/Razon Social"
+            >
+              Nombres y/o Razón Social
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let element"
+              (click)="loadClientsView(element)"
+            >
               {{ element.bussName }}
             </td>
           </ng-container>
@@ -229,9 +247,11 @@
           <ng-container matColumnDef="numArchivador">
             <th mat-header-cell *matHeaderCellDef>N° Archivador</th>
             <td mat-cell *matCellDef="let element">
-              <span class="padding-state rounded-circle" [class]="'buss-state-'+element.bussState" >{{
-                element.bussFileNumber
-              }}</span>
+              <span
+                class="padding-state rounded-circle"
+                [class]="'buss-state-' + element.bussState"
+                >{{ element.bussFileNumber }}</span
+              >
             </td>
           </ng-container>
 
@@ -261,7 +281,6 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr
             mat-row
-           
             [class.demo-row-is-clicked]="clickedRows.has(row)"
             *matRowDef="let row; columns: displayedColumns"
           ></tr>
