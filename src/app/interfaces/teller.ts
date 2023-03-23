@@ -10,6 +10,7 @@ export interface Teller extends ParentInterface{
   tellId?: number;
   tellCode?: string;
   tellName: string;
+  tellColor?: string;
   tellMaxInWait?:number;
   tellState?: number;
   hqId?:number;

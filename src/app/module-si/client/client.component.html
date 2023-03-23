@@ -20,7 +20,10 @@
           Descargar</button>
         <mat-menu #menuDownload="matMenu">
           <button mat-menu-item (click)="exportExcel()" *appPermission="PMS.SI_CLIENTS_XLS_DWL">
-            Archivo Excel
+            Exportar Excel
+          </button>
+          <button mat-menu-item (click)="exportAllExcel()" *appPermission="PMS.SI_CLIENTS_XLS_DWL">
+            Exportar Completo Excel
           </button>
           <button mat-menu-item (click)="openDialogPreviewDownloadMyDJ()">Mi formato de DJ </button>
         </mat-menu>
@@ -283,3 +286,5 @@
     </mat-card-footer>
   </mat-card>
 </div>
+
+

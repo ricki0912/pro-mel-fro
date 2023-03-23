@@ -4,7 +4,7 @@ import {MatTableDataSource} from '@angular/material/table';
 
 import { CrudInterface } from 'src/app/global/interfaces/crud.interface';
 import { BussinesService } from 'src/app/services/bussines.service';
-import { Bussines, BUSSINES_STATE, TellerJoinUsers } from 'src/app/interfaces/bussines';
+import { Bussines, BUSSINES_STATE, DATA_BUSSINES_FILE_KIND, DATA_BUSSINES_KIND, DATA_BUSSINES_KIND_BOOK, DATA_BUSSINES_REGIME, DATA_BUSSINES_STATE, TellerJoinUsers } from 'src/app/interfaces/bussines';
 
 import { MatDialog } from '@angular/material/dialog';
 import { EditClientComponent } from './pages/edit-client/edit-client.component';
@@ -27,6 +27,7 @@ import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import { PMS } from 'src/app/core/permission/pms.enum';
 import { DownloadMyFormatDJComponent } from './pages/download-my-format-dj/download-my-format-dj.component';
+import { DATA_PERSON_KIND_DOC } from 'src/app/interfaces/person';
 
 @Component({
   selector: 'app-client',
@@ -499,34 +500,150 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     });
   
   }
+
+  exportAllExcel(){
+
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet("Clientes Completo - Filtro");
+  
+    //CONVIRTIENDO NUESTRO ARREGLO A UN FORMATO LEGIBLE PARA EXCEL USANDO EXCELJS
+    worksheet.addRow(undefined);
+
+    for (let x1 of this.dataSource.data){
+        let x2=Object.keys(x1);
+
+        let temp=[]
+        temp.push(DATA_BUSSINES_KIND.find(e=>String(e.bussKind)==x1.bussKind)?.bussKinkName)
+        temp.push(x1.bussName)
+        temp.push(x1.bussRUC)
+        temp.push(x1.bussAddress)
+
+        temp.push(DATA_BUSSINES_FILE_KIND.find(e=>String(e.bussFileKind)==x1.bussFileKind)?.bussFileKindName)
+        temp.push(x1.bussFileNumber)
+
+        temp.push(DATA_BUSSINES_STATE.find(e=>String(e.bussState)==x1.bussState)?.bussStateName)
+        temp.push(x1.bussStateDate)
+        temp.push(x1.bussComment)
+
+        temp.push(x1.bussTel)
+        temp.push(x1.bussTel2)
+        temp.push(x1.bussTel3)
+        temp.push(x1.bussEmail)
+
+
+        //datos de persona
+        temp.push(DATA_PERSON_KIND_DOC.find(e=>String(e.perKindDoc)==x1.person.perKindDoc)?.perKindDocName)//get TIpo de documento
+        temp.push(x1.person.perNumberDoc)
+        temp.push(x1.person.perName)
+        temp.push(x1.person.perAddress)
+        temp.push(x1.person.perEmail)
+        temp.push(x1.person.perTel)
+        temp.push(x1.person.perTel2)
+        temp.push(x1.person.perTel3)
+        
+        //afiliacion
+        temp.push(x1.bussSunatUser)
+        temp.push(x1.bussSunatPass)
+        temp.push(x1.bussCodeSend)
+
+        temp.push(x1.bussCodeRNP)
+
+        temp.push(x1.bussAfpUser)
+        temp.push(x1.bussAfpPass)        
+        
+        temp.push(x1.bussSimpleCode)
+        temp.push(x1.bussDetractionsPass)
+        temp.push(x1.bussSisClave)
+
+        //informacion de afiliciacion
+        temp.push(x1.bussDateMembership)
+        temp.push(x1.bussDateStartedAct)
+       
+       
+        temp.push(DATA_BUSSINES_REGIME.find(e=>String(e.bussRegime)==x1.bussRegime)?.bussRegimeName)//getName
+        temp.push(DATA_BUSSINES_KIND_BOOK.find(e=>String(x1.bussKindBookAcc)==x1.bussKindBookAcc)?.bussKindBookAccName)//getName
+
+        temp.push(x1.bussObservation)
+        
+
+
+      
+        //ventanilla
+        temp.push((x1.tellId)?this.getClientTeller(x1.tellId):null)        
+        temp.push((x1.tellId)?this.findNameTeller(x1.tellId)?.tellName:null)
+
+        worksheet.addRow(temp)
+    }
+
+    //NOMBRE DEL ARCHIVO RESULTANTE
+    let temp=[]
+     
+    let fname="Clientes Completo - Filtro";
+    let keyCol=1
+    //ASIGNACIÓN DE LA CABECERA DEL DOCUMENTO EXCEL DONDE CADA CAMPO DE LOS DATOS QUE EXPORTAREMOS SERA UNA COLUMNA
+    worksheet.columns = [
+        { header: 'Tipo de Negocio', key: 'col'+(keyCol++), width: 10},
+        { header: 'Nombre/Razón Social', key: 'col'+(keyCol++), width: 10},
+        { header: 'RUC', key: 'col'+(keyCol++), width: 10},
+        { header: 'Dirección', key: 'col'+(keyCol++), width: 10},
+        { header: 'Tipo de Almacenamiento', key: 'col'+(keyCol++), width: 10},
+        { header: 'N° Archivador', key: 'col'+(keyCol++), width: 10},
+
+        { header: 'Estado', key: 'col'+(keyCol++), width: 10},
+        { header: 'Fecha de Estado', key: 'col'+(keyCol++), width: 10},
+        { header: 'Comentario', key: 'col'+(keyCol++), width: 10},
+
+        { header: 'N° Corporativo(Principal)', key: 'col'+(keyCol++), width: 10},
+        { header: 'N° Corporativo(2)', key: 'col'+(keyCol++), width: 10},
+        { header: 'N° Corporativo(3)', key: 'col'+(keyCol++), width: 10},
+        { header: 'Correo Corporativo', key: 'col'+(keyCol++), width: 10},
+        
+
+        { header: '[PERSONA] Tipo de Documento', key: 'col'+(keyCol++), width: 10},
+        { header: '[PERSONA] Número de DNI', key: 'col'+(keyCol++), width: 10},
+        { header: '[PERSONA] Apellidos y Nombres', key: 'col'+(keyCol++), width: 10},
+        { header: '[PERSONA] Dirección', key: 'col'+(keyCol++), width: 10},
+        { header: '[PERSONA] Correo Electronico', key: 'col'+(keyCol++), width: 10},
+        { header: '[PERSONA] N° de Celular(Principal)', key: 'col'+(keyCol++), width: 10},
+        { header: '[PERSONA] N° de Celular(2)', key: 'col'+(keyCol++), width: 10},
+        { header: '[PERSONA] N° de Celular(3)', key: 'col'+(keyCol++), width: 10},
+
+        { header: '[AFILICIACIÓN] Usuario SUNAT', key: 'col'+(keyCol++), width: 10},
+        { header: '[AFILICIACIÓN] Clave Sol', key: 'col'+(keyCol++), width: 10},
+        { header: '[AFILICIACIÓN] Codigo de Envio', key: 'col'+(keyCol++), width: 10},
+        { header: '[AFILICIACIÓN] Codigo RNP', key: 'col'+(keyCol++), width: 10},
+        { header: '[AFILICIACIÓN] Usuario AFP NET', key: 'col'+(keyCol++), width: 10},
+        { header: '[AFILICIACIÓN] Clave AFP NET', key: 'col'+(keyCol++), width: 10},
+        { header: '[AFILICIACIÓN] Código Sencico', key: 'col'+(keyCol++), width: 10},
+        { header: '[AFILICIACIÓN] Clave Detracciones', key: 'col'+(keyCol++), width: 10},
+        { header: '[AFILICIACIÓN] Clave SIS', key: 'col'+(keyCol++), width: 10},
+
+        { header: 'Fecha de Ingreso', key: 'col'+(keyCol++), width: 10},
+        { header: 'Fecha de Inicio de Actividades', key: 'col'+(keyCol++), width: 10},
+
+        { header: 'Tipo de Regimen', key: 'col'+(keyCol++), width: 10},
+        { header: 'Tipo de Libro', key: 'col'+(keyCol++), width: 10},
+        { header: 'Observaciones', key: 'col'+(keyCol++), width: 10},
+
+      /**ventanilla */
+        { header: '[VENTANILLA] Código', key: 'col'+(keyCol++), width: 15},
+        { header: '[VENTANILLA] Nombre', key: 'col'+(keyCol++), width: 15},
+             
+    ]as any;
+  
+    //PREPACION DEL ARCHIVO Y SU DESCARGA
+    workbook.xlsx.writeBuffer().then((data) => {
+        let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        fs.saveAs(blob, fname+'.xlsx');
+    });
+  
+  }
   
 
   findNameTeller=(tellId:number)=>this.tellers.find(e=>e.tellId==tellId)
 }
 
-/*interface Animal {
-  name: string;
-  sound: string;
-}*/
 
-/*export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];*/
 
 

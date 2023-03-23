@@ -40,11 +40,21 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MiniCardTcardTaskComponent } from './pages/mini-card-tcard-task/mini-card-tcard-task.component';
 
 import {ClientViewModule } from 'src/app/module-si/client-view/client-view.module'
+import {MatTabsModule} from '@angular/material/tabs';
+import { SummaryComponent } from './pages/summary/summary.component';
+import { PendingsComponent } from './pages/pendings/pendings.component';
+import { ObservedComponent } from './pages/observed/observed.component';
+import { PendingAndObservedComponent } from './pages/pending-and-observed/pending-and-observed.component';
+
 
 @NgModule({
   declarations: [
     StatementComponent,
-    MiniCardTcardTaskComponent
+    MiniCardTcardTaskComponent,
+    SummaryComponent,
+    PendingsComponent,
+    ObservedComponent,
+    PendingAndObservedComponent
   ],
   imports: [
     CommonModule,
@@ -68,6 +78,10 @@ import {ClientViewModule } from 'src/app/module-si/client-view/client-view.modul
     MatInputModule,
     ClientViewModule,
     MatMenuModule,
+    MatTabsModule
+
+
+
 
   ],
   providers:[  DatePipe,     ],

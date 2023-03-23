@@ -13,6 +13,12 @@
 
 <mat-divider></mat-divider>
 
+
+
+
+
+
+
 <!--<mat-grid-list cols="12" rowHeight="100%" appearance="fillx">
     <mat-grid-tile colspan="12" rowspan="1"> -->
 
@@ -98,6 +104,31 @@
                 </mat-card-title-group>
                 <mat-divider></mat-divider>
 
+
+            
+
+                <mat-tab-group mat-align-tabs="center">
+        
+  
+                    <mat-tab label="Resumen">
+                        <app-summary>
+
+                        </app-summary>
+                    </mat-tab>
+            
+                    <mat-tab label="Pendientes">
+                        <app-pending-and-observed>
+                            
+                        </app-pending-and-observed>
+                    </mat-tab>
+
+
+                    <mat-tab label="Declaraciones">
+                    </mat-tab>
+            
+                    
+            
+                </mat-tab-group>
 
                 <mat-card-content>
                     <div class="">

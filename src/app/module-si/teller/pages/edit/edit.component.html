@@ -44,6 +44,15 @@
 
       </mat-form-field>
 
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Color</mat-label>
+        <input matInput type="color" formControlName="tellColor">
+        <mat-error *ngIf="tellerForm.controls['tellColor'].hasError('required')">
+          El color es requerido
+        </mat-error>
+
+      </mat-form-field>
+
     </form>
 
     <p style="color: red" *ngIf="tellerForm.errors?.['sameValue']">First name and last name should not be the same.

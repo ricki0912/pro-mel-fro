@@ -21,6 +21,14 @@ export class StatementService extends ParentService {
   public statementsByMonths(p:{prdsId:number,dbmMonth:number, ln:number}): Observable<InterfaceParamsResponse<any/*{dBusinessesPeriod:DBusinessPeriod[], users:User[]}*/>> {
     return this.https.get<InterfaceParamsResponse<any/*{dBusinessesPeriod:DBusinessPeriod[], users:User[]}*/>>(`${this.API_STATEMENTS}/statements-by-month`, {params: p} );
   }
+
+  public summary(){
+
+  }
+
+  public pendingAndObserved(){
+    
+  }
 /*
   public all(prdsState:number=0): Observable<InterfaceParamsResponse<Period>> {
     console.log("**ID PRDSSTATE**",prdsState)

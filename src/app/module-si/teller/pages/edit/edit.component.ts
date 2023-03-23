@@ -44,7 +44,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
   tellerForm: FormGroup = this.fb.group({
     tellName: ['', Validators.required],
-    
+    tellColor: ['#ffffff', Validators.required],    
     tellCode: ['', {
       validators: [Validators.required],
       asyncValidators: this.validateCode.bind(this),
@@ -89,6 +89,8 @@ export class EditComponent implements OnInit, OnDestroy {
       /**AHora mostramos en form */
       this.tellerForm.controls['tellCode'].setValue(this.tellerBeforeUpd.tellCode)
       this.tellerForm.controls['tellName'].setValue(this.tellerBeforeUpd.tellName)
+      this.tellerForm.controls['tellColor'].setValue(this.tellerBeforeUpd.tellColor)
+
     }
 
     if (TYPES_ACTIONS_DIALOG.ADD == this.paramsDialog.type) {

@@ -1,7 +1,7 @@
 <mat-card class="border-card without-box-shadow size-card-user card-teller">
     <mat-card-header  >
         <div mat-card-avatar class="header-image" [style]="'background-image: url( '+ user?.img+');'"></div>
-        <mat-card-title align="left">{{teller.tellCode}} - {{teller.tellName}} </mat-card-title>
+        <mat-card-title align="left">{{teller.tellCode}} - {{teller.tellName}} <label class="box" [style.background-color]="teller.tellColor"></label>  </mat-card-title>
         <mat-card-subtitle align="left"><b [ngClass]="{'teller-activo':teller.tellState==TTS.ACTIVO, 'teller-en-espera':teller.tellState==TTS.EN_ESPERA}" >{{getStateName(teller.tellState ||-1)}}</b> | {{user?.person?.perName}} - {{user?.person?.perNumberDoc}}</mat-card-subtitle>
 
         <mat-card-actions align="end" style="flex: 1 1 auto; padding: 0px; vertical-align: top;">
@@ -14,6 +14,7 @@
                 <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
+               
                 <button mat-menu-item (click)="openDialogSetUser()">
                     <mat-icon>person</mat-icon>
                     <span>Establecer usuario</span>
