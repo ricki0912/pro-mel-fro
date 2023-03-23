@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StatementService } from 'src/app/services/statement.service';
 
 @Component({
   selector: 'app-pending-and-observed',
@@ -7,4 +8,19 @@ import { Component } from '@angular/core';
 })
 export class PendingAndObservedComponent {
 
+  constructor(
+    private statementService: StatementService
+  ){
+
+    
+  }
+
+  ngOnInit(): void {
+    
+
+  }
+
+  
+
+  
 }
