@@ -94,6 +94,9 @@ export class MainViewComponent implements OnInit {
     },
     {isDisplay:false, name:'Declaraciones',routerLink:'./statements', icon:'library_books', permission:PMS.SI_STATEMENTS_MODULE,
       subMenu: [
+        /*{name:'Resumen', routerLink:'./summary', permission: PMS.SI_STATEMENTS_MODULE},*/
+        {name:'Pendientes', routerLink:'./statement-pendings-and-observeds', permission: PMS.SI_STATEMENTS_MODULE},
+        {name:'Declaraciones', routerLink:'./statements', permission: PMS.SI_STATEMENTS_MODULE},
 
       ]
     },

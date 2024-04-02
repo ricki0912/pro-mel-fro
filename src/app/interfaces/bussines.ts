@@ -1,5 +1,6 @@
 import { ParentInterface } from "../global/parents/parent.interface";
 import { Person } from "./person";
+import { Teller } from "./teller";
 
 
 export interface Bussines extends ParentInterface{
@@ -37,6 +38,10 @@ export interface Bussines extends ParentInterface{
   bussComment?:string
 
    created_at?:Date
+
+   teller?: Teller
+
+   bussConafovClave?:string
 }
 
 export interface TellerJoinUsers {

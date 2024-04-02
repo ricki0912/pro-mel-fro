@@ -1,0 +1,103 @@
+<mat-toolbar color="primary" class="tollbar">
+    <mat-toolbar-row>
+      <button
+        mat-icon-button
+        mat-dialog-close
+        class="example-icon"
+        aria-label="Example icon-button with menu icon"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <span class="example-spacer"></span>
+      <span>{{ title }}</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  
+  <div class="dialog-body" style="width: 700px; min-width: 10px">
+    <p>
+      Por favor antes de <b>guardar</b>, verifique que los datos sean los correctos.
+    </p>
+  
+        <div class="row">
+          <div class="col-8">
+            <label>Actual</label>
+            <mat-selection-list #shoes [multiple]="false">
+              <mat-list-option *ngFor="let bs of businessStates" [value]="bs">
+                <div style="display:flex;align-items:center">
+                  <mat-icon>arrow_forward</mat-icon>                  <!--<mat-icon matListAvatar color="green" *ngIf="businessSelected==item">check</mat-icon>-->
+    
+                  <div style="display:flex; flex-direction:column">
+                    <!--<div>
+                      <h4 class="option-title" [class.option-selected]="" matLine> tgdghdghdhg
+                      </h4>
+                    </div> -->
+                    <div style="margin-top:16px">
+                      <p matLine class="option-description">
+                        Desde : {{bs.bussStateDate |  date:'yyyy-MM-dd' }} | {{finState(bs.bussState??0)?.name}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </mat-list-option>
+            </mat-selection-list>
+          </div>
+          <div class="col-4">
+            <mat-dialog-content class="mat-typography">
+    
+              <label class="label-sub-title">Estado</label>
+          
+              <mat-radio-group
+                aria-labelledby="example-radio-group-label"
+                class="example-radio-group"
+                [(ngModel)]="selectRadio"
+              >
+                <mat-radio-button
+                  class="example-radio-button"
+                  *ngFor="let st of states"
+                  [value]="st.value"
+                >
+                  {{ st.name }}
+                </mat-radio-button>
+              </mat-radio-group>
+          
+              <label class="label-sub-title">Fecha de cambio de estado</label><br>
+          
+              <mat-form-field class="example-full-width" appearance="legacy">
+                <mat-label>Fecha de cambio de estado</mat-label>
+                <input matInput [matDatepicker]="picker1" [formControl]="date" [min]="minDate" [max]="maxDate" />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker1"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-error> Por favor ingrese una fecha en el rango permitido. </mat-error>
+      
+              </mat-form-field>
+      
+    
+              
+    
+            </mat-dialog-content>
+          </div>
+        </div>
+
+        
+      
+        <mat-dialog-actions align="end">
+          <button mat-button mat-dialog-close>Cancelar</button>
+          <button
+            mat-button
+            type="submit"
+            (click)="beforeOK()"
+            [disabled]="!selectRadio || !date.valid"
+            cdkFocusInitial
+          >
+            Listo
+          </button>
+        </mat-dialog-actions>
+        
+   
+  
+  </div>
+  

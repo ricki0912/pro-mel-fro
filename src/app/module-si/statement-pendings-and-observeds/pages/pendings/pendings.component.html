@@ -1,0 +1,94 @@
+<div class="card border-warning mb-3 mt-3 p-3" style="max-width: 100%">
+
+<div class="d-flex align-items-center flex-column">
+  <div class="p-2">
+      <p class="h5 text-warning">Pendientes ({{businessPendings.length}})</p>
+  </div>
+  
+</div>
+
+<table mat-table [dataSource]="businessPendings" class="mat-elevation-z0">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef> No. </th>
+    <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="bussName">
+    <th mat-header-cell *matHeaderCellDef> Nombre / Razón Social </th>
+    <td mat-cell *matCellDef="let element"> {{element.bussName}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="bussRUC">
+    <th mat-header-cell *matHeaderCellDef> RUC </th>
+    <td mat-cell *matCellDef="let element"> {{element.bussRUC}} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="tellCode">
+    <th mat-header-cell *matHeaderCellDef> Vent. </th>
+    <td mat-cell *matCellDef="let element"> {{element.teller.tellCode}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="bussFileNumber">
+    <th mat-header-cell *matHeaderCellDef> Archivador </th>
+    <td mat-cell *matCellDef="let element"> 
+      
+      <span
+      class="padding-state rounded-circle"
+      [class]="'buss-state-' + element.bussState"
+      >{{ element.bussFileNumber }}</span
+    >
+    </td>
+
+
+
+  </ng-container>
+
+  <ng-container matColumnDef="bussStateDate">
+    <th mat-header-cell *matHeaderCellDef> Fecha </th>
+    <td mat-cell *matCellDef="let element"> 
+      <span>
+        <container-element [ngSwitch]="element.bussState">
+          <b *ngSwitchCase="1">Act :</b>
+          <b *ngSwitchCase="2">Susp :</b>
+          <b *ngSwitchCase="3">Ret :</b>
+  
+          <i *ngSwitchDefault
+            >No tiene</i
+          >
+        </container-element>
+  
+        <b
+          ><i>
+            {{element.bussStateDate | date: 'dd/MM/yyyy'}}
+          </i></b
+        >
+        </span>
+   
+    </td>
+
+
+
+
+
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+
+
+
+
+</div>
+
+

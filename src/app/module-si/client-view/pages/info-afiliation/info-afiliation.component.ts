@@ -56,7 +56,8 @@ export class InfoAfiliationComponent implements OnInit {
       bussAfpPass : [''],
       bussSimpleCode : [''],
       bussDetractionsPass : [''],
-      bussSisClave : ['']
+      bussSisClave : [''], 
+      bussConafovClave: ['']
     })
   });
 
@@ -70,6 +71,8 @@ export class InfoAfiliationComponent implements OnInit {
     this.datosAfiliationForm.get('afiliation.bussSimpleCode')?.setValue(this.afi?.bussSimpleCode);
     this.datosAfiliationForm.get('afiliation.bussDetractionsPass')?.setValue(this.afi?.bussDetractionsPass);
     this.datosAfiliationForm.get('afiliation.bussSisClave')?.setValue(this.afi?.bussSisClave);
+    this.datosAfiliationForm.get('afiliation.bussConafovClave')?.setValue(this.afi?.bussConafovClave);
+    
   }
 
   showEditAfiliacion(){

@@ -25,6 +25,7 @@ import {
   BusinessComment,
   EditCommentClientComponent,
 } from './pages/edit-comment-client/edit-comment-client.component';
+import { ChangeStateAdvancedComponent } from './pages/change-state-advanced/change-state-advanced.component';
 
 @Component({
   selector: 'app-client-view',
@@ -159,6 +160,32 @@ export class ClientViewComponent implements OnInit, OnDestroy, CrudInterface {
    
       data: {
         business:this.business[0]
+      }
+    });
+  }
+
+
+  openDialogChangeStateAdvanced(
+    bussId: number,
+    bussState?: string,
+    bussStateDate?: Date
+  ) {
+    const dialogRef = this.dialogEditClient.open(ChangeStateAdvancedComponent, {
+      panelClass: 'dialog',
+      data: {
+        
+        row: { bussId:bussId,  bussState: Number(bussState), bussStateDate: bussStateDate },
+        type: TYPES_ACTIONS_DIALOG.UPD,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result: BusinessState) => {
+      if (result.bussState && result.bussStateDate) {
+        const bussIds: number[] = [bussId];
+        this.updateBusinessState(
+          bussIds,
+          result.bussState,
+          result.bussStateDate
+        );
       }
     });
   }

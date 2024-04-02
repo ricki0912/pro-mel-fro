@@ -42,9 +42,7 @@ import { MiniCardTcardTaskComponent } from './pages/mini-card-tcard-task/mini-ca
 import {ClientViewModule } from 'src/app/module-si/client-view/client-view.module'
 import {MatTabsModule} from '@angular/material/tabs';
 import { SummaryComponent } from './pages/summary/summary.component';
-import { PendingsComponent } from './pages/pendings/pendings.component';
-import { ObservedComponent } from './pages/observed/observed.component';
-import { PendingAndObservedComponent } from './pages/pending-and-observed/pending-and-observed.component';
+import { StatementsComponent } from './pages/statements/statements.component';
 
 
 @NgModule({
@@ -52,9 +50,7 @@ import { PendingAndObservedComponent } from './pages/pending-and-observed/pendin
     StatementComponent,
     MiniCardTcardTaskComponent,
     SummaryComponent,
-    PendingsComponent,
-    ObservedComponent,
-    PendingAndObservedComponent
+    StatementsComponent
   ],
   imports: [
     CommonModule,
@@ -79,10 +75,6 @@ import { PendingAndObservedComponent } from './pages/pending-and-observed/pendin
     ClientViewModule,
     MatMenuModule,
     MatTabsModule
-
-
-
-
   ],
   providers:[  DatePipe,     ],
 

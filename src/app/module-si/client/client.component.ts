@@ -28,6 +28,8 @@ import * as fs from 'file-saver';
 import { PMS } from 'src/app/core/permission/pms.enum';
 import { DownloadMyFormatDJComponent } from './pages/download-my-format-dj/download-my-format-dj.component';
 import { DATA_PERSON_KIND_DOC } from 'src/app/interfaces/person';
+import { DownloadMyFormatDjByLastDigitComponent } from './pages/download-my-format-dj-by-last-digit/download-my-format-dj-by-last-digit.component';
+import { DownloadMyFormatAnualDjComponent } from './pages/download-my-format-anual-dj/download-my-format-anual-dj.component';
 
 @Component({
   selector: 'app-client',
@@ -219,6 +221,23 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     throw new Error('Method not implemented.');
   }
 
+  openDialogPreviewDownloadMyDJByLastDigit(): boolean {
+    const dialogRef = this.dialogEditClient.open(DownloadMyFormatDjByLastDigitComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: {},
+        type: TYPES_ACTIONS_DIALOG.ADD,
+        idSede: this.hqId
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addBusinessWithPerson(result);
+      }
+    });
+    return true
+  }
+
   openDialogPreviewDownloadMyDJ(): boolean {
     const dialogRef = this.dialogEditClient.open(DownloadMyFormatDJComponent, {
       panelClass: 'dialog',
@@ -235,6 +254,24 @@ export class ClientComponent implements OnInit, CrudInterface, ActionDialogInter
     });
     return true
   }
+
+  openDialogPreviewDownloadMyDJAnual(): boolean {
+    const dialogRef = this.dialogEditClient.open(DownloadMyFormatAnualDjComponent, {
+      panelClass: 'dialog',
+      data: {
+        row: {},
+        type: TYPES_ACTIONS_DIALOG.ADD,
+        idSede: this.hqId
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.addBusinessWithPerson(result);
+      }
+    });
+    return true
+  }
+
 
 
   openDialog(): boolean {

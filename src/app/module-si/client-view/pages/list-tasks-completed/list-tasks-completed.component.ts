@@ -80,7 +80,6 @@ export class ListTasksCompletedComponent implements OnInit {
   private getAllDoneByMonth(dbpId:number){
       this.doneByMonthService.allByDBussPeriod({dbpId}).subscribe({
         next: e=>{
-          console.log("Como me perdi los años", e)
           this.dbms=e.data.dbms as DoneByMonth[]; 
           this.tasks=e.data.tasks as TaskH[]
           this.users=e.data.users as User[]

@@ -1,0 +1,20 @@
+
+<mat-card *ngIf="isLoading" style="
+display: flex;
+justify-content: center;
+align-items: center;
+">
+  <mat-progress-spinner color="primary" mode="indeterminate">
+  </mat-progress-spinner>
+</mat-card>
+
+
+<div class="d-flex align-items-center flex-column">
+    <div class="p-2">
+        <p class="h4 text-success"><i class="bi bi-check"></i> {{businessProcesseds.length}} DECLARACIONES PROCESADAS CORRECTAMENTE </p>
+    </div>
+    
+</div>
+
+<app-pendings [businessPendings]="businessPendings" ></app-pendings>
+<app-observed [businessPendings]="businessObserveds"></app-observed>

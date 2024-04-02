@@ -73,6 +73,12 @@ const routes: Routes=[
         //component: ClientComponent
         loadChildren: ()=>import('./client-view/client-view.module').then(m=>m.ClientViewModule)
       },
+
+      {
+        path: 'statement-pendings-and-observeds', 
+        loadChildren:()=>import('./statement-pendings-and-observeds/statement-pendings-and-observeds.module').then(m=>m.StatementPendingsAndObservedsModule)
+      },
+      
       {
         path: 'statements', 
         loadChildren:()=>import('./statement/statement.module').then(m=>m.StatementModule)

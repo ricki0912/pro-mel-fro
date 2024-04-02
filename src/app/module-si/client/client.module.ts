@@ -41,6 +41,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { CoreModule } from 'src/app/core/core.module';
 import { DownloadMyFormatDJComponent } from './pages/download-my-format-dj/download-my-format-dj.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import { DownloadMyFormatDjByLastDigitComponent } from './pages/download-my-format-dj-by-last-digit/download-my-format-dj-by-last-digit.component';
+import { DownloadMyFormatAnualDjComponent } from './pages/download-my-format-anual-dj/download-my-format-anual-dj.component';
 
 
 @NgModule({
@@ -51,6 +53,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     ChangeStateComponent,
     FileNumberComponent,
     DownloadMyFormatDJComponent,
+    DownloadMyFormatDjByLastDigitComponent,
+    DownloadMyFormatAnualDjComponent,
     
   ],
   imports: [

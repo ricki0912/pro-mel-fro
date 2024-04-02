@@ -158,6 +158,22 @@
           </button>
         </div>
       </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <small>Clave CONAFOVICER: </small>
+          <b>{{ afi?.bussConafovClave }}</b>
+          <button
+            mat-icon-button
+            matSuffix
+            color="primary"
+            (click)="beforeCopy( afi?.bussRUC +':CLAVE-CONAFOVICER',afi?.bussConafovClave)"
+
+          >
+            <mat-icon class="iconCopy">file_copy</mat-icon>
+          </button>
+        </div>
+      </mat-grid-tile>
+
     </mat-grid-list>
   </mat-card-content>
 </mat-card>
@@ -242,6 +258,13 @@
               <mat-label>Clave SIS</mat-label>
               <input matInput formControlName="bussSisClave" />
               <mat-error> La clave SIS es requerido. </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Clave CONAFOVICER</mat-label>
+              <input matInput formControlName="bussConafovClave" />
+              <mat-error> La clave CONAFOVICER es requerido. </mat-error>
             </mat-form-field>
           </mat-grid-tile>
         </div>

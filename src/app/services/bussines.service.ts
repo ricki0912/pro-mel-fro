@@ -103,6 +103,12 @@ export class BussinesService extends ParentService implements CrudApiInterface{
     return this.https.get<InterfaceParamsResponse<Period[]>>(`${this.API_BUSSINES}/${bussId}/periods`);
   }
 
+
+  public allStates(bussId:number): Observable<InterfaceParamsResponse<any>>  {
+    return this.https.get<InterfaceParamsResponse<any>>(`${this.API_BUSSINES}/${bussId}/states`);
+  }
+
+
   public delDBusinesPeriods(bussId:number, prdsId:number): Observable<InterfaceParamsResponse<Period[]>>  {
     return this.https.delete<InterfaceParamsResponse<Period[]>>(`${this.API_BUSSINES}/${bussId}/periods/${prdsId}`);
   }
@@ -129,4 +135,9 @@ export class BussinesService extends ParentService implements CrudApiInterface{
   public updBusinessComment(bussIds:number[], bussComment?:String):Observable<InterfaceParamsResponse<Bussines>>{
     return this.https.put<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/${bussIds}/updCommentBuss`,{bussComment})
   }
+
+  public getBusinessForDJAnual(prdsId:number, tellId:number): Observable<InterfaceParamsResponse<Bussines>>  {
+    return this.https.get<InterfaceParamsResponse<Bussines>>(`${this.API_BUSSINES}/get-business-for-dj-anual`,{params:{tellId,prdsId}});
+  }
+  
 }

@@ -5,7 +5,7 @@ import { Category } from 'src/app/interfaces/category';
 import { MatDialog } from '@angular/material/dialog';
 import { AppointmentTemp, APPOINTMENT_STATE, ApptmState } from 'src/app/interfaces/appointment-temp';
 import { ShowMessageService } from 'src/app/shared/components/show-message/show-message.service';
-import { MainViewService } from '../main-view/main-view.service';
+import { MainViewService } from '../../../main-view/main-view.service';
 import { Appointment } from 'src/app/interfaces/appointment';
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { Teller } from 'src/app/interfaces/teller';
@@ -23,20 +23,38 @@ import { DBusinessPeriod } from 'src/app/interfaces/d-business-period';
 import { User } from 'src/app/interfaces/user';
 import { environment } from 'src/environments/environment';
 
-  @Component({
-    selector: 'app-statement',
-    templateUrl: './statement.component.html',
-    styleUrls: ['./statement.component.scss']
-  })
-  export class StatementComponent implements OnInit {
-  
+@Component({
+  selector: 'app-statements',
+  templateUrl: './statements.component.html',
+  styleUrls: ['./statements.component.scss']
+})
+export class StatementsComponent {
+
   periods:Period[]=[]
   dBusinessPeriods:DBusinessPeriod[]=[]
    MONTHS=MONTHS
+  
 
-  dbmMonth:number=0
-  prdsId:number=0
-  ln:number=0
+
+  private _prdsId:number=0;
+  @Input() public set prdsId (v:number){
+    this._prdsId=v;
+    this.getStatementsByMonth()
+  }
+  private _dbmMonth:number=0;
+   @Input() public set dbmMonth (v:number){
+    this._dbmMonth=v;
+    this.getStatementsByMonth()
+  }
+
+  private _ln:number=-2;
+  @Input() public set  ln(v:number){
+    this._ln=v
+    this.getStatementsByMonth()
+  }
+  
+
+
 
 
   private hqId:number=0
@@ -191,7 +209,7 @@ import { environment } from 'src/environments/environment';
     })
   }
 
-  getStatementsByMonth=()=>this.statementsByMonth(this.dbmMonth, this.prdsId, this.ln);
+  getStatementsByMonth=()=>this.statementsByMonth(this._dbmMonth, this._prdsId, this._ln);
 
   private  statementsByMonth(dbmMonth:number, prdsId:number, ln:number){
     this.isLoading=true;
@@ -211,13 +229,7 @@ import { environment } from 'src/environments/environment';
 
   printReportTasks() {
     window.open(
-      environment.API_URL + `/v1/reports/tasks-by-sub-period?prdsId=${this.prdsId}&dbmMonth=${this.dbmMonth}&ln=${this.ln}`
+      environment.API_URL + `/v1/reports/tasks-by-sub-period?prdsId=${this._prdsId}&dbmMonth=${this._dbmMonth}&ln=${this._ln}`
     );
   }
-  printReportTasksWithBeforeMOnth(){
-    window.open(
-      environment.API_URL + `/v1/reports/tasks-by-sub-period-with-before-month?prdsId=${this.prdsId}&dbmMonth=${this.dbmMonth}&ln=${this.ln}`
-    );
-  }
-
 }

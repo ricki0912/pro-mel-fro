@@ -29,8 +29,16 @@
             Exportar Completo Excel
           </button>
           <button mat-menu-item (click)="openDialogPreviewDownloadMyDJ()">
-            Mi formato de DJ
+            Mi formato de DJ (Por Ventanilla)
           </button>
+          <button mat-menu-item (click)="openDialogPreviewDownloadMyDJByLastDigit()">
+            Mi formato de DJ (Por Último digito)
+          </button>
+
+          <button mat-menu-item (click)="openDialogPreviewDownloadMyDJAnual()">
+            Exportar (Mi formato Balance Anual)
+          </button>
+
         </mat-menu>
 
         <button mat-button (click)="openDialogFileNumber()">

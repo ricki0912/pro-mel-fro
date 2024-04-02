@@ -26,9 +26,12 @@ export class StatementService extends ParentService {
 
   }
 
-  public pendingAndObserved(){
-    
+  public pendingsAndObserveds(p:{tellId:number, prdsId:number,dbmMonth:number, ln:number}): Observable<InterfaceParamsResponse<any/*{dBusinessesPeriod:DBusinessPeriod[], users:User[]}*/>> {
+    return this.https.get<InterfaceParamsResponse<any/*{dBusinessesPeriod:DBusinessPeriod[], users:User[]}*/>>(`${this.API_STATEMENTS}/pendings-and-observeds`, {params: p} );
   }
+
+
+
 /*
   public all(prdsState:number=0): Observable<InterfaceParamsResponse<Period>> {
     console.log("**ID PRDSSTATE**",prdsState)

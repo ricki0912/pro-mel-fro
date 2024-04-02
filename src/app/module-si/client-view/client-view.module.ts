@@ -61,7 +61,12 @@ import { TasksCompletedComponent } from './pages/tasks-completed/tasks-completed
 import {ListTasksCompletedComponent} from './pages/list-tasks-completed/list-tasks-completed.component';
 import { TaskCardComponent } from './pages/task-card/task-card.component';
 import { GroupOfTaskCardComponent } from './pages/group-of-task-card/group-of-task-card.component';
-import { AddTaskByClientComponent } from './pages/add-task-by-client/add-task-by-client.component'
+import { AddTaskByClientComponent } from './pages/add-task-by-client/add-task-by-client.component';
+import { ChangeStateAdvancedComponent } from './pages/change-state-advanced/change-state-advanced.component'
+
+import {MatRadioModule} from '@angular/material/radio';
+
+import {MatTabsModule} from '@angular/material/tabs';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -104,7 +109,8 @@ export const MY_DATE_FORMATS = {
     ListTasksCompletedComponent,
     TaskCardComponent,
     GroupOfTaskCardComponent,
-    AddTaskByClientComponent
+    AddTaskByClientComponent,
+    ChangeStateAdvancedComponent
   ],
   imports: [
     CommonModule,
@@ -140,6 +146,8 @@ export const MY_DATE_FORMATS = {
     MatChipsModule,
     MatTooltipModule,
     NgxChartsModule,
+    MatRadioModule,
+    MatTabsModule
   ],
   exports: [TaskCardComponent], 
   providers: [DatePipe],

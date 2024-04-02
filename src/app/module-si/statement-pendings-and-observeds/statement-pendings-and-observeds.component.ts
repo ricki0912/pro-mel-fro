@@ -1,4 +1,8 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+
+
+
+
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { Category } from 'src/app/interfaces/category';
@@ -22,14 +26,15 @@ import { StatementService } from 'src/app/services/statement.service';
 import { DBusinessPeriod } from 'src/app/interfaces/d-business-period';
 import { User } from 'src/app/interfaces/user';
 import { environment } from 'src/environments/environment';
+import { TellerService } from 'src/app/services/teller.service';
 
-  @Component({
-    selector: 'app-statement',
-    templateUrl: './statement.component.html',
-    styleUrls: ['./statement.component.scss']
-  })
-  export class StatementComponent implements OnInit {
-  
+@Component({
+  selector: 'app-statement-pendings-and-observeds',
+  templateUrl: './statement-pendings-and-observeds.component.html',
+  styleUrls: ['./statement-pendings-and-observeds.component.scss']
+})
+export class StatementPendingsAndObservedsComponent {
+
   periods:Period[]=[]
   dBusinessPeriods:DBusinessPeriod[]=[]
    MONTHS=MONTHS
@@ -38,6 +43,7 @@ import { environment } from 'src/environments/environment';
   prdsId:number=0
   ln:number=0
 
+  tellId:number=0
 
   private hqId:number=0
   isLoading: boolean = false
@@ -79,7 +85,9 @@ import { environment } from 'src/environments/environment';
 
     private periodService:PeriodService,
 
-    private statementsService:StatementService
+    private statementsService:StatementService,
+    private tellerService:TellerService
+
 
   ) { }
 
@@ -95,6 +103,7 @@ import { environment } from 'src/environments/environment';
     //this.listenRoute(o=>this.readAppointmentTempCRUD(o, this.selectedTeller,this.selectedCategory,this.selectedApptmState ))
 
     this.getAllPeriods();
+    this.getDataTellers();
   }
   private listenRoute(c:(o:any)=>void){
     this.mainViewService.getParams().subscribe(params=>{
@@ -214,10 +223,18 @@ import { environment } from 'src/environments/environment';
       environment.API_URL + `/v1/reports/tasks-by-sub-period?prdsId=${this.prdsId}&dbmMonth=${this.dbmMonth}&ln=${this.ln}`
     );
   }
-  printReportTasksWithBeforeMOnth(){
-    window.open(
-      environment.API_URL + `/v1/reports/tasks-by-sub-period-with-before-month?prdsId=${this.prdsId}&dbmMonth=${this.dbmMonth}&ln=${this.ln}`
-    );
+
+
+  private getDataTellers(){
+    this.tellerService.all().subscribe({
+      next: e=>{
+        this.tellers=e
+      }, 
+      error:e=>{
+
+      }
+    })
   }
+
 
 }

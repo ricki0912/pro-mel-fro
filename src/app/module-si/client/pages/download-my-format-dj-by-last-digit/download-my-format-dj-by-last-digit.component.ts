@@ -11,16 +11,19 @@ import { ShowMessageService } from 'src/app/shared/components/show-message/show-
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-download-my-format-dj',
-  templateUrl: './download-my-format-dj.component.html',
-  styleUrls: ['./download-my-format-dj.component.scss'],
+  selector: 'app-download-my-format-dj-by-last-digit',
+  templateUrl: './download-my-format-dj-by-last-digit.component.html',
+  styleUrls: ['./download-my-format-dj-by-last-digit.component.scss']
 })
-export class DownloadMyFormatDJComponent {
+export class DownloadMyFormatDjByLastDigitComponent {
   loading: boolean = false;
 
   tellId: number | undefined;
   bussState: number = BUSSINES_STATE.ENABLE;
   prdsId: number = 0;
+
+  ln:number=-1;
+
   month: number | undefined = MONTHS.find(
     (e) => e.id == GlobalHelpers.monthBefore().getMonth() + 1
   )?.id;
@@ -32,9 +35,9 @@ export class DownloadMyFormatDJComponent {
 
   public tellers: Teller[]=[]
 
-  title = 'Formato de Declaración Jurada';
+  title = 'Formato de Declaración Jurada - Último Digito';
   constructor(
-    private dialogRef: MatDialogRef<DownloadMyFormatDJComponent>,
+    private dialogRef: MatDialogRef<DownloadMyFormatDjByLastDigitComponent>,
     private periodService: PeriodService,
     private showMessage: ShowMessageService,
     private tokenStorage: TokenStorageService, 
@@ -75,7 +78,7 @@ export class DownloadMyFormatDJComponent {
     );*/
     window.open(
       environment.API_URL +
-        `/v1/reports/my-format-declaration?tellId=${this.tellId}&bussState=${this.bussState}&prdsId=${this.prdsId}&month=${this.month}`
+        `/v1/reports/my-format-declaration-by-last-digit?tellId=${this.tellId}&ln=${this.ln}&bussState=${this.bussState}&prdsId=${this.prdsId}&month=${this.month}`
     );
   }
 
