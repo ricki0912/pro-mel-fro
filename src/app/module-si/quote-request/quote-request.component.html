@@ -1,0 +1,260 @@
+<mat-grid-list cols="1" rowHeight="30px" style="margin-top: 10px">
+    <mat-grid-tile colspan="1" rowspan="1">
+        <div class="div-title">
+            <span>Landing Page</span>
+            <span>
+                <mat-icon> keyboard_arrow_right</mat-icon>
+            </span>
+            <span>Cotizaciones </span>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>
+
+<mat-divider></mat-divider>
+
+<mat-grid-list cols="12" rowHeight="100%" appearance="fillx">
+    <mat-grid-tile colspan="12" rowspan="1">
+        <div style="
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          width: 100%;
+          justify-content: space-between;
+        ">
+            <mat-card class="example-card mat-elevation-z8">
+                <mat-card-title-group>
+                    <mat-card-subtitle> <b>Cotizaciones</b> | Aqui se visualiza las consultas y/o cotizaciones que se dejan en el Landing Page <a href="https://melendresauditores.com" target="_blank">https://melendresauditores.com</a>. </mat-card-subtitle>
+              
+                </mat-card-title-group>
+                <mat-divider></mat-divider>
+
+                <mat-card-content>
+                    <div class="">
+                        <!--<mat-form-field appearance="fill">
+                              <mat-label>{{ empfilter.name }}</mat-label>
+                              <mat-select [(value)]="empfilter.defaultValue"
+                                  (selectionChange)="applyEmpFilter($event, empfilter)">
+                                  <mat-option *ngFor="let op of empfilter.options" [value]="op">
+                                      {{ op }}
+                                  </mat-option>
+                              </mat-select>
+                          </mat-form-field> -->
+                        <form (ngSubmit)="setListenParams()">
+
+                            <mat-form-field appearance="legacy">
+                                <mat-label>Ventanilla</mat-label>
+                                <mat-select [(value)]="t" (selectionChange)="setListenParams()">
+                                    
+                                    <mat-option value="0" selected> Todos </mat-option>
+                                    <mat-option value="-1">(Sin ventanilla)</mat-option>
+                                    <mat-option [value]="t.tellId" *ngFor="let t of tellers">
+                                        {{t.tellCode}} - {{t.tellName}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+
+                            <mat-form-field appearance="legacy">
+                                <mat-label>Cliente Estado</mat-label>
+                                <mat-select [(value)]="qrs" (selectionChange)="setListenParams()"
+                                    [class]="'buss-state-'+qrs">
+                                    <mat-option [value]="0">Todos</mat-option>
+                                    <mat-option [value]="QRS.PENDING">Pendiente</mat-option>
+                                    <mat-option [value]="QRS.ASSIGNED">Asignado</mat-option>
+                                    <mat-option [value]="QRS.COMPLETED">Atendido</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+
+                        <mat-form-field appearance="legacy">
+                            <mat-label>Fecha Inicio</mat-label>
+                            <input
+                            matInput
+                            [matDatepicker]="picker1"
+                            [(ngModel)]="ds"
+                            name="dateStart"
+                            />
+                            <mat-hint>DD/MM/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="picker1">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="legacy">
+                            <mat-label>Fecha Fin</mat-label>
+                            <input
+                            matInput
+                            [matDatepicker]="picker2"
+                            [(ngModel)]="de"
+                            name="dateEnd"
+                            />
+                            <mat-hint>DD/MM/YYYY</mat-hint>
+                            <mat-datepicker-toggle
+                            matSuffix
+                            [for]="picker2"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+
+                            <mat-form-field appearance="legacy" >
+                                <mat-label>Buscar</mat-label>
+                                <input [(ngModel)]="q" name="q" matInput placeholder="Ingresa una palabra clave" (selectionChange)="setListenParams()">
+                            </mat-form-field>
+                            <button mat-button type="submit" (selectionChange)="setListenParams()">
+                                <mat-icon>search</mat-icon>Buscar
+                            </button>
+
+                        </form>
+                        <mat-card *ngIf="isLoading" style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                ">
+                            <mat-progress-spinner color="primary" mode="indeterminate">
+                            </mat-progress-spinner>
+                        </mat-card>
+                        <table mat-table [dataSource]="dataSource">
+
+                            <!-- Checkbox Column -->
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                        [aria-label]="checkboxLabel()">
+                                    </mat-checkbox>
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(row) : null"
+                                        [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>
+
+                            <!-- Position Column -->
+                        
+
+                            <ng-container matColumnDef="quoteReqRegDate">
+                                <th mat-header-cell *matHeaderCellDef>Fecha de Registro</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element.quoteReqRegDate | date: 'dd/MM/yyyy'}}
+                                </td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="quoteReqFullName">
+                                <th mat-header-cell *matHeaderCellDef>Nombre Completo / Razón Social</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element.quoteReqFullName}} <br> {{element.quoteReqCompanyName}}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="quoteReqMobilePhone">
+                                <th mat-header-cell *matHeaderCellDef>Celular/Email</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element.quoteReqMobilePhone}} <br> {{element.quoteReqEmail}}
+                                </td>
+                            </ng-container>
+                            <!----  displayedColumns: string[] = ['','', '' ,'quoteReqServiceInterest', 'quoteReqMonthlyInvoices', 'quoteReqMessage', 'quoteReqState', 'quoteAssignedToTellId','quoteReqComment','actions']; -->
+
+                            <!-- Weight Column -->
+                          
+
+                            
+                            
+                            <ng-container matColumnDef="quoteReqServiceInterest">
+                                <th mat-header-cell *matHeaderCellDef>Servicio de Interes</th>
+                                
+                                <td mat-cell *matCellDef="let element">
+                                   {{element.quoteReqServiceInterest}}
+                            </td>
+                            </ng-container>
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="quoteReqMonthlyInvoices">
+                                <th mat-header-cell *matHeaderCellDef>Cant. Comprobantes</th>
+                                
+                                <td mat-cell *matCellDef="let element">
+                                   {{element.quoteReqMonthlyInvoices}}
+                                </td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="quoteReqMessage">
+                                <th mat-header-cell *matHeaderCellDef>Comentario</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element.quoteReqMessage}}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="quoteReqState">
+                                <th mat-header-cell *matHeaderCellDef>Estado</th>
+                                <td mat-cell *matCellDef="let element">
+                                   <span *ngIf="element.quoteReqState == QRS.PENDING"
+                                        class="badge bg-warning">
+                                    Pendiente
+                                    </span>
+
+                                    <span *ngIf="element.quoteReqState == QRS.ASSIGNED"
+                                        class="badge bg-primary">
+                                    Asignado
+                                    </span>
+
+                                    <span *ngIf="element.quoteReqState == QRS.COMPLETED"
+                                        class="badge bg-success">
+                                    Atendido
+                                    </span>
+                                </td>
+                            </ng-container>
+
+                              <ng-container matColumnDef="quoteAssignedToTellId">
+                                <th mat-header-cell *matHeaderCellDef>Ventanilla</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ findNameTeller(element.tellId)?.tellName }}
+                                </td>
+                            </ng-container>
+                                <ng-container matColumnDef="quoteReqComment">
+                                <th mat-header-cell *matHeaderCellDef>Comentario</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{element.quoteReqMessage}}
+                                </td>
+                            </ng-container>
+                                <ng-container matColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <!--Aqui mostrar 3 puntos en buntton circular-->
+                                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                    <mat-menu #menu="matMenu">
+                                        <button mat-menu-item (click)="markAsCompleted(element)">
+                                            <mat-icon>check_circle</mat-icon>
+                                            <span>Atender</span>
+                                        </button>
+                                        <!--<button mat-menu-item (click)="goToEdit(element)">
+                                            <mat-icon>edit</mat-icon>
+                                            <span>Editar</span>
+                                        </button>
+                                        <button mat-menu-item (click)="deleteQuoteRequest(element)">
+                                            <mat-icon>delete</mat-icon>
+                                            <span>Eliminar</span>
+                                        </button>-->
+                                    </mat-menu>
+                                </td>
+                            </ng-container>
+                            
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="selection.toggle(row)">
+                            </tr>
+                        </table>
+
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20,100]" showFirstLastButtons
+                            aria-label="Select page of periodic elements">
+                        </mat-paginator>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>

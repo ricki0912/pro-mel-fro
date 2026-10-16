@@ -47,6 +47,7 @@ import { CoreModule } from '../core/core.module';
 import { SelectHeadquarterComponent } from './main-view/pages/select-headquarter/select-headquarter.component';
 import { MainViewService } from './main-view/main-view.service';
 import { MainViewRouteReuseStrategy } from './main-view.route-reuse-strategy';
+import { QuoteRequestNotificationComponent } from './main-view/pages/quote-request-notification/quote-request-notification.component';
 
 
 @NgModule({
@@ -55,7 +56,7 @@ import { MainViewRouteReuseStrategy } from './main-view.route-reuse-strategy';
     SearchClientComponent,
     FloatingWaitingLineComponent,
     SelectHeadquarterComponent,
-    
+    QuoteRequestNotificationComponent
   ],
   imports: [
     MainViewRoutingModule,

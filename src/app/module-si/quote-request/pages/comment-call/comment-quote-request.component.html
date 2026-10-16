@@ -1,0 +1,113 @@
+<mat-toolbar color="primary" class="tollbar">
+  <mat-toolbar-row>
+    <button mat-icon-button mat-dialog-close class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>{{title}}</span>
+
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<div class="dialog-body">
+  <p>Agrega un <b>comentario corto</b> a la la cotización del señor(a) {{ quoteRequestBefore?.quoteReqFullName || 'No registrado'  }} - {{quoteRequestBefore?.quoteReqCompanyName || 'Empresa no registrada'}} </p>
+  
+  <mat-dialog-content class="mat-typography">
+
+
+    <form class="example-form" [formGroup]="quoteRequestForm">
+    
+     
+ 
+<div class="card">
+  <div class="card-body p-3">
+    <div class="row g-2">
+
+  
+      <div class="col-12 col-md-6 col-lg-4">
+        <small class="text-muted d-block">Teléfono móvil</small>
+        <div class="fw-medium">{{ quoteRequestBefore?.quoteReqMobilePhone || 'No registrado' }}</div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <small class="text-muted d-block">Correo electrónico</small>
+        <div class="fw-medium text-break">{{ quoteRequestBefore?.quoteReqEmail || 'No registrado' }}</div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <small class="text-muted d-block">Servicio de interés</small>
+        <div class="fw-medium">{{ quoteRequestBefore?.quoteReqServiceInterest || 'No especificado' }}</div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <small class="text-muted d-block">Facturas mensuales</small>
+        <div class="fw-medium">{{ quoteRequestBefore?.quoteReqMonthlyInvoices || 'No especificado' }}</div>
+      </div>
+
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <small class="text-muted d-block">Fecha de registro</small>
+        <div class="fw-medium">{{ quoteRequestBefore?.quoteReqRegDate ? (quoteRequestBefore?.quoteReqRegDate | date:'dd/MM/yy HH:mm') : 'No registrada' }}</div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <small class="text-muted d-block">Fecha de cambio de estado</small>
+        <div class="fw-medium">{{ quoteRequestBefore?.quoteReqStateDate ? (quoteRequestBefore?.quoteReqStateDate | date:'dd/MM/yy HH:mm') : 'Sin cambios' }}</div>
+      </div>
+
+      <div class="col-12">
+        <small class="text-muted d-block">Mensaje del cliente</small>
+        <div class="border rounded p-2 bg-light text-break">{{ quoteRequestBefore?.quoteReqMessage || 'Sin mensaje' }}</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+      
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Estado de la cotización</mat-label>
+        <mat-select formControlName="quoteReqState">
+          <mat-option [value]="QRS.PENDING">Pendiente</mat-option>
+          <mat-option [value]="QRS.ASSIGNED">Asignada</mat-option>
+          <mat-option [value]="QRS.COMPLETED" >Completada</mat-option>
+        </mat-select>
+        <mat-error *ngIf="quoteRequestForm.controls['quoteReqState']?.hasError('required')">
+          Debe seleccionar un estado
+        </mat-error>
+      </mat-form-field>
+      <!--Listar tellers-->
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Asignar a</mat-label>
+        <mat-select formControlName="quoteAssignedToTellId">
+          <mat-option *ngFor="let teller of paramsDialog.row.tellers" [value]="teller.tellId">
+            {{teller.tellName}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="quoteRequestForm.controls['quoteAssignedToTellId']?.hasError('required')">
+          Debe seleccionar un teller
+        </mat-error>
+      </mat-form-field>
+      
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Comentario</mat-label>
+
+        <textarea matInput placeholder="" maxlength="500" formControlName="quoteReqComment"></textarea>
+        <mat-hint>Máximo 500 caracteres.</mat-hint>
+
+        <mat-error *ngIf="quoteRequestForm.controls['quoteReqComment'].hasError('required')">
+          El comentario es requerido
+        </mat-error>
+
+      </mat-form-field>
+
+    </form>
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button  type="submit" (click)="addUpd()"
+      [disabled]="!quoteRequestForm.valid" cdkFocusInitial>Guardar</button>
+  </mat-dialog-actions>
+</div>

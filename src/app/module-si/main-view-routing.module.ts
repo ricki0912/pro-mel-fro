@@ -38,6 +38,10 @@ const routes: Routes=[
         loadChildren: ()=>import('./client/client.module').then(m=>m.ClientModule)
       },
       {
+        path:'quote-requests', 
+        loadChildren:()=>import('./quote-request/quote-request.module').then(m=>m.QuoteRequestModule)
+      },
+      {
         path: 'reports/waiting-line',
         //component: ClientComponent
         loadChildren: ()=>import('./reports/waiting-line/waiting-line.module').then(m=>m.WaitingLineModule)
